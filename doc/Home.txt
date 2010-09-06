@@ -1,0 +1,115 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2010-09-06T09:54:39.867461
+
+===== Grundlagen =====
+[ ] Surface (o.Ä.) erstellen, auf der performante 2D und/oder 3D Grafik ausgegeben werden kann
+[ ] Eingaben entgegennehmen
+	[ ] entweder in Form von Maus-, Tastatur- und Touch-Events 
+	[ ] oder durch Polling der Mauskoordinaten, Maustasten und Keystates
+[ ] Freitext ausgeben
+	[ ] sowohl im eigentlichen Spiel (Hitpoints, ...)
+	[ ] als auch pixelgenau auf einem HUD-Layer (Geld, ...)
+[ ] (optional: (asynchrones Abspielen von Soundeffekten))
+	[ ] wave/mp3 o.ä.
+	[ ] 8-bit-Synthesizer-Stil
+[ ] Kompilieren und Starten
+	[ ] Desktop Linux
+	[ ] Android
+	[ ] (optional: (Windows))
+
+===== Game-Engine-Stub =====
+[ ] Prototyp einer Engine, die allen Status hält und ihn aktualisiert
+	[ ] Status pro Ding
+		[ ] Location :: v2d
+		[ ] Size (Radius) :: v2d
+		[ ] Target :: Ding
+		[ ] Velocity :: v2d
+		[ ] diversen Ding-Kategorie- und Ding-Instanz-spezifischen Status
+	[ ] Status von folgenden Dingen
+		[ ] das Grid
+		[ ] Liste der Türme
+		[ ] Liste der Geschosse
+		[ ] Liste der Monster
+		[ ] Liste der Wegpunkte (?)
+	[ ] Aktualisierung
+		[ ] tick(dt :: float)
+
+===== Grafik-Engine-Stub =====
+[ ] Prototyp einer Grafik-Engine, die Grafik ausgibt und entsprechenden Status haelt
+	[ ] alle Dinge malen
+	[ ] Ausgabe eines Ingame-Debug-Strings als Text auf einem HUD-Layer
+[ ] Objekte um gfx_tick(dt :: float) erweitern
+[ ] Objekte um gfx-related Eigenschaft erweitern
+	[ ] Farbe
+	[ ] Rotation
+	[ ] Textur
+[ ] Objekte um render() erweitern
+
+===== Zusammenstecken =====
+[ ] erstellen einer Minimal-Welt per Skript
+	[ ] createGrid()
+	[ ] mehrfach: createTower()
+	[ ] mehrfach: createGeschoss()
+	[ ] mehrfach: createMonster()
+[ ] Endlossschleife mit
+	[ ] tick
+	[ ] render
+
+===== Infrastruktur =====
+[ ] Time-Klasse, die Ingame-Time von Wallclock-Time entkoppelt
+[ ] Pausieren der Ingame-Zeit
+
+===== Interaktion =====
+[ ] Erstellen von Tuermen per Maus/Finger-Klick
+[ ] Neustart der "Simulation" per Eingabe
+[ ] Selektieren von Tuermen und Monstern per Klick
+
+===== Kollission / Spawning =====
+[ ] Erkennen von Kollission
+	[ ] Geschoss -- Monster
+[ ] "Beheben" von Kollissionen
+	[ ] Double Dispatch ueber Geschoss, Monster
+	[ ] daraufhin bestimmte Effekte anwenden (Schaden, Tempoaenderung, Tod/Geld-Auszahlung, Objekt entfernen ...)
+[ ] Timerbasiertes "Feuern" von Tuermen
+	[ ] nur falls Ziel vorhanden (weitere Kollissionsabfrage)
+[ ] Timerbasiertes Spawnen von Monstern
+
+===== Minimal Game =====
+[ ] Geld
+[ ] Leben
+[ ] Punkte
+	[ ] Highscore
+[ ] verschiedene Seitenverhaeltnisse / Screengroessen / ...
+
+===== Alpha Release =====
+[ ] Source / Binary - Download fuer Linux
+	[ ] (optional: (Package))
+[ ] APK fuer Android
+[ ] Installations-Anleitung
+[ ] How-To-Play-Anleitung mit Bildern schreiben
+
+===== Roadmap =====
+[ ] Festlegen, wie das fertige Spiel "aussehen" soll
+	[ ] welche Monster
+	[ ] welche Tuerme
+	[ ] welche Geschosse
+	[ ] welche "Effekte"
+		[ ] Schaden verursachen
+		[ ] bremsen
+		[ ] schwaechen
+		[ ] ...
+		
+[ ] welche Level soll es geben / wodurch unterscheiden sich Level
+	[ ] wie werden Level erstellt / definiert
+		[ ] Dateiformat
+		[ ] Editor?
+		
+[ ] wie funktioniert Tower-Bau / Tower-Upgrades
+	[ ] was fuer ein Geld / Credits / XP - System soll verwendet werden
+[ ] Target-Auswahl beim Feuern
+
+[ ] Ingame-Tutorial
+[ ] Ingame-Menue
+
+[ ] Specials
