@@ -1,0 +1,13 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2010-09-07T23:14:55.414495
+
+====== Checking out ======
+Created Tuesday 07 September 2010
+
+* (Diese Anleitung geht von installiertem egit aus, aber man kann das bestimmt auch wunderbar auf der Kommandozeile machen.)
+* In Eclipse ein Projekt anlegen, Name: towerdefence
+* Rechtsklick auf das Projekt, Team, Share Project
+* dort ein Repository erstellen (Default: .git im Projekt-Verzeichnis)
+* danach auf der Konsole ein remote target anlegen und das Projekt fetch'en und pull'en
+* Rechtsklick aufs Projekt und Refresh
