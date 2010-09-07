@@ -74,7 +74,6 @@ public class Particle extends MovingObject {
 		velocity.translate(location, TimeBase.fractionOfSecond(dt));
 	}
 
-	@Override
 	public void display(GLAutoDrawable glDrawable) {
 		if(dead)
 			return;

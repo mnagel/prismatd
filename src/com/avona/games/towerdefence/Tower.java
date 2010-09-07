@@ -29,7 +29,6 @@ public class Tower extends StationaryObject {
 		}
 	}
 
-	@Override
 	public void display(GLAutoDrawable glDrawable) {
 		final double width = 0.03;
 		
