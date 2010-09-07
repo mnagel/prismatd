@@ -8,3 +8,4 @@ Created Tuesday 07 September 2010
 (In Debian Packages...)
 
 * libvecmath-java
+* libjogl-java
