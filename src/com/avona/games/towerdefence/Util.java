@@ -6,6 +6,10 @@ public final class Util {
 		System.out.println(String.format("%s: (%f, %f)", description, p.x, p.y));
 	}
 	
+	public static void log(String s) {
+		System.out.println(s);
+	}
+	
 	/**
 	 * Calculate if two points are in range of each other, using the Euclidean distance.
 	 * @param p1 First point
