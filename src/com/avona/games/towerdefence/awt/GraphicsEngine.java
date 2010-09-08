@@ -132,17 +132,18 @@ public class GraphicsEngine implements GLEventListener {
 
 	public void renderMouse() {
 		final Point2d p = game.mouse.location;
-		final double width = 0.04;
+		final double width = 0.1;
 
 		gl.glPushMatrix();
 		gl.glTranslated(p.x, p.y, 0.0);
-
+		gl.glScaled(0.5 + 0.5 * Math.abs(Math.sin(graphicsTime.clock)), 0.5 + 0.5 * Math.abs(Math.sin(graphicsTime.clock)), 1);
 		gl.glRotated(Math.sin(graphicsTime.clock) * 360, 0, 0, 1);
+		
 		gl.glBegin(GL.GL_QUADS);
-		gl.glColor3d(1.0, 0.0, 0.0);
-		gl.glVertex2d(width / 2, width / 2);
-		gl.glVertex2d(width / 2, -width / 2);
-		gl.glVertex2d(-width / 2, -width / 2);
+		gl.glColor3d(0.0, 0.5 + 0.5 * Math.abs(Math.sin(graphicsTime.clock)), 0.0);
+		gl.glVertex2d(width / 2,width / 2);
+		gl.glVertex2d(width / 2, - width / 2);
+		gl.glVertex2d(- width / 2, - width / 2);
 		gl.glColor3d(0.0, 0.0, 1.0);
 		gl.glVertex2d(-width / 2, width / 2);
 		gl.glEnd();

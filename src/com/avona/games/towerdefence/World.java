@@ -13,7 +13,7 @@ public class World {
 		double y = rand.nextDouble() - 0.5;
 		Vector2d dir = new Vector2d(x, y);
 		dir.normalize();
-		double s = rand.nextDouble();
+		double s = rand.nextDouble() * 0.1;
 		return new VelocityVector(dir, s);
 	}
 
