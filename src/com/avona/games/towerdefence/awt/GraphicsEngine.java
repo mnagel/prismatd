@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.awt;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -8,7 +8,10 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import javax.vecmath.Point2d;
 
-import com.avona.games.towerdefence.awt.MainLoop;
+import com.avona.games.towerdefence.Enemy;
+import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.Particle;
+import com.avona.games.towerdefence.Tower;
 
 /**
  * The GraphicsEngine object currently incorporates all drawing operations. It

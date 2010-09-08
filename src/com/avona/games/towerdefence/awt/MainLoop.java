@@ -9,7 +9,6 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
 import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.GraphicsEngine;
 import com.avona.games.towerdefence.TimeTrack;
 import com.sun.opengl.util.FPSAnimator;
 

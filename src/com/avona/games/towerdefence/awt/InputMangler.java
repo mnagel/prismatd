@@ -9,7 +9,6 @@ import java.awt.event.MouseMotionListener;
 import javax.vecmath.Point2d;
 
 import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.GraphicsEngine;
 import com.avona.games.towerdefence.Util;
 
 public class InputMangler implements KeyListener, MouseListener,
