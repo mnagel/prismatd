@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseEvent;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,17 +60,21 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 			}
 		}
 
-		for(Particle p : particles) {
-			for(Enemy e : enemies) {
+		Iterator<Particle> piter = particles.iterator();
+		while(piter.hasNext()) {
+			final Particle p = piter.next();
+			Iterator<Enemy> eiter = enemies.iterator();
+			while(eiter.hasNext()) {
+				final Enemy e = eiter.next();
 				if(p.inRange(e)) {
 					p.attack(e);
 					if(e.isDead()) {
-						//						enemies.remove(e);
+						eiter.remove();
 					}
 				}
 			}
 			if(p.isDead()) {
-				//				particles.remove(p);
+				piter.remove();
 			}
 			else {
 				p.step(dt);
@@ -90,7 +95,6 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		//gl.glEnd();
 
 		for(Enemy e : enemies) {
-			//System.out.println(e);
 			e.display(glDrawable);
 		}
 		for(Tower t : towers) {
