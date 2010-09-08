@@ -14,6 +14,7 @@ import javax.vecmath.Point2d;
 import com.avona.games.towerdefence.Enemy;
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Particle;
+import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.Tower;
 import com.avona.games.towerdefence.Util;
 import com.sun.opengl.util.j2d.TextRenderer;
@@ -30,6 +31,7 @@ public class GraphicsEngine implements GLEventListener {
 	public GL gl;
 	public GLU glu;
 	public Point2d size;
+	public TimeTrack graphicsTime;
 
 	final public int defaultHeight = 600;
 	final public int defaultWidth = 800;
@@ -37,6 +39,7 @@ public class GraphicsEngine implements GLEventListener {
 	public GraphicsEngine(MainLoop main, Game game) {
 		this.main = main;
 		this.game = game;
+		this.graphicsTime = new TimeTrack();
 
 		glu = new GLU();
 		setupGlCanvas();
@@ -52,6 +55,8 @@ public class GraphicsEngine implements GLEventListener {
 	}
 
 	public void render(double gameDelta, double graphicsDelta) {
+		graphicsTime.updateTick(graphicsDelta);
+
 		// Paint background, clearing previous drawings.
 		gl.glColor3d(0.0, 0.0, 0.0);
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
@@ -66,20 +71,16 @@ public class GraphicsEngine implements GLEventListener {
 			renderParticle(p);
 		}
 		renderMouse();
-		
-		
-		
-	    renderer.beginRendering(800, 600);
-	    // optionally set the color
-	    renderer.setColor(1.0f, 0.2f, 0.2f, 0.8f);
-	    renderer.draw("Text to draw", 100 + (int)(100 * Math.sin(t)), 100 + (int)(100 * Math.cos(t)));
-	    // ... more draw commands, color changes, etc.
-	    renderer.endRendering();
 
-	    t += graphicsDelta;
+		renderer.beginRendering(800, 600);
+		// optionally set the color
+		renderer.setColor(1.0f, 0.2f, 0.2f, 0.8f);
+		renderer.draw("Text to draw", 100 + (int) (100 * Math
+				.sin(graphicsTime.clock)), 100 + (int) (100 * Math
+				.cos(graphicsTime.clock)));
+		// ... more draw commands, color changes, etc.
+		renderer.endRendering();
 	}
-	
-	double t;
 
 	public void renderEnemy(final Enemy e) {
 		if (e.isDead())
@@ -168,23 +169,25 @@ public class GraphicsEngine implements GLEventListener {
 		glu.gluOrtho2D(-1.0f, 1.0f, -1.0f, 1.0f); // drawing square
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
-		
-		// Font info is obtained from the current graphics environment.
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
-		//--- Get an array of font names (smaller than the number of fonts)
+		// Font info is obtained from the current graphics environment.
+		GraphicsEnvironment ge = GraphicsEnvironment
+				.getLocalGraphicsEnvironment();
+
+		// --- Get an array of font names (smaller than the number of fonts)
 		String[] fontNames = ge.getAvailableFontFamilyNames();
 
-		//--- Get an array of fonts.  It's preferable to use the names above.
+		// --- Get an array of fonts. It's preferable to use the names above.
 		Font[] allFonts = ge.getAllFonts();
-		
+
 		for (Font f : allFonts) {
 			Util.log(f.toString());
 		}
-		
-		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 36), true, true);
+
+		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 36),
+				true, true);
 	}
-	
+
 	TextRenderer renderer;
 
 	@Override
