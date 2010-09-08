@@ -20,7 +20,7 @@ public class Particle extends MovingObject {
 
 		recalculateTargetVector();
 		Util.dumpPoint(String.format("Particle creation (dx=%f, dy=%f):",
-				velocity.vector.x, velocity.vector.y), location);
+				velocity.direction.x, velocity.direction.y), location);
 	}
 
 	public void recalculateTargetVector() {

@@ -13,7 +13,7 @@ public class VelocityVector {
 	 * You can either fill the variable by calling its normalize method with the
 	 * new vector or by calling setVector(Vector2d) which does this for you.
 	 */
-	public Vector2d vector = new Vector2d();
+	public Vector2d direction = new Vector2d();
 	public double speed = 0.0;
 
 	public VelocityVector() {
@@ -25,15 +25,15 @@ public class VelocityVector {
 	}
 
 	public void translate(Point2d p, double dt) {
-		p.add(new Point2d(vector.x * speed * dt, vector.y * speed * dt));
+		p.add(new Point2d(direction.x * speed * dt, direction.y * speed * dt));
 	}
 
 	public void setVector(Vector2d vector) {
-		this.vector.normalize(vector);
+		this.direction.normalize(vector);
 	}
 
 	public String toString() {
 		return String.format("VelocityVector(Vector=<%f, %f>, Speed=%f)",
-				vector.x, vector.y, speed);
+				direction.x, direction.y, speed);
 	}
 }
