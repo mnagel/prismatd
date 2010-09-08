@@ -18,4 +18,12 @@ public abstract class StationaryObject {
 	 *            the time delta since the last invocation of step (1.0 = 1s)
 	 */
 	public abstract void step(final double dt);
+
+	public boolean collidesWith(final Point2d otherLocation,
+			final double otherRadius) {
+		final double squaredDist = location.distanceSquared(otherLocation);
+		final double totalRadius = radius + otherRadius;
+		final double squaredTotalRadius = totalRadius * totalRadius;
+		return (squaredDist < squaredTotalRadius);
+	}
 }

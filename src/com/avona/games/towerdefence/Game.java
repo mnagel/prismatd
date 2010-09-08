@@ -30,6 +30,19 @@ public class Game {
 		enemies.add(new Enemy(world, location));
 	}
 
+	public Tower closestTowerWithinRadius(Point2d location, double range) {
+		return (Tower) closestStationaryWithinRadius(towers, location, range);
+	}
+
+	public static Object closestStationaryWithinRadius(final List objects,
+			final Point2d location, final double range) {
+		for (final Object o : objects) {
+			if (((StationaryObject) o).collidesWith(location, range))
+				return o;
+		}
+		return null;
+	}
+
 	public void updateWorld(final double dt) {
 		/**
 		 * Step all objects first. This will cause them to move.
