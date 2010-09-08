@@ -9,7 +9,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseEvent;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +29,11 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 	public List<Particle> particles = new LinkedList<Particle>();
 	protected World world;
 	public Mouse mouse;
+	public Point2d size = new Point2d(defaultx, defaulty);
 	
+	public static int defaultx = 800;
+	public static int defaulty = 600;
+
 	protected GraphicsEngine ge;
 
 	protected long lastTimestamp;
@@ -40,7 +43,7 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		enemies.add(new Enemy(world));
 		towers.add(new Tower(new Point2d(0.5, 0.5)));
 		towers.add(new Tower(new Point2d(0.3, 0.5)));
-		
+
 		mouse = new Mouse();
 		ge = new GraphicsEngine(this);
 	}
@@ -186,9 +189,12 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		Util.log("Mouse clicked (# of clicks: "
 				+ e.getClickCount() + ")");
 		if (e.getButton() == MouseEvent.BUTTON1) {
-			double x = e.getX() / 800.0f - 1.0f;
-			double y = -(e.getY() / 600.0f) +1.0f;
-			Util.log("spawning at " + x + "  " + y);
+			double xf = e.getX();
+			double yf = -e.getY();
+
+			double x = (xf/ size.x) * 2 - 1.0f;
+			double y = (yf / size.y) * 2 + 1.0f;
+			
 			towers.add(new Tower(new Point2d(x, y)));	
 		}
 		else {
@@ -201,10 +207,12 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		Util.log("Mouse moved");
 		if (mouse == null) return; // fixme, nicht immer testen
 		Util.log("Mouse moved" + mouse.toString());
-		
-		double x = e.getX() / 800.0f - 1.0f;
-		double y = -(e.getY() / 600.0f) +1.0f;
-		
+
+		double xf = e.getX();
+		double yf = -e.getY();
+
+		double x = (xf/ size.x) * 2 - 1.0f;
+		double y = (yf / size.y) * 2 + 1.0f;
 		mouse.location.x = x;
 		mouse.location.y =y;
 	}
@@ -219,6 +227,8 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 			int height) {
 		final GL gl = glDrawable.getGL();
 		gl.glViewport(0, 0, width, height);
+		size.x = width;
+		size.y = height;
 	}
 
 	static Animator animator = new Animator();
@@ -230,13 +240,15 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		capabilities.setDoubleBuffered(true);
 
 		final GLCanvas canvas = new GLCanvas(capabilities);
-		canvas.addGLEventListener(new Game());
+		Game game = new Game();
+		canvas.addGLEventListener(game);
 		canvas.setAutoSwapBufferMode(true);
 		animator.add(canvas);
 
+
 		frame.add(canvas);		
 
-		frame.setSize(800, 600);
+		frame.setSize(Game.defaultx, Game.defaulty);
 		frame.setBackground(Color.WHITE);
 		frame.addWindowListener(new WindowAdapter()
 		{
@@ -245,7 +257,7 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 				System.exit(0);
 			}
 		});
-		frame.show();
+		frame.setVisible(true);
 
 		animator.start();
 	}
