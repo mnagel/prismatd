@@ -190,6 +190,15 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 	public void mouseClicked(MouseEvent e) {
 		Util.log("Mouse clicked (# of clicks: "
 				+ e.getClickCount() + ")");
+		if (e.getButton() == MouseEvent.BUTTON1) {
+			double x = e.getX() / 800.0f - 1.0f;
+			double y = -(e.getY() / 600.0f) +1.0f;
+			Util.log("spawning at " + x + "  " + y);
+			towers.add(new Tower(new Point2d(x, y)));	
+		}
+		else {
+			enemies.add(new Enemy(world));
+		}	
 	}
 
 
