@@ -19,8 +19,8 @@ public class Particle extends MovingObject {
 		velocity.speed = 0.1;
 
 		recalculateTargetVector();
-		Util.dumpPoint(String.format("Particle creation (dx=%f, dy=%f):",
-				velocity.direction.x, velocity.direction.y), location);
+//		Util.dumpPoint(String.format("Particle creation (dx=%f, dy=%f):",
+//				velocity.direction.x, velocity.direction.y), location);
 	}
 
 	public void recalculateTargetVector() {

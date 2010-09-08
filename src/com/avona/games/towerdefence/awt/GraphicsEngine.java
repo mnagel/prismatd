@@ -89,12 +89,14 @@ public class GraphicsEngine implements GLEventListener {
 		final double width = 0.04;
 		final Point2d location = e.location;
 
-		gl.glColor3d(0.0, 0.0, 1.0);
-
 		gl.glBegin(GL.GL_QUADS);
+		gl.glColor3d(0.0, 0.0, 1.0);
 		gl.glVertex2d(location.x - width / 2, location.y - width / 2);
+		gl.glColor3d(0.0, 0.0, 0.6);
 		gl.glVertex2d(location.x + width / 2, location.y - width / 2);
+		gl.glColor3d(0.0, 0.0, 0.9);
 		gl.glVertex2d(location.x + width / 2, location.y + width / 2);
+		gl.glColor3d(0.0, 0.0, 0.8);
 		gl.glVertex2d(location.x - width / 2, location.y + width / 2);
 		gl.glEnd();
 	}
@@ -103,12 +105,14 @@ public class GraphicsEngine implements GLEventListener {
 		final double width = 0.03;
 		final Point2d location = t.location;
 
-		gl.glColor3d(1.0, 0.0, 0.0);
-
 		gl.glBegin(GL.GL_QUADS);
+		gl.glColor3d(1.0, 0.0, 0.0);
 		gl.glVertex2d(location.x - width / 2, location.y - width / 2);
+		gl.glColor3d(0.6, 0.0, 0.0);
 		gl.glVertex2d(location.x + width / 2, location.y - width / 2);
+		gl.glColor3d(0.9, 0.0, 0.0);
 		gl.glVertex2d(location.x + width / 2, location.y + width / 2);
+		gl.glColor3d(0.8, 0.0, 0.0);
 		gl.glVertex2d(location.x - width / 2, location.y + width / 2);
 		gl.glEnd();
 	}
@@ -120,12 +124,14 @@ public class GraphicsEngine implements GLEventListener {
 		final double width = 0.02;
 		final Point2d location = p.location;
 
-		gl.glColor3d(1.0, 1.0, 1.0);
-
 		gl.glBegin(GL.GL_QUADS);
+		gl.glColor3d(1.0, 0.8, 0.2);
 		gl.glVertex2d(location.x - width / 2, location.y - width / 2);
+		gl.glColor3d(0.6, 0.9, 0.2);
 		gl.glVertex2d(location.x + width / 2, location.y - width / 2);
+		gl.glColor3d(0.9, 0.6, 0.2);
 		gl.glVertex2d(location.x + width / 2, location.y + width / 2);
+		gl.glColor3d(0.8, 1.0, 0.2);
 		gl.glVertex2d(location.x - width / 2, location.y + width / 2);
 		gl.glEnd();
 	}
