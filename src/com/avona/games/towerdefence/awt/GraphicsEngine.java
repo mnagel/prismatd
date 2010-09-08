@@ -89,7 +89,6 @@ public class GraphicsEngine implements GLEventListener {
 		final double width = 0.04;
 		final Point2d location = e.location;
 
-		final GL gl = canvas.getGL();
 		gl.glColor3d(0.0, 0.0, 1.0);
 
 		gl.glBegin(GL.GL_QUADS);
@@ -104,7 +103,6 @@ public class GraphicsEngine implements GLEventListener {
 		final double width = 0.03;
 		final Point2d location = t.location;
 
-		final GL gl = canvas.getGL();
 		gl.glColor3d(1.0, 0.0, 0.0);
 
 		gl.glBegin(GL.GL_QUADS);
@@ -122,7 +120,6 @@ public class GraphicsEngine implements GLEventListener {
 		final double width = 0.02;
 		final Point2d location = p.location;
 
-		final GL gl = canvas.getGL();
 		gl.glColor3d(1.0, 1.0, 1.0);
 
 		gl.glBegin(GL.GL_QUADS);
@@ -134,8 +131,6 @@ public class GraphicsEngine implements GLEventListener {
 	}
 
 	public void renderMouse() {
-		final GL gl = canvas.getGL();
-
 		final Point2d p = game.mouse.location;
 		final double width = 0.04;
 
