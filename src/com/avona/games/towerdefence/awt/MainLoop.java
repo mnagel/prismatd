@@ -1,9 +1,11 @@
 package com.avona.games.towerdefence.awt;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
@@ -54,6 +56,7 @@ public class MainLoop implements GLEventListener {
 				exit();
 			}
 		});
+		frame.setCursor(java.awt.Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1,1,BufferedImage.TYPE_4BYTE_ABGR),new java.awt.Point(0,0),"NOCURSOR"));
 		frame.setVisible(true);
 
 		animator = new FPSAnimator(ge.canvas, EXPECTED_FPS);

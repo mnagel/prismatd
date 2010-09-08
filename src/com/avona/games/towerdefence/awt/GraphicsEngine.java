@@ -1,5 +1,8 @@
 package com.avona.games.towerdefence.awt;
 
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
@@ -12,6 +15,8 @@ import com.avona.games.towerdefence.Enemy;
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Particle;
 import com.avona.games.towerdefence.Tower;
+import com.avona.games.towerdefence.Util;
+import com.sun.opengl.util.j2d.TextRenderer;
 
 /**
  * The GraphicsEngine object currently incorporates all drawing operations. It
@@ -45,7 +50,6 @@ public class GraphicsEngine implements GLEventListener {
 		canvas.addGLEventListener(this);
 		canvas.setAutoSwapBufferMode(true);
 	}
-
 	public void render(double dt) {
 		// Paint background, clearing previous drawings.
 		gl.glColor3d(0.0, 0.0, 0.0);
@@ -61,7 +65,22 @@ public class GraphicsEngine implements GLEventListener {
 			renderParticle(p);
 		}
 		renderMouse();
+		
+		
+		
+	    renderer.beginRendering(800, 600);
+	    // optionally set the color
+	    renderer.setColor(1.0f, 0.2f, 0.2f, 0.8f);
+	    renderer.draw("Text to draw", 100 + (int)(100 * Math.sin(t)), 100 + (int)(100 * Math.cos(t)));
+	    // ... more draw commands, color changes, etc.
+	    renderer.endRendering();
+
+	    t += dt;
+
+		
 	}
+	
+	double t;
 
 	public void renderEnemy(final Enemy e) {
 		if (e.isDead())
@@ -116,15 +135,16 @@ public class GraphicsEngine implements GLEventListener {
 
 	public void renderMouse() {
 		final GL gl = canvas.getGL();
-		gl.glColor3d(1.0, 0.0, 1.0);
 
 		final Point2d p = game.mouse.location;
 		final double width = 0.04;
 
 		gl.glBegin(GL.GL_QUADS);
+		gl.glColor3d(1.0, 0.0, 0.0);
 		gl.glVertex2d(p.x - width / 2, p.y - width / 2);
 		gl.glVertex2d(p.x + width / 2, p.y - width / 2);
 		gl.glVertex2d(p.x + width / 2, p.y + width / 2);
+		gl.glColor3d(0.0, 0.0, 1.0);
 		gl.glVertex2d(p.x - width / 2, p.y + width / 2);
 		gl.glEnd();
 	}
@@ -149,7 +169,24 @@ public class GraphicsEngine implements GLEventListener {
 		glu.gluOrtho2D(-1.0f, 1.0f, -1.0f, 1.0f); // drawing square
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
+		
+		// Font info is obtained from the current graphics environment.
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
+		//--- Get an array of font names (smaller than the number of fonts)
+		String[] fontNames = ge.getAvailableFontFamilyNames();
+
+		//--- Get an array of fonts.  It's preferable to use the names above.
+		Font[] allFonts = ge.getAllFonts();
+		
+		for (Font f : allFonts) {
+			Util.log(f.toString());
+		}
+		
+		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 36), true, true);
 	}
+	
+	TextRenderer renderer;
 
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
