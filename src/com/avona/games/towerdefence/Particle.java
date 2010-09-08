@@ -1,14 +1,12 @@
 package com.avona.games.towerdefence;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GLAutoDrawable;
 import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
 public class Particle extends MovingObject {
 	protected int strength = 10;
 	protected double range = 0.001;
-	protected double timeAlive = 4.0 / TimeBase.BASE;
+	protected double timeAlive = 4.0;
 	
 	protected boolean dead = false;
 	protected Enemy target;
@@ -72,22 +70,5 @@ public class Particle extends MovingObject {
 		
 		recalculateTargetVector();
 		velocity.translate(location, dt);
-	}
-
-	public void display(GLAutoDrawable glDrawable) {
-		if(dead)
-			return;
-		
-		final double width = 0.02;
-		
-		final GL gl = glDrawable.getGL();
-		gl.glColor3d(1.0, 1.0, 1.0);
-		
-		gl.glBegin(GL.GL_QUADS);
-		gl.glVertex2d(location.x - width/2, location.y - width/2);
-		gl.glVertex2d(location.x + width/2, location.y - width/2);
-		gl.glVertex2d(location.x + width/2, location.y + width/2);
-		gl.glVertex2d(location.x - width/2, location.y + width/2);
-		gl.glEnd();
 	}
 }

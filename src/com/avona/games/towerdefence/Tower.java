@@ -1,9 +1,6 @@
 package com.avona.games.towerdefence;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GLAutoDrawable;
 import javax.vecmath.Point2d;
-
 
 
 public class Tower extends StationaryObject {
@@ -25,20 +22,6 @@ public class Tower extends StationaryObject {
 		} else {
 			return null;
 		}
-	}
-
-	public void display(GLAutoDrawable glDrawable) {
-		final double width = 0.03;
-		
-		final GL gl = glDrawable.getGL();
-		gl.glColor3d(1.0, 0.0, 0.0);
-		
-		gl.glBegin(GL.GL_QUADS);
-		gl.glVertex2d(location.x - width/2, location.y - width/2);
-		gl.glVertex2d(location.x + width/2, location.y - width/2);
-		gl.glVertex2d(location.x + width/2, location.y + width/2);
-		gl.glVertex2d(location.x - width/2, location.y + width/2);
-		gl.glEnd();
 	}
 
 	@Override
