@@ -1,7 +1,6 @@
 package com.avona.games.towerdefence.awt;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

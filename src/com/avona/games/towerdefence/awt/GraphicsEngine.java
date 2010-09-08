@@ -174,9 +174,6 @@ public class GraphicsEngine implements GLEventListener {
 		GraphicsEnvironment ge = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
 
-		// --- Get an array of font names (smaller than the number of fonts)
-		String[] fontNames = ge.getAvailableFontFamilyNames();
-
 		// --- Get an array of fonts. It's preferable to use the names above.
 		Font[] allFonts = ge.getAllFonts();
 
