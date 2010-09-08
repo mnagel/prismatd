@@ -20,6 +20,30 @@ public class Enemy extends MovingObject {
 			return;
 
 		velocity.translate(location, dt);
+		
+		double minx = -1;
+		double miny = -1;
+		
+		double maxx = 1;
+		double maxy = 1;
+		
+		if (location.x < minx) {
+			location.x = minx - (location.x - minx);
+			velocity.direction.x = -velocity.direction.x;
+		}
+		if (location.y < miny) {
+			location.y = miny - (location.y - miny);
+			velocity.direction.y = -velocity.direction.y;
+		}
+		if (location.x > maxx) {
+			location.x = maxx - (location.x - maxx);
+			velocity.direction.x = -velocity.direction.x;
+		}
+		if (location.y > maxy) {
+			location.y = maxy - (location.y - maxy);
+			velocity.direction.y = -velocity.direction.y;
+		}
+		
 		// System.out.println(velocity);
 		// System.out.println(location);
 	}
