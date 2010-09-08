@@ -22,12 +22,6 @@ public class Game {
 		mouse = new Mouse();
 	}
 	
-	public void setMouseLocation(double x, double y) {
-		mouse.location.x = x;
-		mouse.location.y =y;
-
-	}
-
 	public void addTowerAt(Point2d location) {
 		towers.add(new Tower(location));
 	}
