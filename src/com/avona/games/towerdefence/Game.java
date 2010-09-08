@@ -15,7 +15,7 @@ public class Game {
 
 	public Game() {
 		world = new World();
-		enemies.add(new Enemy(world));
+		enemies.add(new Enemy(world, world.getInitialLocation()));
 		towers.add(new Tower(new Point2d(0.5, 0.5)));
 		towers.add(new Tower(new Point2d(0.3, 0.5)));
 
@@ -32,8 +32,8 @@ public class Game {
 		towers.add(new Tower(location));
 	}
 	
-	public void addEnemy() {
-		enemies.add(new Enemy(world));
+	public void addEnemyAt(Point2d location) {
+		enemies.add(new Enemy(world, location));
 	}
 
 	public void updateWorld(final double dt) {

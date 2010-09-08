@@ -1,13 +1,15 @@
 package com.avona.games.towerdefence;
 
+import javax.vecmath.Point2d;
+
 
 public class Enemy extends MovingObject {
 	protected World world;
 	protected int health = 100;
 
-	public Enemy(World world) {
+	public Enemy(World world, Point2d location) {
 		this.world = world;
-		location = world.getInitialLocation();
+		this.location = location;
 		velocity = world.getDirection(location);
 		System.out.println(velocity);
 		System.out.println(location);
