@@ -45,41 +45,7 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		final double dt = TimeBase.fractionOfSecond(delta);
 
 		// Update the world.
-		for(Enemy e : enemies) {
-			e.step(dt);
-		}
-
-		for(Tower t : towers) {
-			for(Enemy e : enemies) {
-				if(t.inRange(e)) {
-					Particle p = t.shootTowards(e, delta);
-					if(p != null) {
-						particles.add(p);
-					}
-				}
-			}
-		}
-
-		Iterator<Particle> piter = particles.iterator();
-		while(piter.hasNext()) {
-			final Particle p = piter.next();
-			Iterator<Enemy> eiter = enemies.iterator();
-			while(eiter.hasNext()) {
-				final Enemy e = eiter.next();
-				if(p.inRange(e)) {
-					p.attack(e);
-					if(e.isDead()) {
-						eiter.remove();
-					}
-				}
-			}
-			if(p.isDead()) {
-				piter.remove();
-			}
-			else {
-				p.step(dt);
-			}
-		}
+		updateWorld(dt);
 
 		// Draw it.
 		final GL gl = glDrawable.getGL();
@@ -102,6 +68,54 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		}
 		for(Particle p : particles) {
 			p.display(glDrawable);
+		}
+	}
+
+	protected void updateWorld(final double dt) {
+		/**
+		 * Update every enemy.  This will cause them to move.
+		 */
+		for(Enemy e : enemies) {
+			e.step(dt);
+		}
+
+		/**
+		 * Look for each tower, if it's ready to shoot and if an enemy
+		 * ready to shoot.  If so, create a new particle.  The tower is
+		 * free to create any particle in its shootTowards() method.
+		 */
+		for(Tower t : towers) {
+			for(Enemy e : enemies) {
+				if(t.inRange(e)) {
+					Particle p = t.shootTowards(e, dt);
+					if(p != null) {
+						particles.add(p);
+					}
+				}
+			}
+		}
+
+		/**
+		 * Check for any particle collisions and handle damage.
+		 */
+		Iterator<Particle> piter = particles.iterator();
+		while(piter.hasNext()) {
+			final Particle p = piter.next();
+			p.step(dt);
+			
+			Iterator<Enemy> eiter = enemies.iterator();
+			while(eiter.hasNext()) {
+				final Enemy e = eiter.next();
+				if(p.inRange(e)) {
+					p.attack(e);
+					if(e.isDead()) {
+						eiter.remove();
+					}
+				}
+			}
+			if(p.isDead()) {
+				piter.remove();
+			}
 		}
 	}
 
