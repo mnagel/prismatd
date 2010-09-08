@@ -17,11 +17,11 @@ public class Tower extends StationaryObject {
 		return location.distance(e.location) < range;
 	}
 
-	protected long lastShot = 0;
+	protected double lastShot = 0;
 	
-	public Particle shootTowards(Enemy e, long dt) {
+	public Particle shootTowards(Enemy e, final double dt) {
 		if(lastShot <= 0) {
-			lastShot = (long) (4 * Math.pow(10, 9));
+			lastShot = 4.0;
 			return new Particle(location, e);
 		} else {
 			lastShot -= dt;
