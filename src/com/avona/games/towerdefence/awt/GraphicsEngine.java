@@ -46,7 +46,7 @@ public class GraphicsEngine implements GLEventListener {
 		canvas.setAutoSwapBufferMode(true);
 	}
 
-	public void render(double dt) {
+	public void render(double gameDelta, double graphicsDelta) {
 		// Paint background, clearing previous drawings.
 		gl.glColor3d(0.0, 0.0, 0.0);
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);

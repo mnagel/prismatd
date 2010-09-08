@@ -8,8 +8,13 @@ public class TimeTrack {
 	private double lastWallClock = 0;
 	private boolean running = true;
 
+	public boolean isRunning() {
+		return running;
+	}
+
 	public void stopClock() {
 		running = false;
+		tick = 0;
 	}
 
 	public void startClock() {
@@ -44,6 +49,8 @@ public class TimeTrack {
 		if (running) {
 			tick = wallTick;
 			clock += wallTick;
+		} else {
+			tick = 0;
 		}
 	}
 }

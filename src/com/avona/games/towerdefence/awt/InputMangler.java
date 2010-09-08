@@ -40,6 +40,11 @@ public class InputMangler implements KeyListener, MouseListener,
 
 	public void keyTyped(KeyEvent e) {
 		Util.log(e.paramString());
+		char key = e.getKeyChar();
+		Util.log("Key character: \"" + key + "\"");
+		if (key == ' ') {
+			ml.toggleGamePause();
+		}
 	}
 
 	public void mousePressed(MouseEvent e) {

@@ -19,17 +19,38 @@ public class MainLoop implements GLEventListener {
 	public GraphicsEngine ge;
 	public InputMangler input;
 
-	private TimeTrack time;
+	private TimeTrack gameTime;
+	private TimeTrack graphicsTime;
 	private FPSAnimator animator;
 
 	public void performLoop() {
-		time.update(System.nanoTime() * Math.pow(10, -9));
+		final double wallClock = System.nanoTime() * Math.pow(10, -9);
+		graphicsTime.update(wallClock);
+		gameTime.update(wallClock);
+
+		// Updating of inputs is done asynchronously.
 
 		// Update the world.
-		game.updateWorld(time.tick);
+		game.updateWorld(gameTime.tick);
 
 		// Show the world.
-		ge.render(time.tick);
+		ge.render(gameTime.tick, graphicsTime.tick);
+	}
+
+	public void pauseGame() {
+		gameTime.stopClock();
+	}
+
+	public void unpauseGame() {
+		gameTime.startClock();
+	}
+
+	public void toggleGamePause() {
+		if (gameTime.isRunning()) {
+			pauseGame();
+		} else {
+			unpauseGame();
+		}
 	}
 
 	public void exit() {
@@ -38,7 +59,8 @@ public class MainLoop implements GLEventListener {
 	}
 
 	public MainLoop() {
-		time = new TimeTrack();
+		gameTime = new TimeTrack();
+		graphicsTime = new TimeTrack();
 
 		game = new Game();
 		ge = new GraphicsEngine(this, game);
