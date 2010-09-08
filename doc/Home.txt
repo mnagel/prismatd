@@ -32,7 +32,8 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [x] Platzhalter
 
 ===== Niederschreiben =====
-
+[*] Control Flow
+[*] Units
 
 ===== Game-Engine-Stub =====
 [ ] Prototyp einer Engine, die allen Status hält und ihn aktualisiert
@@ -50,6 +51,9 @@ Creation-Date: 2010-09-06T09:54:39.867461
 		[ ] Liste der Wegpunkte (?)
 	[ ] Aktualisierung
 		[ ] tick(dt :: float)
+[ ] Dokumentation der Abläufe
+	[ ] Check gegen Control Flow Artikel
+	[ ] Check gegen Units Artikel
 
 ===== Grafik-Engine-Stub =====
 [ ] Prototyp einer Grafik-Engine, die Grafik ausgibt und entsprechenden Status haelt
@@ -61,6 +65,9 @@ Creation-Date: 2010-09-06T09:54:39.867461
 	[ ] Rotation
 	[ ] Textur
 [ ] Objekte um render() erweitern
+[ ] Dokumentation der Abläufe
+	[ ] Check gegen Control Flow Artikel
+	[ ] Check gegen Units Artikel
 
 ===== Zusammenstecken =====
 [ ] erstellen einer Minimal-Welt per Skript
@@ -80,6 +87,9 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Erstellen von Tuermen per Maus/Finger-Klick
 [ ] Neustart der "Simulation" per Eingabe
 [ ] Selektieren von Tuermen und Monstern per Klick
+[ ] Dokumentation der Abläufe
+	[ ] Check gegen Control Flow Artikel
+	[ ] Check gegen Units Artikel
 
 ===== Kollission / Spawning =====
 [ ] Erkennen von Kollission
@@ -90,6 +100,9 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Timerbasiertes "Feuern" von Tuermen
 	[ ] nur falls Ziel vorhanden (weitere Kollissionsabfrage)
 [ ] Timerbasiertes Spawnen von Monstern
+[ ] Dokumentation der Abläufe
+	[ ] Check gegen Control Flow Artikel
+	[ ] Check gegen Units Artikel
 
 ===== Minimal Game =====
 [ ] Geld
@@ -104,6 +117,7 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] APK fuer Android
 [ ] Installations-Anleitung
 [ ] How-To-Play-Anleitung mit Bildern schreiben
+[ ] Dokumentation nachziehen / sortieren
 
 ===== Roadmap =====
 [ ] Festlegen, wie das fertige Spiel "aussehen" soll

@@ -2,5 +2,8 @@ Content-Type: text/x-zim-wiki
 Wiki-Format: zim 0.4
 Creation-Date: 2010-09-08T19:22:15.012902
 
+====== Text ======
+kein Plain Text
+
 ====== Bild ======
 {{../modelle/controlflow.png}}
