@@ -18,6 +18,7 @@ public class MainLoop implements GLEventListener {
 
 	public Game game;
 	public GraphicsEngine ge;
+	public InputMangler input;
 
 	private TimeTrack time;
 	private FPSAnimator animator;
@@ -40,10 +41,10 @@ public class MainLoop implements GLEventListener {
 	public MainLoop() {
 		time = new TimeTrack();
 		
-		game = new Game(this);
+		game = new Game();
 		ge = new GraphicsEngine(this, game);
 		ge.canvas.addGLEventListener(this);
-		game.init(ge);
+		input = new InputMangler(this, ge, game);
 
 		final Frame frame = new Frame("Towerdefence");
 		frame.add(ge.canvas);
