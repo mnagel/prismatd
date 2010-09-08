@@ -36,9 +36,12 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	protected GraphicsEngine ge;
 
-	protected long lastTimestamp;
+	protected TimeTrack gameTime;
+	protected TimeTrack graphicsTime;
 
 	public Game() {
+		gameTime = new TimeTrack();
+		graphicsTime = new TimeTrack();
 		world = new World();
 		enemies.add(new Enemy(world));
 		towers.add(new Tower(new Point2d(0.5, 0.5)));
@@ -49,13 +52,11 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void display(GLAutoDrawable glDrawable) {
-		final long newTime = System.nanoTime();
-		final long delta = newTime - lastTimestamp;
-		lastTimestamp = newTime;
-		final double dt = delta * Math.pow(10, -9);
+		graphicsTime.update(System.nanoTime() * Math.pow(10, -9));
+		gameTime.update(graphicsTime.clock);
 
 		// Update the world.
-		updateWorld(dt);
+		updateWorld(gameTime.tick);
 
 		// Draw it.
 		final GL gl = glDrawable.getGL();
