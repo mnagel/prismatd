@@ -29,6 +29,9 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 	protected List<Tower> towers = new LinkedList<Tower>();
 	protected List<Particle> particles = new LinkedList<Particle>();
 	protected World world;
+	protected Mouse mouse;
+	
+	protected GraphicsEngine ge;
 
 	protected long lastTimestamp;
 
@@ -37,6 +40,9 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		enemies.add(new Enemy(world));
 		towers.add(new Tower(new Point2d(0.5, 0.5)));
 		towers.add(new Tower(new Point2d(0.3, 0.5)));
+		
+		mouse = new Mouse();
+		ge = new GraphicsEngine(this);
 	}
 
 	public void display(GLAutoDrawable glDrawable) {
@@ -70,6 +76,8 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		for(Particle p : particles) {
 			p.display(glDrawable);
 		}
+		
+		ge.render(glDrawable);
 	}
 
 	protected void updateWorld(final double dt) {
@@ -204,6 +212,14 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void mouseMoved(MouseEvent e) {
 		Util.log("Mouse moved");
+		if (mouse == null) return; // fixme, nicht immer testen
+		Util.log("Mouse moved" + mouse.toString());
+		
+		double x = e.getX() / 800.0f - 1.0f;
+		double y = -(e.getY() / 600.0f) +1.0f;
+		
+		mouse.location.x = x;
+		mouse.location.y =y;
 	}
 
 	public void mouseDragged(MouseEvent e) {
