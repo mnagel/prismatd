@@ -42,4 +42,9 @@ public class Tower extends StationaryObject {
 		gl.glVertex2d(location.x - width/2, location.y + width/2);
 		gl.glEnd();
 	}
+
+	@Override
+	public void step(long dt) {
+		// Do nothing.
+	}
 }

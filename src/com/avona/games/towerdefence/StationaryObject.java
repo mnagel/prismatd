@@ -11,4 +11,11 @@ import javax.vecmath.Point2d;
 public abstract class StationaryObject {
 	public Point2d location;
 	public double radius;
+	
+	/**
+	 * Update all state of the object based on the changed in-game time.
+	 * 
+	 * @param dt the time delta since the last invocation of step
+	 */
+	public abstract void step(long dt);
 }
