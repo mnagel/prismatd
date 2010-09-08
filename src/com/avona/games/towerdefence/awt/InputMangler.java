@@ -8,10 +8,8 @@ import java.awt.event.MouseMotionListener;
 
 import javax.vecmath.Point2d;
 
-import com.avona.games.towerdefence.Enemy;
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.GraphicsEngine;
-import com.avona.games.towerdefence.Tower;
 import com.avona.games.towerdefence.Util;
 
 public class InputMangler implements KeyListener, MouseListener, MouseMotionListener {
@@ -61,34 +59,33 @@ public class InputMangler implements KeyListener, MouseListener, MouseMotionList
 	public void mouseExited(MouseEvent e) {
 		Util.log("Mouse exited");
 	}
+	
+	public void eventLocation(MouseEvent e, Point2d location) {
+		final double xf = e.getX();
+		final double yf = -e.getY();
+		final Point2d canvasSize = ge.size;
+
+		final double x = (xf / canvasSize.x) * 2 - 1.0f;
+		final double y = (yf / canvasSize.y) * 2 + 1.0f;
+
+		location.x = x;
+		location.y = y;
+	}
 
 	public void mouseClicked(MouseEvent e) {
-		Util.log("Mouse clicked (# of clicks: "
-				+ e.getClickCount() + ")");
+		Util.log("Mouse clicked (# of clicks: " + e.getClickCount() + ")");
 		if (e.getButton() == MouseEvent.BUTTON1) {
-			double xf = e.getX();
-			double yf = -e.getY();
-
-			double x = (xf / ge.size.x) * 2 - 1.0f;
-			double y = (yf / ge.size.y) * 2 + 1.0f;
-
-			game.towers.add(new Tower(new Point2d(x, y)));	
+			Point2d location = new Point2d();
+			eventLocation(e, location);
+			game.addTowerAt(location);	
 		} else {
-			game.enemies.add(new Enemy(game.world));
+			game.addEnemy();
 		}	
 	}
 
 	public void mouseMoved(MouseEvent e) {
 		Util.log("Mouse moved" + game.mouse.toString());
-
-		double xf = e.getX();
-		double yf = -e.getY();
-
-		double x = (xf/ ge.size.x) * 2 - 1.0f;
-		double y = (yf / ge.size.y) * 2 + 1.0f;
-
-		game.mouse.location.x = x;
-		game.mouse.location.y =y;
+		eventLocation(e, game.mouse.location);
 	}
 
 	public void mouseDragged(MouseEvent e) {

@@ -22,6 +22,20 @@ public class Game {
 		mouse = new Mouse();
 	}
 	
+	public void setMouseLocation(double x, double y) {
+		mouse.location.x = x;
+		mouse.location.y =y;
+
+	}
+
+	public void addTowerAt(Point2d location) {
+		towers.add(new Tower(location));
+	}
+	
+	public void addEnemy() {
+		enemies.add(new Enemy(world));
+	}
+
 	public void updateWorld(final double dt) {
 		/**
 		 * Step all objects first.  This will cause them to move.
