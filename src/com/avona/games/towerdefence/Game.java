@@ -20,7 +20,7 @@ public class Game implements KeyListener, MouseListener, MouseMotionListener {
 	protected World world;
 	public Mouse mouse;
 	public MainLoop main;
-	
+
 	protected GraphicsEngine ge;
 
 	public Game(MainLoop main) {
@@ -29,7 +29,7 @@ public class Game implements KeyListener, MouseListener, MouseMotionListener {
 		enemies.add(new Enemy(world));
 		towers.add(new Tower(new Point2d(0.5, 0.5)));
 		towers.add(new Tower(new Point2d(0.3, 0.5)));
-		
+
 		mouse = new Mouse();
 	}
 	
@@ -129,9 +129,12 @@ public class Game implements KeyListener, MouseListener, MouseMotionListener {
 		Util.log("Mouse clicked (# of clicks: "
 				+ e.getClickCount() + ")");
 		if (e.getButton() == MouseEvent.BUTTON1) {
-			double x = e.getX() / 800.0f - 1.0f;
-			double y = -(e.getY() / 600.0f) +1.0f;
-			Util.log("spawning at " + x + "  " + y);
+			double xf = e.getX();
+			double yf = -e.getY();
+
+			double x = (xf/ ge.size.x) * 2 - 1.0f;
+			double y = (yf / ge.size.y) * 2 + 1.0f;
+			
 			towers.add(new Tower(new Point2d(x, y)));	
 		}
 		else {
@@ -144,10 +147,12 @@ public class Game implements KeyListener, MouseListener, MouseMotionListener {
 		Util.log("Mouse moved");
 		if (mouse == null) return; // fixme, nicht immer testen
 		Util.log("Mouse moved" + mouse.toString());
-		
-		double x = e.getX() / 800.0f - 1.0f;
-		double y = -(e.getY() / 600.0f) +1.0f;
-		
+
+		double xf = e.getX();
+		double yf = -e.getY();
+
+		double x = (xf/ ge.size.x) * 2 - 1.0f;
+		double y = (yf / ge.size.y) * 2 + 1.0f;
 		mouse.location.x = x;
 		mouse.location.y =y;
 	}

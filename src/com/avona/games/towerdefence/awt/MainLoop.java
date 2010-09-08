@@ -47,7 +47,7 @@ public class MainLoop implements GLEventListener {
 
 		final Frame frame = new Frame("Towerdefence");
 		frame.add(ge.canvas);
-		frame.setSize(800, 600);
+		frame.setSize(ge.defaultWidth, ge.defaultHeight);
 		frame.setBackground(Color.WHITE);
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {

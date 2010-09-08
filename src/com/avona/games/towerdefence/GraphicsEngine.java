@@ -22,6 +22,10 @@ public class GraphicsEngine implements GLEventListener {
 	public GLCanvas canvas;
 	public GL gl;
 	public GLU glu;
+	public Point2d size;
+
+	final public int defaultHeight = 600;
+	final public int defaultWidth = 800;
 	
 	public GraphicsEngine(MainLoop main, Game game) {
 		this.main = main;
@@ -149,5 +153,6 @@ public class GraphicsEngine implements GLEventListener {
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
 		// The canvas has been updated.
 		gl.glViewport(0, 0, width, height);
+		size = new Point2d(width, height);
 	}
 }
