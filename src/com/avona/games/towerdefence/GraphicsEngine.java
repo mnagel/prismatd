@@ -4,8 +4,13 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.vecmath.Point2d;
 
+/**
+ * The GraphicsEngine object currently incorporates all drawing operations.
+ * It will iterate over all in-game objects and call (possibly overloaded)
+ * class methods to perform the GL calls.  It will not touch any in-game
+ * state, though.
+ */
 public class GraphicsEngine {
-	
 	protected Game game;
 	
 	public GraphicsEngine(Game game) {
