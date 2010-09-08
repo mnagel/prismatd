@@ -44,9 +44,7 @@ public class Particle extends MovingObject {
 		}
 		
 		e.inflictDamage(strength);
-		if(e.isDead()) {
-			dead = true;
-		}
+		dead = true;
 	}
 
 	public boolean isDead() {
