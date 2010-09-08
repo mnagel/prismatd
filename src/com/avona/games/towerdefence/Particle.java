@@ -6,7 +6,7 @@ import javax.vecmath.Vector2d;
 public class Particle extends MovingObject {
 	protected int strength = 10;
 	protected double range = 0.001;
-	protected double timeAlive = 4.0 / TimeBase.BASE;
+	protected double timeAlive = 4.0;
 	
 	protected boolean dead = false;
 	protected Enemy target;

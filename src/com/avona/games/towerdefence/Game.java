@@ -46,10 +46,10 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 	}
 
 	public void display(GLAutoDrawable glDrawable) {
-		final long newTime = TimeBase.getTime();
+		final long newTime = System.nanoTime();
 		final long delta = newTime - lastTimestamp;
 		lastTimestamp = newTime;
-		final double dt = TimeBase.fractionOfSecond(delta);
+		final double dt = delta * Math.pow(10, -9);
 
 		// Update the world.
 		updateWorld(dt);
@@ -140,9 +140,6 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		glu.gluOrtho2D(-1.0f, 1.0f, -1.0f, 1.0f); // drawing square
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
-
-		TimeBase.init();
-		lastTimestamp = TimeBase.getTime();
 	}
 
 	public static void exit(){
