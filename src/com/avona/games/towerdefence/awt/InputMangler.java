@@ -12,7 +12,8 @@ import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.GraphicsEngine;
 import com.avona.games.towerdefence.Util;
 
-public class InputMangler implements KeyListener, MouseListener, MouseMotionListener {
+public class InputMangler implements KeyListener, MouseListener,
+		MouseMotionListener {
 	private GraphicsEngine ge;
 	private MainLoop ml;
 	private Game game;
@@ -43,8 +44,7 @@ public class InputMangler implements KeyListener, MouseListener, MouseMotionList
 	}
 
 	public void mousePressed(MouseEvent e) {
-		Util.log("Mouse pressed (# of clicks: "
-				+ e.getClickCount() + ")");
+		Util.log("Mouse pressed (# of clicks: " + e.getClickCount() + ")");
 		Point2d location = new Point2d();
 		eventLocation(e, location);
 		if (e.getButton() == MouseEvent.BUTTON1) {
@@ -55,8 +55,7 @@ public class InputMangler implements KeyListener, MouseListener, MouseMotionList
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		Util.log("Mouse released (# of clicks: "
-				+ e.getClickCount() + ")");
+		Util.log("Mouse released (# of clicks: " + e.getClickCount() + ")");
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -66,7 +65,7 @@ public class InputMangler implements KeyListener, MouseListener, MouseMotionList
 	public void mouseExited(MouseEvent e) {
 		Util.log("Mouse exited");
 	}
-	
+
 	public void eventLocation(MouseEvent e, Point2d location) {
 		final double xf = e.getX();
 		final double yf = -e.getY();

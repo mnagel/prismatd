@@ -11,6 +11,7 @@ public class TimeTrack {
 	public void stopClock() {
 		running = false;
 	}
+
 	public void startClock() {
 		running = true;
 	}
@@ -18,10 +19,12 @@ public class TimeTrack {
 	/**
 	 * Progress time by specifying new wall clock.
 	 * 
-	 * You may alternatively also use updateTick(), but don't use both at the same time.
+	 * You may alternatively also use updateTick(), but don't use both at the
+	 * same time.
 	 * 
 	 * @see TimeTrack#updateTick(double)
-	 * @param wallClock New wall clock time.
+	 * @param wallClock
+	 *            New wall clock time.
 	 */
 	public void update(double wallClock) {
 		updateTick(wallClock - lastWallClock);
@@ -31,7 +34,8 @@ public class TimeTrack {
 	/**
 	 * Progress time by specifying time delta.
 	 * 
-	 * You may alternatively also use update(), but don't use both at the same time.
+	 * You may alternatively also use update(), but don't use both at the same
+	 * time.
 	 * 
 	 * @see TimeTrack#update(double)
 	 * @param wallTick

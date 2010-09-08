@@ -11,10 +11,9 @@ import javax.vecmath.Point2d;
 import com.avona.games.towerdefence.awt.MainLoop;
 
 /**
- * The GraphicsEngine object currently incorporates all drawing operations.
- * It will iterate over all in-game objects and call (possibly overloaded)
- * class methods to perform the GL calls.  It will not touch any in-game
- * state, though.
+ * The GraphicsEngine object currently incorporates all drawing operations. It
+ * will iterate over all in-game objects and call (possibly overloaded) class
+ * methods to perform the GL calls. It will not touch any in-game state, though.
  */
 public class GraphicsEngine implements GLEventListener {
 	protected Game game;
@@ -26,7 +25,7 @@ public class GraphicsEngine implements GLEventListener {
 
 	final public int defaultHeight = 600;
 	final public int defaultWidth = 800;
-	
+
 	public GraphicsEngine(MainLoop main, Game game) {
 		this.main = main;
 		this.game = game;
@@ -43,26 +42,26 @@ public class GraphicsEngine implements GLEventListener {
 		canvas.addGLEventListener(this);
 		canvas.setAutoSwapBufferMode(true);
 	}
-	
+
 	public void render(double dt) {
 		// Paint background, clearing previous drawings.
 		gl.glColor3d(0.0, 0.0, 0.0);
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
-		for(Enemy e : game.enemies) {
+		for (Enemy e : game.enemies) {
 			renderEnemy(e);
 		}
-		for(Tower t : game.towers) {
+		for (Tower t : game.towers) {
 			renderTower(t);
 		}
-		for(Particle p : game.particles) {
+		for (Particle p : game.particles) {
 			renderParticle(p);
 		}
 		renderMouse();
 	}
-	
+
 	public void renderEnemy(final Enemy e) {
-		if(e.isDead())
+		if (e.isDead())
 			return;
 
 		final double width = 0.04;
@@ -70,60 +69,60 @@ public class GraphicsEngine implements GLEventListener {
 
 		final GL gl = canvas.getGL();
 		gl.glColor3d(0.0, 0.0, 1.0);
-		
+
 		gl.glBegin(GL.GL_QUADS);
-		gl.glVertex2d(location.x - width/2, location.y - width/2);
-		gl.glVertex2d(location.x + width/2, location.y - width/2);
-		gl.glVertex2d(location.x + width/2, location.y + width/2);
-		gl.glVertex2d(location.x - width/2, location.y + width/2);
+		gl.glVertex2d(location.x - width / 2, location.y - width / 2);
+		gl.glVertex2d(location.x + width / 2, location.y - width / 2);
+		gl.glVertex2d(location.x + width / 2, location.y + width / 2);
+		gl.glVertex2d(location.x - width / 2, location.y + width / 2);
 		gl.glEnd();
 	}
-	
+
 	public void renderTower(final Tower t) {
 		final double width = 0.03;
 		final Point2d location = t.location;
-		
+
 		final GL gl = canvas.getGL();
 		gl.glColor3d(1.0, 0.0, 0.0);
-		
+
 		gl.glBegin(GL.GL_QUADS);
-		gl.glVertex2d(location.x - width/2, location.y - width/2);
-		gl.glVertex2d(location.x + width/2, location.y - width/2);
-		gl.glVertex2d(location.x + width/2, location.y + width/2);
-		gl.glVertex2d(location.x - width/2, location.y + width/2);
+		gl.glVertex2d(location.x - width / 2, location.y - width / 2);
+		gl.glVertex2d(location.x + width / 2, location.y - width / 2);
+		gl.glVertex2d(location.x + width / 2, location.y + width / 2);
+		gl.glVertex2d(location.x - width / 2, location.y + width / 2);
 		gl.glEnd();
 	}
-	
+
 	public void renderParticle(final Particle p) {
-		if(p.isDead())
+		if (p.isDead())
 			return;
 
 		final double width = 0.02;
 		final Point2d location = p.location;
-		
+
 		final GL gl = canvas.getGL();
 		gl.glColor3d(1.0, 1.0, 1.0);
-		
+
 		gl.glBegin(GL.GL_QUADS);
-		gl.glVertex2d(location.x - width/2, location.y - width/2);
-		gl.glVertex2d(location.x + width/2, location.y - width/2);
-		gl.glVertex2d(location.x + width/2, location.y + width/2);
-		gl.glVertex2d(location.x - width/2, location.y + width/2);
+		gl.glVertex2d(location.x - width / 2, location.y - width / 2);
+		gl.glVertex2d(location.x + width / 2, location.y - width / 2);
+		gl.glVertex2d(location.x + width / 2, location.y + width / 2);
+		gl.glVertex2d(location.x - width / 2, location.y + width / 2);
 		gl.glEnd();
 	}
-	
+
 	public void renderMouse() {
 		final GL gl = canvas.getGL();
 		gl.glColor3d(1.0, 0.0, 1.0);
-		
+
 		final Point2d p = game.mouse.location;
 		final double width = 0.04;
-		
+
 		gl.glBegin(GL.GL_QUADS);
-		gl.glVertex2d(p.x - width/2, p.y - width/2);
-		gl.glVertex2d(p.x + width/2, p.y - width/2);
-		gl.glVertex2d(p.x + width/2, p.y + width/2);
-		gl.glVertex2d(p.x - width/2, p.y + width/2);
+		gl.glVertex2d(p.x - width / 2, p.y - width / 2);
+		gl.glVertex2d(p.x + width / 2, p.y - width / 2);
+		gl.glVertex2d(p.x + width / 2, p.y + width / 2);
+		gl.glVertex2d(p.x - width / 2, p.y + width / 2);
 		gl.glEnd();
 	}
 
@@ -150,7 +149,8 @@ public class GraphicsEngine implements GLEventListener {
 	}
 
 	@Override
-	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
+			int height) {
 		// The canvas has been updated.
 		gl.glViewport(0, 0, width, height);
 		size = new Point2d(width, height);

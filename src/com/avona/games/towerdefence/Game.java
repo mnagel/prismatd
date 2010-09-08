@@ -21,39 +21,39 @@ public class Game {
 
 		mouse = new Mouse();
 	}
-	
+
 	public void addTowerAt(Point2d location) {
 		towers.add(new Tower(location));
 	}
-	
+
 	public void addEnemyAt(Point2d location) {
 		enemies.add(new Enemy(world, location));
 	}
 
 	public void updateWorld(final double dt) {
 		/**
-		 * Step all objects first.  This will cause them to move.
+		 * Step all objects first. This will cause them to move.
 		 */
-		for(Enemy e : enemies) {
+		for (Enemy e : enemies) {
 			e.step(dt);
 		}
-		for(Tower t : towers) {
+		for (Tower t : towers) {
 			t.step(dt);
 		}
-		for(Particle p : particles) {
+		for (Particle p : particles) {
 			p.step(dt);
 		}
 
 		/**
-		 * Look for each tower, if it's ready to shoot and if an enemy
-		 * ready to shoot.  If so, create a new particle.  The tower is
-		 * free to create any particle in its shootTowards() method.
+		 * Look for each tower, if it's ready to shoot and if an enemy ready to
+		 * shoot. If so, create a new particle. The tower is free to create any
+		 * particle in its shootTowards() method.
 		 */
-		for(Tower t : towers) {
-			for(Enemy e : enemies) {
-				if(t.inRange(e)) {
+		for (Tower t : towers) {
+			for (Enemy e : enemies) {
+				if (t.inRange(e)) {
 					Particle p = t.shootTowards(e, dt);
-					if(p != null) {
+					if (p != null) {
 						particles.add(p);
 					}
 				}
@@ -64,19 +64,19 @@ public class Game {
 		 * Check for any particle collisions and handle damage.
 		 */
 		Iterator<Particle> piter = particles.iterator();
-		while(piter.hasNext()) {
+		while (piter.hasNext()) {
 			final Particle p = piter.next();
 			Iterator<Enemy> eiter = enemies.iterator();
-			while(eiter.hasNext()) {
+			while (eiter.hasNext()) {
 				final Enemy e = eiter.next();
-				if(p.inRange(e)) {
+				if (p.inRange(e)) {
 					p.attack(e);
-					if(e.isDead()) {
+					if (e.isDead()) {
 						eiter.remove();
 					}
 				}
 			}
-			if(p.isDead()) {
+			if (p.isDead()) {
 				piter.remove();
 			}
 		}

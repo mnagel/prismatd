@@ -28,7 +28,7 @@ public class MainLoop implements GLEventListener {
 
 		// Update the world.
 		game.updateWorld(time.tick);
-		
+
 		// Show the world.
 		ge.render(time.tick);
 	}
@@ -40,7 +40,7 @@ public class MainLoop implements GLEventListener {
 
 	public MainLoop() {
 		time = new TimeTrack();
-		
+
 		game = new Game();
 		ge = new GraphicsEngine(this, game);
 		ge.canvas.addGLEventListener(this);
@@ -61,7 +61,7 @@ public class MainLoop implements GLEventListener {
 		animator.setRunAsFastAsPossible(false);
 		animator.start();
 	}
-	
+
 	public static void main(String[] args) {
 		new MainLoop();
 	}
