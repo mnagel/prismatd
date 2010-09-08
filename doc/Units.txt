@@ -1,0 +1,23 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2010-09-08T19:32:58.063237
+
+====== Text ======
+
+Spielfeld ist quadratisch und nutzt maximale quadratische Fläche aus
+Menü hat eine feste Breite
+Platz dazwischen wird genutzt um Aspect Ratios auszugleichen
+
+Engine und OpenGL-Drawing-Befehle nutzen Werte von 0 bis 1000
+0/0 links unten 1000/1000 rechts oben (siehe Skizze)
+für Debug-Zwecke: spiele in 1000x1000 Fenster und „1“ entspricht einem Pixel
+alle skalierbaren Größenangaben erfolgen als Double im Verhältnis zur so definierten Eins
+Anpassung an die tatsächliche Bildschirmgröße per globale OpenGL-Skalierung – d.h. nicht andauernd an jeden Befehl
+
+Größen und Orte nach o.g. Definition als Double
+Richtungen durch Vector2d (double x, double y) der Länge 1,0
+Zeitangaben als Double mit 1,0 als eine Sekunde
+
+====== Bild ======
+{{../modelle/units.png}}
+
