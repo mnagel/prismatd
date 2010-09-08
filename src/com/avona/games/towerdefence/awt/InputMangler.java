@@ -45,6 +45,13 @@ public class InputMangler implements KeyListener, MouseListener, MouseMotionList
 	public void mousePressed(MouseEvent e) {
 		Util.log("Mouse pressed (# of clicks: "
 				+ e.getClickCount() + ")");
+		Point2d location = new Point2d();
+		eventLocation(e, location);
+		if (e.getButton() == MouseEvent.BUTTON1) {
+			game.addTowerAt(location);
+		} else {
+			game.addEnemyAt(location);
+		}
 	}
 
 	public void mouseReleased(MouseEvent e) {
@@ -74,13 +81,6 @@ public class InputMangler implements KeyListener, MouseListener, MouseMotionList
 
 	public void mouseClicked(MouseEvent e) {
 		Util.log("Mouse clicked (# of clicks: " + e.getClickCount() + ")");
-		Point2d location = new Point2d();
-		eventLocation(e, location);
-		if (e.getButton() == MouseEvent.BUTTON1) {
-			game.addTowerAt(location);	
-		} else {
-			game.addEnemyAt(location);
-		}	
 	}
 
 	public void mouseMoved(MouseEvent e) {
