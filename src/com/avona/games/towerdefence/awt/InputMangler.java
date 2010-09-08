@@ -90,5 +90,6 @@ public class InputMangler implements KeyListener, MouseListener, MouseMotionList
 
 	public void mouseDragged(MouseEvent e) {
 		Util.log("Mouse dragged");
+		eventLocation(e, game.mouse.location);
 	}
 }
