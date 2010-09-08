@@ -39,8 +39,9 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void display(GLAutoDrawable glDrawable) {
 		final long newTime = TimeBase.getTime();
-		final long dt = newTime - lastTimestamp;
+		final long delta = newTime - lastTimestamp;
 		lastTimestamp = newTime;
+		final double dt = TimeBase.fractionOfSecond(delta);
 
 		// Update the world.
 		for(Enemy e : enemies) {
@@ -50,7 +51,7 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		for(Tower t : towers) {
 			for(Enemy e : enemies) {
 				if(t.inRange(e)) {
-					Particle p = t.shootTowards(e, dt);
+					Particle p = t.shootTowards(e, delta);
 					if(p != null) {
 						particles.add(p);
 					}

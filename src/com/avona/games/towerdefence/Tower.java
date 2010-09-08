@@ -44,7 +44,7 @@ public class Tower extends StationaryObject {
 	}
 
 	@Override
-	public void step(long dt) {
+	public void step(double dt) {
 		// Do nothing.
 	}
 }

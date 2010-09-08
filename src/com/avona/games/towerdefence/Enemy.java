@@ -16,11 +16,11 @@ public class Enemy extends MovingObject {
 	}
 	
 	@Override
-	public void step(long dt) {
+	public void step(double dt) {
 		if(isDead())
 			return;
 		
-		velocity.translate(location,TimeBase.fractionOfSecond(dt));
+		velocity.translate(location, dt);
 		//System.out.println(velocity);
 		//System.out.println(location);
 	}

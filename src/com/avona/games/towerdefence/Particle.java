@@ -56,7 +56,7 @@ public class Particle extends MovingObject {
 	}
 
 	@Override
-	public void step(long dt) {
+	public void step(double dt) {
 		if(target.isDead())
 			dead = true;
 		
@@ -71,7 +71,7 @@ public class Particle extends MovingObject {
 		}*/
 		
 		recalculateTargetVector();
-		velocity.translate(location, TimeBase.fractionOfSecond(dt));
+		velocity.translate(location, dt);
 	}
 
 	public void display(GLAutoDrawable glDrawable) {
