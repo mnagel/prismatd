@@ -25,11 +25,11 @@ import javax.vecmath.Point2d;
 import com.sun.opengl.util.Animator;
 
 public class Game implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
-	protected List<Enemy> enemies = new LinkedList<Enemy>();
-	protected List<Tower> towers = new LinkedList<Tower>();
-	protected List<Particle> particles = new LinkedList<Particle>();
+	public List<Enemy> enemies = new LinkedList<Enemy>();
+	public List<Tower> towers = new LinkedList<Tower>();
+	public List<Particle> particles = new LinkedList<Particle>();
 	protected World world;
-	protected Mouse mouse;
+	public Mouse mouse;
 	
 	protected GraphicsEngine ge;
 
@@ -67,16 +67,6 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		//gl.glVertex2d(0.9, -0.9);
 		//gl.glEnd();
 
-		for(Enemy e : enemies) {
-			e.display(glDrawable);
-		}
-		for(Tower t : towers) {
-			t.display(glDrawable);
-		}
-		for(Particle p : particles) {
-			p.display(glDrawable);
-		}
-		
 		ge.render(glDrawable);
 	}
 
