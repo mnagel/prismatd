@@ -18,5 +18,5 @@ public abstract class StationaryObject {
 	 * @param dt the time delta since the last invocation of step
 	 *   (1.0 = 1s)
 	 */
-	public abstract void step(double dt);
+	public abstract void step(final double dt);
 }

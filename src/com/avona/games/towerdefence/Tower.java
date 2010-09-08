@@ -8,6 +8,7 @@ import javax.vecmath.Point2d;
 
 public class Tower extends StationaryObject {
 	protected double range = 0.8;
+	protected RechargeTimer timer = new RechargeTimer(4.0);
 
 	public Tower(Point2d location) {
 		this.location = location;
@@ -17,14 +18,11 @@ public class Tower extends StationaryObject {
 		return location.distance(e.location) < range;
 	}
 
-	protected double lastShot = 0;
-	
 	public Particle shootTowards(Enemy e, final double dt) {
-		if(lastShot <= 0) {
-			lastShot = 4.0;
+		if(timer.isReady()) {
+			timer.rearm();
 			return new Particle(location, e);
 		} else {
-			lastShot -= dt;
 			return null;
 		}
 	}
@@ -45,6 +43,6 @@ public class Tower extends StationaryObject {
 
 	@Override
 	public void step(double dt) {
-		// Do nothing.
+		timer.step(dt);
 	}
 }

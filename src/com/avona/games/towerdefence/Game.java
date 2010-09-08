@@ -36,6 +36,7 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		world = new World();
 		enemies.add(new Enemy(world));
 		towers.add(new Tower(new Point2d(0.5, 0.5)));
+		towers.add(new Tower(new Point2d(0.3, 0.5)));
 	}
 
 	public void display(GLAutoDrawable glDrawable) {
@@ -73,10 +74,16 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	protected void updateWorld(final double dt) {
 		/**
-		 * Update every enemy.  This will cause them to move.
+		 * Step all objects first.  This will cause them to move.
 		 */
 		for(Enemy e : enemies) {
 			e.step(dt);
+		}
+		for(Tower t : towers) {
+			t.step(dt);
+		}
+		for(Particle p : particles) {
+			p.step(dt);
 		}
 
 		/**
@@ -101,8 +108,6 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		Iterator<Particle> piter = particles.iterator();
 		while(piter.hasNext()) {
 			final Particle p = piter.next();
-			p.step(dt);
-			
 			Iterator<Enemy> eiter = enemies.iterator();
 			while(eiter.hasNext()) {
 				final Enemy e = eiter.next();
