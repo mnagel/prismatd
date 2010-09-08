@@ -62,7 +62,7 @@ public class MainLoop implements GLEventListener {
 	}
 	
 	public static void main(String[] args) {
-		final MainLoop loop = new MainLoop();
+		new MainLoop();
 	}
 
 	@Override
