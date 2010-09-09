@@ -236,8 +236,6 @@ public class GraphicsEngine implements GLEventListener {
 	public void drawCircle(final double x, final double y, final double radius,
 			final int segments, final int mode) {
 		final double angleStep = 2 * Math.PI / segments;
-		gl.glPushMatrix();
-		gl.glLoadIdentity();
 		gl.glLineWidth(1.0f);
 
 		gl.glBegin(mode);
@@ -247,7 +245,6 @@ public class GraphicsEngine implements GLEventListener {
 					+ (Math.sin(angle) * radius));
 		}
 		gl.glEnd();
-		gl.glPopMatrix();
 	}
 
 	public void renderMouse() {
