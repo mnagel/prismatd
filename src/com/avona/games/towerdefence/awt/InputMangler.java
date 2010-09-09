@@ -65,10 +65,12 @@ public class InputMangler implements KeyListener, MouseListener,
 
 	public void mouseEntered(MouseEvent e) {
 		Util.log("Mouse entered");
+		game.mouse.onScreen = true;
 	}
 
 	public void mouseExited(MouseEvent e) {
 		Util.log("Mouse exited");
+		game.mouse.onScreen = false;
 	}
 
 	public void eventLocation(MouseEvent e, Point2d location) {
