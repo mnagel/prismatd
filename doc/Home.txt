@@ -9,9 +9,9 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [*] Eingaben entgegennehmen
 	[*] entweder in Form von Maus-, Tastatur- und Touch-Events 
 	[x] oder durch Polling der Mauskoordinaten, Maustasten und Keystates
-[ ] Freitext ausgeben
+[*] Freitext ausgeben
 	[ ] sowohl im eigentlichen Spiel (Hitpoints, ...)
-	[ ] als auch pixelgenau auf einem HUD-Layer (Geld, ...)
+	[*] als auch pixelgenau auf einem HUD-Layer (Geld, ...)
 [ ] (optional: (asynchrones Abspielen von Soundeffekten))
 	[ ] wave/mp3 o.ä.
 	[ ] 8-bit-Synthesizer-Stil
@@ -37,23 +37,26 @@ Creation-Date: 2010-09-06T09:54:39.867461
 
 ===== Game-Engine-Stub =====
 [ ] Prototyp einer Engine, die allen Status hält und ihn aktualisiert
-	[ ] Status pro Ding
-		[ ] Location :: v2d
-		[ ] Size (Radius) :: v2d
-		[ ] Target :: Ding
-		[ ] Velocity :: v2d
-		[ ] diversen Ding-Kategorie- und Ding-Instanz-spezifischen Status
-	[ ] Status von folgenden Dingen
+	[*] Status pro Ding
+		[*] Location :: v2d
+		[*] Size (Radius) :: v2d
+		[*] Target :: Ding
+		[*] Velocity :: v2d
+		[*] diversen Ding-Kategorie- und Ding-Instanz-spezifischen Status
+	[*] Status von folgenden Dingen
 		[ ] das Grid
-		[ ] Liste der Türme
-		[ ] Liste der Geschosse
-		[ ] Liste der Monster
-		[ ] Liste der Wegpunkte (?)
-	[ ] Aktualisierung
-		[ ] tick(dt :: float)
+		[*] Liste der Türme
+		[*] Liste der Geschosse
+		[*] Liste der Monster
+		[ ] Liste der Wegpunkte
+	[*] Aktualisierung
+		[*] tick(dt :: float)
 [ ] Dokumentation der Abläufe
 	[ ] Check gegen Control Flow Artikel
 	[ ] Check gegen Units Artikel
+[ ] World-Updates per Second (Rechenzeit-Prozent)
+[ ] Umstellung auf das Standard-Grid von 1000x1000 (?)
+[ ] Default Target Policy auf "Nearest" ändern
 
 ===== Grafik-Engine-Stub =====
 [ ] Prototyp einer Grafik-Engine, die Grafik ausgibt und entsprechenden Status haelt
@@ -68,23 +71,28 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Dokumentation der Abläufe
 	[ ] Check gegen Control Flow Artikel
 	[ ] Check gegen Units Artikel
+[ ] Frames per Second
+[ ] Ingame-Ausgabe von Debug o.Ä. Meldungen
+
+===== erste Design-Entscheidungen =====
+[ ] Layout der GUI klaeren -- nicht technisch sondern Usability-mäßig
 
 ===== Zusammenstecken =====
-[ ] erstellen einer Minimal-Welt per Skript
-	[ ] createGrid()
-	[ ] mehrfach: createTower()
-	[ ] mehrfach: createGeschoss()
-	[ ] mehrfach: createMonster()
-[ ] Endlossschleife mit
-	[ ] tick
-	[ ] render
+[*] erstellen einer Minimal-Welt per Skript
+	[*] createGrid()
+	[*] mehrfach: createTower()
+	[*] mehrfach: createGeschoss()
+	[*] mehrfach: createMonster()
+[*] Endlossschleife mit
+	[*] tick
+	[*] render
 
 ===== Infrastruktur =====
-[ ] Time-Klasse, die Ingame-Time von Wallclock-Time entkoppelt
-[ ] Pausieren der Ingame-Zeit
+[*] Time-Klasse, die Ingame-Time von Wallclock-Time entkoppelt
+[*] Pausieren der Ingame-Zeit
 
 ===== Interaktion =====
-[ ] Erstellen von Tuermen per Maus/Finger-Klick
+[*] Erstellen von Tuermen per Maus/Finger-Klick
 [ ] Neustart der "Simulation" per Eingabe
 [ ] Selektieren von Tuermen und Monstern per Klick
 [ ] Dokumentation der Abläufe
@@ -92,13 +100,13 @@ Creation-Date: 2010-09-06T09:54:39.867461
 	[ ] Check gegen Units Artikel
 
 ===== Kollission / Spawning =====
-[ ] Erkennen von Kollission
-	[ ] Geschoss -- Monster
-[ ] "Beheben" von Kollissionen
+[*] Erkennen von Kollission
+	[*] Geschoss -- Monster
+[*] "Beheben" von Kollissionen
 	[ ] Double Dispatch ueber Geschoss, Monster
 	[ ] daraufhin bestimmte Effekte anwenden (Schaden, Tempoaenderung, Tod/Geld-Auszahlung, Objekt entfernen ...)
-[ ] Timerbasiertes "Feuern" von Tuermen
-	[ ] nur falls Ziel vorhanden (weitere Kollissionsabfrage)
+[*] Timerbasiertes "Feuern" von Tuermen
+	[*] nur falls Ziel vorhanden (weitere Kollissionsabfrage)
 [ ] Timerbasiertes Spawnen von Monstern
 [ ] Dokumentation der Abläufe
 	[ ] Check gegen Control Flow Artikel
@@ -118,6 +126,7 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Installations-Anleitung
 [ ] How-To-Play-Anleitung mit Bildern schreiben
 [ ] Dokumentation nachziehen / sortieren
+[ ] Geschosse suchen neues Target, wenn aktuelles stirbt (optionales Feature von Türmen)
 
 ===== Roadmap =====
 [ ] Festlegen, wie das fertige Spiel "aussehen" soll
