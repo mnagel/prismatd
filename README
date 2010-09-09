@@ -1,0 +1,26 @@
+THIS REPOSITORY CONTAINS
+
+* Tower Defence for Desktop Java (tested on Debian+Ubuntu Linux)
+* Tower Defence for Android (tested with Samsung Galaxy S Android 2.1)
+
+FOLDERS
+
+* android         - all Android related files
+* doc             - all documentation related files
+* doc/screenshots - screenshots
+* src             - src to the game engine and the Desktop Java version
+* README          - this file
+
+FURTHER INFORMATION
+
+The files in ./doc/ are plain text files but are best viewed with zim-wiki.
+All available information on how to build, run, modify, ... is located there.
+
+SCREENSHOTS (proof it works)
+
+...can be found in ./doc/screenshots/
+
+LICENSE
+
+All code and content created within this project should be licensed GPL2+.
+Look at the individual file headers for definite information.
