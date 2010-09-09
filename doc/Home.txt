@@ -10,20 +10,20 @@ Creation-Date: 2010-09-06T09:54:39.867461
 	[*] entweder in Form von Maus-, Tastatur- und Touch-Events 
 	[x] oder durch Polling der Mauskoordinaten, Maustasten und Keystates
 [*] Freitext ausgeben
-	[ ] sowohl im eigentlichen Spiel (Hitpoints, ...)
-	[*] als auch pixelgenau auf einem HUD-Layer (Geld, ...)
+	[ ] im eigentlichen Spiel (Hitpoints, ...)
+	[*] pixelgenau auf einem HUD-Layer (Geld, ...)
 [ ] (optional: (asynchrones Abspielen von Soundeffekten))
 	[ ] wave/mp3 o.ä.
 	[ ] 8-bit-Synthesizer-Stil
 
 ==== Android ====
-[ ] Surface (o.Ä.) erstellen, auf der performante 2D und/oder 3D Grafik ausgegeben werden kann
-[ ] Eingaben entgegennehmen
-	[ ] entweder in Form von Maus-, Tastatur- und Touch-Events 
-	[ ] oder durch Polling der Mauskoordinaten, Maustasten und Keystates
+[*] Surface (o.Ä.) erstellen, auf der performante 2D und/oder 3D Grafik ausgegeben werden kann
+[*] Eingaben entgegennehmen
+	[*] entweder in Form von Maus-, Tastatur- und Touch-Events 
+	[x] oder durch Polling der Mauskoordinaten, Maustasten und Keystates
 [ ] Freitext ausgeben
-	[ ] sowohl im eigentlichen Spiel (Hitpoints, ...)
-	[ ] als auch pixelgenau auf einem HUD-Layer (Geld, ...)
+	[ ] im eigentlichen Spiel (Hitpoints, ...)
+	[ ] pixelgenau auf einem HUD-Layer (Geld, ...)
 [ ] (optional: (asynchrones Abspielen von Soundeffekten))
 	[ ] wave/mp3 o.ä.
 	[ ] 8-bit-Synthesizer-Stil
@@ -55,8 +55,8 @@ Creation-Date: 2010-09-06T09:54:39.867461
 	[ ] Check gegen Control Flow Artikel
 	[ ] Check gegen Units Artikel
 [ ] World-Updates per Second (Rechenzeit-Prozent)
-[ ] Umstellung auf das Standard-Grid von 1000x1000 (?)
-[ ] Default Target Policy auf "Nearest" ändern
+[*] Umstellung auf das Standard-Grid von 1000x1000 (?)
+[*] Default Target Policy auf "Nearest" ändern
 
 ===== Grafik-Engine-Stub =====
 [ ] Prototyp einer Grafik-Engine, die Grafik ausgibt und entsprechenden Status haelt
@@ -67,15 +67,15 @@ Creation-Date: 2010-09-06T09:54:39.867461
 	[ ] Farbe
 	[ ] Rotation
 	[ ] Textur
-[ ] Objekte um render() erweitern
+[x] Objekte um render() erweitern
 [ ] Dokumentation der Abläufe
 	[ ] Check gegen Control Flow Artikel
 	[ ] Check gegen Units Artikel
-[ ] Frames per Second
+[*] Frames per Second
 [ ] Ingame-Ausgabe von Debug o.Ä. Meldungen
 
 ===== erste Design-Entscheidungen =====
-[ ] Layout der GUI klaeren -- nicht technisch sondern Usability-mäßig
+[*] Screen-Aufteilung der GUI klaeren -- nicht technisch sondern Usability-mäßig
 
 ===== Zusammenstecken =====
 [*] erstellen einer Minimal-Welt per Skript
@@ -94,10 +94,13 @@ Creation-Date: 2010-09-06T09:54:39.867461
 ===== Interaktion =====
 [*] Erstellen von Tuermen per Maus/Finger-Klick
 [ ] Neustart der "Simulation" per Eingabe
-[ ] Selektieren von Tuermen und Monstern per Klick
+[ ] Selektieren 
+	[*] von Tuermen
+	[ ] von Monstern
 [ ] Dokumentation der Abläufe
 	[ ] Check gegen Control Flow Artikel
 	[ ] Check gegen Units Artikel
+[ ] Solide Umrechnung zwischen Game- und Screen-Koordinaten
 
 ===== Kollission / Spawning =====
 [*] Erkennen von Kollission
@@ -140,6 +143,7 @@ Creation-Date: 2010-09-06T09:54:39.867461
 		[ ] bremsen
 		[ ] schwaechen
 		[ ] ...
+		[ ] (Schaden, Tempoaenderung, Tod/Geld-Auszahlung, Objekt entfernen ...)
 		
 [ ] welche Level soll es geben / wodurch unterscheiden sich Level
 	[ ] wie werden Level erstellt / definiert
@@ -156,3 +160,6 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Specials
 
 [ ] Business Plan
+[ ] was tun mit Android-Devices, die außer Touch auch noch eine Tastatur haben?
+
+[ ] Spiel-Interaktion (will ich bauen, will ich updaten, ...)
