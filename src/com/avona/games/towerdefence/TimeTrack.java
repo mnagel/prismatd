@@ -15,6 +15,7 @@ public class TimeTrack {
 	public void stopClock() {
 		running = false;
 		tick = 0;
+		lastWallClock = 0;
 	}
 
 	public void startClock() {
@@ -32,7 +33,8 @@ public class TimeTrack {
 	 *            New wall clock time.
 	 */
 	public void update(double wallClock) {
-		updateTick(wallClock - lastWallClock);
+		if (lastWallClock != 0)
+			updateTick(wallClock - lastWallClock);
 		lastWallClock = wallClock;
 	}
 

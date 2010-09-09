@@ -11,6 +11,7 @@ import javax.media.opengl.GLEventListener;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.TimeTrack;
+import com.avona.games.towerdefence.Util;
 import com.sun.opengl.util.FPSAnimator;
 
 public class MainLoop implements GLEventListener {
@@ -24,15 +25,26 @@ public class MainLoop implements GLEventListener {
 	private TimeTrack graphicsTime;
 	private FPSAnimator animator;
 
+	private static final double FIXED_TICK = 0.04;
+	private double gameTicks = 0;
+
+	public static double getWallClock() {
+		return System.nanoTime() * Math.pow(10, -9);
+	}
+
 	public void performLoop() {
-		final double wallClock = System.nanoTime() * Math.pow(10, -9);
+		final double wallClock = getWallClock();
 		graphicsTime.update(wallClock);
 		gameTime.update(wallClock);
 
 		// Updating of inputs is done asynchronously.
 
-		// Update the world.
-		game.updateWorld(gameTime.tick);
+		// Update the world with a fixed rate.
+		gameTicks += gameTime.tick;
+		while (gameTicks >= FIXED_TICK) {
+			game.updateWorld(FIXED_TICK);
+			gameTicks -= FIXED_TICK;
+		}
 
 		// Show the world.
 		ge.render(gameTime.tick, graphicsTime.tick);
@@ -77,7 +89,10 @@ public class MainLoop implements GLEventListener {
 				exit();
 			}
 		});
-		frame.setCursor(java.awt.Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1,1,BufferedImage.TYPE_4BYTE_ABGR),new java.awt.Point(0,0),"NOCURSOR"));
+		frame.setCursor(java.awt.Toolkit.getDefaultToolkit()
+				.createCustomCursor(
+						new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR),
+						new java.awt.Point(0, 0), "NOCURSOR"));
 		frame.setVisible(true);
 
 		animator = new FPSAnimator(ge.canvas, EXPECTED_FPS);
