@@ -105,6 +105,11 @@ public class GraphicsEngine implements GLEventListener {
 		final double width = 0.03;
 		final Point2d location = t.location;
 
+		if (t.showRange) {
+			gl.glColor3d(1.0, 1.0, 1.0);
+			drawCircle(t.location.x, t.location.y, t.range);
+		}
+
 		gl.glBegin(GL.GL_QUADS);
 		gl.glColor3d(1.0, 0.0, 0.0);
 		gl.glVertex2d(location.x - width / 2, location.y - width / 2);
@@ -136,14 +141,23 @@ public class GraphicsEngine implements GLEventListener {
 		gl.glEnd();
 	}
 
-	public void drawCircle(final double x, final double y, final int segments,
+	public void drawCircle(final double x, final double y, final double radius) {
+		drawCircle(x, y, radius, 100, GL.GL_LINE_LOOP);
+	}
+
+	public void drawFilledCircle(final double x, final double y,
 			final double radius) {
+		drawCircle(x, y, radius, 100, GL.GL_POLYGON);
+	}
+
+	public void drawCircle(final double x, final double y, final double radius,
+			final int segments, final int mode) {
 		final double angleStep = 2 * Math.PI / segments;
 		gl.glPushMatrix();
 		gl.glLoadIdentity();
 		gl.glLineWidth(1.0f);
 
-		gl.glBegin(GL.GL_LINE_LOOP);
+		gl.glBegin(mode);
 		for (int i = 0; i < segments; ++i) {
 			final double angle = i * angleStep;
 			gl.glVertex2d(x + (Math.cos(angle) * radius), y

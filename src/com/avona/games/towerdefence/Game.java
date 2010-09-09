@@ -13,6 +13,8 @@ public class Game {
 	public World world;
 	public Mouse mouse;
 
+	private Tower rangeShowingTower = null;
+
 	public Game() {
 		world = new World();
 		enemies.add(new Enemy(world, world.getInitialLocation()));
@@ -28,6 +30,17 @@ public class Game {
 
 	public void addEnemyAt(Point2d location) {
 		enemies.add(new Enemy(world, location));
+	}
+
+	public void showTowersRange(Tower t) {
+		if (t == rangeShowingTower)
+			return;
+
+		if (rangeShowingTower != null)
+			rangeShowingTower.showRange = false;
+		rangeShowingTower = t;
+		if (rangeShowingTower != null)
+			rangeShowingTower.showRange = true;
 	}
 
 	public Tower closestTowerWithinRadius(Point2d location, double range) {

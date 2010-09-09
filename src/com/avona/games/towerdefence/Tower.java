@@ -5,6 +5,7 @@ import javax.vecmath.Point2d;
 public class Tower extends StationaryObject {
 	public double range = 0.8;
 	protected RechargeTimer timer = new RechargeTimer(4.0);
+	public boolean showRange = false;
 
 	public Tower(Point2d location) {
 		this.location = location;
