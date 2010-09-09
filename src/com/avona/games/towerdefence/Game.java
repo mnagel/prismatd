@@ -76,13 +76,29 @@ public class Game {
 		 * shoot. If so, create a new particle. The tower is free to create any
 		 * particle in its shootTowards() method.
 		 */
+
 		for (Tower t : towers) {
+			Enemy bestEnemy = null;
 			for (Enemy e : enemies) {
 				if (t.inRange(e)) {
-					Particle p = t.shootTowards(e, dt);
-					if (p != null) {
-						particles.add(p);
+					if (bestEnemy == null) {
+						bestEnemy = e;
+						// to shoot "farthest progressed" enemy do
+						// break;
+						// here -- provided break exits e for:enemies loop
 					}
+
+					// shoot to nearest enemy
+					if ( t.location.distance(bestEnemy.location) > t.location.distance(e.location)) {
+						bestEnemy = e;
+					} // TODO allow for different policies here...
+				}
+			}
+
+			if (bestEnemy != null) { // policy found some enemy
+				Particle p = t.shootTowards(bestEnemy, dt);
+				if (p != null) {
+					particles.add(p);
 				}
 			}
 		}
