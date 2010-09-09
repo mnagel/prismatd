@@ -1,8 +1,6 @@
 package com.avona.games.towerdefence.awt;
 
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
@@ -16,7 +14,6 @@ import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Particle;
 import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.Tower;
-import com.avona.games.towerdefence.Util;
 import com.sun.opengl.util.j2d.TextRenderer;
 
 /**
@@ -33,7 +30,7 @@ public class GraphicsEngine implements GLEventListener {
 	public Point2d size;
 	public TimeTrack graphicsTime;
 
-	final public int defaultHeight = 600;
+	final public int defaultHeight = 800;
 	final public int defaultWidth = 800;
 
 	public GraphicsEngine(MainLoop main, Game game) {
@@ -196,17 +193,6 @@ public class GraphicsEngine implements GLEventListener {
 		glu.gluOrtho2D(-1.0f, 1.0f, -1.0f, 1.0f); // drawing square
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
-
-		// Font info is obtained from the current graphics environment.
-		GraphicsEnvironment ge = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
-
-		// --- Get an array of fonts. It's preferable to use the names above.
-		Font[] allFonts = ge.getAllFonts();
-
-		for (Font f : allFonts) {
-			Util.log(f.toString());
-		}
 
 		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 36),
 				true, true);

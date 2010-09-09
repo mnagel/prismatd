@@ -47,6 +47,7 @@ public class Game {
 		return (Tower) closestStationaryWithinRadius(towers, location, range);
 	}
 
+	@SuppressWarnings("unchecked") // does not seem to be cast/type/...-able
 	public static Object closestStationaryWithinRadius(final List objects,
 			final Point2d location, final double range) {
 		for (final Object o : objects) {
