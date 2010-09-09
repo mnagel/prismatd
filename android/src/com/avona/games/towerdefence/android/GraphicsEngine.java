@@ -80,7 +80,7 @@ public class GraphicsEngine implements Renderer {
 		if (e.isDead())
 			return;
 
-		final double width = 0.04;
+		final double width = 30.0;
 		final Point2d location = e.location;
 
 		final float[] vertices = {
@@ -119,7 +119,7 @@ public class GraphicsEngine implements Renderer {
 		gl.glColor3d(0.8, 0.0, 0.0);
 		gl.glVertex2d(location.x - width / 2, location.y + width / 2);
 		gl.glEnd();*/
-		final double width = 0.04;
+		final double width = 30.0;
 		final Point2d location = t.location;
 
 		final float[] vertices = {
@@ -156,7 +156,7 @@ public class GraphicsEngine implements Renderer {
 		gl.glVertex2d(location.x - width / 2, location.y + width / 2);
 		gl.glEnd();*/
 		
-		final double width = 0.04;
+		final double width = 30.0;
 		final Point2d location = p.location;
 
 		final float[] vertices = {
@@ -250,4 +250,5 @@ public class GraphicsEngine implements Renderer {
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		init(gl);
 	}
+
 }

@@ -24,7 +24,7 @@ public class TDRenderer implements Renderer {
 	private static final double FIXED_TICK = 0.04;
 	private double gameTicks = 0;
 
-	private Game game;
+	public Game game;
 	
 	public TDRenderer() {
 		game = new Game();
@@ -77,20 +77,25 @@ public class TDRenderer implements Renderer {
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-		gl.glViewport(0, 0, width, height);
+		
 		size = new Point2d(width, height);
+		
+		// ... and initialise.
+		gl.glViewport(0, 0, width, height);
+		gl.glMatrixMode(GL10.GL_PROJECTION);
+		gl.glLoadIdentity();
+		//gl.glOrtho(0, width, 0, height, -1, 1); // drawing square
+		GLU.gluOrtho2D(gl, 0, width, 0, height); // drawing square
+		gl.glMatrixMode(GL10.GL_MODELVIEW);
+		gl.glLoadIdentity();
+		
 		ge.onSurfaceChanged(gl, width, height);
 	}
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		System.out.println("surfaceCreated");
-		// ... and initialise.
-		gl.glMatrixMode(GL10.GL_PROJECTION);
-		gl.glLoadIdentity();
-		GLU.gluOrtho2D(gl, -1.0f, 1.0f, -1.0f, 1.0f); // drawing square
-		gl.glMatrixMode(GL10.GL_MODELVIEW);
-		gl.glLoadIdentity();
+
 		ge.onSurfaceCreated(gl, config);
 	}
 }
