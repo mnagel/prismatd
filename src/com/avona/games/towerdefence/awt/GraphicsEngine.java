@@ -2,6 +2,9 @@ package com.avona.games.towerdefence.awt;
 
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -38,6 +41,9 @@ public class GraphicsEngine implements GLEventListener {
 	MainLoop main;
 	TextRenderer renderer;
 
+	private FloatBuffer squareVertexBuffer;
+	private FloatBuffer squareColorBuffer;
+	
 	public GraphicsEngine(MainLoop main, Game game) {
 		this.main = main;
 		this.game = game;
@@ -47,7 +53,16 @@ public class GraphicsEngine implements GLEventListener {
 				true, true);
 		glu = new GLU();
 
+		squareVertexBuffer = allocateFloatBuffer(4 * 2);
+		squareColorBuffer = allocateFloatBuffer(4 * 4);
+		
 		setupGlCanvas();
+	}
+	
+	private FloatBuffer allocateFloatBuffer(final int entries) {
+		final ByteBuffer byteBuf = ByteBuffer.allocateDirect(entries * 4);
+		byteBuf.order(ByteOrder.nativeOrder());
+		return byteBuf.asFloatBuffer();
 	}
 
 	private void setupGlCanvas() {
@@ -114,16 +129,38 @@ public class GraphicsEngine implements GLEventListener {
 		final double width = 0.04;
 		final Point2d location = e.location;
 
-		gl.glBegin(GL.GL_QUADS);
-		gl.glColor3d(0.0, 0.0, 1.0);
-		gl.glVertex2d(location.x - width / 2, location.y - width / 2);
-		gl.glColor3d(0.0, 0.0, 0.6);
-		gl.glVertex2d(location.x + width / 2, location.y - width / 2);
-		gl.glColor3d(0.0, 0.0, 0.9);
-		gl.glVertex2d(location.x + width / 2, location.y + width / 2);
-		gl.glColor3d(0.0, 0.0, 0.8);
-		gl.glVertex2d(location.x - width / 2, location.y + width / 2);
-		gl.glEnd();
+		squareVertexBuffer.position(0);
+		squareColorBuffer.position(0);
+
+		squareVertexBuffer.put((float) (location.x + width / 2));
+		squareVertexBuffer.put((float) (location.y + width / 2));
+		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 0.9f, 1.0f });
+
+		squareVertexBuffer.put((float) (location.x + width / 2));
+		squareVertexBuffer.put((float) (location.y - width / 2));
+		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 0.6f, 1.0f });
+		
+		squareVertexBuffer.put((float) (location.x - width / 2));
+		squareVertexBuffer.put((float) (location.y + width / 2));
+		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 0.8f, 1.0f });
+
+		squareVertexBuffer.put((float) (location.x - width / 2));
+		squareVertexBuffer.put((float) (location.y - width / 2));
+		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 1.0f, 1.0f });
+		
+		squareVertexBuffer.position(0);
+		squareColorBuffer.position(0);
+		
+		gl.glVertexPointer(2, GL.GL_FLOAT, 0, squareVertexBuffer);
+		gl.glColorPointer(4, GL.GL_FLOAT, 0, squareColorBuffer);
+		
+		gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
+		gl.glEnableClientState(GL.GL_COLOR_ARRAY);
+		
+		gl.glDrawArrays(GL.GL_TRIANGLE_STRIP, 0, 4);
+		
+		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
+		gl.glDisableClientState(GL.GL_COLOR_ARRAY);
 	}
 
 	public void renderTower(final Tower t) {
