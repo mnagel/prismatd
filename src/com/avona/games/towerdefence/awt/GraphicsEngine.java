@@ -76,8 +76,9 @@ public class GraphicsEngine implements GLEventListener {
 			renderParticle(p);
 		}
 
-		renderMouse();
 		renderStats();
+
+		renderMouse();
 	}
 
 	public void renderStats() {
