@@ -62,6 +62,7 @@ public class InputMangler implements KeyListener, MouseListener,
 		eventLocation(e, location);
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			game.addTowerAt(location);
+			checkMouseOverTower(game.mouse.location);
 		} else {
 			game.addEnemyAt(location);
 		}
