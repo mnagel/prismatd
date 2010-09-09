@@ -70,7 +70,6 @@ public class GraphicsEngine implements GLEventListener {
 		for (Particle p : game.particles) {
 			renderParticle(p);
 		}
-		renderMouse();
 
 		renderer.beginRendering(800, 600);
 		// optionally set the color
@@ -80,6 +79,8 @@ public class GraphicsEngine implements GLEventListener {
 				.cos(graphicsTime.clock)));
 		// ... more draw commands, color changes, etc.
 		renderer.endRendering();
+
+		renderMouse();
 	}
 
 	public void renderEnemy(final Enemy e) {
