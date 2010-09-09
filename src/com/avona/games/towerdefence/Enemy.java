@@ -9,7 +9,7 @@ public class Enemy extends MovingObject {
 	public Enemy(World world, Point2d location) {
 		this.world = world;
 		this.location = location;
-		velocity = world.getDirection(location);
+		velocity = world.getRandomDirection(location);
 		System.out.println(velocity);
 		System.out.println(location);
 	}
@@ -21,26 +21,20 @@ public class Enemy extends MovingObject {
 
 		velocity.translate(location, dt);
 		
-		double minx = -1;
-		double miny = -1;
-		
-		double maxx = 1;
-		double maxy = 1;
-		
-		if (location.x < minx) {
-			location.x = minx - (location.x - minx);
+		if (location.x < World.ORIGIN_X) {
+			location.x = World.ORIGIN_X - (location.x - World.ORIGIN_X);
 			velocity.direction.x = -velocity.direction.x;
 		}
-		if (location.y < miny) {
-			location.y = miny - (location.y - miny);
+		if (location.y < World.ORIGIN_Y) {
+			location.y = World.ORIGIN_Y - (location.y - World.ORIGIN_Y);
 			velocity.direction.y = -velocity.direction.y;
 		}
-		if (location.x > maxx) {
-			location.x = maxx - (location.x - maxx);
+		if (location.x > World.WIDTH) {
+			location.x = World.WIDTH - (location.x - World.WIDTH);
 			velocity.direction.x = -velocity.direction.x;
 		}
-		if (location.y > maxy) {
-			location.y = maxy - (location.y - maxy);
+		if (location.y > World.HEIGHT) {
+			location.y = World.HEIGHT - (location.y - World.HEIGHT);
 			velocity.direction.y = -velocity.direction.y;
 		}
 		

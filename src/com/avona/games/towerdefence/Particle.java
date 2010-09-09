@@ -5,7 +5,7 @@ import javax.vecmath.Vector2d;
 
 public class Particle extends MovingObject {
 	protected int strength = 10;
-	protected double range = 0.001;
+	protected double range = 5;
 	protected double timeAlive = 4.0;
 
 	protected boolean dead = false;
@@ -16,7 +16,7 @@ public class Particle extends MovingObject {
 		this.location = new Point2d(location);
 		this.target = target;
 
-		velocity.speed = 0.1;
+		velocity.speed = 80;
 
 		recalculateTargetVector();
 //		Util.dumpPoint(String.format("Particle creation (dx=%f, dy=%f):",

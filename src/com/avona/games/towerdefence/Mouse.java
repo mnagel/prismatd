@@ -6,7 +6,7 @@ public class Mouse extends StationaryObject {
 	public boolean onScreen = true;
 
 	public Mouse() {
-		radius = 0.02;
+		radius = 7;
 		location = new Point2d();
 	}
 

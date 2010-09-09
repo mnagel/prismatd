@@ -3,7 +3,7 @@ package com.avona.games.towerdefence;
 import javax.vecmath.Point2d;
 
 public class Tower extends StationaryObject {
-	public double range = 0.8;
+	public double range = 200;
 	protected RechargeTimer timer = new RechargeTimer(4.0);
 	public boolean showRange = false;
 

@@ -1,11 +1,5 @@
 package com.avona.games.towerdefence.awt;
 
-import java.awt.Color;
-import java.awt.Frame;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 

@@ -3,8 +3,6 @@ package com.avona.games.towerdefence.awt;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
@@ -33,8 +31,10 @@ import com.sun.opengl.util.j2d.TextRenderer;
  * methods to perform the GL calls. It will not touch any in-game state, though.
  */
 public class GraphicsEngine implements GLEventListener {
-	final static public int DEFAULT_HEIGHT = 750;
-	final static public int DEFAULT_WIDTH = 900;
+	final static public int DEFAULT_HEIGHT = 480;
+	final static public int DEFAULT_WIDTH = 675;
+	
+	final static public double TOWER_WIDTH = 16;
 
 	public Frame frame;
 	public GLCanvas canvas;
@@ -49,7 +49,7 @@ public class GraphicsEngine implements GLEventListener {
 
 	private FloatBuffer squareVertexBuffer;
 	private FloatBuffer squareColorBuffer;
-	
+
 	public GraphicsEngine(MainLoop main, Game game) {
 		this.main = main;
 		this.game = game;
@@ -61,21 +61,11 @@ public class GraphicsEngine implements GLEventListener {
 
 		squareVertexBuffer = allocateFloatBuffer(4 * 2);
 		squareColorBuffer = allocateFloatBuffer(4 * 4);
-		
-		setupGlCanvas();
 
-		frame = new Frame("Towerdefence");
-		frame.add(canvas);
-		frame.setSize(GraphicsEngine.DEFAULT_WIDTH,
-				GraphicsEngine.DEFAULT_HEIGHT);
-		frame.setBackground(Color.WHITE);
-		frame.setCursor(java.awt.Toolkit.getDefaultToolkit()
-				.createCustomCursor(
-						new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR),
-						new java.awt.Point(0, 0), "NOCURSOR"));
-		frame.setVisible(true);
+		setupGlCanvas();
+		setupFrame();
 	}
-	
+
 	private FloatBuffer allocateFloatBuffer(final int entries) {
 		final ByteBuffer byteBuf = ByteBuffer.allocateDirect(entries * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
@@ -89,6 +79,19 @@ public class GraphicsEngine implements GLEventListener {
 		canvas = new GLCanvas(capabilities);
 		canvas.addGLEventListener(this);
 		canvas.setAutoSwapBufferMode(true);
+	}
+
+	private void setupFrame() {
+		frame = new Frame("Towerdefence");
+		frame.add(canvas);
+		frame.setSize(GraphicsEngine.DEFAULT_WIDTH,
+				GraphicsEngine.DEFAULT_HEIGHT);
+		frame.setBackground(Color.WHITE);
+		frame.setCursor(java.awt.Toolkit.getDefaultToolkit()
+				.createCustomCursor(
+						new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR),
+						new java.awt.Point(0, 0), "NOCURSOR"));
+		frame.setVisible(true);
 	}
 
 	public void render(double gameDelta, double graphicsDelta) {
@@ -107,25 +110,24 @@ public class GraphicsEngine implements GLEventListener {
 		for (Particle p : game.particles) {
 			renderParticle(p);
 		}
-
 		renderStats();
-
 		renderMouse();
 	}
 
 	public void renderStats() {
 		gl.glBegin(GL.GL_QUADS);
 
-		final String fpsString = String.format("fps %.2f", graphicsTime.tickrate);
+		final String fpsString = String.format("fps %.2f",
+				graphicsTime.tickrate);
 		Rectangle2D bounds = renderer.getBounds(fpsString);
-		final double width = (bounds.getWidth() / size.x) * 2 + 0.01;
-		final double height = (bounds.getHeight() / size.y) * 2 + 0.01;
+		final double width = bounds.getWidth() + 4;
+		final double height = bounds.getHeight() + 2;
 
 		gl.glColor3d(0.1, 0.1, 0.1);
-		gl.glVertex2d(-1, -1);
-		gl.glVertex2d(-1, -1 + height);
-		gl.glVertex2d(-1 + width, -1 + height);
-		gl.glVertex2d(-1 + width, -1);
+		gl.glVertex2d(0, 0);
+		gl.glVertex2d(0, 0 + height);
+		gl.glVertex2d(0 + width, 0 + height);
+		gl.glVertex2d(0 + width, 0);
 		gl.glEnd();
 		drawText(fpsString, 2, 4, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
@@ -143,7 +145,7 @@ public class GraphicsEngine implements GLEventListener {
 		if (e.isDead())
 			return;
 
-		final double width = 0.04;
+		final double width = 12;
 		final Point2d location = e.location;
 
 		squareVertexBuffer.position(0);
@@ -156,7 +158,7 @@ public class GraphicsEngine implements GLEventListener {
 		squareVertexBuffer.put((float) (location.x + width / 2));
 		squareVertexBuffer.put((float) (location.y - width / 2));
 		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 0.6f, 1.0f });
-		
+
 		squareVertexBuffer.put((float) (location.x - width / 2));
 		squareVertexBuffer.put((float) (location.y + width / 2));
 		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 0.8f, 1.0f });
@@ -164,24 +166,24 @@ public class GraphicsEngine implements GLEventListener {
 		squareVertexBuffer.put((float) (location.x - width / 2));
 		squareVertexBuffer.put((float) (location.y - width / 2));
 		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 1.0f, 1.0f });
-		
+
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
-		
+
 		gl.glVertexPointer(2, GL.GL_FLOAT, 0, squareVertexBuffer);
 		gl.glColorPointer(4, GL.GL_FLOAT, 0, squareColorBuffer);
-		
+
 		gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL.GL_COLOR_ARRAY);
-		
+
 		gl.glDrawArrays(GL.GL_TRIANGLE_STRIP, 0, 4);
-		
+
 		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL.GL_COLOR_ARRAY);
 	}
 
 	public void renderTower(final Tower t) {
-		final double width = 0.03;
+		final double width = TOWER_WIDTH;
 		final Point2d location = t.location;
 
 		if (t.showRange) {
@@ -205,7 +207,7 @@ public class GraphicsEngine implements GLEventListener {
 		if (p.isDead())
 			return;
 
-		final double width = 0.02;
+		final double width = 10;
 		final Point2d location = p.location;
 
 		gl.glBegin(GL.GL_QUADS);
@@ -269,11 +271,15 @@ public class GraphicsEngine implements GLEventListener {
 	public void init(GLAutoDrawable drawable) {
 		// We have a fresh GL context, retrieve reference.
 		gl = canvas.getGL();
+	}
+	
+	public void setupGl(int width, int height) {
+		size = new Point2d(width, height);
 
-		// ... and initialise.
+		gl.glViewport(0, 0, (int) size.x, (int) size.y);
 		gl.glMatrixMode(GL.GL_PROJECTION);
 		gl.glLoadIdentity();
-		glu.gluOrtho2D(-1.0f, 1.0f, -1.0f, 1.0f); // drawing square
+		gl.glOrtho(0, width, 0, height, -1, 1);
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
 	}
@@ -282,7 +288,6 @@ public class GraphicsEngine implements GLEventListener {
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
 		// The canvas has been updated.
-		gl.glViewport(0, 0, width, height);
-		size = new Point2d(width, height);
+		setupGl(width, height);
 	}
 }

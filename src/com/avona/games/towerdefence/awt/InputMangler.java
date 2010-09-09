@@ -84,14 +84,11 @@ public class InputMangler implements KeyListener, MouseListener,
 
 	public void eventLocation(MouseEvent e, Point2d location) {
 		final double xf = e.getX();
-		final double yf = -e.getY();
+		final double yf = e.getY();
 		final Point2d canvasSize = ge.size;
 
-		final double x = (xf / canvasSize.x) * 2 - 1.0f;
-		final double y = (yf / canvasSize.y) * 2 + 1.0f;
-
-		location.x = x;
-		location.y = y;
+		location.x = xf;
+		location.y = canvasSize.y - yf;
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -99,8 +96,8 @@ public class InputMangler implements KeyListener, MouseListener,
 	}
 
 	public void checkMouseOverTower(Point2d mouseLocation) {
-		final double mouseRadius = 0.01;
-		Tower t = game.closestTowerWithinRadius(mouseLocation, mouseRadius);
+		Tower t = game.closestTowerWithinRadius(mouseLocation,
+				GraphicsEngine.TOWER_WIDTH);
 		game.showTowersRange(t);
 	}
 
