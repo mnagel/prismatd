@@ -22,23 +22,28 @@ import com.sun.opengl.util.j2d.TextRenderer;
  * methods to perform the GL calls. It will not touch any in-game state, though.
  */
 public class GraphicsEngine implements GLEventListener {
-	protected Game game;
-	protected MainLoop main;
-	public GLCanvas canvas;
-	public GL gl;
-	public GLU glu;
-	public Point2d size;
-	public TimeTrack graphicsTime;
+	final static public int DEFAULT_HEIGHT = 800;
+	final static public int DEFAULT_WIDTH = 800;
 
-	final public int defaultHeight = 800;
-	final public int defaultWidth = 800;
+	public GLCanvas canvas;
+	public Point2d size;
+
+	TimeTrack graphicsTime;
+	GL gl;
+	GLU glu;
+	Game game;
+	MainLoop main;
+	TextRenderer renderer;
 
 	public GraphicsEngine(MainLoop main, Game game) {
 		this.main = main;
 		this.game = game;
-		this.graphicsTime = new TimeTrack();
 
+		graphicsTime = new TimeTrack();
+		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 36),
+				true, true);
 		glu = new GLU();
+
 		setupGlCanvas();
 	}
 
@@ -68,16 +73,24 @@ public class GraphicsEngine implements GLEventListener {
 			renderParticle(p);
 		}
 
-		renderer.beginRendering(800, 600);
-		// optionally set the color
-		renderer.setColor(1.0f, 0.2f, 0.2f, 0.8f);
-		renderer.draw("Text to draw", 100 + (int) (100 * Math
-				.sin(graphicsTime.clock)), 100 + (int) (100 * Math
-				.cos(graphicsTime.clock)));
-		// ... more draw commands, color changes, etc.
-		renderer.endRendering();
+		renderText();
 
 		renderMouse();
+	}
+
+	public void renderText() {
+		drawText("Text to draw", 100 + (100 * Math.sin(graphicsTime.clock)),
+				100 + (100 * Math.cos(graphicsTime.clock)), 1.0f, 0.2f, 0.2f,
+				0.8f);
+	}
+
+	public void drawText(final String text, final double x, final double y,
+			final float colR, final float colG, final float colB,
+			final float colA) {
+		renderer.beginRendering((int) size.x, (int) size.y);
+		renderer.setColor(colR, colG, colB, colA);
+		renderer.draw(text, (int) x, (int) y);
+		renderer.endRendering();
 	}
 
 	public void renderEnemy(final Enemy e) {
@@ -166,6 +179,8 @@ public class GraphicsEngine implements GLEventListener {
 	}
 
 	public void renderMouse() {
+		if (!game.mouse.onScreen)
+			return;
 		final Point2d p = game.mouse.location;
 		final double col = 0.4 + 0.6 * Math.abs(Math
 				.sin(2 * graphicsTime.clock));
@@ -193,12 +208,7 @@ public class GraphicsEngine implements GLEventListener {
 		glu.gluOrtho2D(-1.0f, 1.0f, -1.0f, 1.0f); // drawing square
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
-
-		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 36),
-				true, true);
 	}
-
-	TextRenderer renderer;
 
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,

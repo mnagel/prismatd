@@ -3,6 +3,7 @@ package com.avona.games.towerdefence;
 import javax.vecmath.Point2d;
 
 public class Mouse extends StationaryObject {
+	public boolean onScreen = true;
 
 	public Mouse() {
 		radius = 0.02;
