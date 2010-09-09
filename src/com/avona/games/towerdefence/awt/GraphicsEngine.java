@@ -22,7 +22,6 @@ import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Particle;
 import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.Tower;
-import com.avona.games.towerdefence.Util;
 import com.sun.opengl.util.j2d.TextRenderer;
 
 /**
@@ -33,7 +32,7 @@ import com.sun.opengl.util.j2d.TextRenderer;
 public class GraphicsEngine implements GLEventListener {
 	final static public int DEFAULT_HEIGHT = 480;
 	final static public int DEFAULT_WIDTH = 675;
-	
+
 	final static public double TOWER_WIDTH = 16;
 
 	public Frame frame;
@@ -145,6 +144,9 @@ public class GraphicsEngine implements GLEventListener {
 		if (e.isDead())
 			return;
 
+		final float pg = 0.01f * (float) e.health;
+		final float pr = 1.0f - pg;
+
 		final double width = 12;
 		final Point2d location = e.location;
 
@@ -153,19 +155,19 @@ public class GraphicsEngine implements GLEventListener {
 
 		squareVertexBuffer.put((float) (location.x + width / 2));
 		squareVertexBuffer.put((float) (location.y + width / 2));
-		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 0.9f, 1.0f });
+		squareColorBuffer.put(new float[] { pr * 1.0f, pg * 0.9f, 0.0f, 1.0f });
 
 		squareVertexBuffer.put((float) (location.x + width / 2));
 		squareVertexBuffer.put((float) (location.y - width / 2));
-		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 0.6f, 1.0f });
+		squareColorBuffer.put(new float[] { pr * 0.8f, pg * 0.6f, 0.0f, 1.0f });
 
 		squareVertexBuffer.put((float) (location.x - width / 2));
 		squareVertexBuffer.put((float) (location.y + width / 2));
-		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 0.8f, 1.0f });
+		squareColorBuffer.put(new float[] { pr * 0.6f, pg * 0.8f, 0.0f, 1.0f });
 
 		squareVertexBuffer.put((float) (location.x - width / 2));
 		squareVertexBuffer.put((float) (location.y - width / 2));
-		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 1.0f, 1.0f });
+		squareColorBuffer.put(new float[] { pr * 0.9f, pg * 1.0f, 0.0f, 1.0f });
 
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
@@ -192,13 +194,13 @@ public class GraphicsEngine implements GLEventListener {
 		}
 
 		gl.glBegin(GL.GL_QUADS);
-		gl.glColor3d(1.0, 0.0, 0.0);
+		gl.glColor3d(0.0, 0.0, 1.0);
 		gl.glVertex2d(location.x - width / 2, location.y - width / 2);
-		gl.glColor3d(0.6, 0.0, 0.0);
+		gl.glColor3d(0.0, 0.0, 0.6);
 		gl.glVertex2d(location.x + width / 2, location.y - width / 2);
-		gl.glColor3d(0.9, 0.0, 0.0);
+		gl.glColor3d(0.0, 0.0, 0.9);
 		gl.glVertex2d(location.x + width / 2, location.y + width / 2);
-		gl.glColor3d(0.8, 0.0, 0.0);
+		gl.glColor3d(0.0, 0.0, 0.8);
 		gl.glVertex2d(location.x - width / 2, location.y + width / 2);
 		gl.glEnd();
 	}
@@ -272,7 +274,7 @@ public class GraphicsEngine implements GLEventListener {
 		// We have a fresh GL context, retrieve reference.
 		gl = canvas.getGL();
 	}
-	
+
 	public void setupGl(int width, int height) {
 		size = new Point2d(width, height);
 

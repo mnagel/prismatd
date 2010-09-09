@@ -4,7 +4,7 @@ import javax.vecmath.Point2d;
 
 public class Enemy extends MovingObject {
 	protected World world;
-	protected int health = 100;
+	public int health = 100;
 
 	public Enemy(World world, Point2d location) {
 		this.world = world;
