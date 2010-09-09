@@ -83,8 +83,7 @@ public class GraphicsEngine implements GLEventListener {
 	public void renderStats() {
 		gl.glBegin(GL.GL_QUADS);
 
-		final String fpsString = String.format("fps %.2f", (double) 1
-				/ graphicsTime.tick);
+		final String fpsString = String.format("fps %.2f", graphicsTime.tickrate);
 		Rectangle2D bounds = renderer.getBounds(fpsString);
 		final double width = (bounds.getWidth() / size.x) * 2 + 0.01;
 		final double height = (bounds.getHeight() / size.y) * 2 + 0.01;
