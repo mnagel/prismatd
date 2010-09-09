@@ -111,6 +111,8 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Dokumentation der Abläufe
 	[ ] Check gegen Control Flow Artikel
 	[ ] Check gegen Units Artikel
+[ ] Geschosse suchen neues Target, wenn aktuelles stirbt (optionales Feature von Türmen)
+[ ] Explosions-Animationen
 
 ===== Minimal Game =====
 [ ] Geld
@@ -126,7 +128,6 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Installations-Anleitung
 [ ] How-To-Play-Anleitung mit Bildern schreiben
 [ ] Dokumentation nachziehen / sortieren
-[ ] Geschosse suchen neues Target, wenn aktuelles stirbt (optionales Feature von Türmen)
 [ ] Lizenz-Header
 
 ===== Roadmap =====
