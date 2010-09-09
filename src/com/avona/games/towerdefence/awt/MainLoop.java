@@ -11,6 +11,7 @@ import javax.media.opengl.GLEventListener;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.TimeTrack;
+import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
 
 public class MainLoop implements GLEventListener {
@@ -22,7 +23,7 @@ public class MainLoop implements GLEventListener {
 
 	private TimeTrack gameTime;
 	private TimeTrack graphicsTime;
-	private FPSAnimator animator;
+	private Animator animator;
 
 	private static final double FIXED_TICK = 0.04;
 	private double gameTicks = 0;

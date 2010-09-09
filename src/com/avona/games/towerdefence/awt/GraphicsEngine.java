@@ -1,6 +1,8 @@
 package com.avona.games.towerdefence.awt;
 
 import java.awt.Font;
+import java.awt.geom.Rectangle2D;
+
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
@@ -14,6 +16,7 @@ import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Particle;
 import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.Tower;
+import com.avona.games.towerdefence.Util;
 import com.sun.opengl.util.j2d.TextRenderer;
 
 /**
@@ -40,7 +43,7 @@ public class GraphicsEngine implements GLEventListener {
 		this.game = game;
 
 		graphicsTime = new TimeTrack();
-		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 36),
+		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 12),
 				true, true);
 		glu = new GLU();
 
@@ -73,15 +76,26 @@ public class GraphicsEngine implements GLEventListener {
 			renderParticle(p);
 		}
 
-		renderText();
-
 		renderMouse();
+		renderStats();
 	}
 
-	public void renderText() {
-		drawText("Text to draw", 100 + (100 * Math.sin(graphicsTime.clock)),
-				100 + (100 * Math.cos(graphicsTime.clock)), 1.0f, 0.2f, 0.2f,
-				0.8f);
+	public void renderStats() {
+		gl.glBegin(GL.GL_QUADS);
+
+		final String fpsString = String.format("fps %.2f", (double) 1
+				/ graphicsTime.tick);
+		Rectangle2D bounds = renderer.getBounds(fpsString);
+		final double width = (bounds.getWidth() / size.x) * 2 + 0.01;
+		final double height = (bounds.getHeight() / size.y) * 2 + 0.01;
+
+		gl.glColor3d(0.1, 0.1, 0.1);
+		gl.glVertex2d(-1, -1);
+		gl.glVertex2d(-1, -1 + height);
+		gl.glVertex2d(-1 + width, -1 + height);
+		gl.glVertex2d(-1 + width, -1);
+		gl.glEnd();
+		drawText(fpsString, 2, 4, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	public void drawText(final String text, final double x, final double y,
