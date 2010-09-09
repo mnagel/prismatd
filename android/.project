@@ -3,6 +3,7 @@
 	<name>towerdefenceandroid</name>
 	<comment></comment>
 	<projects>
+		<project>towerdefence</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
