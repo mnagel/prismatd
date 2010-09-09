@@ -5,7 +5,7 @@ import javax.vecmath.Point2d;
 public class Mouse extends StationaryObject {
 
 	public Mouse() {
-		// TODO Auto-generated constructor stub
+		radius = 0.02;
 		location = new Point2d();
 	}
 

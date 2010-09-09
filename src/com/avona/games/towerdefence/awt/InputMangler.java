@@ -9,6 +9,7 @@ import java.awt.event.MouseMotionListener;
 import javax.vecmath.Point2d;
 
 import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.Tower;
 import com.avona.games.towerdefence.Util;
 
 public class InputMangler implements KeyListener, MouseListener,
@@ -86,8 +87,15 @@ public class InputMangler implements KeyListener, MouseListener,
 		Util.log("Mouse clicked (# of clicks: " + e.getClickCount() + ")");
 	}
 
+	public void checkMouseOverTower(Point2d mouseLocation) {
+		final double mouseRadius = 0.01;
+		Tower t = game.closestTowerWithinRadius(mouseLocation, mouseRadius);
+		game.showTowersRange(t);
+	}
+
 	public void mouseMoved(MouseEvent e) {
 		eventLocation(e, game.mouse.location);
+		checkMouseOverTower(game.mouse.location);
 	}
 
 	public void mouseDragged(MouseEvent e) {
