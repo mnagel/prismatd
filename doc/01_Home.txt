@@ -2,8 +2,7 @@ Content-Type: text/x-zim-wiki
 Wiki-Format: zim 0.4
 Creation-Date: 2010-09-06T09:54:39.867461
 
-===== Grundlagen =====
-
+====== 01 Home ======
 ==== Desktop Java ====
 [*] Surface (o.Ä.) erstellen, auf der performante 2D und/oder 3D Grafik ausgegeben werden kann
 [*] Eingaben entgegennehmen
