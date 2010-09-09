@@ -77,27 +77,26 @@ public class Game {
 		 * particle in its shootTowards() method.
 		 */
 
-		Enemy be = null;
-
 		for (Tower t : towers) {
+			Enemy bestEnemy = null;
 			for (Enemy e : enemies) {
 				if (t.inRange(e)) {
-					if (be == null) {
-						be = e;
+					if (bestEnemy == null) {
+						bestEnemy = e;
 						// to shoot "farthest progressed" enemy do
 						// break;
 						// here -- provided break exits e for:enemies loop
 					}
 
 					// shoot to nearest enemy
-					if ( t.location.distance(be.location) > t.location.distance(e.location)) {
-						be = e;
+					if ( t.location.distance(bestEnemy.location) > t.location.distance(e.location)) {
+						bestEnemy = e;
 					} // TODO allow for different policies here...
 				}
 			}
 
-			if (be != null) { // policy found some enemy
-				Particle p = t.shootTowards(be, dt);
+			if (bestEnemy != null) { // policy found some enemy
+				Particle p = t.shootTowards(bestEnemy, dt);
 				if (p != null) {
 					particles.add(p);
 				}
