@@ -127,6 +127,7 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] How-To-Play-Anleitung mit Bildern schreiben
 [ ] Dokumentation nachziehen / sortieren
 [ ] Geschosse suchen neues Target, wenn aktuelles stirbt (optionales Feature von Türmen)
+[ ] Lizenz-Header
 
 ===== Roadmap =====
 [ ] Festlegen, wie das fertige Spiel "aussehen" soll
@@ -152,3 +153,5 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Ingame-Menue
 
 [ ] Specials
+
+[ ] Business Plan
