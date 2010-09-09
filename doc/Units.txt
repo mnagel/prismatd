@@ -4,14 +4,17 @@ Creation-Date: 2010-09-08T19:32:58.063237
 
 ====== Text ======
 
-Spielfeld ist quadratisch und nutzt maximale quadratische Fläche aus
-Menü hat eine feste Breite
-Platz dazwischen wird genutzt um Aspect Ratios auszugleichen
+Spielfeld ist hat Seitenverhältnis von 675x480 und wird sinnvoll skaliert
+Menü hat Seitenverhältnis von 125x480 wird sinnvoll skaliert und platziert
+	je nach Seitenverhältnis  2 Modi: 
+		Spacer links/rechts wenn eigentlicher Screen zu breit
+		Spacer oben/unten wenn eigentlicher Screen zu hoch
+		Android-Ratio entspricht Null-Spacern
 
-Engine und OpenGL-Drawing-Befehle nutzen Werte von 0 bis 1000
-0/0 links unten 1000/1000 rechts oben (siehe Skizze)
-für Debug-Zwecke: spiele in 1000x1000 Fenster und „1“ entspricht einem Pixel
-alle skalierbaren Größenangaben erfolgen als Double im Verhältnis zur so definierten Eins
+Engine und OpenGL-Drawing-Befehle nutzen Werte von (0..675)x(0..480)
+0x0 links unten 675x480 rechts oben (siehe Skizze)
+für Debug-Zwecke: spiele in 675x480 Spielfeld (bzw. 800x480 Fenster) und 1.0 entspricht einem Pixel
+alle skalierbaren Größenangaben erfolgen als Double im Verhältnis zur so definierten 1.0
 Anpassung an die tatsächliche Bildschirmgröße per globale OpenGL-Skalierung – d.h. nicht andauernd an jeden Befehl
 
 Größen und Orte nach o.g. Definition als Double
@@ -21,3 +24,4 @@ Zeitangaben als Double mit 1,0 als eine Sekunde
 ====== Bild ======
 {{../modelle/units.png}}
 
+weitere Bilder siehe in [[../modelle/units.odg|../modelle/units.odg]]
