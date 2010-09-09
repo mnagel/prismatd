@@ -80,22 +80,6 @@ public class MainLoop implements GLEventListener {
 		ge.canvas.addGLEventListener(this);
 		input = new InputMangler(this, ge, game);
 
-		final Frame frame = new Frame("Towerdefence");
-		frame.add(ge.canvas);
-		frame.setSize(GraphicsEngine.DEFAULT_WIDTH,
-				GraphicsEngine.DEFAULT_HEIGHT);
-		frame.setBackground(Color.WHITE);
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				exit();
-			}
-		});
-		frame.setCursor(java.awt.Toolkit.getDefaultToolkit()
-				.createCustomCursor(
-						new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR),
-						new java.awt.Point(0, 0), "NOCURSOR"));
-		frame.setVisible(true);
-
 		animator = new FPSAnimator(ge.canvas, EXPECTED_FPS);
 		animator.setRunAsFastAsPossible(false);
 		animator.start();

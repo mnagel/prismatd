@@ -5,6 +5,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.vecmath.Point2d;
 
@@ -18,10 +20,16 @@ public class InputMangler implements KeyListener, MouseListener,
 	private MainLoop ml;
 	private Game game;
 
-	public InputMangler(MainLoop ml, GraphicsEngine ge, Game game) {
-		this.ml = ml;
+	public InputMangler(MainLoop mainLoop, GraphicsEngine ge, Game game) {
+		this.ml = mainLoop;
 		this.ge = ge;
 		this.game = game;
+
+		ge.frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				ml.exit();
+			}
+		});
 
 		ge.canvas.addKeyListener(this);
 		ge.canvas.addMouseListener(this);

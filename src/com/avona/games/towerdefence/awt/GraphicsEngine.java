@@ -1,7 +1,12 @@
 package com.avona.games.towerdefence.awt;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -28,9 +33,10 @@ import com.sun.opengl.util.j2d.TextRenderer;
  * methods to perform the GL calls. It will not touch any in-game state, though.
  */
 public class GraphicsEngine implements GLEventListener {
-	final static public int DEFAULT_HEIGHT = 800;
-	final static public int DEFAULT_WIDTH = 800;
+	final static public int DEFAULT_HEIGHT = 750;
+	final static public int DEFAULT_WIDTH = 900;
 
+	public Frame frame;
 	public GLCanvas canvas;
 	public Point2d size;
 
@@ -57,6 +63,17 @@ public class GraphicsEngine implements GLEventListener {
 		squareColorBuffer = allocateFloatBuffer(4 * 4);
 		
 		setupGlCanvas();
+
+		frame = new Frame("Towerdefence");
+		frame.add(canvas);
+		frame.setSize(GraphicsEngine.DEFAULT_WIDTH,
+				GraphicsEngine.DEFAULT_HEIGHT);
+		frame.setBackground(Color.WHITE);
+		frame.setCursor(java.awt.Toolkit.getDefaultToolkit()
+				.createCustomCursor(
+						new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR),
+						new java.awt.Point(0, 0), "NOCURSOR"));
+		frame.setVisible(true);
 	}
 	
 	private FloatBuffer allocateFloatBuffer(final int entries) {
