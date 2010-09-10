@@ -15,10 +15,6 @@ public class Game {
 
 	public Game() {
 		world = new World();
-		enemies.add(new Enemy(world, world.getInitialLocation()));
-		towers.add(new Tower(new V2(300, 50)));
-		towers.add(new Tower(new V2(600, 60)));
-
 		mouse = new Mouse();
 	}
 

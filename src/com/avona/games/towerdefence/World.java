@@ -11,7 +11,6 @@ public class World {
 	public final static float HEIGHT = 480;
 
 	public static Random rand = new java.util.Random();
-	public V2 initLocation = new V2(300, 300);
 
 	public VelocityVector getRandomDirection(V2 location) {
 		float x = rand.nextFloat() - 0.5f;
@@ -20,10 +19,6 @@ public class World {
 		dir.normalize();
 		float s = rand.nextFloat() * 75;
 		return new VelocityVector(dir, s);
-	}
-
-	public V2 getInitialLocation() {
-		return initLocation;
 	}
 
 	public World() {
