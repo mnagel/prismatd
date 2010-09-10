@@ -10,6 +10,7 @@ import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
 
 import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.PortableGraphicsEngine;
 
 /**
@@ -91,5 +92,17 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 
 	public Point2d getTextBounds(final String text) {
 		return new Point2d(0, 0);
+	}
+
+	@Override
+	public void prepareTransformationForLayer(Layer layer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resetTransformation() {
+		// TODO Auto-generated method stub
+		
 	}
 }

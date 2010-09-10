@@ -16,6 +16,7 @@ import javax.media.opengl.glu.GLU;
 import javax.vecmath.Point2d;
 
 import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.PortableGraphicsEngine;
 import com.sun.opengl.util.j2d.TextRenderer;
 
@@ -156,12 +157,23 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 		gl.glOrtho(0, width, 0, height, -1, 1);
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
-	}
 
+		onReshapeScreen();
+	}
+	
 	@Override
 	protected void prepareScreen() {
 		// Paint background, clearing previous drawings.
 		gl.glColor3d(0.0, 0.0, 0.0);
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+	}
+
+	@Override
+	public void prepareTransformationForLayer(Layer layer) {
+		gl.glTranslatef((float) layer.offset.x, (float) layer.offset.y, 0);
+	}
+
+	@Override
+	public void resetTransformation() {
 	}
 }
