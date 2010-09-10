@@ -26,7 +26,6 @@ public class MainLoop extends PortableMainLoop {
 
 	@Override
 	public void exit() {
-		// TODO Auto-generated method stub
-
+		// TODO Determine how an application properly exits in Android.
 	}
 }
