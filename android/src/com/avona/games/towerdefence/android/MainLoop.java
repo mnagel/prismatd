@@ -12,14 +12,14 @@ public class MainLoop extends PortableMainLoop {
 
 	public MainLoop(Activity activity) {
 		this.activity = activity;
-		GraphicsEngine graphicsEngine = new GraphicsEngine(game);
+
+		final GraphicsEngine graphicsEngine = new GraphicsEngine(game);
 		ge = graphicsEngine;
 
 		inputActor = new InputActor(this, game);
-		GameRenderProxy r = new GameRenderProxy(this, graphicsEngine);
-		inputActor = new InputActor(this, game);
 		
 		surfaceView = new InputForwardingGLSurfaceView(activity, inputActor);
+		final GameRenderProxy r = new GameRenderProxy(this, graphicsEngine);
 		surfaceView.setRenderer(r);
 		activity.setContentView(surfaceView);
 	}

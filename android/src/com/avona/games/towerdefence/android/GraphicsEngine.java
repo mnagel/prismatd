@@ -84,8 +84,9 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}
 
-	public void drawText(final String text, final double x, final double y, final float colR,
-			final float colG, final float colB, final float colA) {
+	public void drawText(final String text, final double x, final double y,
+			final float colR, final float colG, final float colB,
+			final float colA) {
 	}
 
 	public Point2d getTextBounds(final String text) {
