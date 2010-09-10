@@ -89,6 +89,6 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 	}
 
 	public Point2d getTextBounds(final String text) {
-		return null;
+		return new Point2d(0, 0);
 	}
 }
