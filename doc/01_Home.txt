@@ -132,7 +132,8 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] How-To-Play-Anleitung mit Bildern schreiben
 [ ] Dokumentation nachziehen / sortieren
 [ ] Lizenz-Header
-[ ] Artwork (Launcher Icon)
+[ ] Artwork (Launcher Icon) verbessern
+[ ] Programm-Name (wiedererkennbar, auf Android-Screen darstellbar)
 [ ] TODOs im Code durchgehen
 [ ] nur eine absolut einzige Version von Korrdinaten-Tupel verwenden keine Mischung von Point2d, Vector2d, Velocity, ...
 
@@ -168,3 +169,7 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] was tun mit Android-Devices, die außer Touch auch noch eine Tastatur haben?
 
 [ ] Spiel-Interaktion (will ich bauen, will ich updaten, ...)
+
+[ ] Themeing / Branding / Alleinstellung
+
+[ ] professionelle Grafiken

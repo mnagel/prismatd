@@ -5,7 +5,12 @@ Creation-Date: 2010-09-09T11:33:57.460888
 ====== Bilder ======
 
 ===== Desktop Java =====
-{{../screenshots/screenshot-desktop.png}}
+2010-09-09
+{{../screenshots/screenshot-desktop-2010-09-09.png}}
+
+2010-09-10
+{{../screenshots/screenshot-desktop-2010-09-10.png}}
 
 ===== Android =====
-{{../screenshots/screenshot-android.jpg}}
+2010-09-09
+{{../screenshots/screenshot-android-2010-09-09.jpg}}
