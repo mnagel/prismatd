@@ -71,7 +71,7 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 	@Override
 	public V2 getTextBounds(final String text) {
 		Rectangle2D bounds = renderer.getBounds(text);
-		return new V2((float)bounds.getWidth(), (float)bounds.getHeight());
+		return new V2((float) bounds.getWidth(), (float) bounds.getHeight());
 	}
 
 	@Override
@@ -159,7 +159,7 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 
 		onReshapeScreen();
 	}
-	
+
 	@Override
 	protected void prepareScreen() {
 		// Paint background, clearing previous drawings.
@@ -169,10 +169,14 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 
 	@Override
 	public void prepareTransformationForLayer(Layer layer) {
-		gl.glTranslatef((float) layer.offset.x, (float) layer.offset.y, 0);
+		gl.glPushMatrix();
+		gl.glTranslatef(layer.offset.x, layer.offset.y, 0);
+		gl.glScalef(layer.region.x / layer.virtualRegion.x, layer.region.y
+				/ layer.virtualRegion.y, 1);
 	}
 
 	@Override
 	public void resetTransformation() {
+		gl.glPopMatrix();
 	}
 }

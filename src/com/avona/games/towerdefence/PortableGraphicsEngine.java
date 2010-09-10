@@ -27,13 +27,17 @@ public abstract class PortableGraphicsEngine {
 		this.game = game;
 
 		gameLayer = new Layer();
+		gameLayer.virtualRegion.x = World.WIDTH;
+		gameLayer.virtualRegion.y = World.HEIGHT;
 		gameLayer.level = 0;
-		gameLayer.name = "Game";
+		gameLayer.name = "game";
 		layerHerder.layers.add(gameLayer);
 
 		menuLayer = new Layer();
+		menuLayer.virtualRegion.x = 125;
+		menuLayer.virtualRegion.y = 480;
 		menuLayer.level = 0;
-		menuLayer.name = "Menu";
+		menuLayer.name = "menu";
 		layerHerder.layers.add(menuLayer);
 
 		squareVertexBuffer = allocateFloatBuffer(4 * 2);
@@ -63,7 +67,7 @@ public abstract class PortableGraphicsEngine {
 		}
 		resetTransformation();
 
-		prepareTransformationForLayer(gameLayer);
+		prepareTransformationForLayer(menuLayer);
 		renderMenu();
 		resetTransformation();
 
@@ -75,24 +79,20 @@ public abstract class PortableGraphicsEngine {
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
 
-		squareVertexBuffer
-				.put((float) (gameLayer.offset.x + gameLayer.region.x));
-		squareVertexBuffer
-				.put((float) (gameLayer.offset.y + gameLayer.region.y));
+		squareVertexBuffer.put((float) (gameLayer.virtualRegion.x));
+		squareVertexBuffer.put((float) (gameLayer.virtualRegion.y));
 		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
 
-		squareVertexBuffer
-				.put((float) (gameLayer.offset.x + gameLayer.region.x));
-		squareVertexBuffer.put((float) (gameLayer.offset.y));
+		squareVertexBuffer.put((float) (gameLayer.virtualRegion.x));
+		squareVertexBuffer.put((float) (0));
 		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
 
-		squareVertexBuffer.put((float) (gameLayer.offset.x));
-		squareVertexBuffer
-				.put((float) (gameLayer.offset.y + gameLayer.region.y));
+		squareVertexBuffer.put((float) (0));
+		squareVertexBuffer.put((float) (gameLayer.virtualRegion.y));
 		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
 
-		squareVertexBuffer.put((float) (gameLayer.offset.x));
-		squareVertexBuffer.put((float) (gameLayer.offset.y));
+		squareVertexBuffer.put((float) (0));
+		squareVertexBuffer.put((float) (0));
 		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
 
 		squareVertexBuffer.position(0);
@@ -105,24 +105,20 @@ public abstract class PortableGraphicsEngine {
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
 
-		squareVertexBuffer
-				.put((float) (menuLayer.offset.x + menuLayer.region.x));
-		squareVertexBuffer
-				.put((float) (menuLayer.offset.y + menuLayer.region.y));
+		squareVertexBuffer.put((float) (menuLayer.virtualRegion.x));
+		squareVertexBuffer.put((float) (menuLayer.virtualRegion.y));
 		squareColorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
 
-		squareVertexBuffer
-				.put((float) (menuLayer.offset.x + menuLayer.region.x));
-		squareVertexBuffer.put((float) (menuLayer.offset.y));
+		squareVertexBuffer.put((float) (menuLayer.virtualRegion.x));
+		squareVertexBuffer.put((float) (0));
 		squareColorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
 
-		squareVertexBuffer.put((float) (menuLayer.offset.x));
-		squareVertexBuffer
-				.put((float) (menuLayer.offset.y + menuLayer.region.y));
+		squareVertexBuffer.put((float) (0));
+		squareVertexBuffer.put((float) (menuLayer.virtualRegion.y));
 		squareColorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
 
-		squareVertexBuffer.put((float) (menuLayer.offset.x));
-		squareVertexBuffer.put((float) (menuLayer.offset.y));
+		squareVertexBuffer.put((float) (0));
+		squareVertexBuffer.put((float) (0));
 		squareColorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
 
 		squareVertexBuffer.position(0);
@@ -306,12 +302,11 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	protected void onReshapeScreen() {
-		final float MENU_WIDTH = (float) 125;
-		final float MENU_HEIGHT = (float) 480;
-		final float gameFieldPercentage = (float) World.WIDTH
-				/ ((float) World.WIDTH + (float) MENU_WIDTH);
+		final float gameFieldPercentage = gameLayer.virtualRegion.x
+				/ (gameLayer.virtualRegion.x + menuLayer.virtualRegion.x);
 
-		final float gameRatio = (float) World.WIDTH / (float) World.HEIGHT;
+		final float gameRatio = gameLayer.virtualRegion.x
+				/ gameLayer.virtualRegion.y;
 
 		gameLayer.region.y = size.y;
 		gameLayer.region.x = gameRatio * gameLayer.region.y;
@@ -323,7 +318,8 @@ public abstract class PortableGraphicsEngine {
 		gameLayer.offset.x = 0;
 		gameLayer.offset.y = (size.y - gameLayer.region.y) * 0.5f;
 
-		final float menuRatio = MENU_WIDTH / MENU_HEIGHT;
+		final float menuRatio = menuLayer.virtualRegion.x
+				/ menuLayer.virtualRegion.y;
 
 		final V2 remainingSize = new V2(size.x - gameLayer.offset.x
 				- gameLayer.region.x, size.y);

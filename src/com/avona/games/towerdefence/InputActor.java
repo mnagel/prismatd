@@ -3,10 +3,12 @@ package com.avona.games.towerdefence;
 public class InputActor {
 	private PortableMainLoop ml;
 	private Game game;
+	private PortableGraphicsEngine ge;
 
-	public InputActor(PortableMainLoop mainLoop, Game game) {
+	public InputActor(PortableMainLoop mainLoop, Game game, PortableGraphicsEngine ge) {
 		this.ml = mainLoop;
 		this.game = game;
+		this.ge = ge;
 	}
 
 	public void pressedEscapeKey() {
@@ -22,11 +24,20 @@ public class InputActor {
 		ml.toggleGamePause();
 	}
 	public void pressedMouseBtn1At(V2 location) {
-		game.addTowerAt(location);
-		checkMouseOverTower(game.mouse.location);
+		Layer layer = ge.layerHerder.findLayerWithinPoint(location);
+		Util.log("clicked on layer " + layer.name);
+		if (layer.name == "game") {
+			location = layer.convertToVirtual(location);
+			game.addTowerAt(location);
+			checkMouseOverTower(game.mouse.location);
+		}
 	}
 	public void pressedMouseBtn2At(V2 location) {
-		game.addEnemyAt(location);
+		Layer layer = ge.layerHerder.findLayerWithinPoint(location);
+		if (layer.name == "game") {
+			location = layer.convertToVirtual(location);
+			game.addEnemyAt(location);
+		}
 	}
 	public void mouseEntered() {
 		game.mouse.onScreen = true;
@@ -42,7 +53,11 @@ public class InputActor {
 	}
 	public void mouseMovedTo(V2 location) {
 		game.mouse.location = location;
-		checkMouseOverTower(location);
+		Layer layer = ge.layerHerder.findLayerWithinPoint(location);
+		if (layer.name == "game") {
+			location = layer.convertToVirtual(location);
+			checkMouseOverTower(location);
+		}
 	}
 	public void mouseDraggedTo(V2 location) {
 		game.mouse.location = location;
