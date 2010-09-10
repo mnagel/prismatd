@@ -31,6 +31,13 @@ public class VelocityVector {
 	public void setVector(Vector2d vector) {
 		this.direction.normalize(vector);
 	}
+	
+	public void fromto(Point2d location, Vector2d target) {
+		Vector2d from = new Vector2d(location.x, location.y);
+		Vector2d to = new Vector2d(target.x, target.y);
+		to.sub(from);
+		setVector(to);
+	}
 
 	public String toString() {
 		return String.format("VelocityVector(Vector=<%f, %f>, Speed=%f)",

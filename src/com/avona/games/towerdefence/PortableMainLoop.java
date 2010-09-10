@@ -5,7 +5,7 @@ public abstract class PortableMainLoop {
 
 	private static final double FIXED_TICK = 0.04;
 
-	public Game game = new Game();;
+	public Game game = new Game();
 	public PortableGraphicsEngine ge;
 	public InputActor inputActor;
 

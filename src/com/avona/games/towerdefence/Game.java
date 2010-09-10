@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.vecmath.Point2d;
+import javax.vecmath.Vector2d;
 
 public class Game {
 	public List<Enemy> enemies = new LinkedList<Enemy>();
@@ -29,7 +30,8 @@ public class Game {
 	}
 
 	public void addEnemyAt(Point2d location) {
-		enemies.add(new Enemy(world, location));
+		//enemies.add(new Enemy(world, location));
+		enemies.add(new Enemy(world, new Point2d(world.waypoints.get(0).x, world.waypoints.get(0).y)));
 	}
 
 	public void showTowersRange(Tower t) {
@@ -106,21 +108,37 @@ public class Game {
 		/**
 		 * Check for any particle collisions and handle damage.
 		 */
-		Iterator<Particle> piter = particles.iterator();
-		while (piter.hasNext()) {
-			final Particle p = piter.next();
-			Iterator<Enemy> eiter = enemies.iterator();
-			while (eiter.hasNext()) {
-				final Enemy e = eiter.next();
+
+		Iterator<Enemy> eiter = enemies.iterator();
+		while (eiter.hasNext()) {
+			final Enemy e = eiter.next();
+			Iterator<Particle> piter = particles.iterator();
+			while (piter.hasNext()) {
+				final Particle p = piter.next();
+
 				if (p.inRange(e)) {
 					p.attack(e);
 					if (e.isDead()) {
 						eiter.remove();
 					}
 				}
-			}
-			if (p.isDead()) {
-				piter.remove();
+
+				if (p.isDead()) {
+					piter.remove();
+				}
+				
+					// Iterator<Vector2d> witer = world.waypoints.iterator();
+					//while (witer.hasNext()) {
+						final Vector2d w = world.waypoints.get(e.waypointid); // witer.next();
+						
+						Vector2d dist = (Vector2d)w.clone();
+						dist.sub(e.location);
+						
+						if (dist.length() < 10) { // FIXME Magic Number
+							e.setWPID(e.waypointid+1);
+						}
+					
+				//}
 			}
 		}
 	}
