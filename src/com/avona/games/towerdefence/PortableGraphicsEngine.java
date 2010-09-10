@@ -4,8 +4,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import javax.vecmath.Point2d;
-
 public abstract class PortableGraphicsEngine {
 
 	public static final int DEFAULT_HEIGHT = 480;
@@ -41,8 +39,9 @@ public abstract class PortableGraphicsEngine {
 		squareVertexBuffer = allocateFloatBuffer(4 * 2);
 		squareColorBuffer = allocateFloatBuffer(4 * 4);
 	}
-	
+
 	public abstract void prepareTransformationForLayer(Layer layer);
+
 	public abstract void resetTransformation();
 
 	public void render(float gameDelta, float graphicsDelta) {
@@ -63,7 +62,7 @@ public abstract class PortableGraphicsEngine {
 			renderParticle(p);
 		}
 		resetTransformation();
-		
+
 		prepareTransformationForLayer(gameLayer);
 		renderMenu();
 		resetTransformation();
@@ -76,16 +75,20 @@ public abstract class PortableGraphicsEngine {
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
 
-		squareVertexBuffer.put((float) (gameLayer.offset.x + gameLayer.region.x));
-		squareVertexBuffer.put((float) (gameLayer.offset.y + gameLayer.region.y));
+		squareVertexBuffer
+				.put((float) (gameLayer.offset.x + gameLayer.region.x));
+		squareVertexBuffer
+				.put((float) (gameLayer.offset.y + gameLayer.region.y));
 		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
 
-		squareVertexBuffer.put((float) (gameLayer.offset.x + gameLayer.region.x));
+		squareVertexBuffer
+				.put((float) (gameLayer.offset.x + gameLayer.region.x));
 		squareVertexBuffer.put((float) (gameLayer.offset.y));
 		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
 
 		squareVertexBuffer.put((float) (gameLayer.offset.x));
-		squareVertexBuffer.put((float) (gameLayer.offset.y + gameLayer.region.y));
+		squareVertexBuffer
+				.put((float) (gameLayer.offset.y + gameLayer.region.y));
 		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
 
 		squareVertexBuffer.put((float) (gameLayer.offset.x));
@@ -102,16 +105,20 @@ public abstract class PortableGraphicsEngine {
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
 
-		squareVertexBuffer.put((float) (menuLayer.offset.x + menuLayer.region.x));
-		squareVertexBuffer.put((float) (menuLayer.offset.y + menuLayer.region.y));
+		squareVertexBuffer
+				.put((float) (menuLayer.offset.x + menuLayer.region.x));
+		squareVertexBuffer
+				.put((float) (menuLayer.offset.y + menuLayer.region.y));
 		squareColorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
 
-		squareVertexBuffer.put((float) (menuLayer.offset.x + menuLayer.region.x));
+		squareVertexBuffer
+				.put((float) (menuLayer.offset.x + menuLayer.region.x));
 		squareVertexBuffer.put((float) (menuLayer.offset.y));
 		squareColorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
 
 		squareVertexBuffer.put((float) (menuLayer.offset.x));
-		squareVertexBuffer.put((float) (menuLayer.offset.y + menuLayer.region.y));
+		squareVertexBuffer
+				.put((float) (menuLayer.offset.y + menuLayer.region.y));
 		squareColorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
 
 		squareVertexBuffer.put((float) (menuLayer.offset.x));
@@ -157,7 +164,7 @@ public abstract class PortableGraphicsEngine {
 
 		final double width = 12;
 		final V2 location = e.location;
-	
+
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
 
@@ -226,9 +233,10 @@ public abstract class PortableGraphicsEngine {
 	public void renderTower(final Tower t) {
 		final double width = TOWER_WIDTH;
 		final V2 location = t.location;
-	
+
 		if (t.showRange) {
-			drawCircle(t.location.x, t.location.y, t.range_sq, 1.0, 1.0, 1.0, 1.0);
+			drawCircle(t.location.x, t.location.y, t.range_sq, 1.0, 1.0, 1.0,
+					1.0);
 		}
 
 		squareVertexBuffer.position(0);
@@ -262,7 +270,7 @@ public abstract class PortableGraphicsEngine {
 
 		final double width = 10;
 		final V2 location = p.location;
-	
+
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
 
@@ -314,7 +322,6 @@ public abstract class PortableGraphicsEngine {
 		}
 		gameLayer.offset.x = 0;
 		gameLayer.offset.y = (size.y - gameLayer.region.y) * 0.5f;
-
 
 		final float menuRatio = MENU_WIDTH / MENU_HEIGHT;
 
