@@ -44,10 +44,6 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 	}
 
 	@Override
-	public void renderMouse() {
-	}
-
-	@Override
 	public void onDrawFrame(GL10 gl) {
 	}
 
@@ -66,9 +62,6 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		this.gl = gl;
-	}
-
-	public void renderStats() {
 	}
 
 	protected void prepareScreen() {
