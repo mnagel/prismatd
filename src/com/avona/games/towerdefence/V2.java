@@ -18,6 +18,10 @@ public class V2 {
 		y = orig.y;
 	}
 	
+	public String toString() {
+		return String.format("V2<%f|%f>", x, y);
+	}
+
 	public void add(V2 v) {
 		x += v.x;
 		y += v.y;

@@ -57,6 +57,8 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 		GLU.gluOrtho2D(gl, 0, width, 0, height);
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
+
+		onReshapeScreen();
 	}
 
 	@Override
@@ -95,13 +97,14 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 
 	@Override
 	public void prepareTransformationForLayer(Layer layer) {
-		// TODO Auto-generated method stub
-		
+		gl.glPushMatrix();
+		gl.glTranslatef(layer.offset.x, layer.offset.y, 0);
+		gl.glScalef(layer.region.x / layer.virtualRegion.x, layer.region.y
+				/ layer.virtualRegion.y, 1);
 	}
 
 	@Override
 	public void resetTransformation() {
-		// TODO Auto-generated method stub
-		
+		gl.glPopMatrix();
 	}
 }

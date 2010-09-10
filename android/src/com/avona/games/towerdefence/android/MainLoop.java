@@ -16,7 +16,7 @@ public class MainLoop extends PortableMainLoop {
 		final GraphicsEngine graphicsEngine = new GraphicsEngine(game);
 		ge = graphicsEngine;
 
-		inputActor = new InputActor(this, game);
+		inputActor = new InputActor(this, game, ge);
 
 		surfaceView = new InputForwardingGLSurfaceView(activity, inputActor, ge);
 		final GameRenderProxy r = new GameRenderProxy(this, graphicsEngine);

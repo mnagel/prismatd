@@ -14,7 +14,11 @@ public class Layer {
 	public V2 virtualRegion = new V2();
 	public V2 offset = new V2();
 	public int level;
-	
+
+	public String toString() {
+		return "Layer<offset " + offset + ", region " + region + ">";
+	}
+
 	public V2 convertToVirtual(V2 realPosition) {
 		return new V2((realPosition.x - offset.x)
 				* (virtualRegion.x / region.x), (realPosition.y - offset.y)

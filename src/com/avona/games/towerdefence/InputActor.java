@@ -25,7 +25,7 @@ public class InputActor {
 	}
 	public void pressedMouseBtn1At(V2 location) {
 		Layer layer = ge.layerHerder.findLayerWithinPoint(location);
-		Util.log("clicked on layer " + layer.name);
+		Util.log("clicked on layer " + layer.name + ", position: " + location);
 		if (layer.name == "game") {
 			location = layer.convertToVirtual(location);
 			game.addTowerAt(location);
