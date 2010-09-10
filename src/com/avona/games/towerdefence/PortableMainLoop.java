@@ -1,6 +1,5 @@
 package com.avona.games.towerdefence;
 
-
 public abstract class PortableMainLoop {
 
 	private static final float FIXED_TICK = 0.04f;
@@ -14,23 +13,23 @@ public abstract class PortableMainLoop {
 	private float gameTicks = 0;
 
 	public static float getWallClock() {
-		return (float)(System.nanoTime() * Math.pow(10, -9));
+		return (float) (System.nanoTime() * Math.pow(10, -9));
 	}
 
 	public void performLoop() {
 		final float wallClock = getWallClock();
 		graphicsTime.update(wallClock);
 		gameTime.update(wallClock);
-	
+
 		// Updating of inputs is done asynchronously.
-	
+
 		// Update the world with a fixed rate.
 		gameTicks += gameTime.tick;
 		while (gameTicks >= FIXED_TICK) {
 			game.updateWorld(FIXED_TICK);
 			gameTicks -= FIXED_TICK;
 		}
-	
+
 		// Show the world.
 		ge.render(gameTime.tick, graphicsTime.tick);
 	}

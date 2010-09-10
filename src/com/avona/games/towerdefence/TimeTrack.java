@@ -53,9 +53,11 @@ public class TimeTrack {
 			clock += wallTick;
 
 			if (wallTick < 0.00001f) {
-				Util.log("zero tick..."); return;
+				Util.log("zero tick...");
+				return;
 			}
-			// tickrate = (1.0 - wallTick) * tickrate + wallTick * (1.0 / wallTick);	
+			// tickrate = (1.0 - wallTick) * tickrate + wallTick * (1.0 /
+			// wallTick);
 			tickrate = (1.0f - wallTick) * tickrate + 1.0f;
 			// Util.log("tickrate: " + tickrate);
 		} else {

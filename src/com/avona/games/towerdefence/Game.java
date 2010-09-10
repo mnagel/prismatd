@@ -27,8 +27,9 @@ public class Game {
 	}
 
 	public void addEnemyAt(V2 location) {
-		//enemies.add(new Enemy(world, location));
-		enemies.add(new Enemy(world, new V2(world.waypoints.get(0).x, world.waypoints.get(0).y)));
+		// enemies.add(new Enemy(world, location));
+		enemies.add(new Enemy(world, new V2(world.waypoints.get(0).x,
+				world.waypoints.get(0).y)));
 	}
 
 	public void showTowersRange(Tower t) {
@@ -46,7 +47,8 @@ public class Game {
 		return (Tower) closestStationaryWithinRadius(towers, location, range);
 	}
 
-	@SuppressWarnings("unchecked") // does not seem to be cast/type/...-able
+	@SuppressWarnings("unchecked")
+	// does not seem to be cast/type/...-able
 	public static Object closestStationaryWithinRadius(final List objects,
 			final V2 location, final double range) {
 		for (final Object o : objects) {
@@ -88,7 +90,8 @@ public class Game {
 					}
 
 					// shoot to nearest enemy
-					if ( t.location.dist_sq(bestEnemy.location) > t.location.dist_sq(e.location)) {
+					if (t.location.dist_sq(bestEnemy.location) > t.location
+							.dist_sq(e.location)) {
 						bestEnemy = e;
 					} // TODO allow for different policies here...
 				}
@@ -132,7 +135,7 @@ public class Game {
 			dist.sub(e.location);
 
 			if (dist.abs_sq() < 10 * 10) { // FIXME Magic Number
-				e.setWPID(e.waypointid+1);
+				e.setWPID(e.waypointid + 1);
 			}
 		}
 	}
