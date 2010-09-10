@@ -1,13 +1,12 @@
 package com.avona.games.towerdefence.android;
 
-import javax.vecmath.Point2d;
-
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
 import com.avona.games.towerdefence.InputActor;
 import com.avona.games.towerdefence.PortableGraphicsEngine;
+import com.avona.games.towerdefence.V2;
 
 class InputForwardingGLSurfaceView extends GLSurfaceView {
 	private InputActor inputActor;
@@ -20,8 +19,8 @@ class InputForwardingGLSurfaceView extends GLSurfaceView {
 		this.ge = ge;
 	}
 
-	private Point2d eventLocation(final MotionEvent event) {
-		return new Point2d(event.getX(), ge.size.y - event.getY());
+	private V2 eventLocation(final MotionEvent event) {
+		return new V2(event.getX(), ge.size.y - event.getY());
 	}
 
 	public boolean onTouchEvent(final MotionEvent event) {

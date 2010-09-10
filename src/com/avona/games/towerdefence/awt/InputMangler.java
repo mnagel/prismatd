@@ -8,12 +8,11 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.vecmath.Point2d;
-
 import com.avona.games.towerdefence.InputActor;
 import com.avona.games.towerdefence.PortableGraphicsEngine;
 import com.avona.games.towerdefence.PortableMainLoop;
 import com.avona.games.towerdefence.Util;
+import com.avona.games.towerdefence.V2;
 
 public class InputMangler implements KeyListener, MouseListener,
 		MouseMotionListener {
@@ -39,11 +38,11 @@ public class InputMangler implements KeyListener, MouseListener,
 		ge.canvas.addMouseMotionListener(this);
 	}
 
-	protected Point2d eventLocation(MouseEvent e) {
-		Point2d location = new Point2d();
-		final double xf = e.getX();
-		final double yf = e.getY();
-		final Point2d canvasSize = ge.size;
+	protected V2 eventLocation(MouseEvent e) {
+		V2 location = new V2();
+		final float xf = e.getX();
+		final float yf = e.getY();
+		final V2 canvasSize = ge.size;
 
 		location.x = xf;
 		location.y = canvasSize.y - yf;
@@ -65,7 +64,7 @@ public class InputMangler implements KeyListener, MouseListener,
 
 	public void mousePressed(MouseEvent e) {
 		Util.log("Mouse pressed (# of clicks: " + e.getClickCount() + ")");
-		final Point2d location = eventLocation(e);
+		final V2 location = eventLocation(e);
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			actor.pressedMouseBtn1At(location);
 		} else {

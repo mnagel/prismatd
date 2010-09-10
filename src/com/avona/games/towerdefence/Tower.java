@@ -1,21 +1,19 @@
 package com.avona.games.towerdefence;
 
-import javax.vecmath.Point2d;
-
 public class Tower extends StationaryObject {
-	public double range = 200;
+	public double range_sq = 200 * 200;
 	protected RechargeTimer timer = new RechargeTimer(4.0);
 	public boolean showRange = false;
 
-	public Tower(Point2d location) {
+	public Tower(V2 location) {
 		this.location = location;
 	}
 
 	public boolean inRange(Enemy e) {
-		return location.distance(e.location) < range;
+		return location.dist_sq(e.location) < range_sq;
 	}
 
-	public Particle shootTowards(Enemy e, final double dt) {
+	public Particle shootTowards(Enemy e, final float dt) {
 		if (timer.isReady()) {
 			timer.rearm();
 			return new Particle(location, e);
@@ -25,7 +23,7 @@ public class Tower extends StationaryObject {
 	}
 
 	@Override
-	public void step(double dt) {
+	public void step(float dt) {
 		timer.step(dt);
 	}
 }

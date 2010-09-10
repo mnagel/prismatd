@@ -13,10 +13,9 @@ import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
-import javax.vecmath.Point2d;
-
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.PortableGraphicsEngine;
+import com.avona.games.towerdefence.V2;
 import com.sun.opengl.util.j2d.TextRenderer;
 
 /**
@@ -69,9 +68,9 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 	}
 
 	@Override
-	public Point2d getTextBounds(final String text) {
+	public V2 getTextBounds(final String text) {
 		Rectangle2D bounds = renderer.getBounds(text);
-		return new Point2d(bounds.getWidth(), bounds.getHeight());
+		return new V2((float)bounds.getWidth(), (float)bounds.getHeight());
 	}
 
 	@Override
@@ -148,7 +147,7 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
-		size = new Point2d(width, height);
+		size = new V2(width, height);
 
 		gl.glViewport(0, 0, (int) size.x, (int) size.y);
 		gl.glMatrixMode(GL.GL_PROJECTION);

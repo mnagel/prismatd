@@ -1,40 +1,39 @@
 package com.avona.games.towerdefence;
 
-import javax.vecmath.Vector2d;
-import javax.vecmath.Point2d;
-
 /**
  * The vector describes both velocity (speed) and direction (vector). 1.0 is the
  * full movement of the vector in a second.
  */
-public class VelocityVector {
+public class VelocityVector { // TODO remove this class and merge content into V2
 	/**
 	 * vector is always normalized. Otherwise translate will yield wrong values.
 	 * You can either fill the variable by calling its normalize method with the
 	 * new vector or by calling setVector(Vector2d) which does this for you.
 	 */
-	public Vector2d direction = new Vector2d();
-	public double speed = 0.0;
+	public V2 direction = new V2();
+	public float speed = 0.0f;
 
 	public VelocityVector() {
 	}
 
-	public VelocityVector(Vector2d vector, double speed) {
+	public VelocityVector(V2 vector, float speed) {
 		setVector(vector);
 		this.speed = speed;
 	}
 
-	public void translate(Point2d p, double dt) {
-		p.add(new Point2d(direction.x * speed * dt, direction.y * speed * dt));
+	public void translate(V2 p, float dt) {
+		p.add(new V2(direction.x * speed * dt, direction.y * speed * dt));
 	}
 
-	public void setVector(Vector2d vector) {
-		this.direction.normalize(vector);
+	public void setVector(V2 vector) {
+		// this.direction.normalize(vector);
+		direction = vector;
+		direction.normalize();
 	}
 	
-	public void fromto(Point2d location, Vector2d target) {
-		Vector2d from = new Vector2d(location.x, location.y);
-		Vector2d to = new Vector2d(target.x, target.y);
+	public void fromto(V2 location, V2 target) {
+		V2 from = new V2(location.x, location.y);
+		V2 to = new V2(target.x, target.y);
 		to.sub(from);
 		setVector(to);
 	}

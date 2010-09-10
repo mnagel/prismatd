@@ -4,9 +4,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
-
 public class Game {
 	public List<Enemy> enemies = new LinkedList<Enemy>();
 	public List<Tower> towers = new LinkedList<Tower>();
@@ -19,19 +16,19 @@ public class Game {
 	public Game() {
 		world = new World();
 		enemies.add(new Enemy(world, world.getInitialLocation()));
-		towers.add(new Tower(new Point2d(300, 50)));
-		towers.add(new Tower(new Point2d(600, 60)));
+		towers.add(new Tower(new V2(300, 50)));
+		towers.add(new Tower(new V2(600, 60)));
 
 		mouse = new Mouse();
 	}
 
-	public void addTowerAt(Point2d location) {
+	public void addTowerAt(V2 location) {
 		towers.add(new Tower(location));
 	}
 
-	public void addEnemyAt(Point2d location) {
+	public void addEnemyAt(V2 location) {
 		//enemies.add(new Enemy(world, location));
-		enemies.add(new Enemy(world, new Point2d(world.waypoints.get(0).x, world.waypoints.get(0).y)));
+		enemies.add(new Enemy(world, new V2(world.waypoints.get(0).x, world.waypoints.get(0).y)));
 	}
 
 	public void showTowersRange(Tower t) {
@@ -45,13 +42,13 @@ public class Game {
 			rangeShowingTower.showRange = true;
 	}
 
-	public Tower closestTowerWithinRadius(Point2d location, double range) {
+	public Tower closestTowerWithinRadius(V2 location, double range) {
 		return (Tower) closestStationaryWithinRadius(towers, location, range);
 	}
 
 	@SuppressWarnings("unchecked") // does not seem to be cast/type/...-able
 	public static Object closestStationaryWithinRadius(final List objects,
-			final Point2d location, final double range) {
+			final V2 location, final double range) {
 		for (final Object o : objects) {
 			if (((StationaryObject) o).collidesWith(location, range))
 				return o;
@@ -59,7 +56,7 @@ public class Game {
 		return null;
 	}
 
-	public void updateWorld(final double dt) {
+	public void updateWorld(final float dt) {
 		/**
 		 * Step all objects first. This will cause them to move.
 		 */
@@ -91,7 +88,7 @@ public class Game {
 					}
 
 					// shoot to nearest enemy
-					if ( t.location.distance(bestEnemy.location) > t.location.distance(e.location)) {
+					if ( t.location.dist_sq(bestEnemy.location) > t.location.dist_sq(e.location)) {
 						bestEnemy = e;
 					} // TODO allow for different policies here...
 				}
@@ -126,18 +123,18 @@ public class Game {
 				if (p.isDead()) {
 					piter.remove();
 				}
-				
-					// Iterator<Vector2d> witer = world.waypoints.iterator();
-					//while (witer.hasNext()) {
-						final Vector2d w = world.waypoints.get(e.waypointid); // witer.next();
-						
-						Vector2d dist = (Vector2d)w.clone();
-						dist.sub(e.location);
-						
-						if (dist.length() < 10) { // FIXME Magic Number
-							e.setWPID(e.waypointid+1);
-						}
-					
+
+				// Iterator<Vector2d> witer = world.waypoints.iterator();
+				//while (witer.hasNext()) {
+				final V2 w = world.waypoints.get(e.waypointid); // witer.next();
+
+				V2 dist = new V2(w);
+				dist.sub(e.location);
+
+				if (dist.abs_sq() < 10 * 10) { // FIXME Magic Number
+					e.setWPID(e.waypointid+1);
+				}
+
 				//}
 			}
 		}

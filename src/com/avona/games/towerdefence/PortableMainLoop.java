@@ -3,7 +3,7 @@ package com.avona.games.towerdefence;
 
 public abstract class PortableMainLoop {
 
-	private static final double FIXED_TICK = 0.04;
+	private static final float FIXED_TICK = 0.04f;
 
 	public Game game = new Game();
 	public PortableGraphicsEngine ge;
@@ -11,14 +11,14 @@ public abstract class PortableMainLoop {
 
 	protected TimeTrack gameTime = new TimeTrack();;
 	protected TimeTrack graphicsTime = new TimeTrack();
-	private double gameTicks = 0;
+	private float gameTicks = 0;
 
-	public static double getWallClock() {
-		return System.nanoTime() * Math.pow(10, -9);
+	public static float getWallClock() {
+		return (float)(System.nanoTime() * Math.pow(10, -9));
 	}
 
 	public void performLoop() {
-		final double wallClock = getWallClock();
+		final float wallClock = getWallClock();
 		graphicsTime.update(wallClock);
 		gameTime.update(wallClock);
 	

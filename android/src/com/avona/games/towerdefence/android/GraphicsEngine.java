@@ -4,13 +4,12 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-import javax.vecmath.Point2d;
-
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.PortableGraphicsEngine;
+import com.avona.games.towerdefence.V2;
 
 /**
  * The GraphicsEngine object currently incorporates all drawing operations. It
@@ -49,7 +48,7 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-		size = new Point2d(width, height);
+		size = new V2(width, height);
 
 		gl.glViewport(0, 0, (int) size.x, (int) size.y);
 		gl.glMatrixMode(GL10.GL_PROJECTION);
@@ -89,7 +88,7 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 			final float colA) {
 	}
 
-	public Point2d getTextBounds(final String text) {
-		return new Point2d(0, 0);
+	public V2 getTextBounds(final String text) {
+		return new V2(0, 0);
 	}
 }

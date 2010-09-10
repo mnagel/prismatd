@@ -1,15 +1,12 @@
 package com.avona.games.towerdefence;
 
-import javax.vecmath.Point2d;
-import javax.vecmath.Vector2d;
-
 public class Enemy extends MovingObject {
 	protected World world;
-	public Vector2d target;
+	public V2 target;
 	public int health = 100;
 	public int waypointid = 1;
 
-	public Enemy(World world, Point2d location) {
+	public Enemy(World world, V2 location) {
 		this.world = world;
 		this.location = location;
 		velocity = world.getRandomDirection(location);
@@ -29,7 +26,7 @@ public class Enemy extends MovingObject {
 	}
 
 	@Override
-	public void step(double dt) {
+	public void step(float dt) {
 		if (isDead())
 			return;
 		

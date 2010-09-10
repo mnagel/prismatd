@@ -1,9 +1,7 @@
 package com.avona.games.towerdefence;
 
-import javax.vecmath.Point2d;
-
 public final class Util {
-	public static void dumpPoint(String description, Point2d p) {
+	public static void dumpPoint(String description, V2 p) {
 		System.out
 				.println(String.format("%s: (%f, %f)", description, p.x, p.y));
 	}
