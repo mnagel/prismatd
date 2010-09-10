@@ -7,28 +7,35 @@ import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
 import com.avona.games.towerdefence.InputActor;
+import com.avona.games.towerdefence.PortableGraphicsEngine;
 
 class InputForwardingGLSurfaceView extends GLSurfaceView {
 	private InputActor inputActor;
+	private PortableGraphicsEngine ge;
 
-    public InputForwardingGLSurfaceView(Context context, InputActor inputActor) {
-        super(context);
-        this.inputActor = inputActor;
-    }
+	public InputForwardingGLSurfaceView(Context context, InputActor inputActor,
+			PortableGraphicsEngine ge) {
+		super(context);
+		this.inputActor = inputActor;
+		this.ge = ge;
+	}
 
-    public boolean onTouchEvent(final MotionEvent event) {
-        queueEvent(new Runnable(){
-            public void run() {
-        		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-        			Point2d p = new Point2d(event.getX(), 800 - event.getY());
-        			inputActor.pressedMouseBtn1At(p);
-        		}
+	private Point2d eventLocation(final MotionEvent event) {
+		return new Point2d(event.getX(), ge.size.y - event.getY());
+	}
 
-        		if (event.getAction() == MotionEvent.ACTION_UP) {
-        			Point2d p = new Point2d(event.getX(), 800 - event.getY());
-        			inputActor.pressedMouseBtn2At(p);
-        		}
-            }});
-            return true;
-        }
+	public boolean onTouchEvent(final MotionEvent event) {
+		queueEvent(new Runnable() {
+			public void run() {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					inputActor.pressedMouseBtn1At(eventLocation(event));
+				}
+
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					inputActor.pressedMouseBtn2At(eventLocation(event));
+				}
+			}
+		});
+		return true;
+	}
 }
