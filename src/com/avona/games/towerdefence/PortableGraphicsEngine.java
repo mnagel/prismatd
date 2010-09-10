@@ -18,6 +18,7 @@ public abstract class PortableGraphicsEngine {
 	public Layer gameLayer;
 
 	protected TimeTrack graphicsTime = new TimeTrack();
+	protected TickRater graphicsTickRater = new TickRater(graphicsTime);
 	protected Game game;
 
 	private FloatBuffer squareVertexBuffer;
@@ -50,6 +51,7 @@ public abstract class PortableGraphicsEngine {
 
 	public void render(float gameDelta, float graphicsDelta) {
 		graphicsTime.updateTick(graphicsDelta);
+		graphicsTickRater.updateTickRate();
 
 		prepareScreen();
 
@@ -194,7 +196,7 @@ public abstract class PortableGraphicsEngine {
 
 	public void renderStats() {
 		final String fpsString = String.format("fps %.2f",
-				graphicsTime.tickrate);
+				graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);
 		final double width = bounds.x + 4;
 		final double height = bounds.y + 2;
