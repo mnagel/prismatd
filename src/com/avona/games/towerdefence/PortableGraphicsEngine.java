@@ -13,8 +13,8 @@ public abstract class PortableGraphicsEngine {
 
 	public static final double TOWER_WIDTH = 16;
 
-	public Point2d size;
-	
+	public V2 size;
+
 	public LayerHerder layerHerder = new LayerHerder();
 	public Layer menuLayer;
 	public Layer gameLayer;
@@ -45,7 +45,7 @@ public abstract class PortableGraphicsEngine {
 	public abstract void prepareTransformationForLayer(Layer layer);
 	public abstract void resetTransformation();
 
-	public void render(double gameDelta, double graphicsDelta) {
+	public void render(float gameDelta, float graphicsDelta) {
 		graphicsTime.updateTick(graphicsDelta);
 
 		prepareScreen();
@@ -156,8 +156,8 @@ public abstract class PortableGraphicsEngine {
 		final float pr = 1.0f - pg;
 
 		final double width = 12;
-		final Point2d location = e.location;
-
+		final V2 location = e.location;
+	
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
 
@@ -187,13 +187,12 @@ public abstract class PortableGraphicsEngine {
 			final double y, final float colR, final float colG,
 			final float colB, final float colA);
 
-	public abstract Point2d getTextBounds(final String text);
+	public abstract V2 getTextBounds(final String text);
 
 	public void renderStats() {
 		final String fpsString = String.format("fps %.2f",
 				graphicsTime.tickrate);
-
-		final Point2d bounds = getTextBounds(fpsString);
+		final V2 bounds = getTextBounds(fpsString);
 		final double width = bounds.x + 4;
 		final double height = bounds.y + 2;
 
@@ -226,10 +225,10 @@ public abstract class PortableGraphicsEngine {
 
 	public void renderTower(final Tower t) {
 		final double width = TOWER_WIDTH;
-		final Point2d location = t.location;
-
+		final V2 location = t.location;
+	
 		if (t.showRange) {
-			drawCircle(t.location.x, t.location.y, t.range, 1.0, 1.0, 1.0, 1.0);
+			drawCircle(t.location.x, t.location.y, t.range_sq, 1.0, 1.0, 1.0, 1.0);
 		}
 
 		squareVertexBuffer.position(0);
@@ -262,8 +261,8 @@ public abstract class PortableGraphicsEngine {
 			return;
 
 		final double width = 10;
-		final Point2d location = p.location;
-
+		final V2 location = p.location;
+	
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
 
@@ -292,7 +291,7 @@ public abstract class PortableGraphicsEngine {
 	public void renderMouse() {
 		if (!game.mouse.onScreen)
 			return;
-		final Point2d p = game.mouse.location;
+		final V2 p = game.mouse.location;
 		final double col = 0.4 + 0.6 * Math.abs(Math
 				.sin(2 * graphicsTime.clock));
 		drawFilledCircle(p.x, p.y, col, col, col, 1.0, game.mouse.radius);
@@ -319,7 +318,7 @@ public abstract class PortableGraphicsEngine {
 
 		final float menuRatio = MENU_WIDTH / MENU_HEIGHT;
 
-		final Point2d remainingSize = new Point2d(size.x - gameLayer.offset.x
+		final V2 remainingSize = new V2(size.x - gameLayer.offset.x
 				- gameLayer.region.x, size.y);
 
 		menuLayer.region.y = remainingSize.y;

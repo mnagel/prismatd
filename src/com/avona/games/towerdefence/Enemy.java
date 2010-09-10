@@ -1,24 +1,36 @@
 package com.avona.games.towerdefence;
 
-import javax.vecmath.Point2d;
-
 public class Enemy extends MovingObject {
 	protected World world;
+	public V2 target;
 	public int health = 100;
+	public int waypointid = 1;
 
-	public Enemy(World world, Point2d location) {
+	public Enemy(World world, V2 location) {
 		this.world = world;
 		this.location = location;
 		velocity = world.getRandomDirection(location);
+		velocity.speed = 80;
+		setWPID(1);
 		System.out.println(velocity);
 		System.out.println(location);
 	}
+	
+	public void setWPID(int i) {
+		Util.log("setting to wp" + 1);
+		if (i == world.waypoints.size()) {
+			i = 0;
+		}
+		waypointid = i;
+		target = world.waypoints.get(waypointid);
+		velocity.fromto(this.location, this.target);
+	}
 
 	@Override
-	public void step(double dt) {
+	public void step(float dt) {
 		if (isDead())
 			return;
-
+		
 		velocity.translate(location, dt);
 		
 		if (location.x < World.ORIGIN_X) {

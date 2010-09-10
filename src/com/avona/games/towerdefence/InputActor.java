@@ -1,7 +1,5 @@
 package com.avona.games.towerdefence;
 
-import javax.vecmath.Point2d;
-
 public class InputActor {
 	private PortableMainLoop ml;
 	private Game game;
@@ -23,11 +21,11 @@ public class InputActor {
 	public void pressedSpaceKey() {
 		ml.toggleGamePause();
 	}
-	public void pressedMouseBtn1At(Point2d location) {
+	public void pressedMouseBtn1At(V2 location) {
 		game.addTowerAt(location);
 		checkMouseOverTower(game.mouse.location);
 	}
-	public void pressedMouseBtn2At(Point2d location) {
+	public void pressedMouseBtn2At(V2 location) {
 		game.addEnemyAt(location);
 	}
 	public void mouseEntered() {
@@ -37,16 +35,16 @@ public class InputActor {
 		game.mouse.onScreen = false;		
 	}
 
-	public void checkMouseOverTower(Point2d location) {
+	public void checkMouseOverTower(V2 location) {
 		Tower t = game.closestTowerWithinRadius(location,
 				PortableGraphicsEngine.TOWER_WIDTH);
 		game.showTowersRange(t);
 	}
-	public void mouseMovedTo(Point2d location) {
+	public void mouseMovedTo(V2 location) {
 		game.mouse.location = location;
 		checkMouseOverTower(location);
 	}
-	public void mouseDraggedTo(Point2d location) {
+	public void mouseDraggedTo(V2 location) {
 		game.mouse.location = location;
 	}
 }

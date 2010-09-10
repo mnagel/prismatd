@@ -133,6 +133,8 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Dokumentation nachziehen / sortieren
 [ ] Lizenz-Header
 [ ] Artwork (Launcher Icon)
+[ ] TODOs im Code durchgehen
+[ ] nur eine absolut einzige Version von Korrdinaten-Tupel verwenden keine Mischung von Point2d, Vector2d, Velocity, ...
 
 ===== Roadmap =====
 [ ] Code-Geschwindigkeit Profiling, insbes. fuer Android
