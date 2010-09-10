@@ -4,62 +4,19 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
 import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.InputActor;
+import com.avona.games.towerdefence.PortableMainLoop;
 import com.avona.games.towerdefence.TimeTrack;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
 
-public class MainLoop implements GLEventListener {
+public class MainLoop extends PortableMainLoop implements GLEventListener {
 	final private int EXPECTED_FPS = 60;
 
-	public Game game;
-	public GraphicsEngine ge;
 	public InputMangler input;
-
-	private TimeTrack gameTime;
-	private TimeTrack graphicsTime;
 	private Animator animator;
 
-	private static final double FIXED_TICK = 0.04;
-	private double gameTicks = 0;
-
-	public static double getWallClock() {
-		return System.nanoTime() * Math.pow(10, -9);
-	}
-
-	public void performLoop() {
-		final double wallClock = getWallClock();
-		graphicsTime.update(wallClock);
-		gameTime.update(wallClock);
-
-		// Updating of inputs is done asynchronously.
-
-		// Update the world with a fixed rate.
-		gameTicks += gameTime.tick;
-		while (gameTicks >= FIXED_TICK) {
-			game.updateWorld(FIXED_TICK);
-			gameTicks -= FIXED_TICK;
-		}
-
-		// Show the world.
-		ge.render(gameTime.tick, graphicsTime.tick);
-	}
-
-	public void pauseGame() {
-		gameTime.stopClock();
-	}
-
-	public void unpauseGame() {
-		gameTime.startClock();
-	}
-
-	public void toggleGamePause() {
-		if (gameTime.isRunning()) {
-			pauseGame();
-		} else {
-			unpauseGame();
-		}
-	}
-
+	@Override
 	public void exit() {
 		animator.stop();
 		System.exit(0);
@@ -70,11 +27,16 @@ public class MainLoop implements GLEventListener {
 		graphicsTime = new TimeTrack();
 
 		game = new Game();
-		ge = new GraphicsEngine(this, game);
-		ge.canvas.addGLEventListener(this);
-		input = new InputMangler(this, ge, game);
+		// Android has no mouse tracking, so set invisible by default.
+		game.mouse.onScreen = false;
 
-		animator = new FPSAnimator(ge.canvas, EXPECTED_FPS);
+		inputActor = new InputActor(this, game);
+		GraphicsEngine graphicsEngine = new GraphicsEngine(game);
+		ge = graphicsEngine;
+		graphicsEngine.canvas.addGLEventListener(this);
+		input = new InputMangler(graphicsEngine, this, inputActor);
+
+		animator = new FPSAnimator(graphicsEngine.canvas, EXPECTED_FPS);
 		animator.setRunAsFastAsPossible(false);
 		animator.start();
 	}

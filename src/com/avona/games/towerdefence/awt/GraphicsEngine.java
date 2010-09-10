@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 import javax.media.opengl.GL;
@@ -17,11 +15,8 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import javax.vecmath.Point2d;
 
-import com.avona.games.towerdefence.Enemy;
 import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.Particle;
-import com.avona.games.towerdefence.TimeTrack;
-import com.avona.games.towerdefence.Tower;
+import com.avona.games.towerdefence.PortableGraphicsEngine;
 import com.sun.opengl.util.j2d.TextRenderer;
 
 /**
@@ -29,46 +24,26 @@ import com.sun.opengl.util.j2d.TextRenderer;
  * will iterate over all in-game objects and call (possibly overloaded) class
  * methods to perform the GL calls. It will not touch any in-game state, though.
  */
-public class GraphicsEngine implements GLEventListener {
-	final static public int DEFAULT_HEIGHT = 480;
-	final static public int DEFAULT_WIDTH = 675;
-
-	final static public double TOWER_WIDTH = 16;
-
+public class GraphicsEngine extends PortableGraphicsEngine implements
+		GLEventListener {
 	public Frame frame;
 	public GLCanvas canvas;
-	public Point2d size;
-
-	TimeTrack graphicsTime;
-	GL gl;
+	public GL gl;
 	GLU glu;
-	Game game;
-	MainLoop main;
 	TextRenderer renderer;
 
-	private FloatBuffer squareVertexBuffer;
-	private FloatBuffer squareColorBuffer;
+	public FloatBuffer squareVertexBuffer;
+	public FloatBuffer squareColorBuffer;
 
-	public GraphicsEngine(MainLoop main, Game game) {
-		this.main = main;
-		this.game = game;
+	public GraphicsEngine(Game game) {
+		super(game);
 
-		graphicsTime = new TimeTrack();
 		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 12),
 				true, true);
 		glu = new GLU();
 
-		squareVertexBuffer = allocateFloatBuffer(4 * 2);
-		squareColorBuffer = allocateFloatBuffer(4 * 4);
-
 		setupGlCanvas();
 		setupFrame();
-	}
-
-	private FloatBuffer allocateFloatBuffer(final int entries) {
-		final ByteBuffer byteBuf = ByteBuffer.allocateDirect(entries * 4);
-		byteBuf.order(ByteOrder.nativeOrder());
-		return byteBuf.asFloatBuffer();
 	}
 
 	private void setupGlCanvas() {
@@ -83,8 +58,8 @@ public class GraphicsEngine implements GLEventListener {
 	private void setupFrame() {
 		frame = new Frame("Towerdefence");
 		frame.add(canvas);
-		frame.setSize(GraphicsEngine.DEFAULT_WIDTH,
-				GraphicsEngine.DEFAULT_HEIGHT);
+		frame.setSize(PortableGraphicsEngine.DEFAULT_WIDTH,
+				PortableGraphicsEngine.DEFAULT_HEIGHT);
 		frame.setBackground(Color.WHITE);
 		frame.setCursor(java.awt.Toolkit.getDefaultToolkit()
 				.createCustomCursor(
@@ -93,44 +68,13 @@ public class GraphicsEngine implements GLEventListener {
 		frame.setVisible(true);
 	}
 
-	public void render(double gameDelta, double graphicsDelta) {
-		graphicsTime.updateTick(graphicsDelta);
-
-		// Paint background, clearing previous drawings.
-		gl.glColor3d(0.0, 0.0, 0.0);
-		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-
-		for (Enemy e : game.enemies) {
-			renderEnemy(e);
-		}
-		for (Tower t : game.towers) {
-			renderTower(t);
-		}
-		for (Particle p : game.particles) {
-			renderParticle(p);
-		}
-		renderStats();
-		renderMouse();
+	@Override
+	public Point2d getTextBounds(final String text) {
+		Rectangle2D bounds = renderer.getBounds(text);
+		return new Point2d(bounds.getWidth(), bounds.getHeight());
 	}
 
-	public void renderStats() {
-		gl.glBegin(GL.GL_QUADS);
-
-		final String fpsString = String.format("fps %.2f",
-				graphicsTime.tickrate);
-		Rectangle2D bounds = renderer.getBounds(fpsString);
-		final double width = bounds.getWidth() + 4;
-		final double height = bounds.getHeight() + 2;
-
-		gl.glColor3d(0.1, 0.1, 0.1);
-		gl.glVertex2d(0, 0);
-		gl.glVertex2d(0, 0 + height);
-		gl.glVertex2d(0 + width, 0 + height);
-		gl.glVertex2d(0 + width, 0);
-		gl.glEnd();
-		drawText(fpsString, 2, 4, 1.0f, 1.0f, 1.0f, 1.0f);
-	}
-
+	@Override
 	public void drawText(final String text, final double x, final double y,
 			final float colR, final float colG, final float colB,
 			final float colA) {
@@ -140,102 +84,27 @@ public class GraphicsEngine implements GLEventListener {
 		renderer.endRendering();
 	}
 
-	public void renderEnemy(final Enemy e) {
-		if (e.isDead())
-			return;
-
-		final float pg = 0.01f * (float) e.health;
-		final float pr = 1.0f - pg;
-
-		final double width = 12;
-		final Point2d location = e.location;
-
-		squareVertexBuffer.position(0);
-		squareColorBuffer.position(0);
-
-		squareVertexBuffer.put((float) (location.x + width / 2));
-		squareVertexBuffer.put((float) (location.y + width / 2));
-		squareColorBuffer.put(new float[] { pr * 1.0f, pg * 0.9f, 0.0f, 1.0f });
-
-		squareVertexBuffer.put((float) (location.x + width / 2));
-		squareVertexBuffer.put((float) (location.y - width / 2));
-		squareColorBuffer.put(new float[] { pr * 0.8f, pg * 0.6f, 0.0f, 1.0f });
-
-		squareVertexBuffer.put((float) (location.x - width / 2));
-		squareVertexBuffer.put((float) (location.y + width / 2));
-		squareColorBuffer.put(new float[] { pr * 0.6f, pg * 0.8f, 0.0f, 1.0f });
-
-		squareVertexBuffer.put((float) (location.x - width / 2));
-		squareVertexBuffer.put((float) (location.y - width / 2));
-		squareColorBuffer.put(new float[] { pr * 0.9f, pg * 1.0f, 0.0f, 1.0f });
-
-		squareVertexBuffer.position(0);
-		squareColorBuffer.position(0);
-
-		gl.glVertexPointer(2, GL.GL_FLOAT, 0, squareVertexBuffer);
-		gl.glColorPointer(4, GL.GL_FLOAT, 0, squareColorBuffer);
+	@Override
+	public void drawColorVertexArray(final int vertices,
+			final FloatBuffer vertexBuffer, final FloatBuffer colourBuffer) {
+		gl.glVertexPointer(2, GL.GL_FLOAT, 0, vertexBuffer);
+		gl.glColorPointer(4, GL.GL_FLOAT, 0, colourBuffer);
 
 		gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL.GL_COLOR_ARRAY);
 
-		gl.glDrawArrays(GL.GL_TRIANGLE_STRIP, 0, 4);
+		gl.glDrawArrays(GL.GL_TRIANGLE_STRIP, 0, vertices);
 
 		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL.GL_COLOR_ARRAY);
 	}
 
-	public void renderTower(final Tower t) {
-		final double width = TOWER_WIDTH;
-		final Point2d location = t.location;
-
-		if (t.showRange) {
-			gl.glColor3d(1.0, 1.0, 1.0);
-			drawCircle(t.location.x, t.location.y, t.range);
-		}
-
-		gl.glBegin(GL.GL_QUADS);
-		gl.glColor3d(0.0, 0.0, 1.0);
-		gl.glVertex2d(location.x - width / 2, location.y - width / 2);
-		gl.glColor3d(0.0, 0.0, 0.6);
-		gl.glVertex2d(location.x + width / 2, location.y - width / 2);
-		gl.glColor3d(0.0, 0.0, 0.9);
-		gl.glVertex2d(location.x + width / 2, location.y + width / 2);
-		gl.glColor3d(0.0, 0.0, 0.8);
-		gl.glVertex2d(location.x - width / 2, location.y + width / 2);
-		gl.glEnd();
-	}
-
-	public void renderParticle(final Particle p) {
-		if (p.isDead())
-			return;
-
-		final double width = 10;
-		final Point2d location = p.location;
-
-		gl.glBegin(GL.GL_QUADS);
-		gl.glColor3d(1.0, 0.8, 0.2);
-		gl.glVertex2d(location.x - width / 2, location.y - width / 2);
-		gl.glColor3d(0.6, 0.9, 0.2);
-		gl.glVertex2d(location.x + width / 2, location.y - width / 2);
-		gl.glColor3d(0.9, 0.6, 0.2);
-		gl.glVertex2d(location.x + width / 2, location.y + width / 2);
-		gl.glColor3d(0.8, 1.0, 0.2);
-		gl.glVertex2d(location.x - width / 2, location.y + width / 2);
-		gl.glEnd();
-	}
-
-	public void drawCircle(final double x, final double y, final double radius) {
-		drawCircle(x, y, radius, 100, GL.GL_LINE_LOOP);
-	}
-
-	public void drawFilledCircle(final double x, final double y,
-			final double radius) {
-		drawCircle(x, y, radius, 100, GL.GL_POLYGON);
-	}
-
-	public void drawCircle(final double x, final double y, final double radius,
-			final int segments, final int mode) {
+	@Override
+	public void drawCircle(final double x, final double y, final double colR,
+			final double colG, final double colB, final double colA,
+			final double radius, final int segments, final int mode) {
 		final double angleStep = 2 * Math.PI / segments;
+		gl.glColor4d(colR, colG, colB, colA);
 		gl.glLineWidth(1.0f);
 
 		gl.glBegin(mode);
@@ -247,14 +116,18 @@ public class GraphicsEngine implements GLEventListener {
 		gl.glEnd();
 	}
 
-	public void renderMouse() {
-		if (!game.mouse.onScreen)
-			return;
-		final Point2d p = game.mouse.location;
-		final double col = 0.4 + 0.6 * Math.abs(Math
-				.sin(2 * graphicsTime.clock));
-		gl.glColor3d(col, col, col);
-		drawFilledCircle(p.x, p.y, game.mouse.radius);
+	@Override
+	public void drawCircle(final double x, final double y, final double colR,
+			final double colG, final double colB, final double colA,
+			final double radius) {
+		drawCircle(x, y, colR, colG, colB, colA, radius, 100, GL.GL_LINE_LOOP);
+	}
+
+	@Override
+	public void drawFilledCircle(final double x, final double y,
+			final double colR, final double colG, final double colB,
+			final double colA, final double radius) {
+		drawCircle(x, y, colR, colG, colB, colA, radius, 100, GL.GL_POLYGON);
 	}
 
 	@Override
@@ -272,7 +145,9 @@ public class GraphicsEngine implements GLEventListener {
 		gl = canvas.getGL();
 	}
 
-	public void setupGl(int width, int height) {
+	@Override
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
+			int height) {
 		size = new Point2d(width, height);
 
 		gl.glViewport(0, 0, (int) size.x, (int) size.y);
@@ -284,9 +159,9 @@ public class GraphicsEngine implements GLEventListener {
 	}
 
 	@Override
-	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
-			int height) {
-		// The canvas has been updated.
-		setupGl(width, height);
+	protected void prepareScreen() {
+		// Paint background, clearing previous drawings.
+		gl.glColor3d(0.0, 0.0, 0.0);
+		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 	}
 }

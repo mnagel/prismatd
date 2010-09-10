@@ -10,22 +10,25 @@ import java.awt.event.WindowEvent;
 
 import javax.vecmath.Point2d;
 
-import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.Tower;
+import com.avona.games.towerdefence.InputActor;
+import com.avona.games.towerdefence.PortableGraphicsEngine;
+import com.avona.games.towerdefence.PortableMainLoop;
 import com.avona.games.towerdefence.Util;
 
 public class InputMangler implements KeyListener, MouseListener,
 		MouseMotionListener {
-	private GraphicsEngine ge;
-	private MainLoop ml;
-	private Game game;
+	private PortableGraphicsEngine ge;
+	private PortableMainLoop ml;
+	private InputActor actor;
 
-	public InputMangler(MainLoop mainLoop, GraphicsEngine ge, Game game) {
-		this.ml = mainLoop;
+	public InputMangler(GraphicsEngine ge, PortableMainLoop mainLoop,
+			InputActor actor) {
 		this.ge = ge;
-		this.game = game;
+		this.ml = mainLoop;
+		this.actor = actor;
 
 		ge.frame.addWindowListener(new WindowAdapter() {
+			@Override
 			public void windowClosing(WindowEvent e) {
 				ml.exit();
 			}
@@ -36,10 +39,23 @@ public class InputMangler implements KeyListener, MouseListener,
 		ge.canvas.addMouseMotionListener(this);
 	}
 
+	protected Point2d eventLocation(MouseEvent e) {
+		Point2d location = new Point2d();
+		final double xf = e.getX();
+		final double yf = e.getY();
+		final Point2d canvasSize = ge.size;
+
+		location.x = xf;
+		location.y = canvasSize.y - yf;
+		return location;
+	}
+
 	public void keyPressed(KeyEvent e) {
 		Util.log(e.paramString());
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			ml.exit();
+			actor.pressedEscapeKey();
+		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			actor.pressedSpaceKey();
 		}
 	}
 
@@ -47,24 +63,13 @@ public class InputMangler implements KeyListener, MouseListener,
 		Util.log(e.paramString());
 	}
 
-	public void keyTyped(KeyEvent e) {
-		Util.log(e.paramString());
-		char key = e.getKeyChar();
-		Util.log("Key character: \"" + key + "\"");
-		if (key == ' ') {
-			ml.toggleGamePause();
-		}
-	}
-
 	public void mousePressed(MouseEvent e) {
 		Util.log("Mouse pressed (# of clicks: " + e.getClickCount() + ")");
-		Point2d location = new Point2d();
-		eventLocation(e, location);
+		final Point2d location = eventLocation(e);
 		if (e.getButton() == MouseEvent.BUTTON1) {
-			game.addTowerAt(location);
-			checkMouseOverTower(game.mouse.location);
+			actor.pressedMouseBtn1At(location);
 		} else {
-			game.addEnemyAt(location);
+			actor.pressedMouseBtn2At(location);
 		}
 	}
 
@@ -74,39 +79,27 @@ public class InputMangler implements KeyListener, MouseListener,
 
 	public void mouseEntered(MouseEvent e) {
 		Util.log("Mouse entered");
-		game.mouse.onScreen = true;
+		actor.mouseEntered();
 	}
 
 	public void mouseExited(MouseEvent e) {
 		Util.log("Mouse exited");
-		game.mouse.onScreen = false;
-	}
-
-	public void eventLocation(MouseEvent e, Point2d location) {
-		final double xf = e.getX();
-		final double yf = e.getY();
-		final Point2d canvasSize = ge.size;
-
-		location.x = xf;
-		location.y = canvasSize.y - yf;
+		actor.mouseExited();
 	}
 
 	public void mouseClicked(MouseEvent e) {
 		Util.log("Mouse clicked (# of clicks: " + e.getClickCount() + ")");
 	}
 
-	public void checkMouseOverTower(Point2d mouseLocation) {
-		Tower t = game.closestTowerWithinRadius(mouseLocation,
-				GraphicsEngine.TOWER_WIDTH);
-		game.showTowersRange(t);
-	}
-
 	public void mouseMoved(MouseEvent e) {
-		eventLocation(e, game.mouse.location);
-		checkMouseOverTower(game.mouse.location);
+		actor.mouseMovedTo(eventLocation(e));
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		eventLocation(e, game.mouse.location);
+		actor.mouseDraggedTo(eventLocation(e));
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
 	}
 }
