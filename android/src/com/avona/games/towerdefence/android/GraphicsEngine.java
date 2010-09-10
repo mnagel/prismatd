@@ -72,7 +72,7 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 	}
 
-	protected void drawColorVertexArray(final int vertices,
+	protected void drawTriangleStrip(final int vertices,
 			final FloatBuffer vertexBuffer, final FloatBuffer colourBuffer) {
 		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertexBuffer);
 		gl.glColorPointer(4, GL10.GL_FLOAT, 0, colourBuffer);

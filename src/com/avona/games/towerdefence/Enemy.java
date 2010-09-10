@@ -10,7 +10,7 @@ public class Enemy extends MovingObject {
 		this.world = world;
 		this.location = location;
 		velocity = world.getRandomDirection(location);
-		velocity.speed = 80;
+		velocity.speed = 60;
 		setWPID(1);
 		System.out.println(velocity);
 		System.out.println(location);
