@@ -192,5 +192,6 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 		gl.glDrawArrays(GL.GL_LINE_STRIP, 0, vertices);
 
 		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
-		gl.glDisableClientState(GL.GL_COLOR_ARRAY);	}
+		gl.glDisableClientState(GL.GL_COLOR_ARRAY);
+	}
 }

@@ -4,6 +4,7 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
 
@@ -106,5 +107,20 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 	@Override
 	public void resetTransformation() {
 		gl.glPopMatrix();
+	}
+
+	@Override
+	protected void drawLine(int vertices, FloatBuffer vertexBuffer,
+			FloatBuffer colorBuffer) {
+		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertexBuffer);
+		gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
+
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+
+		gl.glDrawArrays(GL10.GL_LINE_STRIP, 0, vertices);
+
+		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}
 }
