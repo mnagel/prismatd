@@ -81,24 +81,51 @@ public abstract class PortableGraphicsEngine {
 
 		squareVertexBuffer.put((float) (gameLayer.virtualRegion.x));
 		squareVertexBuffer.put((float) (gameLayer.virtualRegion.y));
-		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
+		squareColorBuffer.put(new float[] { 0.35f, 0.82f, 0.90f, 1.0f });
 
 		squareVertexBuffer.put((float) (gameLayer.virtualRegion.x));
-		squareVertexBuffer.put((float) (0));
-		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
+		squareVertexBuffer.put(0.0f);
+		squareColorBuffer.put(new float[] { 0.60f, 0.83f, 0.91f, 1.0f });
 
-		squareVertexBuffer.put((float) (0));
+		squareVertexBuffer.put(0.0f);
 		squareVertexBuffer.put((float) (gameLayer.virtualRegion.y));
-		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
+		squareColorBuffer.put(new float[] { 0.34f, 0.81f, 0.89f, 1.0f });
 
-		squareVertexBuffer.put((float) (0));
-		squareVertexBuffer.put((float) (0));
-		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
+		squareVertexBuffer.put(0.0f);
+		squareVertexBuffer.put(0.0f);
+		squareColorBuffer.put(new float[] { 0.37f, 0.84f, 0.92f, 1.0f });
 
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
 
-		drawColorVertexArray(4, squareVertexBuffer, squareColorBuffer);
+		drawTriangleStrip(4, squareVertexBuffer, squareColorBuffer);
+		
+		// Draw the waypoints... top first...
+		FloatBuffer vertexBuffer = allocateFloatBuffer(game.world.waypoints.size() * 2);
+		FloatBuffer colorBuffer = allocateFloatBuffer(game.world.waypoints.size() * 4);
+		for(V2 p : game.world.waypoints) {
+			vertexBuffer.put(p.x + 4.0f);
+			vertexBuffer.put(p.y + 4.0f);
+			colorBuffer.put(new float[] { 0.0f, 0.0f, 0.0f, 1.0f });
+		}
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
+		
+		drawLine(game.world.waypoints.size(), vertexBuffer, colorBuffer);
+		
+		// ...then bottom...
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
+		for(V2 p : game.world.waypoints) {
+			vertexBuffer.put(p.x - 4.0f);
+			vertexBuffer.put(p.y - 4.0f);
+			colorBuffer.put(new float[] { 0.0f, 0.0f, 0.0f, 1.0f });
+		}
+		
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
+		
+		drawLine(game.world.waypoints.size(), vertexBuffer, colorBuffer);
 	}
 
 	protected void renderMenu() {
@@ -124,7 +151,7 @@ public abstract class PortableGraphicsEngine {
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
 
-		drawColorVertexArray(4, squareVertexBuffer, squareColorBuffer);
+		drawTriangleStrip(4, squareVertexBuffer, squareColorBuffer);
 	}
 
 	protected abstract void prepareScreen();
@@ -148,9 +175,12 @@ public abstract class PortableGraphicsEngine {
 		return byteBuf.asFloatBuffer();
 	}
 
-	protected abstract void drawColorVertexArray(final int vertices,
-			final FloatBuffer vertexBuffer, final FloatBuffer colourBuffer);
+	protected abstract void drawTriangleStrip(final int vertices,
+			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer);
 
+	protected abstract void drawLine(final int vertices,
+			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer);
+	
 	public void renderEnemy(final Enemy e) {
 		if (e.isDead())
 			return;
@@ -183,7 +213,7 @@ public abstract class PortableGraphicsEngine {
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
 
-		drawColorVertexArray(4, squareVertexBuffer, squareColorBuffer);
+		drawTriangleStrip(4, squareVertexBuffer, squareColorBuffer);
 	}
 
 	public abstract void drawText(final String text, final double x,
@@ -221,7 +251,7 @@ public abstract class PortableGraphicsEngine {
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
 
-		drawColorVertexArray(4, squareVertexBuffer, squareColorBuffer);
+		drawTriangleStrip(4, squareVertexBuffer, squareColorBuffer);
 
 		drawText(fpsString, 2, 4, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
@@ -257,7 +287,7 @@ public abstract class PortableGraphicsEngine {
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
 
-		drawColorVertexArray(4, squareVertexBuffer, squareColorBuffer);
+		drawTriangleStrip(4, squareVertexBuffer, squareColorBuffer);
 	}
 
 	public void renderParticle(final Particle p) {
@@ -289,7 +319,7 @@ public abstract class PortableGraphicsEngine {
 		squareVertexBuffer.position(0);
 		squareColorBuffer.position(0);
 
-		drawColorVertexArray(4, squareVertexBuffer, squareColorBuffer);
+		drawTriangleStrip(4, squareVertexBuffer, squareColorBuffer);
 	}
 
 	public void renderMouse() {

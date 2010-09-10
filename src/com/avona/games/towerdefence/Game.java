@@ -131,7 +131,7 @@ public class Game {
 			V2 dist = new V2(w);
 			dist.sub(e.location);
 
-			if (dist.abs_sq() < 10 * 10) { // FIXME Magic Number
+			if (dist.abs_sq() < 10) { // FIXME Magic Number
 				e.setWPID(e.waypointid+1);
 			}
 		}
