@@ -12,12 +12,12 @@ public abstract class PortableMainLoop {
 	protected TimeTrack graphicsTime = new TimeTrack();
 	private float gameTicks = 0;
 
-	public static float getWallClock() {
-		return (float) (System.nanoTime() * Math.pow(10, -9));
+	public static double getWallClock() {
+		return System.nanoTime() * Math.pow(10, -9);
 	}
 
 	public void performLoop() {
-		final float wallClock = getWallClock();
+		final double wallClock = getWallClock();
 		graphicsTime.update(wallClock);
 		gameTime.update(wallClock);
 
