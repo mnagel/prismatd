@@ -28,7 +28,7 @@ public class World {
 	
 	public World() {
 		waypoints = new LinkedList<V2>();
-		addwp(0, 0);
+		addwp(40, 40);
 		addwp(300, 300);
 		addwp(300, 100);
 		addwp(600, 400);

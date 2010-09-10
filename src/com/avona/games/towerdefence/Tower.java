@@ -2,7 +2,7 @@ package com.avona.games.towerdefence;
 
 public class Tower extends StationaryObject {
 	public double range_sq = 200 * 200;
-	protected RechargeTimer timer = new RechargeTimer(4.0);
+	protected RechargeTimer timer = new RechargeTimer(0.3);
 	public boolean showRange = false;
 
 	public Tower(V2 location) {

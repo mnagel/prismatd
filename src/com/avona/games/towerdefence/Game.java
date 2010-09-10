@@ -105,7 +105,6 @@ public class Game {
 		/**
 		 * Check for any particle collisions and handle damage.
 		 */
-
 		Iterator<Enemy> eiter = enemies.iterator();
 		while (eiter.hasNext()) {
 			final Enemy e = eiter.next();
@@ -117,25 +116,23 @@ public class Game {
 					p.attack(e);
 					if (e.isDead()) {
 						eiter.remove();
+						break; // enemy dead, no more particles to check
 					}
 				}
 
 				if (p.isDead()) {
 					piter.remove();
+					continue; // particle exploded, dont use it any more
 				}
+			}
 
-				// Iterator<Vector2d> witer = world.waypoints.iterator();
-				//while (witer.hasNext()) {
-				final V2 w = world.waypoints.get(e.waypointid); // witer.next();
+			final V2 w = world.waypoints.get(e.waypointid);
 
-				V2 dist = new V2(w);
-				dist.sub(e.location);
+			V2 dist = new V2(w);
+			dist.sub(e.location);
 
-				if (dist.abs_sq() < 10 * 10) { // FIXME Magic Number
-					e.setWPID(e.waypointid+1);
-				}
-
-				//}
+			if (dist.abs_sq() < 10 * 10) { // FIXME Magic Number
+				e.setWPID(e.waypointid+1);
 			}
 		}
 	}
