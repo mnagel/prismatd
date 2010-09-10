@@ -3,6 +3,7 @@ Wiki-Format: zim 0.4
 Creation-Date: 2010-09-06T09:54:39.867461
 
 ====== 01 Home ======
+
 ==== Desktop Java ====
 [*] Surface (o.Ä.) erstellen, auf der performante 2D und/oder 3D Grafik ausgegeben werden kann
 [*] Eingaben entgegennehmen
@@ -131,8 +132,10 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] How-To-Play-Anleitung mit Bildern schreiben
 [ ] Dokumentation nachziehen / sortieren
 [ ] Lizenz-Header
+[ ] Artwork (Launcher Icon)
 
 ===== Roadmap =====
+[ ] Code-Geschwindigkeit Profiling, insbes. fuer Android
 [ ] Festlegen, wie das fertige Spiel "aussehen" soll
 	[ ] welche Monster
 	[ ] welche Tuerme
@@ -159,6 +162,7 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Specials
 
 [ ] Business Plan
+[ ] Planung Beta Release / sonstige Previews
 [ ] was tun mit Android-Devices, die außer Touch auch noch eine Tastatur haben?
 
 [ ] Spiel-Interaktion (will ich bauen, will ich updaten, ...)
