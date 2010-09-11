@@ -10,12 +10,12 @@ public class Enemy extends MovingObject {
 		this.world = world;
 		this.location = location;
 		velocity = world.getRandomDirection(location);
-		velocity.speed = 80;
+		velocity.speed = 60;
 		setWPID(1);
 		System.out.println(velocity);
 		System.out.println(location);
 	}
-	
+
 	public void setWPID(int i) {
 		Util.log("setting to wp" + 1);
 		if (i == world.waypoints.size()) {
@@ -30,9 +30,9 @@ public class Enemy extends MovingObject {
 	public void step(float dt) {
 		if (isDead())
 			return;
-		
+
 		velocity.translate(location, dt);
-		
+
 		if (location.x < World.ORIGIN_X) {
 			location.x = World.ORIGIN_X - (location.x - World.ORIGIN_X);
 			velocity.direction.x = -velocity.direction.x;
@@ -49,7 +49,7 @@ public class Enemy extends MovingObject {
 			location.y = World.HEIGHT - (location.y - World.HEIGHT);
 			velocity.direction.y = -velocity.direction.y;
 		}
-		
+
 		// System.out.println(velocity);
 		// System.out.println(location);
 	}

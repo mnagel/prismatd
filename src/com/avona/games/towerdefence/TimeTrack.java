@@ -1,11 +1,10 @@
 package com.avona.games.towerdefence;
 
 public class TimeTrack {
-
 	public float clock = 0;
 	public float tick = 0;
 
-	private float lastWallClock = 0;
+	private double lastWallClock = 0;
 	private boolean running = true;
 
 	public boolean isRunning() {
@@ -32,9 +31,9 @@ public class TimeTrack {
 	 * @param wallClock
 	 *            New wall clock time.
 	 */
-	public void update(float wallClock) {
+	public void update(double wallClock) {
 		if (lastWallClock != 0)
-			updateTick(wallClock - lastWallClock);
+			updateTick((float) (wallClock - lastWallClock));
 		lastWallClock = wallClock;
 	}
 
@@ -51,17 +50,8 @@ public class TimeTrack {
 		if (running) {
 			tick = wallTick;
 			clock += wallTick;
-
-			if (wallTick < 0.00001f) {
-				Util.log("zero tick..."); return;
-			}
-			// tickrate = (1.0 - wallTick) * tickrate + wallTick * (1.0 / wallTick);	
-			tickrate = (1.0f - wallTick) * tickrate + 1.0f;
-			// Util.log("tickrate: " + tickrate);
 		} else {
 			tick = 0;
 		}
 	}
-
-	public float tickrate = 60.0f;
 }

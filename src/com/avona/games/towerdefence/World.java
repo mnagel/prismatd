@@ -11,8 +11,7 @@ public class World {
 	public final static float HEIGHT = 480;
 
 	public static Random rand = new java.util.Random();
-	public V2 initLocation = new V2(300, 300);
-	
+
 	public VelocityVector getRandomDirection(V2 location) {
 		float x = rand.nextFloat() - 0.5f;
 		float y = rand.nextFloat() - 0.5f;
@@ -22,24 +21,23 @@ public class World {
 		return new VelocityVector(dir, s);
 	}
 
-	public V2 getInitialLocation() {
-		return initLocation;
-	}
-	
 	public World() {
-		waypoints = new LinkedList<V2>();
-		addwp(40, 40);
-		addwp(300, 300);
-		addwp(300, 100);
+		waypoints.clear();
+		addwp(30, 480);
+		addwp(30, 400);
 		addwp(600, 400);
-		addwp(0, 350);
-		addwp(100, 400);
-		addwp(0, 480);
+		addwp(600, 300);
+		addwp(500, 300);
+		addwp(500, 350);
+		addwp(30, 350);
+		addwp(30, 200);
+		addwp(300, 200);
+		addwp(300, 0);
 	}
-	
+
 	private void addwp(int x, int y) {
 		waypoints.add(new V2(x, y));
 	}
-	
-	public List<V2> waypoints;
+
+	public List<V2> waypoints = new LinkedList<V2>();
 }

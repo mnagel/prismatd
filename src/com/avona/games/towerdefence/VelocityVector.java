@@ -4,7 +4,8 @@ package com.avona.games.towerdefence;
  * The vector describes both velocity (speed) and direction (vector). 1.0 is the
  * full movement of the vector in a second.
  */
-public class VelocityVector { // TODO remove this class and merge content into V2
+public class VelocityVector { // TODO remove this class and merge content into
+								// V2
 	/**
 	 * vector is always normalized. Otherwise translate will yield wrong values.
 	 * You can either fill the variable by calling its normalize method with the
@@ -30,7 +31,7 @@ public class VelocityVector { // TODO remove this class and merge content into V
 		direction = vector;
 		direction.normalize();
 	}
-	
+
 	public void fromto(V2 location, V2 target) {
 		V2 from = new V2(location.x, location.y);
 		V2 to = new V2(target.x, target.y);

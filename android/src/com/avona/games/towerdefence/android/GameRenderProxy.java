@@ -10,12 +10,12 @@ import com.avona.games.towerdefence.PortableMainLoop;
 public class GameRenderProxy implements Renderer {
 	private PortableMainLoop ml;
 	private GraphicsEngine ge;
-	
+
 	public GameRenderProxy(PortableMainLoop ml, GraphicsEngine ge) {
 		this.ml = ml;
 		this.ge = ge;
 	}
-	
+
 	@Override
 	public void onDrawFrame(GL10 gl) {
 		ml.performLoop();

@@ -85,10 +85,10 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 	}
 
 	@Override
-	public void drawColorVertexArray(final int vertices,
-			final FloatBuffer vertexBuffer, final FloatBuffer colourBuffer) {
+	public void drawTriangleStrip(final int vertices,
+			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer) {
 		gl.glVertexPointer(2, GL.GL_FLOAT, 0, vertexBuffer);
-		gl.glColorPointer(4, GL.GL_FLOAT, 0, colourBuffer);
+		gl.glColorPointer(4, GL.GL_FLOAT, 0, colorBuffer);
 
 		gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL.GL_COLOR_ARRAY);
@@ -97,37 +97,6 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 
 		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL.GL_COLOR_ARRAY);
-	}
-
-	@Override
-	public void drawCircle(final double x, final double y, final double colR,
-			final double colG, final double colB, final double colA,
-			final double radius, final int segments, final int mode) {
-		final double angleStep = 2 * Math.PI / segments;
-		gl.glColor4d(colR, colG, colB, colA);
-		gl.glLineWidth(1.0f);
-
-		gl.glBegin(mode);
-		for (int i = 0; i < segments; ++i) {
-			final double angle = i * angleStep;
-			gl.glVertex2d(x + (Math.cos(angle) * radius), y
-					+ (Math.sin(angle) * radius));
-		}
-		gl.glEnd();
-	}
-
-	@Override
-	public void drawCircle(final double x, final double y, final double colR,
-			final double colG, final double colB, final double colA,
-			final double radius) {
-		drawCircle(x, y, colR, colG, colB, colA, radius, 100, GL.GL_LINE_LOOP);
-	}
-
-	@Override
-	public void drawFilledCircle(final double x, final double y,
-			final double colR, final double colG, final double colB,
-			final double colA, final double radius) {
-		drawCircle(x, y, colR, colG, colB, colA, radius, 100, GL.GL_POLYGON);
 	}
 
 	@Override
@@ -178,5 +147,35 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 	@Override
 	public void resetTransformation() {
 		gl.glPopMatrix();
+	}
+
+	@Override
+	protected void drawLine(int vertices, FloatBuffer vertexBuffer,
+			FloatBuffer colorBuffer) {
+		gl.glVertexPointer(2, GL.GL_FLOAT, 0, vertexBuffer);
+		gl.glColorPointer(4, GL.GL_FLOAT, 0, colorBuffer);
+
+		gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
+		gl.glEnableClientState(GL.GL_COLOR_ARRAY);
+
+		gl.glDrawArrays(GL.GL_LINE_STRIP, 0, vertices);
+
+		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
+		gl.glDisableClientState(GL.GL_COLOR_ARRAY);
+	}
+
+	@Override
+	protected void drawTriangleFan(int vertices, FloatBuffer vertexBuffer,
+			FloatBuffer colorBuffer) {
+		gl.glVertexPointer(2, GL.GL_FLOAT, 0, vertexBuffer);
+		gl.glColorPointer(4, GL.GL_FLOAT, 0, colorBuffer);
+
+		gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
+		gl.glEnableClientState(GL.GL_COLOR_ARRAY);
+
+		gl.glDrawArrays(GL.GL_TRIANGLE_FAN, 0, vertices);
+
+		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
+		gl.glDisableClientState(GL.GL_COLOR_ARRAY);
 	}
 }

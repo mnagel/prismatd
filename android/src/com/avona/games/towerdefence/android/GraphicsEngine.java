@@ -4,6 +4,7 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
 
@@ -25,25 +26,6 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 	}
 
 	@Override
-	public void drawCircle(final double x, final double y, final double colR,
-			final double colG, final double colB, final double colA,
-			final double radius, final int segments, final int mode) {
-	}
-
-	@Override
-	public void drawCircle(final double x, final double y, final double colR,
-			final double colG, final double colB, final double colA,
-			final double radius) {
-		drawCircle(x, y, colR, colG, colB, colA, radius, 100, GL10.GL_LINE_LOOP);
-	}
-
-	@Override
-	public void drawFilledCircle(final double x, final double y,
-			final double colR, final double colG, final double colB,
-			final double colA, final double radius) {
-	}
-
-	@Override
 	public void onDrawFrame(GL10 gl) {
 	}
 
@@ -57,6 +39,8 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 		GLU.gluOrtho2D(gl, 0, width, 0, height);
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
+
+		onReshapeScreen();
 	}
 
 	@Override
@@ -70,7 +54,7 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 	}
 
-	protected void drawColorVertexArray(final int vertices,
+	protected void drawTriangleStrip(final int vertices,
 			final FloatBuffer vertexBuffer, final FloatBuffer colourBuffer) {
 		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertexBuffer);
 		gl.glColorPointer(4, GL10.GL_FLOAT, 0, colourBuffer);
@@ -95,13 +79,44 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 
 	@Override
 	public void prepareTransformationForLayer(Layer layer) {
-		// TODO Auto-generated method stub
-		
+		gl.glPushMatrix();
+		gl.glTranslatef(layer.offset.x, layer.offset.y, 0);
+		gl.glScalef(layer.region.x / layer.virtualRegion.x, layer.region.y
+				/ layer.virtualRegion.y, 1);
 	}
 
 	@Override
 	public void resetTransformation() {
-		// TODO Auto-generated method stub
-		
+		gl.glPopMatrix();
+	}
+
+	@Override
+	protected void drawLine(int vertices, FloatBuffer vertexBuffer,
+			FloatBuffer colorBuffer) {
+		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertexBuffer);
+		gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
+
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+
+		gl.glDrawArrays(GL10.GL_LINE_STRIP, 0, vertices);
+
+		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+	}
+
+	@Override
+	protected void drawTriangleFan(int vertices, FloatBuffer vertexBuffer,
+			FloatBuffer colorBuffer) {
+		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertexBuffer);
+		gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
+
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+
+		gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, vertices);
+
+		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}
 }

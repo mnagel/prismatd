@@ -10,6 +10,6 @@ public class Mouse extends StationaryObject {
 
 	@Override
 	public void step(float dt) {
-		// TODO Auto-generated method stub
+		// The mouse needs no game state updates.
 	}
 }

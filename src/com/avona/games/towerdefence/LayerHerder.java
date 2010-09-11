@@ -16,6 +16,7 @@ public class LayerHerder {
 					&& layer.offset.y + layer.region.y >= point.y) {
 				return layer;
 			}
+			Util.log("point " + point + " not part of layer " + layer);
 		}
 		return DEFAULT_LAYER;
 	}

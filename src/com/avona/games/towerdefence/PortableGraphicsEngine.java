@@ -18,10 +18,11 @@ public abstract class PortableGraphicsEngine {
 	public Layer gameLayer;
 
 	protected TimeTrack graphicsTime = new TimeTrack();
+	protected TickRater graphicsTickRater = new TickRater(graphicsTime);
 	protected Game game;
 
-	private FloatBuffer squareVertexBuffer;
-	private FloatBuffer squareColorBuffer;
+	private FloatBuffer vertexBuffer;
+	private FloatBuffer colorBuffer;
 
 	public PortableGraphicsEngine(Game game) {
 		this.game = game;
@@ -40,16 +41,34 @@ public abstract class PortableGraphicsEngine {
 		menuLayer.name = "menu";
 		layerHerder.layers.add(menuLayer);
 
-		squareVertexBuffer = allocateFloatBuffer(4 * 2);
-		squareColorBuffer = allocateFloatBuffer(4 * 4);
+		vertexBuffer = allocateFloatBuffer(102 * 2);
+		colorBuffer = allocateFloatBuffer(102 * 4);
 	}
 
 	public abstract void prepareTransformationForLayer(Layer layer);
 
 	public abstract void resetTransformation();
 
+	protected abstract void prepareScreen();
+
+	protected abstract void drawTriangleStrip(final int vertices,
+			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer);
+
+	protected abstract void drawLine(final int vertices,
+			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer);
+
+	protected abstract void drawTriangleFan(final int vertices,
+			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer);
+
+	public abstract void drawText(final String text, final double x,
+			final double y, final float colR, final float colG,
+			final float colB, final float colA);
+
+	public abstract V2 getTextBounds(final String text);
+
 	public void render(float gameDelta, float graphicsDelta) {
 		graphicsTime.updateTick(graphicsDelta);
+		graphicsTickRater.updateTickRate();
 
 		prepareScreen();
 
@@ -76,80 +95,89 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	protected void renderWorld() {
-		squareVertexBuffer.position(0);
-		squareColorBuffer.position(0);
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
 
-		squareVertexBuffer.put((float) (gameLayer.virtualRegion.x));
-		squareVertexBuffer.put((float) (gameLayer.virtualRegion.y));
-		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
+		vertexBuffer.put((float) (gameLayer.virtualRegion.x));
+		vertexBuffer.put((float) (gameLayer.virtualRegion.y));
+		colorBuffer.put(new float[] { 0.35f, 0.82f, 0.90f, 1.0f });
 
-		squareVertexBuffer.put((float) (gameLayer.virtualRegion.x));
-		squareVertexBuffer.put((float) (0));
-		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
+		vertexBuffer.put((float) (gameLayer.virtualRegion.x));
+		vertexBuffer.put(0.0f);
+		colorBuffer.put(new float[] { 0.60f, 0.83f, 0.91f, 1.0f });
 
-		squareVertexBuffer.put((float) (0));
-		squareVertexBuffer.put((float) (gameLayer.virtualRegion.y));
-		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
+		vertexBuffer.put(0.0f);
+		vertexBuffer.put((float) (gameLayer.virtualRegion.y));
+		colorBuffer.put(new float[] { 0.34f, 0.81f, 0.89f, 1.0f });
 
-		squareVertexBuffer.put((float) (0));
-		squareVertexBuffer.put((float) (0));
-		squareColorBuffer.put(new float[] { 1.0f, 0.9f, 0.0f, 1.0f });
+		vertexBuffer.put(0.0f);
+		vertexBuffer.put(0.0f);
+		colorBuffer.put(new float[] { 0.37f, 0.84f, 0.92f, 1.0f });
 
-		squareVertexBuffer.position(0);
-		squareColorBuffer.position(0);
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
 
-		drawColorVertexArray(4, squareVertexBuffer, squareColorBuffer);
+		drawTriangleStrip(4, vertexBuffer, colorBuffer);
+
+		// Draw the waypoints... top first...
+		assert (vertexBuffer.capacity() >= game.world.waypoints.size() * 2);
+		assert (colorBuffer.capacity() >= game.world.waypoints.size() * 4);
+		for (V2 p : game.world.waypoints) {
+			vertexBuffer.put(p.x + 4.0f);
+			vertexBuffer.put(p.y + 4.0f);
+			colorBuffer.put(new float[] { 0.0f, 0.0f, 0.0f, 1.0f });
+		}
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
+
+		drawLine(game.world.waypoints.size(), vertexBuffer, colorBuffer);
+
+		// ...then bottom...
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
+		for (V2 p : game.world.waypoints) {
+			vertexBuffer.put(p.x - 4.0f);
+			vertexBuffer.put(p.y - 4.0f);
+			colorBuffer.put(new float[] { 0.0f, 0.0f, 0.0f, 1.0f });
+		}
+
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
+
+		drawLine(game.world.waypoints.size(), vertexBuffer, colorBuffer);
 	}
 
 	protected void renderMenu() {
-		squareVertexBuffer.position(0);
-		squareColorBuffer.position(0);
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
 
-		squareVertexBuffer.put((float) (menuLayer.virtualRegion.x));
-		squareVertexBuffer.put((float) (menuLayer.virtualRegion.y));
-		squareColorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
+		vertexBuffer.put((float) (menuLayer.virtualRegion.x));
+		vertexBuffer.put((float) (menuLayer.virtualRegion.y));
+		colorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
 
-		squareVertexBuffer.put((float) (menuLayer.virtualRegion.x));
-		squareVertexBuffer.put((float) (0));
-		squareColorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
+		vertexBuffer.put((float) (menuLayer.virtualRegion.x));
+		vertexBuffer.put((float) (0));
+		colorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
 
-		squareVertexBuffer.put((float) (0));
-		squareVertexBuffer.put((float) (menuLayer.virtualRegion.y));
-		squareColorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
+		vertexBuffer.put((float) (0));
+		vertexBuffer.put((float) (menuLayer.virtualRegion.y));
+		colorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
 
-		squareVertexBuffer.put((float) (0));
-		squareVertexBuffer.put((float) (0));
-		squareColorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
+		vertexBuffer.put((float) (0));
+		vertexBuffer.put((float) (0));
+		colorBuffer.put(new float[] { 0.9f, 1.0f, 0.0f, 1.0f });
 
-		squareVertexBuffer.position(0);
-		squareColorBuffer.position(0);
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
 
-		drawColorVertexArray(4, squareVertexBuffer, squareColorBuffer);
+		drawTriangleStrip(4, vertexBuffer, colorBuffer);
 	}
-
-	protected abstract void prepareScreen();
-
-	public abstract void drawCircle(final double x, final double y,
-			final double colR, final double colG, final double colB,
-			final double colA, final double radius, final int segments,
-			final int mode);
-
-	public abstract void drawFilledCircle(final double x, final double y,
-			final double colR, final double colG, final double colB,
-			final double colA, final double radius);
-
-	public abstract void drawCircle(final double x, final double y,
-			final double colR, final double colG, final double colB,
-			final double colA, final double radius);
 
 	protected FloatBuffer allocateFloatBuffer(final int entries) {
 		final ByteBuffer byteBuf = ByteBuffer.allocateDirect(entries * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
 		return byteBuf.asFloatBuffer();
 	}
-
-	protected abstract void drawColorVertexArray(final int vertices,
-			final FloatBuffer vertexBuffer, final FloatBuffer colourBuffer);
 
 	public void renderEnemy(final Enemy e) {
 		if (e.isDead())
@@ -161,67 +189,61 @@ public abstract class PortableGraphicsEngine {
 		final double width = 12;
 		final V2 location = e.location;
 
-		squareVertexBuffer.position(0);
-		squareColorBuffer.position(0);
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
 
-		squareVertexBuffer.put((float) (location.x + width / 2));
-		squareVertexBuffer.put((float) (location.y + width / 2));
-		squareColorBuffer.put(new float[] { pr * 1.0f, pg * 0.9f, 0.0f, 1.0f });
+		vertexBuffer.put((float) (location.x + width / 2));
+		vertexBuffer.put((float) (location.y + width / 2));
+		colorBuffer.put(new float[] { pr * 1.0f, pg * 0.9f, 0.0f, 1.0f });
 
-		squareVertexBuffer.put((float) (location.x + width / 2));
-		squareVertexBuffer.put((float) (location.y - width / 2));
-		squareColorBuffer.put(new float[] { pr * 0.8f, pg * 0.6f, 0.0f, 1.0f });
+		vertexBuffer.put((float) (location.x + width / 2));
+		vertexBuffer.put((float) (location.y - width / 2));
+		colorBuffer.put(new float[] { pr * 0.8f, pg * 0.6f, 0.0f, 1.0f });
 
-		squareVertexBuffer.put((float) (location.x - width / 2));
-		squareVertexBuffer.put((float) (location.y + width / 2));
-		squareColorBuffer.put(new float[] { pr * 0.6f, pg * 0.8f, 0.0f, 1.0f });
+		vertexBuffer.put((float) (location.x - width / 2));
+		vertexBuffer.put((float) (location.y + width / 2));
+		colorBuffer.put(new float[] { pr * 0.6f, pg * 0.8f, 0.0f, 1.0f });
 
-		squareVertexBuffer.put((float) (location.x - width / 2));
-		squareVertexBuffer.put((float) (location.y - width / 2));
-		squareColorBuffer.put(new float[] { pr * 0.9f, pg * 1.0f, 0.0f, 1.0f });
+		vertexBuffer.put((float) (location.x - width / 2));
+		vertexBuffer.put((float) (location.y - width / 2));
+		colorBuffer.put(new float[] { pr * 0.9f, pg * 1.0f, 0.0f, 1.0f });
 
-		squareVertexBuffer.position(0);
-		squareColorBuffer.position(0);
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
 
-		drawColorVertexArray(4, squareVertexBuffer, squareColorBuffer);
+		drawTriangleStrip(4, vertexBuffer, colorBuffer);
 	}
-
-	public abstract void drawText(final String text, final double x,
-			final double y, final float colR, final float colG,
-			final float colB, final float colA);
-
-	public abstract V2 getTextBounds(final String text);
 
 	public void renderStats() {
 		final String fpsString = String.format("fps %.2f",
-				graphicsTime.tickrate);
+				graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);
 		final double width = bounds.x + 4;
 		final double height = bounds.y + 2;
 
-		squareVertexBuffer.position(0);
-		squareColorBuffer.position(0);
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
 
-		squareVertexBuffer.put((float) (width));
-		squareVertexBuffer.put((float) (height));
-		squareColorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
+		vertexBuffer.put((float) (width));
+		vertexBuffer.put((float) (height));
+		colorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
 
-		squareVertexBuffer.put((float) (width));
-		squareVertexBuffer.put((float) (0));
-		squareColorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
+		vertexBuffer.put((float) (width));
+		vertexBuffer.put((float) (0));
+		colorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
 
-		squareVertexBuffer.put((float) (0));
-		squareVertexBuffer.put((float) (height));
-		squareColorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
+		vertexBuffer.put((float) (0));
+		vertexBuffer.put((float) (height));
+		colorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
 
-		squareVertexBuffer.put((float) (0));
-		squareVertexBuffer.put((float) (0));
-		squareColorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
+		vertexBuffer.put((float) (0));
+		vertexBuffer.put((float) (0));
+		colorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
 
-		squareVertexBuffer.position(0);
-		squareColorBuffer.position(0);
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
 
-		drawColorVertexArray(4, squareVertexBuffer, squareColorBuffer);
+		drawTriangleStrip(4, vertexBuffer, colorBuffer);
 
 		drawText(fpsString, 2, 4, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
@@ -231,33 +253,33 @@ public abstract class PortableGraphicsEngine {
 		final V2 location = t.location;
 
 		if (t.showRange) {
-			drawCircle(t.location.x, t.location.y, t.range_sq, 1.0, 1.0, 1.0,
-					1.0);
+			drawCircle(t.location.x, t.location.y, t.range, 1.0f, 1.0f, 1.0f,
+					1.0f);
 		}
 
-		squareVertexBuffer.position(0);
-		squareColorBuffer.position(0);
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
 
-		squareVertexBuffer.put((float) (location.x + width / 2));
-		squareVertexBuffer.put((float) (location.y + width / 2));
-		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 0.9f, 1.0f });
+		vertexBuffer.put((float) (location.x + width / 2));
+		vertexBuffer.put((float) (location.y + width / 2));
+		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.9f, 1.0f });
 
-		squareVertexBuffer.put((float) (location.x + width / 2));
-		squareVertexBuffer.put((float) (location.y - width / 2));
-		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 0.6f, 1.0f });
+		vertexBuffer.put((float) (location.x + width / 2));
+		vertexBuffer.put((float) (location.y - width / 2));
+		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.6f, 1.0f });
 
-		squareVertexBuffer.put((float) (location.x - width / 2));
-		squareVertexBuffer.put((float) (location.y + width / 2));
-		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 0.8f, 1.0f });
+		vertexBuffer.put((float) (location.x - width / 2));
+		vertexBuffer.put((float) (location.y + width / 2));
+		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.8f, 1.0f });
 
-		squareVertexBuffer.put((float) (location.x - width / 2));
-		squareVertexBuffer.put((float) (location.y - width / 2));
-		squareColorBuffer.put(new float[] { 0.0f, 0.0f, 1.0f, 1.0f });
+		vertexBuffer.put((float) (location.x - width / 2));
+		vertexBuffer.put((float) (location.y - width / 2));
+		colorBuffer.put(new float[] { 0.0f, 0.0f, 1.0f, 1.0f });
 
-		squareVertexBuffer.position(0);
-		squareColorBuffer.position(0);
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
 
-		drawColorVertexArray(4, squareVertexBuffer, squareColorBuffer);
+		drawTriangleStrip(4, vertexBuffer, colorBuffer);
 	}
 
 	public void renderParticle(final Particle p) {
@@ -267,38 +289,38 @@ public abstract class PortableGraphicsEngine {
 		final double width = 10;
 		final V2 location = p.location;
 
-		squareVertexBuffer.position(0);
-		squareColorBuffer.position(0);
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
 
-		squareVertexBuffer.put((float) (location.x + width / 2));
-		squareVertexBuffer.put((float) (location.y + width / 2));
-		squareColorBuffer.put(new float[] { 0.9f, 0.6f, 0.2f, 1.0f });
+		vertexBuffer.put((float) (location.x + width / 2));
+		vertexBuffer.put((float) (location.y + width / 2));
+		colorBuffer.put(new float[] { 0.9f, 0.6f, 0.2f, 1.0f });
 
-		squareVertexBuffer.put((float) (location.x + width / 2));
-		squareVertexBuffer.put((float) (location.y - width / 2));
-		squareColorBuffer.put(new float[] { 0.6f, 0.9f, 0.2f, 1.0f });
+		vertexBuffer.put((float) (location.x + width / 2));
+		vertexBuffer.put((float) (location.y - width / 2));
+		colorBuffer.put(new float[] { 0.6f, 0.9f, 0.2f, 1.0f });
 
-		squareVertexBuffer.put((float) (location.x - width / 2));
-		squareVertexBuffer.put((float) (location.y + width / 2));
-		squareColorBuffer.put(new float[] { 0.8f, 1.0f, 0.2f, 1.0f });
+		vertexBuffer.put((float) (location.x - width / 2));
+		vertexBuffer.put((float) (location.y + width / 2));
+		colorBuffer.put(new float[] { 0.8f, 1.0f, 0.2f, 1.0f });
 
-		squareVertexBuffer.put((float) (location.x - width / 2));
-		squareVertexBuffer.put((float) (location.y - width / 2));
-		squareColorBuffer.put(new float[] { 1.0f, 0.8f, 0.2f, 1.0f });
+		vertexBuffer.put((float) (location.x - width / 2));
+		vertexBuffer.put((float) (location.y - width / 2));
+		colorBuffer.put(new float[] { 1.0f, 0.8f, 0.2f, 1.0f });
 
-		squareVertexBuffer.position(0);
-		squareColorBuffer.position(0);
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
 
-		drawColorVertexArray(4, squareVertexBuffer, squareColorBuffer);
+		drawTriangleStrip(4, vertexBuffer, colorBuffer);
 	}
 
 	public void renderMouse() {
 		if (!game.mouse.onScreen)
 			return;
 		final V2 p = game.mouse.location;
-		final double col = 0.4 + 0.6 * Math.abs(Math
+		final float col = 0.4f + 0.6f * (float) Math.abs(Math
 				.sin(2 * graphicsTime.clock));
-		drawFilledCircle(p.x, p.y, col, col, col, 1.0, game.mouse.radius);
+		drawFilledCircle(p.x, p.y, col, col, col, 1.0f, game.mouse.radius);
 	}
 
 	protected void onReshapeScreen() {
@@ -335,5 +357,68 @@ public abstract class PortableGraphicsEngine {
 		menuLayer.offset.y = (remainingSize.y - menuLayer.region.y) * .5f;
 		menuLayer.offset.x = gameLayer.offset.x + gameLayer.region.x
 				+ remainingSize.x - menuLayer.region.x;
+	}
+
+	public void drawCircle(final float x, final float y, final float colR,
+			final float colG, final float colB, final float colA,
+			final float radius, final int segments) {
+
+		final double angleStep = 2 * Math.PI / segments;
+		final float[] colors = new float[] { colR, colG, colB, colA };
+
+		assert (vertexBuffer.capacity() >= (segments + 2) * 2);
+		assert (colorBuffer.capacity() >= (segments + 2) * 4);
+
+		for (int i = 0; i < segments; ++i) {
+			final double angle = i * angleStep;
+			vertexBuffer.put((float) (x + (Math.cos(angle) * radius)));
+			vertexBuffer.put((float) (y + (Math.sin(angle) * radius)));
+			colorBuffer.put(colors);
+		}
+		// Close the circle.
+		vertexBuffer.put((float) (x + (Math.cos(angleStep) * radius)));
+		vertexBuffer.put((float) (y + (Math.sin(angleStep) * radius)));
+		colorBuffer.put(colors);
+	}
+
+	public void drawCircle(final float x, final float y, final float colR,
+			final float colG, final float colB, final float colA,
+			final float radius) {
+
+		final int segments = 100;
+
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
+
+		drawCircle(x, y, colR, colG, colB, colA, radius, segments);
+
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
+
+		drawLine(101, vertexBuffer, colorBuffer);
+	}
+
+	public void drawFilledCircle(final float x, final float y,
+			final float colR, final float colG, final float colB,
+			final float colA, final float radius) {
+
+		final int segments = 100;
+
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
+
+		assert (vertexBuffer.capacity() >= (segments + 2) * 2);
+		assert (colorBuffer.capacity() >= (segments + 2) * 4);
+
+		vertexBuffer.put((float) x);
+		vertexBuffer.put((float) y);
+		colorBuffer.put(new float[] { colR, colG, colB, colA });
+
+		drawCircle(x, y, colR, colG, colB, colA, radius, segments);
+
+		vertexBuffer.position(0);
+		colorBuffer.position(0);
+
+		drawTriangleFan(101, vertexBuffer, colorBuffer);
 	}
 }

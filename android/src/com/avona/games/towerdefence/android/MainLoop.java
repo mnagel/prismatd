@@ -16,7 +16,7 @@ public class MainLoop extends PortableMainLoop {
 		final GraphicsEngine graphicsEngine = new GraphicsEngine(game);
 		ge = graphicsEngine;
 
-		inputActor = new InputActor(this, game);
+		inputActor = new InputActor(this, game, ge);
 
 		surfaceView = new InputForwardingGLSurfaceView(activity, inputActor, ge);
 		final GameRenderProxy r = new GameRenderProxy(this, graphicsEngine);
@@ -26,7 +26,6 @@ public class MainLoop extends PortableMainLoop {
 
 	@Override
 	public void exit() {
-		// TODO Auto-generated method stub
-
+		// TODO Determine how an application properly exits in Android.
 	}
 }
