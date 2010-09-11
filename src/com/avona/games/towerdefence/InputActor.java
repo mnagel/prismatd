@@ -43,8 +43,7 @@ public class InputActor {
 	public void pressedMouseBtn2At(V2 location) {
 		Layer layer = ge.layerHerder.findLayerWithinPoint(location);
 		if (layer.name == "game") {
-			location = layer.convertToVirtual(location);
-			game.addEnemyAt(location);
+			game.spawnEnemy();
 		}
 	}
 

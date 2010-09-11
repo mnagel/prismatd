@@ -20,8 +20,7 @@ public class Game {
 		towers.add(new Tower(location));
 	}
 
-	public void addEnemyAt(V2 location) {
-		// enemies.add(new Enemy(world, location));
+	public void spawnEnemy() {
 		enemies.add(new Enemy(world, new V2(world.waypoints.get(0).x,
 				world.waypoints.get(0).y)));
 	}
