@@ -100,37 +100,6 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 	}
 
 	@Override
-	public void drawCircle(final double x, final double y, final double colR,
-			final double colG, final double colB, final double colA,
-			final double radius, final int segments, final int mode) {
-		final double angleStep = 2 * Math.PI / segments;
-		gl.glColor4d(colR, colG, colB, colA);
-		gl.glLineWidth(1.0f);
-
-		gl.glBegin(mode);
-		for (int i = 0; i < segments; ++i) {
-			final double angle = i * angleStep;
-			gl.glVertex2d(x + (Math.cos(angle) * radius), y
-					+ (Math.sin(angle) * radius));
-		}
-		gl.glEnd();
-	}
-
-	@Override
-	public void drawCircle(final double x, final double y, final double colR,
-			final double colG, final double colB, final double colA,
-			final double radius) {
-		drawCircle(x, y, colR, colG, colB, colA, radius, 100, GL.GL_LINE_LOOP);
-	}
-
-	@Override
-	public void drawFilledCircle(final double x, final double y,
-			final double colR, final double colG, final double colB,
-			final double colA, final double radius) {
-		drawCircle(x, y, colR, colG, colB, colA, radius, 100, GL.GL_POLYGON);
-	}
-
-	@Override
 	public void display(GLAutoDrawable drawable) {
 	}
 

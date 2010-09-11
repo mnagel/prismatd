@@ -26,25 +26,6 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 	}
 
 	@Override
-	public void drawCircle(final double x, final double y, final double colR,
-			final double colG, final double colB, final double colA,
-			final double radius, final int segments, final int mode) {
-	}
-
-	@Override
-	public void drawCircle(final double x, final double y, final double colR,
-			final double colG, final double colB, final double colA,
-			final double radius) {
-		drawCircle(x, y, colR, colG, colB, colA, radius, 100, GL10.GL_LINE_LOOP);
-	}
-
-	@Override
-	public void drawFilledCircle(final double x, final double y,
-			final double colR, final double colG, final double colB,
-			final double colA, final double radius) {
-	}
-
-	@Override
 	public void onDrawFrame(GL10 gl) {
 	}
 
