@@ -20,12 +20,14 @@ public abstract class PortableGraphicsEngine {
 	protected TimeTrack graphicsTime = new TimeTrack();
 	protected TickRater graphicsTickRater = new TickRater(graphicsTime);
 	protected Game game;
+	protected Mouse mouse;
 
 	private FloatBuffer vertexBuffer;
 	private FloatBuffer colorBuffer;
 
-	public PortableGraphicsEngine(Game game) {
+	public PortableGraphicsEngine(Game game, Mouse mouse) {
 		this.game = game;
+		this.mouse = mouse;
 
 		gameLayer = new Layer();
 		gameLayer.virtualRegion.x = World.WIDTH;
@@ -315,12 +317,12 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	public void renderMouse() {
-		if (!game.mouse.onScreen)
+		if (!mouse.onScreen)
 			return;
-		final V2 p = game.mouse.location;
+		final V2 p = mouse.location;
 		final float col = 0.4f + 0.6f * (float) Math.abs(Math
 				.sin(2 * graphicsTime.clock));
-		drawFilledCircle(p.x, p.y, col, col, col, 1.0f, game.mouse.radius);
+		drawFilledCircle(p.x, p.y, col, col, col, 1.0f, mouse.radius);
 	}
 
 	protected void onReshapeScreen() {

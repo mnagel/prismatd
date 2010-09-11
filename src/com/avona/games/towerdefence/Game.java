@@ -9,13 +9,11 @@ public class Game {
 	public List<Tower> towers = new LinkedList<Tower>();
 	public List<Particle> particles = new LinkedList<Particle>();
 	public World world;
-	public Mouse mouse;
 
 	private Tower rangeShowingTower = null;
 
 	public Game() {
 		world = new World();
-		mouse = new Mouse();
 	}
 
 	public void addTowerAt(V2 location) {

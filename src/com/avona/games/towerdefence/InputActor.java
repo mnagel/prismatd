@@ -3,12 +3,14 @@ package com.avona.games.towerdefence;
 public class InputActor {
 	private PortableMainLoop ml;
 	private Game game;
+	private Mouse mouse;
 	private PortableGraphicsEngine ge;
 
-	public InputActor(PortableMainLoop mainLoop, Game game,
+	public InputActor(PortableMainLoop mainLoop, Game game, Mouse mouse,
 			PortableGraphicsEngine ge) {
 		this.ml = mainLoop;
 		this.game = game;
+		this.mouse = mouse;
 		this.ge = ge;
 	}
 
@@ -34,7 +36,7 @@ public class InputActor {
 		if (layer.name == "game") {
 			location = layer.convertToVirtual(location);
 			game.addTowerAt(location);
-			checkMouseOverTower(game.mouse.location);
+			checkMouseOverTower(location);
 		}
 	}
 
@@ -47,11 +49,11 @@ public class InputActor {
 	}
 
 	public void mouseEntered() {
-		game.mouse.onScreen = true;
+		mouse.onScreen = true;
 	}
 
 	public void mouseExited() {
-		game.mouse.onScreen = false;
+		mouse.onScreen = false;
 	}
 
 	public void checkMouseOverTower(V2 location) {
@@ -61,7 +63,7 @@ public class InputActor {
 	}
 
 	public void mouseMovedTo(V2 location) {
-		game.mouse.location = location;
+		mouse.location = location;
 		Layer layer = ge.layerHerder.findLayerWithinPoint(location);
 		if (layer.name == "game") {
 			location = layer.convertToVirtual(location);
@@ -70,6 +72,6 @@ public class InputActor {
 	}
 
 	public void mouseDraggedTo(V2 location) {
-		game.mouse.location = location;
+		mouse.location = location;
 	}
 }
