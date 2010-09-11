@@ -9,8 +9,6 @@ public abstract class PortableGraphicsEngine {
 	public static final int DEFAULT_HEIGHT = 480;
 	public static final int DEFAULT_WIDTH = 675;
 
-	public static final double TOWER_WIDTH = 16;
-
 	public V2 size;
 
 	public LayerHerder layerHerder = new LayerHerder();
@@ -249,7 +247,7 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	public void renderTower(final Tower t) {
-		final double width = TOWER_WIDTH;
+		final double width = t.radius;
 		final V2 location = t.location;
 
 		if (t.showRange) {

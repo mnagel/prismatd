@@ -10,6 +10,7 @@ public class Tower extends StationaryObject {
 
 	public Tower(V2 location) {
 		this.location = location;
+		radius = 16;
 	}
 
 	public boolean inRange(Enemy e) {
