@@ -253,8 +253,8 @@ public abstract class PortableGraphicsEngine {
 		final V2 location = t.location;
 
 		if (t.showRange) {
-			drawCircle(t.location.x, t.location.y, t.range_sq, 1.0, 1.0, 1.0,
-					1.0);
+			drawCircle(t.location.x, t.location.y, t.range, 1.0f, 1.0f, 1.0f,
+					1.0f);
 		}
 
 		squareVertexBuffer.position(0);

@@ -1,7 +1,10 @@
 package com.avona.games.towerdefence;
 
 public class Tower extends StationaryObject {
-	public double range_sq = 200 * 200;
+	public float range = 200;
+	// FIXME range_sq and range should probably be merged or forced to be in
+	// sync some other way.
+	public float range_sq = range * range;
 	protected RechargeTimer timer = new RechargeTimer(0.3);
 	public boolean showRange = false;
 
