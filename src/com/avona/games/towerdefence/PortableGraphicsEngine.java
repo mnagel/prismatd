@@ -32,14 +32,12 @@ public abstract class PortableGraphicsEngine {
 		gameLayer = new Layer();
 		gameLayer.virtualRegion.x = World.WIDTH;
 		gameLayer.virtualRegion.y = World.HEIGHT;
-		gameLayer.level = 0;
 		gameLayer.name = "game";
 		layerHerder.layers.add(gameLayer);
 
 		menuLayer = new Layer();
 		menuLayer.virtualRegion.x = 125;
 		menuLayer.virtualRegion.y = 480;
-		menuLayer.level = 0;
 		menuLayer.name = "menu";
 		layerHerder.layers.add(menuLayer);
 

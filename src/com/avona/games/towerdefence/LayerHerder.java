@@ -8,6 +8,12 @@ public class LayerHerder {
 
 	public List<Layer> layers = new ArrayList<Layer>();
 
+	/**
+	 * Determines which layer the specified screen point falls into.
+	 *  
+	 * @param point Screen position.
+	 * @return Returns the matching layer or DEFAULT_LAYER if none was found.
+	 */
 	public Layer findLayerWithinPoint(V2 point) {
 		for (Layer layer : layers) {
 			if (layer.offset.x <= point.x
@@ -16,7 +22,6 @@ public class LayerHerder {
 					&& layer.offset.y + layer.region.y >= point.y) {
 				return layer;
 			}
-			Util.log("point " + point + " not part of layer " + layer);
 		}
 		return DEFAULT_LAYER;
 	}
