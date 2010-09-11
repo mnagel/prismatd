@@ -35,7 +35,10 @@ public class InputActor {
 		Util.log("clicked on layer " + layer.name + ", position: " + location);
 		if (layer.name == "game") {
 			location = layer.convertToVirtual(location);
-			game.addTowerAt(location);
+			Tower t = game.closestTowerWithinRadius(location, mouse.radius);
+			if (t == null) {
+				game.addTowerAt(location);
+			}
 			checkMouseOverTower(location);
 		}
 	}
