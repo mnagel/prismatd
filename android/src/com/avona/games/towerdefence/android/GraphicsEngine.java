@@ -123,4 +123,19 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}
+
+	@Override
+	protected void drawTriangleFan(int vertices, FloatBuffer vertexBuffer,
+			FloatBuffer colorBuffer) {
+		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertexBuffer);
+		gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
+
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+
+		gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, vertices);
+
+		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+	}
 }

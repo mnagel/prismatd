@@ -49,6 +49,23 @@ public abstract class PortableGraphicsEngine {
 
 	public abstract void resetTransformation();
 
+	protected abstract void prepareScreen();
+
+	protected abstract void drawTriangleStrip(final int vertices,
+			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer);
+
+	protected abstract void drawLine(final int vertices,
+			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer);
+
+	protected abstract void drawTriangleFan(final int vertices,
+			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer);
+
+	public abstract void drawText(final String text, final double x,
+			final double y, final float colR, final float colG,
+			final float colB, final float colA);
+
+	public abstract V2 getTextBounds(final String text);
+
 	public void render(float gameDelta, float graphicsDelta) {
 		graphicsTime.updateTick(graphicsDelta);
 		graphicsTickRater.updateTickRate();
@@ -156,33 +173,12 @@ public abstract class PortableGraphicsEngine {
 		drawTriangleStrip(4, squareVertexBuffer, squareColorBuffer);
 	}
 
-	protected abstract void prepareScreen();
-
-	public abstract void drawCircle(final double x, final double y,
-			final double colR, final double colG, final double colB,
-			final double colA, final double radius, final int segments,
-			final int mode);
-
-	public abstract void drawFilledCircle(final double x, final double y,
-			final double colR, final double colG, final double colB,
-			final double colA, final double radius);
-
-	public abstract void drawCircle(final double x, final double y,
-			final double colR, final double colG, final double colB,
-			final double colA, final double radius);
-
 	protected FloatBuffer allocateFloatBuffer(final int entries) {
 		final ByteBuffer byteBuf = ByteBuffer.allocateDirect(entries * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
 		return byteBuf.asFloatBuffer();
 	}
 
-	protected abstract void drawTriangleStrip(final int vertices,
-			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer);
-
-	protected abstract void drawLine(final int vertices,
-			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer);
-	
 	public void renderEnemy(final Enemy e) {
 		if (e.isDead())
 			return;
@@ -217,12 +213,6 @@ public abstract class PortableGraphicsEngine {
 
 		drawTriangleStrip(4, squareVertexBuffer, squareColorBuffer);
 	}
-
-	public abstract void drawText(final String text, final double x,
-			final double y, final float colR, final float colG,
-			final float colB, final float colA);
-
-	public abstract V2 getTextBounds(final String text);
 
 	public void renderStats() {
 		final String fpsString = String.format("fps %.2f",
