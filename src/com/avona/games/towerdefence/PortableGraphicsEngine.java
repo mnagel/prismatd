@@ -316,9 +316,9 @@ public abstract class PortableGraphicsEngine {
 		if (!mouse.onScreen)
 			return;
 		final V2 p = mouse.location;
-		final float col = 0.4f + 0.6f * (float) Math.abs(Math
-				.sin(2 * graphicsTime.clock));
-		drawFilledCircle(p.x, p.y, mouse.radius, col, col, col, 0.2f);
+		final float col = 0.5f + 0.3f * (float) Math.abs(Math
+				.sin(4 * graphicsTime.clock));
+		drawFilledCircle(p.x, p.y, mouse.radius, 1.0f, 1.0f, 1.0f, col);
 	}
 
 	protected void onReshapeScreen() {

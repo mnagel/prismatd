@@ -114,6 +114,9 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 	public void init(GLAutoDrawable drawable) {
 		// We have a fresh GL context, retrieve reference.
 		gl = canvas.getGL();
+
+		gl.glEnable(GL.GL_BLEND);
+		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	@Override
