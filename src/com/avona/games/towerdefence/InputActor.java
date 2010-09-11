@@ -56,8 +56,7 @@ public class InputActor {
 	}
 
 	public void checkMouseOverTower(V2 location) {
-		Tower t = game.closestTowerWithinRadius(location,
-				PortableGraphicsEngine.TOWER_WIDTH);
+		Tower t = game.closestTowerWithinRadius(location, mouse.radius);
 		game.showTowersRange(t);
 	}
 
