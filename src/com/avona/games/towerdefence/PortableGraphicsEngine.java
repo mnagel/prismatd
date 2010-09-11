@@ -213,30 +213,33 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	public void renderStats() {
-		final String fpsString = String.format("fps %.2f",
+		final String fpsString = String.format(
+				"%d killed | %d escaped | fps %.2f", game.killed, game.escaped,
 				graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);
 		final double width = bounds.x + 4;
 		final double height = bounds.y + 2;
+
+		final float[] cols = new float[] { 0.0f, 0.0f, 0.0f, 0.2f };
 
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
 
 		vertexBuffer.put((float) (width));
 		vertexBuffer.put((float) (height));
-		colorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
+		colorBuffer.put(cols);
 
 		vertexBuffer.put((float) (width));
 		vertexBuffer.put((float) (0));
-		colorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
+		colorBuffer.put(cols);
 
 		vertexBuffer.put((float) (0));
 		vertexBuffer.put((float) (height));
-		colorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
+		colorBuffer.put(cols);
 
 		vertexBuffer.put((float) (0));
 		vertexBuffer.put((float) (0));
-		colorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
+		colorBuffer.put(cols);
 
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
