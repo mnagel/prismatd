@@ -318,7 +318,7 @@ public abstract class PortableGraphicsEngine {
 		final V2 p = mouse.location;
 		final float col = 0.4f + 0.6f * (float) Math.abs(Math
 				.sin(2 * graphicsTime.clock));
-		drawFilledCircle(p.x, p.y, col, col, col, 1.0f, mouse.radius);
+		drawFilledCircle(p.x, p.y, mouse.radius, col, col, col, 0.2f);
 	}
 
 	protected void onReshapeScreen() {
@@ -357,9 +357,9 @@ public abstract class PortableGraphicsEngine {
 				+ remainingSize.x - menuLayer.region.x;
 	}
 
-	public void drawCircle(final float x, final float y, final float colR,
-			final float colG, final float colB, final float colA,
-			final float radius, final int segments) {
+	public void drawCircle(final float x, final float y, final float radius,
+			final float colR, final float colG, final float colB,
+			final float colA, final int segments) {
 
 		final double angleStep = 2 * Math.PI / segments;
 		final float[] colors = new float[] { colR, colG, colB, colA };
@@ -379,16 +379,16 @@ public abstract class PortableGraphicsEngine {
 		colorBuffer.put(colors);
 	}
 
-	public void drawCircle(final float x, final float y, final float colR,
-			final float colG, final float colB, final float colA,
-			final float radius) {
+	public void drawCircle(final float x, final float y, final float radius,
+			final float colR, final float colG, final float colB,
+			final float colA) {
 
 		final int segments = 100;
 
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
 
-		drawCircle(x, y, colR, colG, colB, colA, radius, segments);
+		drawCircle(x, y, radius, colR, colG, colB, colA, segments);
 
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
@@ -397,8 +397,8 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	public void drawFilledCircle(final float x, final float y,
-			final float colR, final float colG, final float colB,
-			final float colA, final float radius) {
+			final float radius, final float colR, final float colG,
+			final float colB, final float colA) {
 
 		final int segments = 100;
 
@@ -412,7 +412,7 @@ public abstract class PortableGraphicsEngine {
 		vertexBuffer.put((float) y);
 		colorBuffer.put(new float[] { colR, colG, colB, colA });
 
-		drawCircle(x, y, colR, colG, colB, colA, radius, segments);
+		drawCircle(x, y, radius, colR, colG, colB, colA, segments);
 
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
