@@ -18,9 +18,7 @@ public abstract class StationaryObject {
 	public abstract void step(final float dt);
 
 	public boolean collidesWith(final V2 otherLocation, final double otherRadius) {
-		final double squaredDist = location.dist_sq(otherLocation);
-		final double totalRadius = radius + otherRadius;
-		final double squaredTotalRadius = totalRadius * totalRadius;
-		return (squaredDist < squaredTotalRadius);
+		return Collision.circleCollidesWithCircle(location, radius,
+				otherLocation, otherRadius);
 	}
 }
