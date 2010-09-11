@@ -16,7 +16,7 @@ public class Tower extends StationaryObject {
 		return location.dist_sq(e.location) < range_sq;
 	}
 
-	public Particle shootTowards(Enemy e, final float dt) {
+	public Particle shootTowards(Enemy e) {
 		if (timer.isReady()) {
 			timer.rearm();
 			return new Particle(location, e);

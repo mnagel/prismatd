@@ -91,7 +91,7 @@ public class Game {
 			}
 
 			if (bestEnemy != null) { // policy found some enemy
-				Particle p = t.shootTowards(bestEnemy, dt);
+				Particle p = t.shootTowards(bestEnemy);
 				if (p != null) {
 					particles.add(p);
 				}
