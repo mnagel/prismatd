@@ -1,5 +1,7 @@
 package com.avona.games.towerdefence;
 
+import java.util.List;
+
 public class Tower extends StationaryObject {
 	public float range = 200;
 	// FIXME range_sq and range should probably be merged or forced to be in
@@ -7,6 +9,7 @@ public class Tower extends StationaryObject {
 	public float range_sq = range * range;
 	protected RechargeTimer timer = new RechargeTimer(0.3);
 	public boolean showRange = false;
+	public EnemySelectionPolicy enemySelectionPolicy = new NearestEnemyPolicy();
 
 	public Tower(V2 location) {
 		this.location = location;
@@ -29,5 +32,9 @@ public class Tower extends StationaryObject {
 	@Override
 	public void step(float dt) {
 		timer.step(dt);
+	}
+
+	public Enemy findSuitableEnemy(List<Enemy> enemies) {
+		return enemySelectionPolicy.findSuitableEnemy(this, enemies);
 	}
 }

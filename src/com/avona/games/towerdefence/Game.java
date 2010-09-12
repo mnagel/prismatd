@@ -80,25 +80,9 @@ public class Game {
 		 */
 
 		for (Tower t : towers) {
-			Enemy bestEnemy = null;
-			float bestEnemyLocationSquaredDist = Float.MAX_VALUE;
-
-			for (Enemy e : enemies) {
-				if (t.inRange(e)) {
-					final float newEnemyLocationSquaredDist = t.location
-							.squaredDist(e.location);
-
-					// shoot to nearest enemy
-					if (bestEnemy == null
-							|| bestEnemyLocationSquaredDist > newEnemyLocationSquaredDist) {
-						bestEnemy = e;
-						bestEnemyLocationSquaredDist = newEnemyLocationSquaredDist;
-					} // TODO allow for different policies here...
-				}
-			}
-
-			if (bestEnemy != null) { // policy found some enemy
-				final Particle p = t.shootTowards(bestEnemy);
+			Enemy enemy = t.findSuitableEnemy(enemies);
+			if (enemy != null) { // policy found some enemy
+				final Particle p = t.shootTowards(enemy);
 				if (p != null) {
 					particles.add(p);
 				}
