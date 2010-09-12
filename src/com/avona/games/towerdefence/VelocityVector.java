@@ -37,6 +37,15 @@ public class VelocityVector {
 	}
 
 	/**
+	 * @return Returns a non-normalised vector, where the direction vector is
+	 *         scaled to its speed.
+	 */
+	public V2 asVector() {
+		return new V2(normalisedDirection.x * speed, normalisedDirection.y
+				* speed);
+	}
+
+	/**
 	 * Translate point p by the velocity vector over dt seconds.
 	 * 
 	 * @param p

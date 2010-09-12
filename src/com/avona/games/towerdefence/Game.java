@@ -127,11 +127,8 @@ public class Game {
 			}
 
 			final V2 w = world.waypoints.get(e.waypointId);
-
-			V2 dist = new V2(w);
-			dist.sub(e.location);
-
-			if (dist.squaredLength() < 10) { // FIXME Magic Number
+			if (Collision.movingCircleCollidesWithCircle(e.location, e.velocity
+					.asVector(), e.radius, w, V2.ZERO, 1, dt)) {
 				if (e.waypointId + 1 == world.waypoints.size()) {
 					escaped += 1;
 					eiter.remove();
