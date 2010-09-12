@@ -2,7 +2,7 @@ package com.avona.games.towerdefence;
 
 public class Particle extends MovingObject {
 	protected int strength = 10;
-	protected double range_sq = 5 * 5;
+	protected float range = 5;
 	protected double timeAlive = 4.0;
 
 	protected boolean dead = false;
@@ -13,7 +13,7 @@ public class Particle extends MovingObject {
 		this.location = new V2(location);
 		this.target = target;
 
-		velocity.speed = 80;
+		velocity.speed = 1000;
 
 		recalculateTargetVector();
 	}
@@ -22,8 +22,10 @@ public class Particle extends MovingObject {
 		velocity.fromTo(location, target.location);
 	}
 
-	public boolean inRange(Enemy e) {
-		return location.squaredDist(e.location) < range_sq;
+	public boolean collidedWith(Enemy e, final float dt) {
+		return Collision.movingCircleCollidesWithCircle(location, velocity
+				.asVector(), range, e.location, e.velocity.asVector(),
+				e.radius, dt);
 	}
 
 	/**

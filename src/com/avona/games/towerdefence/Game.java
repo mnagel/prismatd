@@ -99,7 +99,7 @@ public class Game {
 			}
 
 			if (bestEnemy != null) { // policy found some enemy
-				Particle p = t.shootTowards(bestEnemy);
+				final Particle p = t.shootTowards(bestEnemy);
 				if (p != null) {
 					particles.add(p);
 				}
@@ -116,7 +116,7 @@ public class Game {
 			while (piter.hasNext()) {
 				final Particle p = piter.next();
 
-				if (p.inRange(e)) {
+				if (p.collidedWith(e, dt)) {
 					p.attack(e);
 					if (e.isDead()) {
 						killed += 1;
