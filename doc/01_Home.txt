@@ -112,6 +112,7 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [*] Timerbasiertes "Feuern" von Tuermen
 	[*] nur falls Ziel vorhanden (weitere Kollissionsabfrage)
 [ ] Timerbasiertes Spawnen von Monstern
+	[ ] Spawnen einer Welle von  Monstern
 [ ] Dokumentation der Abläufe
 	[ ] Check gegen Control Flow Artikel
 	[ ] Check gegen Units Artikel
@@ -136,8 +137,9 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Artwork (Launcher Icon) verbessern
 [ ] Programm-Name (wiedererkennbar, auf Android-Screen darstellbar)
 [ ] TODOs im Code durchgehen
-[ ] nur eine absolut einzige Version von Korrdinaten-Tupel verwenden keine Mischung von Point2d, Vector2d, Velocity, ...
+[*] nur eine absolut einzige Version von Korrdinaten-Tupel verwenden keine Mischung von Point2d, Vector2d, Velocity, ...
 [ ] Issue Tracker (launchpad?, trac?, sd?)
+[ ] Pause / Resume / State sichern auf android
 
 ===== Roadmap =====
 [ ] Code-Geschwindigkeit Profiling, insbes. fuer Android
