@@ -18,6 +18,19 @@ public class V2 {
 		x = orig.x;
 		y = orig.y;
 	}
+	
+	/**
+	 * Construct a non-empty V2 vector.
+	 *
+	 * @param direction
+	 *            Direction of the vector.
+	 * @param speed
+	 *            Length of the vector.
+	 */
+	public V2(final V2 direction, final float length) {
+		this(direction);
+		this.setLength(length);
+	}
 
 	public String toString() {
 		return String.format("V2<%f|%f>", x, y);
@@ -31,6 +44,18 @@ public class V2 {
 	public void add(final float add_x, final float add_y) {
 		x += add_x;
 		y += add_y;
+	}
+	
+	/**
+	 * Add other V2 with weight factor to this instance.
+	 * 
+	 * @param other
+	 *            V2 to accumulate onto this instance.
+	 * @param weight
+	 *            Weight factor. 1.0f to get plain addition.
+	 */
+	public void addWeighted(final V2 other, final float weight) {
+		this.add(other.x * weight, other.y * weight);
 	}
 
 	public void sub(final V2 v) {
@@ -51,15 +76,19 @@ public class V2 {
 	public float length() {
 		return (float) Math.sqrt(x * x + y * y);
 	}
+	
+	public void setLength(float length) {
+		float f = length / length();
+		this.mult(f);
+	}
 
 	public float squaredLength() {
 		return (x * x + y * y);
 	}
 
 	public void normalize() {
-		final float f = 1.0f / length();
-		x *= f;
-		y *= f;
+		this.setLength(1.0f);
+		// TODO think about making all these functions final to improve speed...
 	}
 
 	public static float dist(final V2 from, final V2 to) {
@@ -98,5 +127,21 @@ public class V2 {
 		projectedVec.mult(dot(toBeProjectedVec, baseVec)
 				/ dot(baseVec, baseVec));
 		return projectedVec;
+	}
+
+	/**
+	 * Set the direction based on the two points from and to. The resulting
+	 * direction will point from "from" to "to". Length is unchanged.
+	 * 
+	 * @param from
+	 *            Starting point. Will not be modified.
+	 * @param to
+	 *            Target point. Will not be modified.
+	 */
+	public void setDirection(final V2 from, final V2 to) {
+		float l = this.length();
+		this.x = to.x - from.x;
+		this.y = to.y - from.y;
+		this.setLength(l);
 	}
 }

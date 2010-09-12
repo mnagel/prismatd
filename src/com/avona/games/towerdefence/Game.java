@@ -116,8 +116,7 @@ public class Game {
 			}
 
 			final V2 w = world.waypoints.get(e.waypointId);
-			if (Collision.movingCircleCollidedWithCircle(e.location, e.velocity
-					.asVector(), e.radius, w, V2.ZERO, 1, dt)) {
+			if (Collision.movingCircleCollidedWithCircle(e.location, e.velocity, e.radius, w, V2.ZERO, 1, dt)) {
 				e.setWPID(e.waypointId + 1);
 				if (e.escaped) {
 					escaped += 1;

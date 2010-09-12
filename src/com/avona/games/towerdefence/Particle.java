@@ -12,19 +12,17 @@ public class Particle extends MovingObject {
 	public Particle(V2 location, Enemy target) {
 		this.location = new V2(location);
 		this.target = target;
-
-		velocity.speed = 100;
-
+		
+		this.velocity.setLength(100);
 		recalculateTargetVector();
 	}
 
 	public void recalculateTargetVector() {
-		velocity.fromTo(location, target.location);
+		velocity.setDirection(location, target.location);
 	}
 
 	public boolean collidedWith(Enemy e, final float dt) {
-		return Collision.movingCircleCollidesWithCircle(location, velocity
-				.asVector(), range, e.location, e.velocity.asVector(),
+		return Collision.movingCircleCollidesWithCircle(location, velocity, range, e.location, e.velocity,
 				e.radius, dt);
 	}
 
@@ -57,6 +55,6 @@ public class Particle extends MovingObject {
 			return;
 
 		recalculateTargetVector();
-		velocity.translate(location, dt);
+		location.addWeighted(velocity, dt);
 	}
 }

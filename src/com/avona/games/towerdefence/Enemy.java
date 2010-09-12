@@ -10,7 +10,7 @@ public class Enemy extends MovingObject {
 	public Enemy(World world, V2 location) {
 		this.world = world;
 		this.location = location;
-		velocity.speed = 80;
+		this.velocity.setLength(80);
 		setWPID(1);
 	}
 
@@ -18,7 +18,7 @@ public class Enemy extends MovingObject {
 		if (waypointId + 1 < world.waypoints.size()) {
 			waypointId = i;
 			target = world.waypoints.get(waypointId);
-			velocity.fromTo(location, target);
+			velocity.setDirection(location, target);
 		} else {
 			escaped = true;
 		}
@@ -29,7 +29,7 @@ public class Enemy extends MovingObject {
 		if (isDead())
 			return;
 
-		velocity.translate(location, dt);
+		location.addWeighted(velocity, dt);
 	}
 
 	public boolean isDead() {
