@@ -14,7 +14,7 @@ public class Tower extends StationaryObject {
 	}
 
 	public boolean inRange(Enemy e) {
-		return location.dist_sq(e.location) < range_sq;
+		return location.squaredDist(e.location) < range_sq;
 	}
 
 	public Particle shootTowards(Enemy e) {

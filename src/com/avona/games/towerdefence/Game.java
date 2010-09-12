@@ -86,8 +86,8 @@ public class Game {
 					}
 
 					// shoot to nearest enemy
-					if (t.location.dist_sq(bestEnemy.location) > t.location
-							.dist_sq(e.location)) {
+					if (t.location.squaredDist(bestEnemy.location) > t.location
+							.squaredDist(e.location)) {
 						bestEnemy = e;
 					} // TODO allow for different policies here...
 				}
@@ -131,7 +131,7 @@ public class Game {
 			V2 dist = new V2(w);
 			dist.sub(e.location);
 
-			if (dist.abs_sq() < 10) { // FIXME Magic Number
+			if (dist.squaredLength() < 10) { // FIXME Magic Number
 				if (e.waypointId + 1 == world.waypoints.size()) {
 					escaped += 1;
 					eiter.remove();

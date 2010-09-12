@@ -19,7 +19,7 @@ public class Enemy extends MovingObject {
 		Util.log("setting to wp" + 1);
 		waypointId = i;
 		target = world.waypoints.get(waypointId);
-		velocity.fromto(location, target);
+		velocity.fromTo(location, target);
 	}
 
 	@Override

@@ -19,11 +19,11 @@ public class Particle extends MovingObject {
 	}
 
 	public void recalculateTargetVector() {
-		velocity.fromto(location, target.location);
+		velocity.fromTo(location, target.location);
 	}
 
 	public boolean inRange(Enemy e) {
-		return location.dist_sq(e.location) < range_sq;
+		return location.squaredDist(e.location) < range_sq;
 	}
 
 	/**

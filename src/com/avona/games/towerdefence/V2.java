@@ -46,16 +46,16 @@ public class V2 {
 		y *= f;
 	}
 
-	public float abs() {
+	public float length() {
 		return (float) Math.sqrt(x * x + y * y);
 	}
 
-	public float abs_sq() {
+	public float squaredLength() {
 		return (x * x + y * y);
 	}
 
 	public void normalize() {
-		final float f = 1.0f / abs();
+		final float f = 1.0f / length();
 		x *= f;
 		y *= f;
 	}
@@ -65,7 +65,7 @@ public class V2 {
 				+ (to.y - from.y) * (to.y - from.y));
 	}
 
-	public static float dist_sq(final V2 from, final V2 to) {
+	public static float squaredDist(final V2 from, final V2 to) {
 		return (to.x - from.x) * (to.x - from.x) + (to.y - from.y)
 				* (to.y - from.y);
 	}
@@ -74,7 +74,7 @@ public class V2 {
 		return dist(this, dest);
 	}
 
-	public float dist_sq(final V2 dest) {
-		return dist_sq(this, dest);
+	public float squaredDist(final V2 dest) {
+		return squaredDist(this, dest);
 	}
 }

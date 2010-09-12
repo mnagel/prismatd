@@ -60,7 +60,7 @@ public class VelocityVector {
 	 * @param to
 	 *            Target point. Will not be modified.
 	 */
-	public void fromto(final V2 from, final V2 to) {
+	public void fromTo(final V2 from, final V2 to) {
 		V2 newDir = new V2(to);
 		newDir.sub(from);
 		newDir.normalize();
