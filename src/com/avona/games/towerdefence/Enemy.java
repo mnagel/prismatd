@@ -1,7 +1,6 @@
 package com.avona.games.towerdefence;
 
 public class Enemy extends MovingObject {
-	protected World world;
 	public V2 target;
 	public int health = 100;
 	public int waypointId = 1;
@@ -15,9 +14,13 @@ public class Enemy extends MovingObject {
 	}
 
 	public void setWPID(int i) {
-		waypointId = i;
-		target = world.waypoints.get(waypointId);
-		velocity.fromTo(location, target);
+		if (waypointId + 1 < world.waypoints.size()) {
+			waypointId = i;
+			target = world.waypoints.get(waypointId);
+			velocity.fromTo(location, target);
+		} else {
+			escaped = true;
+		}
 	}
 
 	@Override

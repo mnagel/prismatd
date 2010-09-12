@@ -24,8 +24,7 @@ public class Game {
 	}
 
 	public void spawnEnemy() {
-		enemies.add(new Enemy(world, new V2(world.waypoints.get(0).x,
-				world.waypoints.get(0).y)));
+		enemies.add(new Enemy(world, new V2(world.waypoints.get(0))));
 	}
 
 	public void showTowersRange(Tower t) {
@@ -134,13 +133,12 @@ public class Game {
 			final V2 w = world.waypoints.get(e.waypointId);
 			if (Collision.movingCircleCollidesWithCircle(e.location, e.velocity
 					.asVector(), e.radius, w, V2.ZERO, 1, dt)) {
-				if (e.waypointId + 1 == world.waypoints.size()) {
-					e.escaped = true;
+				e.setWPID(e.waypointId + 1);
+				if (e.escaped) {
 					escaped += 1;
 					eiter.remove();
 					break;
 				}
-				e.setWPID(e.waypointId + 1);
 			}
 		}
 	}
