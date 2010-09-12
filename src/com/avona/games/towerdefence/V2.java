@@ -77,4 +77,24 @@ public class V2 {
 	public float squaredDist(final V2 dest) {
 		return squaredDist(this, dest);
 	}
+
+	public static float dot(final V2 vec0, final V2 vec1) {
+		return vec0.x * vec1.x + vec0.y * vec1.y;
+	}
+
+	/**
+	 * Project one vector onto the other vector.
+	 * 
+	 * @param toBeProjectedVec
+	 *            Vector that will be projected onto baseVec.
+	 * @param baseVec
+	 *            Vector upon the projection will take place.
+	 * @return Returns the projected vector as a new vector instance.
+	 */
+	public static V2 project(final V2 toBeProjectedVec, final V2 baseVec) {
+		V2 projectedVec = new V2(baseVec);
+		projectedVec.mult(dot(toBeProjectedVec, baseVec)
+				/ dot(baseVec, baseVec));
+		return projectedVec;
+	}
 }
