@@ -5,11 +5,12 @@ public class Enemy extends MovingObject {
 	public int health = 100;
 	public int waypointId = 1;
 	public boolean escaped = false;
+	public boolean left = false;
 
 	public Enemy(World world, V2 location) {
 		this.world = world;
 		this.location = location;
-		velocity.speed = 80;
+		velocity.speed = 1000;
 		setWPID(1);
 	}
 
@@ -29,23 +30,6 @@ public class Enemy extends MovingObject {
 			return;
 
 		velocity.translate(location, dt);
-
-		if (location.x < World.ORIGIN_X) {
-			location.x = World.ORIGIN_X - (location.x - World.ORIGIN_X);
-			velocity.normalisedDirection.x = -velocity.normalisedDirection.x;
-		}
-		if (location.y < World.ORIGIN_Y) {
-			location.y = World.ORIGIN_Y - (location.y - World.ORIGIN_Y);
-			velocity.normalisedDirection.y = -velocity.normalisedDirection.y;
-		}
-		if (location.x > World.WIDTH) {
-			location.x = World.WIDTH - (location.x - World.WIDTH);
-			velocity.normalisedDirection.x = -velocity.normalisedDirection.x;
-		}
-		if (location.y > World.HEIGHT) {
-			location.y = World.HEIGHT - (location.y - World.HEIGHT);
-			velocity.normalisedDirection.y = -velocity.normalisedDirection.y;
-		}
 	}
 
 	public boolean isDead() {

@@ -22,12 +22,15 @@ public abstract class PortableGraphicsEngine {
 	private FloatBuffer vertexBuffer;
 	private FloatBuffer colorBuffer;
 
-	public PortableGraphicsEngine(Game game, Mouse mouse, LayerHerder layerHerder) {
+	public PortableGraphicsEngine(Game game, Mouse mouse,
+			LayerHerder layerHerder) {
 		this.game = game;
 		this.mouse = mouse;
 
-		gameLayer = layerHerder.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
-		menuLayer = layerHerder.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
+		gameLayer = layerHerder
+				.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
+		menuLayer = layerHerder
+				.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
 
 		vertexBuffer = allocateFloatBuffer(102 * 2);
 		colorBuffer = allocateFloatBuffer(102 * 4);
@@ -204,7 +207,8 @@ public abstract class PortableGraphicsEngine {
 
 	public void renderStats() {
 		final String fpsString = String.format(
-				"%d killed | %d escaped | fps %.2f", game.killed, game.escaped,
+				"%d killed | %d escaped | %d left building | fps %.2f",
+				game.killed, game.escaped, game.leftBuilding,
 				graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);
 		final double width = bounds.x + 4;

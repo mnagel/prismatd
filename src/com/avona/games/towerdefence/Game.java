@@ -12,6 +12,7 @@ public class Game {
 
 	public int killed = 0;
 	public int escaped = 0;
+	public int leftBuilding = 0;
 
 	private Tower rangeShowingTower = null;
 
@@ -115,7 +116,7 @@ public class Game {
 			}
 
 			final V2 w = world.waypoints.get(e.waypointId);
-			if (Collision.movingCircleCollidesWithCircle(e.location, e.velocity
+			if (Collision.movingCircleCollidedWithCircle(e.location, e.velocity
 					.asVector(), e.radius, w, V2.ZERO, 1, dt)) {
 				e.setWPID(e.waypointId + 1);
 				if (e.escaped) {
@@ -123,6 +124,20 @@ public class Game {
 					eiter.remove();
 					break;
 				}
+			}
+
+			if (e.location.x < World.ORIGIN_X || e.location.y < World.ORIGIN_Y
+					|| e.location.x > World.WIDTH
+					|| e.location.y > World.HEIGHT) {
+				if (!e.left) {
+					e.left = true;
+					leftBuilding += 1;
+					Util.log("enemy " + e + " has left the building");
+				}
+			} else if (e.left) {
+				e.left = false;
+				leftBuilding -= 1;
+				Util.log("enemy " + e + " has reentered the building!");
 			}
 		}
 	}
