@@ -39,14 +39,14 @@ public class Game {
 			rangeShowingTower.showRange = true;
 	}
 
-	public Tower closestTowerWithinRadius(V2 location, double range) {
+	public Tower closestTowerWithinRadius(V2 location, float range) {
 		return (Tower) closestStationaryWithinRadius(towers, location, range);
 	}
 
 	@SuppressWarnings("unchecked")
 	// does not seem to be cast/type/...-able
 	public static Object closestStationaryWithinRadius(final List objects,
-			final V2 location, final double range) {
+			final V2 location, final float range) {
 		for (final Object o : objects) {
 			if (((StationaryObject) o).collidesWith(location, range))
 				return o;
