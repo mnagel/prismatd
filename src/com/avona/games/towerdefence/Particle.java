@@ -48,7 +48,7 @@ public class Particle extends MovingObject {
 
 	@Override
 	public void step(float dt) {
-		if (target.isDead())
+		if (target.isDead() || target.escaped)
 			dead = true;
 
 		if (isDead())

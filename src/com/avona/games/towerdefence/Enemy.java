@@ -5,6 +5,7 @@ public class Enemy extends MovingObject {
 	public V2 target;
 	public int health = 100;
 	public int waypointId = 1;
+	public boolean escaped = false;
 
 	public Enemy(World world, V2 location) {
 		this.world = world;

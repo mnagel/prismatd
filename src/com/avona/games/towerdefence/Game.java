@@ -64,8 +64,14 @@ public class Game {
 		for (Tower t : towers) {
 			t.step(dt);
 		}
-		for (Particle p : particles) {
+
+		Iterator<Particle> piter = particles.iterator();
+		while (piter.hasNext()) {
+			final Particle p = piter.next();
 			p.step(dt);
+			if (p.isDead()) {
+				piter.remove();
+			}
 		}
 
 		/**
@@ -107,7 +113,7 @@ public class Game {
 		Iterator<Enemy> eiter = enemies.iterator();
 		while (eiter.hasNext()) {
 			final Enemy e = eiter.next();
-			Iterator<Particle> piter = particles.iterator();
+			piter = particles.iterator();
 			while (piter.hasNext()) {
 				final Particle p = piter.next();
 
@@ -130,6 +136,7 @@ public class Game {
 			if (Collision.movingCircleCollidesWithCircle(e.location, e.velocity
 					.asVector(), e.radius, w, V2.ZERO, 1, dt)) {
 				if (e.waypointId + 1 == world.waypoints.size()) {
+					e.escaped = true;
 					escaped += 1;
 					eiter.remove();
 					break;

@@ -40,8 +40,7 @@ public class InputActor {
 				game.addTowerAt(location);
 			}
 			checkMouseOverTower(location);
-		}
-		else if (layer.name.equals(Layer.MENU)) {
+		} else if (layer.name.equals(Layer.MENU)) {
 			game.spawnEnemy();
 		}
 	}
