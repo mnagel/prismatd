@@ -4,14 +4,19 @@ public class InputActor {
 	private PortableMainLoop ml;
 	private Game game;
 	private Mouse mouse;
-	private PortableGraphicsEngine ge;
+	private LayerHerder layerHerder;
+	private Layer gameLayer;
+	private Layer menuLayer;
 
 	public InputActor(PortableMainLoop mainLoop, Game game, Mouse mouse,
-			PortableGraphicsEngine ge) {
+			LayerHerder layerHerder) {
 		this.ml = mainLoop;
 		this.game = game;
 		this.mouse = mouse;
-		this.ge = ge;
+		this.layerHerder = layerHerder;
+		
+		gameLayer = layerHerder.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
+		menuLayer = layerHerder.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
 	}
 
 	public void pressedEscapeKey() {
@@ -31,23 +36,22 @@ public class InputActor {
 	}
 
 	public void pressedMouseBtn1At(V2 location) {
-		Layer layer = ge.layerHerder.findLayerWithinPoint(location);
-		Util.log("clicked on layer " + layer.name + ", position: " + location);
-		if (layer.name.equals(Layer.GAME)) {
+		Layer layer = layerHerder.findLayerWithinPoint(location);
+		if (layer == gameLayer) {
 			location = layer.convertToVirtual(location);
 			Tower t = game.closestTowerWithinRadius(location, mouse.radius);
 			if (t == null) {
 				game.addTowerAt(location);
 			}
 			checkMouseOverTower(location);
-		} else if (layer.name.equals(Layer.MENU)) {
+		} else if (layer == menuLayer) {
 			game.spawnEnemy();
 		}
 	}
 
 	public void pressedMouseBtn2At(V2 location) {
-		Layer layer = ge.layerHerder.findLayerWithinPoint(location);
-		if (layer.name.equals(Layer.GAME)) {
+		Layer layer = layerHerder.findLayerWithinPoint(location);
+		if (layer == gameLayer) {
 			game.spawnEnemy();
 		}
 	}
@@ -67,8 +71,8 @@ public class InputActor {
 
 	public void mouseMovedTo(V2 location) {
 		mouse.location = location;
-		Layer layer = ge.layerHerder.findLayerWithinPoint(location);
-		if (layer.name.equals(Layer.GAME)) {
+		Layer layer = layerHerder.findLayerWithinPoint(location);
+		if (layer == gameLayer) {
 			location = layer.convertToVirtual(location);
 			checkMouseOverTower(location);
 		}

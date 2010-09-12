@@ -11,7 +11,6 @@ public abstract class PortableGraphicsEngine {
 
 	public V2 size;
 
-	public LayerHerder layerHerder = new LayerHerder();
 	public Layer menuLayer;
 	public Layer gameLayer;
 
@@ -23,21 +22,12 @@ public abstract class PortableGraphicsEngine {
 	private FloatBuffer vertexBuffer;
 	private FloatBuffer colorBuffer;
 
-	public PortableGraphicsEngine(Game game, Mouse mouse) {
+	public PortableGraphicsEngine(Game game, Mouse mouse, LayerHerder layerHerder) {
 		this.game = game;
 		this.mouse = mouse;
 
-		gameLayer = new Layer();
-		gameLayer.virtualRegion.x = World.WIDTH;
-		gameLayer.virtualRegion.y = World.HEIGHT;
-		gameLayer.name = Layer.GAME;
-		layerHerder.layers.add(gameLayer);
-
-		menuLayer = new Layer();
-		menuLayer.virtualRegion.x = 125;
-		menuLayer.virtualRegion.y = 480;
-		menuLayer.name = Layer.MENU;
-		layerHerder.layers.add(menuLayer);
+		gameLayer = layerHerder.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
+		menuLayer = layerHerder.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
 
 		vertexBuffer = allocateFloatBuffer(102 * 2);
 		colorBuffer = allocateFloatBuffer(102 * 4);

@@ -23,15 +23,18 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 	}
 
 	public MainLoop() {
+		super();
+
 		gameTime = new TimeTrack();
 		graphicsTime = new TimeTrack();
 
 		game = new Game();
 
-		GraphicsEngine graphicsEngine = new GraphicsEngine(game, mouse);
+		GraphicsEngine graphicsEngine = new GraphicsEngine(game, mouse,
+				layerHerder);
 		ge = graphicsEngine;
 		graphicsEngine.canvas.addGLEventListener(this);
-		inputActor = new InputActor(this, game, mouse, ge);
+		inputActor = new InputActor(this, game, mouse, layerHerder);
 		input = new InputMangler(graphicsEngine, this, inputActor);
 
 		animator = new FPSAnimator(graphicsEngine.canvas, EXPECTED_FPS);
