@@ -12,12 +12,9 @@ public class Enemy extends MovingObject {
 		this.location = location;
 		velocity.speed = 200;
 		setWPID(1);
-		System.out.println(velocity);
-		System.out.println(location);
 	}
 
 	public void setWPID(int i) {
-		Util.log("setting to wp" + 1);
 		waypointId = i;
 		target = world.waypoints.get(waypointId);
 		velocity.fromTo(location, target);
@@ -54,6 +51,5 @@ public class Enemy extends MovingObject {
 
 	public void inflictDamage(int damage) {
 		health -= damage;
-		System.out.println(health);
 	}
 }

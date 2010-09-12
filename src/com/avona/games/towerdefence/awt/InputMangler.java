@@ -50,7 +50,6 @@ public class InputMangler implements KeyListener, MouseListener,
 	}
 
 	public void keyPressed(KeyEvent e) {
-		Util.log(e.paramString());
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			actor.pressedEscapeKey();
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -59,11 +58,9 @@ public class InputMangler implements KeyListener, MouseListener,
 	}
 
 	public void keyReleased(KeyEvent e) {
-		Util.log(e.paramString());
 	}
 
 	public void mousePressed(MouseEvent e) {
-		Util.log("Mouse pressed (# of clicks: " + e.getClickCount() + ")");
 		final V2 location = eventLocation(e);
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			actor.pressedMouseBtn1At(location);
@@ -73,21 +70,17 @@ public class InputMangler implements KeyListener, MouseListener,
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		Util.log("Mouse released (# of clicks: " + e.getClickCount() + ")");
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		Util.log("Mouse entered");
 		actor.mouseEntered();
 	}
 
 	public void mouseExited(MouseEvent e) {
-		Util.log("Mouse exited");
 		actor.mouseExited();
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		Util.log("Mouse clicked (# of clicks: " + e.getClickCount() + ")");
 	}
 
 	public void mouseMoved(MouseEvent e) {
