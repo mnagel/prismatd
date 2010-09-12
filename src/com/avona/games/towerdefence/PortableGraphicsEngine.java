@@ -30,13 +30,13 @@ public abstract class PortableGraphicsEngine {
 		gameLayer = new Layer();
 		gameLayer.virtualRegion.x = World.WIDTH;
 		gameLayer.virtualRegion.y = World.HEIGHT;
-		gameLayer.name = "game";
+		gameLayer.name = Layer.GAME;
 		layerHerder.layers.add(gameLayer);
 
 		menuLayer = new Layer();
 		menuLayer.virtualRegion.x = 125;
 		menuLayer.virtualRegion.y = 480;
-		menuLayer.name = "menu";
+		menuLayer.name = Layer.MENU;
 		layerHerder.layers.add(menuLayer);
 
 		vertexBuffer = allocateFloatBuffer(102 * 2);

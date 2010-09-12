@@ -33,7 +33,7 @@ public class InputActor {
 	public void pressedMouseBtn1At(V2 location) {
 		Layer layer = ge.layerHerder.findLayerWithinPoint(location);
 		Util.log("clicked on layer " + layer.name + ", position: " + location);
-		if (layer.name == "game") {
+		if (layer.name.equals(Layer.GAME)) {
 			location = layer.convertToVirtual(location);
 			Tower t = game.closestTowerWithinRadius(location, mouse.radius);
 			if (t == null) {
@@ -41,11 +41,14 @@ public class InputActor {
 			}
 			checkMouseOverTower(location);
 		}
+		else if (layer.name.equals(Layer.MENU)) {
+			game.spawnEnemy();
+		}
 	}
 
 	public void pressedMouseBtn2At(V2 location) {
 		Layer layer = ge.layerHerder.findLayerWithinPoint(location);
-		if (layer.name == "game") {
+		if (layer.name.equals(Layer.GAME)) {
 			game.spawnEnemy();
 		}
 	}
@@ -66,7 +69,7 @@ public class InputActor {
 	public void mouseMovedTo(V2 location) {
 		mouse.location = location;
 		Layer layer = ge.layerHerder.findLayerWithinPoint(location);
-		if (layer.name == "game") {
+		if (layer.name.equals(Layer.GAME)) {
 			location = layer.convertToVirtual(location);
 			checkMouseOverTower(location);
 		}

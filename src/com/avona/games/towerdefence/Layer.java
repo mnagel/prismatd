@@ -4,7 +4,9 @@ public class Layer {
 	/**
 	 * Name of the layer. Must be unique among all layers.
 	 */
-	public String name = new String();
+	public String name = new String(); // FIXME not sure if String (+String comparison) is a good thing here...
+	public static String GAME = "game";
+	public static String MENU = "menu";
 
 	/**
 	 * Size used by screen, i.e. pixel size.

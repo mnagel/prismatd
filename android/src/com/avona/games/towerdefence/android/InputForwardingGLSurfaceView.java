@@ -30,9 +30,9 @@ class InputForwardingGLSurfaceView extends GLSurfaceView {
 					inputActor.pressedMouseBtn1At(eventLocation(event));
 				}
 
-				if (event.getAction() == MotionEvent.ACTION_UP) {
-					inputActor.pressedMouseBtn2At(eventLocation(event));
-				}
+//				if (event.getAction() == MotionEvent.ACTION_UP) {
+//					inputActor.pressedMouseBtn2At(eventLocation(event));
+//				}
 			}
 		});
 		return true;
