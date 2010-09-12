@@ -82,19 +82,18 @@ public class Game {
 
 		for (Tower t : towers) {
 			Enemy bestEnemy = null;
+			float bestEnemyLocationSquaredDist = Float.MAX_VALUE;
+
 			for (Enemy e : enemies) {
 				if (t.inRange(e)) {
-					if (bestEnemy == null) {
-						bestEnemy = e;
-						// to shoot "farthest progressed" enemy do
-						// break;
-						// here -- provided break exits e for:enemies loop
-					}
+					final float newEnemyLocationSquaredDist = t.location
+							.squaredDist(e.location);
 
 					// shoot to nearest enemy
-					if (t.location.squaredDist(bestEnemy.location) > t.location
-							.squaredDist(e.location)) {
+					if (bestEnemy == null
+							|| bestEnemyLocationSquaredDist > newEnemyLocationSquaredDist) {
 						bestEnemy = e;
+						bestEnemyLocationSquaredDist = newEnemyLocationSquaredDist;
 					} // TODO allow for different policies here...
 				}
 			}
