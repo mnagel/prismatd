@@ -27,13 +27,11 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		graphicsTime = new TimeTrack();
 
 		game = new Game();
-		// Android has no mouse tracking, so set invisible by default.
-		game.mouse.onScreen = false;
 
-		GraphicsEngine graphicsEngine = new GraphicsEngine(game);
+		GraphicsEngine graphicsEngine = new GraphicsEngine(game, mouse);
 		ge = graphicsEngine;
 		graphicsEngine.canvas.addGLEventListener(this);
-		inputActor = new InputActor(this, game, ge);
+		inputActor = new InputActor(this, game, mouse, ge);
 		input = new InputMangler(graphicsEngine, this, inputActor);
 
 		animator = new FPSAnimator(graphicsEngine.canvas, EXPECTED_FPS);

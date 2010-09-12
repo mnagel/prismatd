@@ -9,8 +9,6 @@ public abstract class PortableGraphicsEngine {
 	public static final int DEFAULT_HEIGHT = 480;
 	public static final int DEFAULT_WIDTH = 675;
 
-	public static final double TOWER_WIDTH = 16;
-
 	public V2 size;
 
 	public LayerHerder layerHerder = new LayerHerder();
@@ -20,24 +18,24 @@ public abstract class PortableGraphicsEngine {
 	protected TimeTrack graphicsTime = new TimeTrack();
 	protected TickRater graphicsTickRater = new TickRater(graphicsTime);
 	protected Game game;
+	protected Mouse mouse;
 
 	private FloatBuffer vertexBuffer;
 	private FloatBuffer colorBuffer;
 
-	public PortableGraphicsEngine(Game game) {
+	public PortableGraphicsEngine(Game game, Mouse mouse) {
 		this.game = game;
+		this.mouse = mouse;
 
 		gameLayer = new Layer();
 		gameLayer.virtualRegion.x = World.WIDTH;
 		gameLayer.virtualRegion.y = World.HEIGHT;
-		gameLayer.level = 0;
 		gameLayer.name = "game";
 		layerHerder.layers.add(gameLayer);
 
 		menuLayer = new Layer();
 		menuLayer.virtualRegion.x = 125;
 		menuLayer.virtualRegion.y = 480;
-		menuLayer.level = 0;
 		menuLayer.name = "menu";
 		layerHerder.layers.add(menuLayer);
 
@@ -215,30 +213,33 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	public void renderStats() {
-		final String fpsString = String.format("fps %.2f",
+		final String fpsString = String.format(
+				"%d killed | %d escaped | fps %.2f", game.killed, game.escaped,
 				graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);
 		final double width = bounds.x + 4;
 		final double height = bounds.y + 2;
+
+		final float[] cols = new float[] { 0.0f, 0.0f, 0.0f, 0.2f };
 
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
 
 		vertexBuffer.put((float) (width));
 		vertexBuffer.put((float) (height));
-		colorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
+		colorBuffer.put(cols);
 
 		vertexBuffer.put((float) (width));
 		vertexBuffer.put((float) (0));
-		colorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
+		colorBuffer.put(cols);
 
 		vertexBuffer.put((float) (0));
 		vertexBuffer.put((float) (height));
-		colorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
+		colorBuffer.put(cols);
 
 		vertexBuffer.put((float) (0));
 		vertexBuffer.put((float) (0));
-		colorBuffer.put(new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
+		colorBuffer.put(cols);
 
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
@@ -249,7 +250,7 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	public void renderTower(final Tower t) {
-		final double width = TOWER_WIDTH;
+		final double width = t.radius;
 		final V2 location = t.location;
 
 		if (t.showRange) {
@@ -315,12 +316,12 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	public void renderMouse() {
-		if (!game.mouse.onScreen)
+		if (!mouse.onScreen)
 			return;
-		final V2 p = game.mouse.location;
-		final float col = 0.4f + 0.6f * (float) Math.abs(Math
-				.sin(2 * graphicsTime.clock));
-		drawFilledCircle(p.x, p.y, col, col, col, 1.0f, game.mouse.radius);
+		final V2 p = mouse.location;
+		final float col = 0.5f + 0.3f * (float) Math.abs(Math
+				.sin(4 * graphicsTime.clock));
+		drawFilledCircle(p.x, p.y, mouse.radius, 1.0f, 1.0f, 1.0f, col);
 	}
 
 	protected void onReshapeScreen() {
@@ -359,9 +360,9 @@ public abstract class PortableGraphicsEngine {
 				+ remainingSize.x - menuLayer.region.x;
 	}
 
-	public void drawCircle(final float x, final float y, final float colR,
-			final float colG, final float colB, final float colA,
-			final float radius, final int segments) {
+	public void drawCircle(final float x, final float y, final float radius,
+			final float colR, final float colG, final float colB,
+			final float colA, final int segments) {
 
 		final double angleStep = 2 * Math.PI / segments;
 		final float[] colors = new float[] { colR, colG, colB, colA };
@@ -381,16 +382,16 @@ public abstract class PortableGraphicsEngine {
 		colorBuffer.put(colors);
 	}
 
-	public void drawCircle(final float x, final float y, final float colR,
-			final float colG, final float colB, final float colA,
-			final float radius) {
+	public void drawCircle(final float x, final float y, final float radius,
+			final float colR, final float colG, final float colB,
+			final float colA) {
 
 		final int segments = 100;
 
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
 
-		drawCircle(x, y, colR, colG, colB, colA, radius, segments);
+		drawCircle(x, y, radius, colR, colG, colB, colA, segments);
 
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
@@ -399,8 +400,8 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	public void drawFilledCircle(final float x, final float y,
-			final float colR, final float colG, final float colB,
-			final float colA, final float radius) {
+			final float radius, final float colR, final float colG,
+			final float colB, final float colA) {
 
 		final int segments = 100;
 
@@ -414,7 +415,7 @@ public abstract class PortableGraphicsEngine {
 		vertexBuffer.put((float) y);
 		colorBuffer.put(new float[] { colR, colG, colB, colA });
 
-		drawCircle(x, y, colR, colG, colB, colA, radius, segments);
+		drawCircle(x, y, radius, colR, colG, colB, colA, segments);
 
 		vertexBuffer.position(0);
 		colorBuffer.position(0);

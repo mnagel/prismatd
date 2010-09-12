@@ -13,8 +13,10 @@ import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
+
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Layer;
+import com.avona.games.towerdefence.Mouse;
 import com.avona.games.towerdefence.PortableGraphicsEngine;
 import com.avona.games.towerdefence.V2;
 import com.sun.opengl.util.j2d.TextRenderer;
@@ -35,8 +37,8 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 	public FloatBuffer squareVertexBuffer;
 	public FloatBuffer squareColorBuffer;
 
-	public GraphicsEngine(Game game) {
-		super(game);
+	public GraphicsEngine(Game game, Mouse mouse) {
+		super(game, mouse);
 
 		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 12),
 				true, true);
@@ -112,6 +114,9 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 	public void init(GLAutoDrawable drawable) {
 		// We have a fresh GL context, retrieve reference.
 		gl = canvas.getGL();
+
+		gl.glEnable(GL.GL_BLEND);
+		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	@Override

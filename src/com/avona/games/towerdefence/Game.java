@@ -9,21 +9,21 @@ public class Game {
 	public List<Tower> towers = new LinkedList<Tower>();
 	public List<Particle> particles = new LinkedList<Particle>();
 	public World world;
-	public Mouse mouse;
+
+	public int killed = 0;
+	public int escaped = 0;
 
 	private Tower rangeShowingTower = null;
 
 	public Game() {
 		world = new World();
-		mouse = new Mouse();
 	}
 
 	public void addTowerAt(V2 location) {
 		towers.add(new Tower(location));
 	}
 
-	public void addEnemyAt(V2 location) {
-		// enemies.add(new Enemy(world, location));
+	public void spawnEnemy() {
 		enemies.add(new Enemy(world, new V2(world.waypoints.get(0).x,
 				world.waypoints.get(0).y)));
 	}
@@ -94,7 +94,7 @@ public class Game {
 			}
 
 			if (bestEnemy != null) { // policy found some enemy
-				Particle p = t.shootTowards(bestEnemy, dt);
+				Particle p = t.shootTowards(bestEnemy);
 				if (p != null) {
 					particles.add(p);
 				}
@@ -114,6 +114,7 @@ public class Game {
 				if (p.inRange(e)) {
 					p.attack(e);
 					if (e.isDead()) {
+						killed += 1;
 						eiter.remove();
 						break; // enemy dead, no more particles to check
 					}
@@ -125,13 +126,18 @@ public class Game {
 				}
 			}
 
-			final V2 w = world.waypoints.get(e.waypointid);
+			final V2 w = world.waypoints.get(e.waypointId);
 
 			V2 dist = new V2(w);
 			dist.sub(e.location);
 
 			if (dist.abs_sq() < 10) { // FIXME Magic Number
-				e.setWPID(e.waypointid + 1);
+				if (e.waypointId + 1 == world.waypoints.size()) {
+					escaped += 1;
+					eiter.remove();
+					break;
+				}
+				e.setWPID(e.waypointId + 1);
 			}
 		}
 	}

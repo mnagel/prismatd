@@ -10,13 +10,14 @@ public class Tower extends StationaryObject {
 
 	public Tower(V2 location) {
 		this.location = location;
+		radius = 16;
 	}
 
 	public boolean inRange(Enemy e) {
 		return location.dist_sq(e.location) < range_sq;
 	}
 
-	public Particle shootTowards(Enemy e, final float dt) {
+	public Particle shootTowards(Enemy e) {
 		if (timer.isReady()) {
 			timer.rearm();
 			return new Particle(location, e);

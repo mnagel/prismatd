@@ -4,7 +4,7 @@ public class Enemy extends MovingObject {
 	protected World world;
 	public V2 target;
 	public int health = 100;
-	public int waypointid = 1;
+	public int waypointId = 1;
 
 	public Enemy(World world, V2 location) {
 		this.world = world;
@@ -18,11 +18,8 @@ public class Enemy extends MovingObject {
 
 	public void setWPID(int i) {
 		Util.log("setting to wp" + 1);
-		if (i == world.waypoints.size()) {
-			i = 0;
-		}
-		waypointid = i;
-		target = world.waypoints.get(waypointid);
+		waypointId = i;
+		target = world.waypoints.get(waypointId);
 		velocity.fromto(this.location, this.target);
 	}
 

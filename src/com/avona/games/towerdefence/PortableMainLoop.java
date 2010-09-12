@@ -7,7 +7,7 @@ public abstract class PortableMainLoop {
 	public Game game = new Game();
 	public PortableGraphicsEngine ge;
 	public InputActor inputActor;
-
+	public Mouse mouse = new Mouse();
 	protected TimeTrack gameTime = new TimeTrack();;
 	protected TimeTrack graphicsTime = new TimeTrack();
 	private float gameTicks = 0;

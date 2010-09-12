@@ -10,6 +10,7 @@ import android.opengl.GLSurfaceView.Renderer;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Layer;
+import com.avona.games.towerdefence.Mouse;
 import com.avona.games.towerdefence.PortableGraphicsEngine;
 import com.avona.games.towerdefence.V2;
 
@@ -21,8 +22,8 @@ import com.avona.games.towerdefence.V2;
 public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 	private GL10 gl;
 
-	public GraphicsEngine(Game game) {
-		super(game);
+	public GraphicsEngine(Game game, Mouse mouse) {
+		super(game, mouse);
 	}
 
 	@Override
@@ -46,6 +47,9 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		this.gl = gl;
+
+		gl.glEnable(GL10.GL_BLEND);
+		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	protected void prepareScreen() {

@@ -5,7 +5,7 @@ package com.avona.games.towerdefence;
  * full movement of the vector in a second.
  */
 public class VelocityVector { // TODO remove this class and merge content into
-								// V2
+	// V2
 	/**
 	 * vector is always normalized. Otherwise translate will yield wrong values.
 	 * You can either fill the variable by calling its normalize method with the
