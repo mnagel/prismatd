@@ -10,7 +10,7 @@ public class Enemy extends MovingObject {
 	public Enemy(World world, V2 location) {
 		this.world = world;
 		this.location = location;
-		velocity.speed = 1000;
+		velocity.speed = 80;
 		setWPID(1);
 	}
 

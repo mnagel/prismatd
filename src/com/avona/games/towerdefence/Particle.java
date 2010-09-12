@@ -13,7 +13,7 @@ public class Particle extends MovingObject {
 		this.location = new V2(location);
 		this.target = target;
 
-		velocity.speed = 1000;
+		velocity.speed = 100;
 
 		recalculateTargetVector();
 	}
