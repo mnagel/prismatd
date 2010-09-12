@@ -44,11 +44,11 @@ Creation-Date: 2010-09-06T09:54:39.867461
 		[*] Velocity :: v2d
 		[*] diversen Ding-Kategorie- und Ding-Instanz-spezifischen Status
 	[*] Status von folgenden Dingen
-		[ ] das Grid
+		[x] das Grid
 		[*] Liste der Türme
 		[*] Liste der Geschosse
 		[*] Liste der Monster
-		[ ] Liste der Wegpunkte
+		[*] Liste der Wegpunkte
 	[*] Aktualisierung
 		[*] tick(dt :: float)
 [ ] Dokumentation der Abläufe
@@ -60,8 +60,9 @@ Creation-Date: 2010-09-06T09:54:39.867461
 
 ===== Grafik-Engine-Stub =====
 [ ] Prototyp einer Grafik-Engine, die Grafik ausgibt und entsprechenden Status haelt
-	[ ] alle Dinge malen
-	[ ] Ausgabe eines Ingame-Debug-Strings als Text auf einem HUD-Layer
+	[*] alle Dinge malen
+	[*] desktop: Ausgabe eines Ingame-Debug-Strings als Text auf einem HUD-Layer
+	[ ] android: Ausgabe eines Ingame-Debug-Strings als Text auf einem HUD-Layer
 [ ] Objekte um gfx_tick(dt :: float) erweitern
 [ ] Objekte um gfx-related Eigenschaft erweitern
 	[ ] Farbe
@@ -100,7 +101,7 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Dokumentation der Abläufe
 	[ ] Check gegen Control Flow Artikel
 	[ ] Check gegen Units Artikel
-[ ] Solide Umrechnung zwischen Game- und Screen-Koordinaten
+[*] Solide Umrechnung zwischen Game- und Screen-Koordinaten
 
 ===== Kollission / Spawning =====
 [*] Erkennen von Kollission
@@ -119,10 +120,10 @@ Creation-Date: 2010-09-06T09:54:39.867461
 
 ===== Minimal Game =====
 [ ] Geld
-[ ] Leben
-[ ] Punkte
+[*] Leben
+[*] Punkte
 	[ ] Highscore
-[ ] verschiedene Seitenverhaeltnisse / Screengroessen / ...
+[*] verschiedene Seitenverhaeltnisse / Screengroessen / ...
 
 ===== Alpha Release =====
 [ ] Source / Binary - Download fuer Linux
@@ -136,6 +137,7 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Programm-Name (wiedererkennbar, auf Android-Screen darstellbar)
 [ ] TODOs im Code durchgehen
 [ ] nur eine absolut einzige Version von Korrdinaten-Tupel verwenden keine Mischung von Point2d, Vector2d, Velocity, ...
+[ ] Issue Tracker (launchpad?, trac?, sd?)
 
 ===== Roadmap =====
 [ ] Code-Geschwindigkeit Profiling, insbes. fuer Android
