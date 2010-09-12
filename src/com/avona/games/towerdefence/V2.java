@@ -7,12 +7,12 @@ public class V2 {
 	public V2() {
 	}
 
-	public V2(float x, float y) {
+	public V2(final float x, final float y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	public V2(V2 orig) {
+	public V2(final V2 orig) {
 		x = orig.x;
 		y = orig.y;
 	}
@@ -21,17 +21,27 @@ public class V2 {
 		return String.format("V2<%f|%f>", x, y);
 	}
 
-	public void add(V2 v) {
+	public void add(final V2 v) {
 		x += v.x;
 		y += v.y;
 	}
 
-	public void sub(V2 v) {
+	public void add(final float add_x, final float add_y) {
+		x += add_x;
+		y += add_y;
+	}
+
+	public void sub(final V2 v) {
 		x -= v.x;
 		y -= v.y;
 	}
 
-	public void mult(float f) {
+	public void sub(final float sub_x, final float sub_y) {
+		x -= sub_x;
+		y -= sub_y;
+	}
+
+	public void mult(final float f) {
 		x *= f;
 		y *= f;
 	}
@@ -50,23 +60,21 @@ public class V2 {
 		y *= f;
 	}
 
-	public static float dist(V2 from, V2 to) {
+	public static float dist(final V2 from, final V2 to) {
 		return (float) Math.sqrt((to.x - from.x) * (to.x - from.x)
 				+ (to.y - from.y) * (to.y - from.y));
 	}
 
-	public static float dist_sq(V2 from, V2 to) {
+	public static float dist_sq(final V2 from, final V2 to) {
 		return (to.x - from.x) * (to.x - from.x) + (to.y - from.y)
 				* (to.y - from.y);
 	}
 
-	public float dist(V2 dest) {
-		return (float) Math.sqrt((dest.x - this.x) * (dest.x - this.x)
-				+ (dest.y - this.y) * (dest.y - this.y));
+	public float dist(final V2 dest) {
+		return dist(this, dest);
 	}
 
-	public float dist_sq(V2 dest) {
-		return (dest.x - this.x) * (dest.x - this.x) + (dest.y - this.y)
-				* (dest.y - this.y);
+	public float dist_sq(final V2 dest) {
+		return dist_sq(this, dest);
 	}
 }

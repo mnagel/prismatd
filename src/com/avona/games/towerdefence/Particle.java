@@ -16,14 +16,10 @@ public class Particle extends MovingObject {
 		velocity.speed = 80;
 
 		recalculateTargetVector();
-		// Util.dumpPoint(String.format("Particle creation (dx=%f, dy=%f):",
-		// velocity.direction.x, velocity.direction.y), location);
 	}
 
 	public void recalculateTargetVector() {
-		V2 vec = new V2(target.location);
-		vec.sub(location);
-		this.velocity.setVector(vec);
+		velocity.fromto(location, target.location);
 	}
 
 	public boolean inRange(Enemy e) {
@@ -57,11 +53,6 @@ public class Particle extends MovingObject {
 
 		if (isDead())
 			return;
-
-		/*
-		 * counter += dt; if(counter >= timeAlive) { System.exit(0); dead =
-		 * true; return; }
-		 */
 
 		recalculateTargetVector();
 		velocity.translate(location, dt);

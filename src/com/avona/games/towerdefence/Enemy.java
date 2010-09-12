@@ -9,7 +9,6 @@ public class Enemy extends MovingObject {
 	public Enemy(World world, V2 location) {
 		this.world = world;
 		this.location = location;
-		velocity = world.getRandomDirection(location);
 		velocity.speed = 60;
 		setWPID(1);
 		System.out.println(velocity);
@@ -20,7 +19,7 @@ public class Enemy extends MovingObject {
 		Util.log("setting to wp" + 1);
 		waypointId = i;
 		target = world.waypoints.get(waypointId);
-		velocity.fromto(this.location, this.target);
+		velocity.fromto(location, target);
 	}
 
 	@Override
@@ -32,23 +31,20 @@ public class Enemy extends MovingObject {
 
 		if (location.x < World.ORIGIN_X) {
 			location.x = World.ORIGIN_X - (location.x - World.ORIGIN_X);
-			velocity.direction.x = -velocity.direction.x;
+			velocity.normalisedDirection.x = -velocity.normalisedDirection.x;
 		}
 		if (location.y < World.ORIGIN_Y) {
 			location.y = World.ORIGIN_Y - (location.y - World.ORIGIN_Y);
-			velocity.direction.y = -velocity.direction.y;
+			velocity.normalisedDirection.y = -velocity.normalisedDirection.y;
 		}
 		if (location.x > World.WIDTH) {
 			location.x = World.WIDTH - (location.x - World.WIDTH);
-			velocity.direction.x = -velocity.direction.x;
+			velocity.normalisedDirection.x = -velocity.normalisedDirection.x;
 		}
 		if (location.y > World.HEIGHT) {
 			location.y = World.HEIGHT - (location.y - World.HEIGHT);
-			velocity.direction.y = -velocity.direction.y;
+			velocity.normalisedDirection.y = -velocity.normalisedDirection.y;
 		}
-
-		// System.out.println(velocity);
-		// System.out.println(location);
 	}
 
 	public boolean isDead() {
