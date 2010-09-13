@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence;
 
-public class V2 {
+public final class V2 {
 	public static final V2 ZERO = new V2();
 
 	public float x = 0.0f;
