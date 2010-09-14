@@ -18,10 +18,10 @@ public final class V2 {
 		x = orig.x;
 		y = orig.y;
 	}
-	
+
 	/**
 	 * Construct a non-empty V2 vector.
-	 *
+	 * 
 	 * @param direction
 	 *            Direction of the vector.
 	 * @param speed
@@ -45,7 +45,7 @@ public final class V2 {
 		x += add_x;
 		y += add_y;
 	}
-	
+
 	/**
 	 * Add other V2 with weight factor to this instance.
 	 * 
@@ -76,7 +76,7 @@ public final class V2 {
 	public float length() {
 		return (float) Math.sqrt(x * x + y * y);
 	}
-	
+
 	public void setLength(float length) {
 		float f = length / length();
 		this.mult(f);

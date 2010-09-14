@@ -26,7 +26,7 @@ public class LayerHerder {
 		}
 		return DEFAULT_LAYER;
 	}
-	
+
 	public Layer findLayerByName(String name) {
 		for (Layer layer : layers) {
 			if (layer.name.equals(name)) {

@@ -14,9 +14,11 @@ public class InputActor {
 		this.game = game;
 		this.mouse = mouse;
 		this.layerHerder = layerHerder;
-		
-		gameLayer = layerHerder.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
-		menuLayer = layerHerder.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
+
+		gameLayer = layerHerder
+				.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
+		menuLayer = layerHerder
+				.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
 	}
 
 	public void pressedEscapeKey() {

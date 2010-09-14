@@ -3,7 +3,7 @@ package com.avona.games.towerdefence;
 public abstract class PortableMainLoop {
 
 	private static final float FIXED_TICK = 0.04f;
-	
+
 	public static final String GAME_LAYER_NAME = "game";
 	public static final String MENU_LAYER_NAME = "menu";
 
@@ -15,7 +15,7 @@ public abstract class PortableMainLoop {
 	protected TimeTrack gameTime = new TimeTrack();;
 	protected TimeTrack graphicsTime = new TimeTrack();
 	private float gameTicks = 0;
-	
+
 	public PortableMainLoop() {
 		Layer gameLayer = new Layer();
 		gameLayer.virtualRegion.x = World.WIDTH;
