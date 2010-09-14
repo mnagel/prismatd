@@ -7,7 +7,6 @@ Created Tuesday 07 September 2010
 
 (In Debian Packages...)
 
-* libvecmath-java
 * libjogl-java
 
-sudo apt-get install libvecmath-java libjogl-java
+sudo apt-get install libjogl-java
