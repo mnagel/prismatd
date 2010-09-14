@@ -88,7 +88,6 @@ public final class V2 {
 
 	public void normalize() {
 		this.setLength(1.0f);
-		// TODO think about making all these functions final to improve speed...
 	}
 
 	public static float dist(final V2 from, final V2 to) {
@@ -139,7 +138,7 @@ public final class V2 {
 	 *            Target point. Will not be modified.
 	 */
 	public void setDirection(final V2 from, final V2 to) {
-		float l = this.length();
+		final float l = this.length();
 		this.x = to.x - from.x;
 		this.y = to.y - from.y;
 		this.setLength(l);
