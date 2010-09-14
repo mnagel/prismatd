@@ -4,9 +4,6 @@ import java.util.List;
 
 public class Tower extends StationaryObject {
 	public float range = 200;
-	// FIXME range_sq and range should probably be merged or forced to be in
-	// sync some other way.
-	public float range_sq = range * range;
 	protected RechargeTimer timer = new RechargeTimer(0.3);
 	public boolean showRange = false;
 	public EnemySelectionPolicy enemySelectionPolicy = new NearestEnemyPolicy();
@@ -14,10 +11,6 @@ public class Tower extends StationaryObject {
 	public Tower(V2 location) {
 		this.location = location;
 		radius = 16;
-	}
-
-	public boolean inRange(Enemy e) {
-		return location.squaredDist(e.location) < range_sq;
 	}
 
 	public Particle shootTowards(Enemy e) {
