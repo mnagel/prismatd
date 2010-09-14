@@ -1,7 +1,20 @@
 package com.avona.games.towerdefence;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public final class V2 {
 	public static final V2 ZERO = new V2();
+
+	private static Deque<V2> retiredObjects = preRetireObjects(1000);
+
+	private static Deque<V2> preRetireObjects(int num) {
+		Deque<V2> objs = new ArrayDeque<V2>();
+		for (int i = 0; i < num; i++) {
+			objs.add(new V2());
+		}
+		return objs;
+	}
 
 	public float x = 0.0f;
 	public float y = 0.0f;
@@ -9,19 +22,40 @@ public final class V2 {
 	public V2() {
 	}
 
+	public static V2 createInstance() {
+		V2 o = retiredObjects.pop();
+		o.x = 0.0f;
+		o.y = 0.0f;
+		return o;
+	}
+
 	public V2(final float x, final float y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	public static V2 createInstance(final float x, final float y) {
+		V2 o = retiredObjects.pop();
+		o.x = x;
+		o.y = y;
+		return o;
 	}
 
 	public V2(final V2 orig) {
 		x = orig.x;
 		y = orig.y;
 	}
-	
+
+	public static V2 createInstance(final V2 orig) {
+		V2 o = retiredObjects.pop();
+		o.x = orig.x;
+		o.y = orig.y;
+		return o;
+	}
+
 	/**
 	 * Construct a non-empty V2 vector.
-	 *
+	 * 
 	 * @param direction
 	 *            Direction of the vector.
 	 * @param speed
@@ -30,6 +64,18 @@ public final class V2 {
 	public V2(final V2 direction, final float length) {
 		this(direction);
 		this.setLength(length);
+	}
+
+	public static V2 createInstance(final V2 direction, final float length) {
+		V2 o = retiredObjects.pop();
+		o.x = direction.x;
+		o.y = direction.y;
+		o.setLength(length);
+		return o;
+	}
+
+	public void destroyInstance() {
+		retiredObjects.push(this);
 	}
 
 	public String toString() {
@@ -45,7 +91,7 @@ public final class V2 {
 		x += add_x;
 		y += add_y;
 	}
-	
+
 	/**
 	 * Add other V2 with weight factor to this instance.
 	 * 
@@ -76,7 +122,7 @@ public final class V2 {
 	public float length() {
 		return (float) Math.sqrt(x * x + y * y);
 	}
-	
+
 	public void setLength(float length) {
 		float f = length / length();
 		this.mult(f);
@@ -122,7 +168,7 @@ public final class V2 {
 	 * @return Returns the projected vector as a new vector instance.
 	 */
 	public static V2 project(final V2 toBeProjectedVec, final V2 baseVec) {
-		V2 projectedVec = new V2(baseVec);
+		V2 projectedVec = createInstance(baseVec);
 		projectedVec.mult(dot(toBeProjectedVec, baseVec)
 				/ dot(baseVec, baseVec));
 		return projectedVec;
