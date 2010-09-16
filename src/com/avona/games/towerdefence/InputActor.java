@@ -47,14 +47,14 @@ public class InputActor {
 			}
 			checkMouseOverTower(location);
 		} else if (layer == menuLayer) {
-			game.spawnEnemy();
+			game.spawnWave(0);
 		}
 	}
 
 	public void pressedMouseBtn2At(V2 location) {
 		Layer layer = layerHerder.findLayerWithinPoint(location);
 		if (layer == gameLayer) {
-			game.spawnEnemy();
+			game.spawnWave(0);
 		}
 	}
 

@@ -7,16 +7,18 @@ public abstract class PortableMainLoop {
 	public static final String GAME_LAYER_NAME = "game";
 	public static final String MENU_LAYER_NAME = "menu";
 
-	public Game game = new Game();
+	public Game game;
 	public PortableGraphicsEngine ge;
 	public InputActor inputActor;
 	public Mouse mouse = new Mouse();
 	public LayerHerder layerHerder = new LayerHerder();
-	protected TimeTrack gameTime = new TimeTrack();;
+	protected TimeTrack gameTime = new TimeTrack();
 	protected TimeTrack graphicsTime = new TimeTrack();
 	private float gameTicks = 0;
 
 	public PortableMainLoop() {
+		game = new Game(gameTime);
+		
 		Layer gameLayer = new Layer();
 		gameLayer.virtualRegion.x = World.WIDTH;
 		gameLayer.virtualRegion.y = World.HEIGHT;
@@ -44,7 +46,7 @@ public abstract class PortableMainLoop {
 		// Update the world with a fixed rate.
 		gameTicks += gameTime.tick;
 		while (gameTicks >= FIXED_TICK) {
-			game.updateWorld(FIXED_TICK);
+			game.updateWorld(FIXED_TICK, gameTime);
 			gameTicks -= FIXED_TICK;
 		}
 

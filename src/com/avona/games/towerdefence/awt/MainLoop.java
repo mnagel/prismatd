@@ -25,10 +25,10 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 	public MainLoop() {
 		super();
 
-		gameTime = new TimeTrack();
-		graphicsTime = new TimeTrack();
+		//gameTime = new TimeTrack();
+		//graphicsTime = new TimeTrack();
 
-		game = new Game();
+		//game = new Game();
 
 		GraphicsEngine graphicsEngine = new GraphicsEngine(game, mouse,
 				layerHerder);

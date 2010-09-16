@@ -8,20 +8,47 @@ public class Game {
 	public List<Enemy> enemies = new LinkedList<Enemy>();
 	public List<Tower> towers = new LinkedList<Tower>();
 	public List<Particle> particles = new LinkedList<Particle>();
+
+	// TODO encapsulate this in a class.
+	// TODO in this class ensure that list is sorted wrt startTime. current code breaks.
+	public List<TimedCode> timedCode = new LinkedList<TimedCode>();
+
+	public TimeTrack gameTime;
+
 	public World world;
+
+	public int waveCount = 0;
 
 	public int killed = 0;
 	public int escaped = 0;
-	public int leftBuilding = 0;
+	public int leftBuilding = 0; // FIXME -- what is this?
 
 	private Tower rangeShowingTower = null;
 
-	public Game() {
+	public Game(TimeTrack gameTime) {
 		world = new World();
+		this.gameTime = gameTime;		
 	}
 
 	public void addTowerAt(V2 location) {
 		towers.add(new Tower(location));
+	}
+
+	public void spawnWave(int waveCount) {
+		this.waveCount++; // TODO keep state somewhere else
+		final Game self = this;
+
+		for (int i = 0; i < 3 * this.waveCount + 5; i++) {
+			TimedCode tc = new TimedCode(0.4f * i, gameTime) {
+
+				@Override
+				public void execute() {
+					self.spawnEnemy();
+				}
+			};
+
+			timedCode.add(tc);
+		}
 	}
 
 	public void spawnEnemy() {
@@ -54,7 +81,21 @@ public class Game {
 		return null;
 	}
 
-	public void updateWorld(final float dt) {
+	public void updateWorld(final float dt, TimeTrack tt) {	// TODO probably dont want to have tt here...
+
+		Iterator<TimedCode> titer = timedCode.iterator();
+		while (titer.hasNext()) {
+			final TimedCode tc = titer.next();
+			if (tc.startTime < tt.clock) {
+				// Util.log("startTime: " + tc.startTime + " -- clock: " + tt.clock);
+				tc.execute();
+				titer.remove();
+			}
+			else {
+				break; // list must be sorted
+			}
+		}
+
 		/**
 		 * Step all objects first. This will cause them to move.
 		 */

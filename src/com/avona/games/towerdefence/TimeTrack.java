@@ -50,6 +50,7 @@ public class TimeTrack {
 		if (running) {
 			tick = wallTick;
 			clock += wallTick;
+
 		} else {
 			tick = 0;
 		}

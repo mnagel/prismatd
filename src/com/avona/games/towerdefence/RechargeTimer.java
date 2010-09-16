@@ -1,5 +1,6 @@
 package com.avona.games.towerdefence;
 
+// TODO -- maybe use DelayedRunnable here...
 public class RechargeTimer {
 	public double time;
 	public double timeRemaining;
