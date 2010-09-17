@@ -24,4 +24,4 @@ Zeitangaben als Double mit 1,0 als eine Sekunde
 ====== Bild ======
 {{../modelle/units.png}}
 
-weitere Bilder siehe in [[../modelle/units.odg|../modelle/units.odg]]
+weitere Bilder siehe in [[../modelle/units.odg]]
