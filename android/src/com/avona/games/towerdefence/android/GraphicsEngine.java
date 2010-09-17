@@ -13,6 +13,7 @@ import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.LayerHerder;
 import com.avona.games.towerdefence.Mouse;
 import com.avona.games.towerdefence.PortableGraphicsEngine;
+import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.V2;
 
 /**
@@ -23,8 +24,9 @@ import com.avona.games.towerdefence.V2;
 public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 	private GL10 gl;
 
-	public GraphicsEngine(Game game, Mouse mouse, LayerHerder layerHerder) {
-		super(game, mouse, layerHerder);
+	public GraphicsEngine(Game game, Mouse mouse, LayerHerder layerHerder,
+			TimeTrack graphicsTime) {
+		super(game, mouse, layerHerder, graphicsTime);
 	}
 
 	@Override
