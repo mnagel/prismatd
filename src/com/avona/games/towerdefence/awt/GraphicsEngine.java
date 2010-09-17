@@ -19,6 +19,7 @@ import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.LayerHerder;
 import com.avona.games.towerdefence.Mouse;
 import com.avona.games.towerdefence.PortableGraphicsEngine;
+import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.V2;
 import com.sun.opengl.util.j2d.TextRenderer;
 
@@ -38,8 +39,9 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 	public FloatBuffer squareVertexBuffer;
 	public FloatBuffer squareColorBuffer;
 
-	public GraphicsEngine(Game game, Mouse mouse, LayerHerder layerHerder) {
-		super(game, mouse, layerHerder);
+	public GraphicsEngine(Game game, Mouse mouse, LayerHerder layerHerder,
+			TimeTrack graphicsTime) {
+		super(game, mouse, layerHerder, graphicsTime);
 
 		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 12),
 				true, true);

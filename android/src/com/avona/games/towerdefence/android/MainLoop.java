@@ -16,7 +16,7 @@ public class MainLoop extends PortableMainLoop {
 		this.activity = activity;
 
 		final GraphicsEngine graphicsEngine = new GraphicsEngine(game, mouse,
-				layerHerder);
+				layerHerder, graphicsTime);
 		ge = graphicsEngine;
 
 		inputActor = new InputActor(this, game, mouse, layerHerder);

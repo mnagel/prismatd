@@ -21,13 +21,18 @@ public class Game {
 
 	public int killed = 0;
 	public int escaped = 0;
-	public int leftBuilding = 0; // FIXME -- what is this?
+	
+	/**
+	 * Debugging value that counts the number of enemies that have left the
+	 * game area.
+	 */
+	public int leftBuilding = 0;
 
 	private Tower rangeShowingTower = null;
 
 	public Game(TimeTrack gameTime) {
-		world = new World();
 		this.gameTime = gameTime;		
+		world = new World();
 	}
 
 	public void addTowerAt(V2 location) {
@@ -81,12 +86,12 @@ public class Game {
 		return null;
 	}
 
-	public void updateWorld(final float dt, TimeTrack tt) {	// TODO probably dont want to have tt here...
+	public void updateWorld(final float dt) {
 
 		Iterator<TimedCode> titer = timedCode.iterator();
 		while (titer.hasNext()) {
 			final TimedCode tc = titer.next();
-			if (tc.startTime < tt.clock) {
+			if (tc.startTime < gameTime.clock) {
 				// Util.log("startTime: " + tc.startTime + " -- clock: " + tt.clock);
 				tc.execute();
 				titer.remove();
@@ -135,7 +140,7 @@ public class Game {
 		 * Check for any particle collisions and handle damage.
 		 */
 		Iterator<Enemy> eiter = enemies.iterator();
-		while (eiter.hasNext()) {
+		nextEnemy: while (eiter.hasNext()) {
 			final Enemy e = eiter.next();
 			piter = particles.iterator();
 			while (piter.hasNext()) {
@@ -146,7 +151,7 @@ public class Game {
 					if (e.isDead()) {
 						killed += 1;
 						eiter.remove();
-						break; // enemy dead, no more particles to check
+						continue nextEnemy; // enemy dead, no more particles to check
 					}
 				}
 
@@ -163,7 +168,7 @@ public class Game {
 				if (e.escaped) {
 					escaped += 1;
 					eiter.remove();
-					break;
+					continue;
 				}
 			}
 

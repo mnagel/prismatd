@@ -3,10 +3,8 @@ package com.avona.games.towerdefence.awt;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
-import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.InputActor;
 import com.avona.games.towerdefence.PortableMainLoop;
-import com.avona.games.towerdefence.TimeTrack;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
 
@@ -25,13 +23,8 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 	public MainLoop() {
 		super();
 
-		//gameTime = new TimeTrack();
-		//graphicsTime = new TimeTrack();
-
-		//game = new Game();
-
 		GraphicsEngine graphicsEngine = new GraphicsEngine(game, mouse,
-				layerHerder);
+				layerHerder, graphicsTime);
 		ge = graphicsEngine;
 		graphicsEngine.canvas.addGLEventListener(this);
 		inputActor = new InputActor(this, game, mouse, layerHerder);

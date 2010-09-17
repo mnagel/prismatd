@@ -46,7 +46,7 @@ public abstract class PortableMainLoop {
 		// Update the world with a fixed rate.
 		gameTicks += gameTime.tick;
 		while (gameTicks >= FIXED_TICK) {
-			game.updateWorld(FIXED_TICK, gameTime);
+			game.updateWorld(FIXED_TICK);
 			gameTicks -= FIXED_TICK;
 		}
 
