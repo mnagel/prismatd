@@ -21,13 +21,18 @@ public class Game {
 
 	public int killed = 0;
 	public int escaped = 0;
-	public int leftBuilding = 0; // FIXME -- what is this?
+	
+	/**
+	 * Debugging value that counts the number of enemies that have left the
+	 * game area.
+	 */
+	public int leftBuilding = 0;
 
 	private Tower rangeShowingTower = null;
 
 	public Game(TimeTrack gameTime) {
-		world = new World();
 		this.gameTime = gameTime;		
+		world = new World();
 	}
 
 	public void addTowerAt(V2 location) {
