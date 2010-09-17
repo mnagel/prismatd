@@ -135,7 +135,7 @@ public class Game {
 		 * Check for any particle collisions and handle damage.
 		 */
 		Iterator<Enemy> eiter = enemies.iterator();
-		while (eiter.hasNext()) {
+		nextEnemy: while (eiter.hasNext()) {
 			final Enemy e = eiter.next();
 			piter = particles.iterator();
 			while (piter.hasNext()) {
@@ -146,7 +146,7 @@ public class Game {
 					if (e.isDead()) {
 						killed += 1;
 						eiter.remove();
-						break; // enemy dead, no more particles to check
+						continue nextEnemy; // enemy dead, no more particles to check
 					}
 				}
 
@@ -163,7 +163,7 @@ public class Game {
 				if (e.escaped) {
 					escaped += 1;
 					eiter.remove();
-					break;
+					continue;
 				}
 			}
 
