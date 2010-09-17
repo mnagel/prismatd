@@ -81,12 +81,12 @@ public class Game {
 		return null;
 	}
 
-	public void updateWorld(final float dt, TimeTrack tt) {	// TODO probably dont want to have tt here...
+	public void updateWorld(final float dt) {
 
 		Iterator<TimedCode> titer = timedCode.iterator();
 		while (titer.hasNext()) {
 			final TimedCode tc = titer.next();
-			if (tc.startTime < tt.clock) {
+			if (tc.startTime < gameTime.clock) {
 				// Util.log("startTime: " + tc.startTime + " -- clock: " + tt.clock);
 				tc.execute();
 				titer.remove();
