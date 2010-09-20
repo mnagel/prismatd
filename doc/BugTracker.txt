@@ -1,0 +1,10 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2010-09-16T14:21:22.504180
+
+====== BugTracker ======
+
+* Bugs are tracked with "ditz"
+* http://ditz.rubyforge.org/
+
+* data is stored in ./issues/
