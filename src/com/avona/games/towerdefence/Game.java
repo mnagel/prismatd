@@ -18,6 +18,8 @@ public class Game {
 	public int killed = 0;
 	public int escaped = 0;
 	
+	public int money = 250;
+	
 	/**
 	 * Debugging value that counts the number of enemies that have left the
 	 * game area.
@@ -30,21 +32,27 @@ public class Game {
 		this.gameTime = gameTime;		
 		world = new World();
 	}
+	
+	public boolean canBuildTowerAt(V2 location) {
+		return money >= 100;
+	}
 
 	public void addTowerAt(V2 location) {
+		money -= 100;
 		towers.add(new Tower(location));
 	}
 
 	public void spawnWave(int waveCount) {
 		this.waveCount++; // TODO keep state somewhere else
 		final Game self = this;
+		final int wc = this.waveCount;
 
-		for (int i = 0; i < 1 * this.waveCount + 2; i++) {
+		for (int i = 0; i < 2 * this.waveCount + 2; i++) {
 			TimedCode tc = new TimedCode() {
 
 				@Override
 				public void execute() {
-					self.spawnEnemy();
+					self.spawnEnemy(wc);
 				}
 			};
 
@@ -52,8 +60,8 @@ public class Game {
 		}
 	}
 
-	public void spawnEnemy() {
-		enemies.add(new Enemy(world, new V2(world.waypoints.get(0))));
+	public void spawnEnemy(int level) {
+		enemies.add(new Enemy(world, new V2(world.waypoints.get(0)), level, this));
 	}
 
 	public void showTowersRange(Tower t) {
@@ -132,6 +140,7 @@ public class Game {
 					p.attack(e);
 					if (e.isDead()) {
 						killed += 1;
+						e.die();
 						eiter.remove();
 						continue nextEnemy; // enemy dead, no more particles to check
 					}

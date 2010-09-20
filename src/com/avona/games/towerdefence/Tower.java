@@ -3,7 +3,7 @@ package com.avona.games.towerdefence;
 import java.util.List;
 
 public class Tower extends StationaryObject {
-	public float range = 200;
+	public float range = 75;
 	protected RechargeTimer timer = new RechargeTimer(0.3);
 	public boolean showRange = false;
 	public EnemySelectionPolicy enemySelectionPolicy = new NearestEnemyPolicy();
