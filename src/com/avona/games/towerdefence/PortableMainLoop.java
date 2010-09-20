@@ -12,7 +12,7 @@ public abstract class PortableMainLoop {
 	public InputActor inputActor;
 	public Mouse mouse = new Mouse();
 	public LayerHerder layerHerder = new LayerHerder();
-	protected TimeTrack gameTime = new TimeTrack();
+	protected TimedCodeManager gameTime = new TimedCodeManager();
 	protected TimeTrack graphicsTime = new TimeTrack();
 	private float gameTicks = 0;
 
