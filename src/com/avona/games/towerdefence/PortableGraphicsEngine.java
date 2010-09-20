@@ -115,7 +115,7 @@ public abstract class PortableGraphicsEngine {
 		drawTriangleStrip(4, vertexBuffer, colorBuffer);
 
 		// Draw the waypoints... top first...
-		assert (vertexBuffer.capacity() >= game.world.waypoints.size() * 2);
+		assert (vertexBuffer.capacity() >= game.world.waypoints.size() * 2 * 4);
 		assert (colorBuffer.capacity() >= game.world.waypoints.size() * 4);
 		assert (game.world.waypoints.size() > 1);
 		
@@ -127,20 +127,16 @@ public abstract class PortableGraphicsEngine {
 		final ArrayList<V2> waypoints = game.world.waypoints;
 		int vertices = 0;
 		V2 wp = waypoints.get(0);
-		//vertexBuffer.put(wp.x + 4.0f);
-		//vertexBuffer.put(wp.y);
-		//++vertices;
-		//colorBuffer.put(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
 
 		int oldPosition = vertexBuffer.position();
-		vertexBuffer.put(wp.x - 4.0f);
+		vertexBuffer.put(wp.x - WAYPOINT_SPACING);
 		vertexBuffer.put(wp.y);
 
 		for(int i = 1; i < waypoints.size(); ++i)
 			putWaypointVertices(waypoints, vertexBuffer, i);
 		
 		wp = waypoints.get(waypoints.size() - 1);
-		vertexBuffer.put(wp.x + 4.0f);
+		vertexBuffer.put(wp.x + WAYPOINT_SPACING);
 		vertexBuffer.put(wp.y);
 		
 		for(int i = 1; i < (vertexBuffer.position() - oldPosition) / 2; ++i) {
@@ -148,20 +144,6 @@ public abstract class PortableGraphicsEngine {
 			++vertices;
 		}
 		
-//		for(int i = 1; i < waypoints.size(); ++i) {
-//			wp = waypoints.get(i);
-//			V2 previousWP = waypoints.get(i - 1);
-//			float dx = previousWP.x - wp.x > 0 ? -4.0f : 4.0f;
-//			float dy = previousWP.y - wp.y > 0 ? -4.0f : 4.0f;
-//			vertexBuffer.put(wp.x + dx);
-//			vertexBuffer.put(wp.y + dy);
-//			colorBuffer.put(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
-//			++vertices;
-//			vertexBuffer.put(wp.x - dx);
-//			vertexBuffer.put(wp.y - dy);
-//			colorBuffer.put(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
-//			++vertices;
-//		}
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
 
@@ -244,15 +226,17 @@ public abstract class PortableGraphicsEngine {
 				/**
 				 * 2-----------------*
 				 * | X
-				 * 3  1---------------
+				 * 4  3--------------1
 				 * |  |
 				 */
-				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 1x
-				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
+				vertexBuffer.put(previousWP.x); // 1x
+				vertexBuffer.put(previousWP.y - WAYPOINT_SPACING); // 1y
 				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 2x
 				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
-				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 3x
+				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 3x
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 3y
+				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 4x
+				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 4y
 			} else if(nextWP.y > currentWP.y) {
 				/**
 				 * |  |
