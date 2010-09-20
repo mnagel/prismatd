@@ -127,34 +127,234 @@ public abstract class PortableGraphicsEngine {
 		final ArrayList<V2> waypoints = game.world.waypoints;
 		int vertices = 0;
 		V2 wp = waypoints.get(0);
+		//vertexBuffer.put(wp.x + 4.0f);
+		//vertexBuffer.put(wp.y);
+		//++vertices;
+		//colorBuffer.put(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
+
+		int oldPosition = vertexBuffer.position();
 		vertexBuffer.put(wp.x - 4.0f);
 		vertexBuffer.put(wp.y);
-		colorBuffer.put(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
-		++vertices;
+
+		for(int i = 1; i < waypoints.size(); ++i)
+			putWaypointVertices(waypoints, vertexBuffer, i);
+		
+		wp = waypoints.get(waypoints.size() - 1);
 		vertexBuffer.put(wp.x + 4.0f);
 		vertexBuffer.put(wp.y);
-		++vertices;
-		colorBuffer.put(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
-
-		for(int i = 1; i < waypoints.size(); ++i) {
-			wp = waypoints.get(i);
-			V2 previousWP = waypoints.get(i - 1);
-			float dx = previousWP.x - wp.x > 0 ? -4.0f : 4.0f;
-			float dy = previousWP.y - wp.y > 0 ? -4.0f : 4.0f;
-			vertexBuffer.put(wp.x + dx);
-			vertexBuffer.put(wp.y + dy);
-			colorBuffer.put(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
-			++vertices;
-			vertexBuffer.put(wp.x - dx);
-			vertexBuffer.put(wp.y - dy);
+		
+		for(int i = 1; i < (vertexBuffer.position() - oldPosition) / 2; ++i) {
 			colorBuffer.put(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
 			++vertices;
 		}
+		
+//		for(int i = 1; i < waypoints.size(); ++i) {
+//			wp = waypoints.get(i);
+//			V2 previousWP = waypoints.get(i - 1);
+//			float dx = previousWP.x - wp.x > 0 ? -4.0f : 4.0f;
+//			float dy = previousWP.y - wp.y > 0 ? -4.0f : 4.0f;
+//			vertexBuffer.put(wp.x + dx);
+//			vertexBuffer.put(wp.y + dy);
+//			colorBuffer.put(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
+//			++vertices;
+//			vertexBuffer.put(wp.x - dx);
+//			vertexBuffer.put(wp.y - dy);
+//			colorBuffer.put(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
+//			++vertices;
+//		}
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
 
 		drawTriangleStrip(vertices, vertexBuffer, colorBuffer);
 	}
+	
+	private void putWaypointVertices(final ArrayList<V2> waypoints, final FloatBuffer vertexBuffer,
+			final int index) {
+		V2 previousWP;
+		final V2 currentWP = waypoints.get(index);
+		V2 nextWP;
+		
+		try {
+			previousWP = waypoints.get(index - 1);
+		} catch(IndexOutOfBoundsException e) {
+			// get first one instead
+			previousWP = waypoints.get(0);
+		}
+		
+		try {
+			nextWP = waypoints.get(index + 1);
+		} catch(IndexOutOfBoundsException e) {
+			// get last one instead
+			nextWP = waypoints.get(waypoints.size() - 1);
+		}
+		
+		if(previousWP.x < currentWP.x) {
+			/**
+			 * *--------------- ...
+			 * 
+			 * ---------------- ...
+			 */
+			if (nextWP.y < currentWP.y) {
+				/**
+				 * *------------------2
+				 *                  X |
+				 * ---------------1/4 3
+				 *                |   |
+				 */
+				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 1x
+				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
+				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 2x
+				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
+				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 3x
+				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 3y
+				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 1x=4x
+				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y=4y
+
+			} else if(nextWP.y > currentWP.y) {
+				/**
+				 *                |  |
+				 * *--------------2  3
+				 *                 X | 
+				 * ------------------1
+				 */
+				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 1x
+				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
+				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 2x
+				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
+				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 3x
+				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 3y
+			} else {
+				/**
+				 * *--------------2
+				 *                X
+				 * ---------------1
+				 */
+				vertexBuffer.put(currentWP.x); // 1x
+				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
+				vertexBuffer.put(currentWP.x); // 2x
+				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
+			}
+		} else if(previousWP.x > currentWP.x) {
+			/**
+			 * -----------------*
+			 * 
+			 * ------------------
+			 */
+			if (nextWP.y < currentWP.y) {
+				/**
+				 * 2-----------------*
+				 * | X
+				 * 3  1---------------
+				 * |  |
+				 */
+				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 1x
+				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
+				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 2x
+				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
+				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 3x
+				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 3y
+			} else if(nextWP.y > currentWP.y) {
+				/**
+				 * |  |
+				 * 3  2--------------*
+				 * | X
+				 * 1------------------
+				 */
+				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 1x
+				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
+				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 2x
+				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
+				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 3x
+				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 3y
+			} else {
+				/**
+				 * 2------------------*
+				 * X
+				 * 1-------------------
+				 */
+				vertexBuffer.put(currentWP.x); // 1x
+				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
+				vertexBuffer.put(currentWP.x); // 2x
+				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
+			}
+		} else {
+			if(previousWP.y > currentWP.y) {
+				/**
+				 * *   1
+				 * |   |
+				 * |   |
+				 * | X | TODO: 2 X 3
+				 * 2   3 
+				 */
+				vertexBuffer.put(previousWP.x + WAYPOINT_SPACING); // 1x
+				vertexBuffer.put(previousWP.y); // 1y
+				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 2x
+				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 2y
+				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 3x
+				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 3y
+				if(nextWP.x > currentWP.x) {
+					/**
+					 * *   1
+					 * |   |
+					 * |   4
+					 * | X 
+					 * 2---3
+					 */
+					vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 4x
+					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 4y
+				} else if(nextWP.x < currentWP.x) {
+					/**
+					 * *   1
+					 * |   |
+					 * 4   |
+					 *   X |
+					 * 2---3
+					 */
+					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 4x
+					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 4y
+				}
+
+			} else if(previousWP.y <= currentWP.y) {// do both, x=x,y=y is illegal anyway
+				if(nextWP.y == currentWP.y) {
+					/**
+					 * 3 X 2
+					 * |   |
+					 * *   1
+					 */
+					vertexBuffer.put(previousWP.x + WAYPOINT_SPACING); // 1x
+					vertexBuffer.put(previousWP.y); // 1y
+					vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 2x
+					vertexBuffer.put(currentWP.y); // 2y				
+					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 3x
+					vertexBuffer.put(currentWP.y); // 3y
+				} else if(nextWP.x > currentWP.x) {
+
+				} else if(nextWP.x <= currentWP.x) {
+					/**
+					 * 2---1
+					 *   X |
+					 * |   |
+					 * |   |
+					 * *   |
+					 */
+//					vertexBuffer.put(previousWP.x + WAYPOINT_SPACING); // 1x
+//					vertexBuffer.put(previousWP.y); // 1y
+//					vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 2x
+//					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y				
+//					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 3x
+//					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 3y
+//					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 4x
+//					vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 4y
+					vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 1x
+					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 1y
+					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 2x
+					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
+				}
+			}
+		}
+	}
+	
+	private float WAYPOINT_SPACING = 4.0f;
 
 	protected void renderMenu() {
 		vertexBuffer.position(0);
