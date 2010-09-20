@@ -111,8 +111,8 @@ Creation-Date: 2010-09-06T09:54:39.867461
 	[ ] daraufhin bestimmte Effekte anwenden (Schaden, Tempoaenderung, Tod/Geld-Auszahlung, Objekt entfernen ...)
 [*] Timerbasiertes "Feuern" von Tuermen
 	[*] nur falls Ziel vorhanden (weitere Kollissionsabfrage)
-[ ] Timerbasiertes Spawnen von Monstern
-	[ ] Spawnen einer Welle von  Monstern
+[*] Timerbasiertes Spawnen von Monstern
+	[*] Spawnen einer Welle von  Monstern
 [ ] Dokumentation der Abläufe
 	[ ] Check gegen Control Flow Artikel
 	[ ] Check gegen Units Artikel
@@ -120,7 +120,7 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Explosions-Animationen
 
 ===== Minimal Game =====
-[ ] Geld
+[*] Geld
 [*] Leben
 [*] Punkte
 	[ ] Highscore
@@ -138,8 +138,9 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Programm-Name (wiedererkennbar, auf Android-Screen darstellbar)
 [ ] TODOs im Code durchgehen
 [*] nur eine absolut einzige Version von Korrdinaten-Tupel verwenden keine Mischung von Point2d, Vector2d, Velocity, ...
-[ ] Issue Tracker (launchpad?, trac?, sd?)
+[*] Issue Tracker (launchpad?, trac?, sd?)
 [ ] Pause / Resume / State sichern auf android
+[ ] Zim-Export als Webseite
 
 ===== Roadmap =====
 [ ] Code-Geschwindigkeit Profiling, insbes. fuer Android
