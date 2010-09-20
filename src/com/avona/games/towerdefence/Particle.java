@@ -22,7 +22,7 @@ public class Particle extends MovingObject {
 	}
 
 	public boolean collidedWith(Enemy e, final float dt) {
-		return Collision.movingCircleCollidesWithCircle(location, velocity,
+		return Collision.movingCircleCollidedWithCircle(location, velocity,
 				range, e.location, e.velocity, e.radius, dt);
 	}
 
