@@ -21,6 +21,10 @@ public class TickRater {
 			Util.log("zero tick: " + time.tick);
 			return;
 		}
+		if (time.tick > 1.0f) {
+			tickRate = 0.99f; // less than 1 fps, dont bother
+			return;
+		}
 		tickRate = (1.0f - time.tick) * tickRate + 1.0f;
 	}
 }
