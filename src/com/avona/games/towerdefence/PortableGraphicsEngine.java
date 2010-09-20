@@ -584,9 +584,10 @@ public abstract class PortableGraphicsEngine {
 			menuLayer.region.y = menuLayer.region.x / menuRatio;
 		}
 
-		menuLayer.offset.y = (remainingSize.y - menuLayer.region.y) * .5f;
-		menuLayer.offset.x = gameLayer.offset.x + gameLayer.region.x
-				+ remainingSize.x - menuLayer.region.x;
+		gameLayer.offset.x += (remainingSize.x - menuLayer.region.x) * .5f;
+
+		menuLayer.offset.y = gameLayer.offset.y;
+		menuLayer.offset.x = gameLayer.offset.x + gameLayer.region.x;
 	}
 
 	public void drawCircle(final float x, final float y, final float radius,
