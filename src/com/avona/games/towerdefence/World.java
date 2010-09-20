@@ -1,7 +1,6 @@
 package com.avona.games.towerdefence;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 
 public class World {
 	public final static float ORIGIN_X = 0;
@@ -27,5 +26,5 @@ public class World {
 		waypoints.add(new V2(x, y));
 	}
 
-	public List<V2> waypoints = new LinkedList<V2>();
+	public ArrayList<V2> waypoints = new ArrayList<V2>();
 }
