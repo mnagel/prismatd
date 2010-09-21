@@ -69,8 +69,13 @@ public class InputActor {
 	}
 
 	public void checkMouseOverTower(V2 location) {
-		Tower t = game.closestTowerWithinRadius(location, mouse.radius);
-		game.showTowerDetails(t);
+		final Tower t = game.closestTowerWithinRadius(location, mouse.radius);
+		if (t != null) {
+			game.selectedExistingStationary = t;
+			return;
+		}
+		final Enemy e = game.closestEnemyWithinRadius(location, mouse.radius);
+		game.selectedExistingStationary = e;
 	}
 
 	public void mouseMovedTo(V2 location) {

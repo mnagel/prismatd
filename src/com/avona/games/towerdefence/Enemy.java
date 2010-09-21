@@ -2,7 +2,9 @@ package com.avona.games.towerdefence;
 
 public class Enemy extends MovingObject {
 	public V2 target;
-	public int health = 0;
+	public int health;
+	public int maxHealth;
+	public int level;
 	public int waypointId = 1;
 	public boolean escaped = false;
 	public boolean left = false;
@@ -11,7 +13,9 @@ public class Enemy extends MovingObject {
 	public Game game;
 
 	public Enemy(World world, V2 location, int level, Game game) {
-		this.health = 50 + 20 * level;
+		this.level = level;
+		this.maxHealth = 50 + 20 * level;
+		this.health = this.maxHealth;
 		this.worth = 25 + level;
 		this.game = game;
 		this.world = world;

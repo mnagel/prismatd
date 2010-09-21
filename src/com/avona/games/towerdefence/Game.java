@@ -35,7 +35,7 @@ public class Game {
 	 * Currently selected, existing tower. We will typically show the properties
 	 * of that tower.
 	 */
-	public Tower selectedExistingTower = null;
+	public StationaryObject selectedExistingStationary = null;
 
 	public Game(TimedCodeManager gameTime) {
 		this.gameTime = gameTime;
@@ -78,12 +78,12 @@ public class Game {
 				this));
 	}
 
-	public void showTowerDetails(Tower t) {
-		selectedExistingTower = t;
-	}
-
 	public Tower closestTowerWithinRadius(V2 location, float range) {
 		return (Tower) closestStationaryWithinRadius(towers, location, range);
+	}
+
+	public Enemy closestEnemyWithinRadius(V2 location, float range) {
+		return (Enemy) closestStationaryWithinRadius(enemies, location, range);
 	}
 
 	@SuppressWarnings("unchecked")
