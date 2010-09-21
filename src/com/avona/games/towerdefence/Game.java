@@ -149,7 +149,7 @@ public class Game {
 						killed += 1;
 						eiter.remove();
 						continue nextEnemy; // enemy dead, no more particles to
-											// check
+						// check
 					}
 				}
 

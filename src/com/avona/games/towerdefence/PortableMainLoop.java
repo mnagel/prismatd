@@ -9,7 +9,7 @@ public abstract class PortableMainLoop {
 
 	public Game game;
 	public PortableGraphicsEngine ge;
-	public InputActor inputActor;
+	public LayeredInputActor inputActor;
 	public Mouse mouse = new Mouse();
 	public LayerHerder layerHerder = new LayerHerder();
 	protected TimedCodeManager gameTime = new TimedCodeManager();
@@ -30,6 +30,15 @@ public abstract class PortableMainLoop {
 		menuLayer.virtualRegion.y = 480;
 		menuLayer.name = MENU_LAYER_NAME;
 		layerHerder.layers.add(menuLayer);
+	}
+
+	public void setupInputActors() {
+		inputActor = new LayeredInputActor(this, mouse, layerHerder);
+		inputActor.inputLayerMap.put(layerHerder
+				.findLayerByName(GAME_LAYER_NAME), new GameInputActor(game,
+				mouse));
+		inputActor.inputLayerMap.put(layerHerder
+				.findLayerByName(MENU_LAYER_NAME), new MenuInputActor(game));
 	}
 
 	public static double getWallClock() {

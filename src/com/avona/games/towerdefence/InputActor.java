@@ -1,93 +1,25 @@
 package com.avona.games.towerdefence;
 
-public class InputActor {
-	private PortableMainLoop ml;
-	private Game game;
-	private Mouse mouse;
-	private LayerHerder layerHerder;
-	private Layer gameLayer;
-	private Layer menuLayer;
+public interface InputActor {
 
-	public InputActor(PortableMainLoop mainLoop, Game game, Mouse mouse,
-			LayerHerder layerHerder) {
-		this.ml = mainLoop;
-		this.game = game;
-		this.mouse = mouse;
-		this.layerHerder = layerHerder;
+	public abstract void pressedEscapeKey();
 
-		gameLayer = layerHerder
-				.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
-		menuLayer = layerHerder
-				.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
-	}
+	public abstract void onPause();
 
-	public void pressedEscapeKey() {
-		ml.exit();
-	}
+	public abstract void onResume();
 
-	public void onPause() {
-		ml.pauseGame();
-	}
+	public abstract void pressedSpaceKey();
 
-	public void onResume() {
-		ml.unpauseGame();
-	}
+	public abstract void pressedMouseBtn1At(V2 location);
 
-	public void pressedSpaceKey() {
-		ml.toggleGamePause();
-	}
+	public abstract void pressedMouseBtn2At(V2 location);
 
-	public void pressedMouseBtn1At(V2 location) {
-		Layer layer = layerHerder.findLayerWithinPoint(location);
-		if (layer == gameLayer) {
-			location = layer.convertToVirtual(location);
-			Tower t = game.closestTowerWithinRadius(location, mouse.radius);
-			if (t == null) {
-				if (game.canBuildTowerAt(location)) {
-					game.addTowerAt(location);
-				}
-			}
-			checkMouseOverTower(location);
-		} else if (layer == menuLayer) {
-			game.spawnWave(0);
-		}
-	}
+	public abstract void mouseEntered();
 
-	public void pressedMouseBtn2At(V2 location) {
-		Layer layer = layerHerder.findLayerWithinPoint(location);
-		if (layer == gameLayer) {
-			game.spawnWave(0);
-		}
-	}
+	public abstract void mouseExited();
 
-	public void mouseEntered() {
-		mouse.onScreen = true;
-	}
+	public abstract void mouseMovedTo(V2 location);
 
-	public void mouseExited() {
-		mouse.onScreen = false;
-	}
+	public abstract void mouseDraggedTo(V2 location);
 
-	public void checkMouseOverTower(V2 location) {
-		final Tower t = game.closestTowerWithinRadius(location, mouse.radius);
-		if (t != null) {
-			game.selectedExistingStationary = t;
-			return;
-		}
-		final Enemy e = game.closestEnemyWithinRadius(location, mouse.radius);
-		game.selectedExistingStationary = e;
-	}
-
-	public void mouseMovedTo(V2 location) {
-		mouse.location = location;
-		Layer layer = layerHerder.findLayerWithinPoint(location);
-		if (layer == gameLayer) {
-			location = layer.convertToVirtual(location);
-			checkMouseOverTower(location);
-		}
-	}
-
-	public void mouseDraggedTo(V2 location) {
-		mouse.location = location;
-	}
 }

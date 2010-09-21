@@ -3,7 +3,6 @@ package com.avona.games.towerdefence.android;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 
-import com.avona.games.towerdefence.InputActor;
 import com.avona.games.towerdefence.PortableMainLoop;
 
 public class MainLoop extends PortableMainLoop {
@@ -19,7 +18,7 @@ public class MainLoop extends PortableMainLoop {
 				layerHerder, graphicsTime);
 		ge = graphicsEngine;
 
-		inputActor = new InputActor(this, game, mouse, layerHerder);
+		setupInputActors();
 
 		surfaceView = new InputForwardingGLSurfaceView(activity, inputActor, ge);
 		final GameRenderProxy r = new GameRenderProxy(this, graphicsEngine);

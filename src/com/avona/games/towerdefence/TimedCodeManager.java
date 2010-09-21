@@ -40,7 +40,7 @@ public class TimedCodeManager extends TimeTrack {
 		}
 
 		ListIterator<TimedCode> titer = timedCode.listIterator(s); // traverse
-																	// backwards
+		// backwards
 		while (titer.hasPrevious()) {
 			final TimedCode reference = titer.previous();
 			if (newCode.startTime > reference.startTime) {
