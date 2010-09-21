@@ -47,7 +47,7 @@ public class MenuInputActor implements InputActor {
 	 * games.towerdefence.V2)
 	 */
 	public void pressedMouseBtn1At(V2 location) {
-		game.spawnWave(0);
+		game.startWave();
 	}
 
 	/*

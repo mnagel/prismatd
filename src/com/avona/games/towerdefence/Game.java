@@ -14,7 +14,15 @@ public class Game {
 
 	public World world;
 
-	public int waveCount = 0;
+	/**
+	 * Currently running wave.
+	 */
+	public Wave currentWave;
+
+	/**
+	 * The user has indicated, that the next wave should be started when ready.
+	 */
+	public boolean startNextWave = false;
 
 	public int killed = 0;
 	public int escaped = 0;
@@ -57,22 +65,24 @@ public class Game {
 		towers.add(t);
 	}
 
-	public void spawnWave(int waveCount) {
-		this.waveCount++; // TODO keep state somewhere else
-		final Game self = this;
-		final int wc = this.waveCount;
-
-		for (int i = 0; i < 2 * this.waveCount + 2; i++) {
-			TimedCode tc = new TimedCode() {
-
-				@Override
-				public void execute() {
-					self.spawnEnemy(wc);
-				}
-			};
-
-			timedCodeManager.addCode(0.4f * i, tc);
+	public void startWave() {
+		int level = 0;
+		if (currentWave != null) {
+			if (!currentWave.isCompleted()) {
+				// Wait for the wave to complete before starting a new one.
+				startNextWave = true;
+				return;
+			}
+			level = currentWave.getLevel();
 		}
+
+		startNextWave = false;
+		currentWave = new Wave(this, timedCodeManager, level + 1);
+	}
+
+	public void onWaveCompleted(int level) {
+		if (startNextWave)
+			startWave();
 	}
 
 	public void spawnEnemy(int level) {

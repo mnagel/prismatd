@@ -10,20 +10,34 @@ public class TimedCodeManager {
 	private List<TimedCode> timedCode = new LinkedList<TimedCode>();
 	private double clock = 0.0;
 
+	/**
+	 * Flag to detect list changes while processing the list.
+	 */
+	private boolean modified;
+
 	public void update(final float dt) {
 		clock += dt;
 
-		// find code that timed out and execute it
-		Iterator<TimedCode> titer = timedCode.iterator();
-		while (titer.hasNext()) {
-			final TimedCode tc = titer.next();
-			if (tc.startTime < clock) {
-				tc.execute();
-				titer.remove();
-			} else {
-				break; // list must be sorted
+		// Find code that timed out and execute it.
+		parse_again: do {
+			modified = false;
+			Iterator<TimedCode> titer = timedCode.iterator();
+			while (titer.hasNext()) {
+				final TimedCode tc = titer.next();
+				if (tc.startTime < clock) {
+					titer.remove();
+					tc.execute();
+					if (modified) {
+						// The list was modified, so we need new iterators.
+						continue parse_again;
+					}
+				} else {
+					// The list is sorted, so we can exit as soon as we hit a
+					// future timeout.
+					break;
+				}
 			}
-		}
+		} while (false);
 	}
 
 	/**
@@ -36,6 +50,7 @@ public class TimedCodeManager {
 	 *            code to execute then.
 	 */
 	public void addCode(final float delay, final TimedCode newCode) {
+		modified = true;
 		newCode.startTime = clock + delay;
 
 		ListIterator<TimedCode> titer = timedCode
