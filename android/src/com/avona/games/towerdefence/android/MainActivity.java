@@ -25,6 +25,8 @@ public class MainActivity extends Activity {
 		
 		pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
 		wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "td-game");
+		
+		setContentView(R.layout.main);
 
 		ml = new MainLoop(this);
 	}

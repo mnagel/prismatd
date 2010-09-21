@@ -2,6 +2,9 @@ package com.avona.games.towerdefence.android;
 
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
 
 import com.avona.games.towerdefence.PortableMainLoop;
 
@@ -23,7 +26,10 @@ public class MainLoop extends PortableMainLoop {
 		surfaceView = new InputForwardingGLSurfaceView(activity, inputActor, ge);
 		final GameRenderProxy r = new GameRenderProxy(this, graphicsEngine);
 		surfaceView.setRenderer(r);
-		activity.setContentView(surfaceView);
+		
+		FrameLayout v = (FrameLayout)activity.findViewById(R.id.gl_frame);
+		v.addView(surfaceView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		v.setVisibility(View.VISIBLE);
 	}
 
 	@Override
