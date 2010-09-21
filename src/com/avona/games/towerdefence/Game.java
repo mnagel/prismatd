@@ -48,6 +48,9 @@ public class Game {
 	 */
 	public LocationObject selectedObject = null;
 
+	private EnemyDeathGivesMoney enemyDeathGivesMoney = new EnemyDeathGivesMoney(
+			this);
+
 	public Game(TimeTrack gameTime, TimedCodeManager timedCodeManager) {
 		this.gameTime = gameTime;
 		this.timedCodeManager = timedCodeManager;
@@ -94,8 +97,10 @@ public class Game {
 	}
 
 	public void spawnEnemy(int level) {
-		enemies.add(new Enemy(world, new V2(world.waypoints.get(0)), level,
-				this));
+		final V2 location = world.waypoints.get(0).copy();
+		final Enemy e = new Enemy(world, location, level);
+		e.eventListeners.add(enemyDeathGivesMoney);
+		enemies.add(e);
 	}
 
 	public Tower closestTowerWithinRadius(V2 location, float range) {

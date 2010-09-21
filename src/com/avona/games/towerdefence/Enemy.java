@@ -1,5 +1,8 @@
 package com.avona.games.towerdefence;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Enemy extends MovingObject {
 	public V2 target;
 	public int health;
@@ -9,15 +12,13 @@ public class Enemy extends MovingObject {
 	public boolean escaped = false;
 	public boolean left = false;
 	public int worth;
+	public List<EnemyEventListener> eventListeners = new LinkedList<EnemyEventListener>();
 
-	public Game game;
-
-	public Enemy(World world, V2 location, int level, Game game) {
+	public Enemy(World world, V2 location, int level) {
 		this.level = level;
 		this.maxHealth = 50 + 20 * level;
 		this.health = this.maxHealth;
 		this.worth = 25 + level;
-		this.game = game;
 		this.world = world;
 		this.location = location;
 		this.velocity.setLength(80 + 3 * level);
@@ -54,10 +55,15 @@ public class Enemy extends MovingObject {
 	}
 
 	public void die() {
-		game.money += worth;
+		for (EnemyEventListener l : eventListeners) {
+			l.onDeathEvent(this);
+		}
 	}
 
 	public void escape() {
 		escaped = true;
+		for (EnemyEventListener l : eventListeners) {
+			l.onEscapeEvent(this);
+		}
 	}
 }
