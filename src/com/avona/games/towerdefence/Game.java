@@ -140,7 +140,6 @@ public class Game {
 					p.attack(e);
 					if (e.isDead()) {
 						killed += 1;
-						e.die();
 						eiter.remove();
 						continue nextEnemy; // enemy dead, no more particles to check
 					}

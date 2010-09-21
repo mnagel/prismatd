@@ -24,7 +24,7 @@ public class Enemy extends MovingObject {
 			target = world.waypoints.get(waypointId);
 			velocity.setDirection(location, target);
 		} else {
-			escaped = true;
+			escape();
 		}
 	}
 
@@ -42,6 +42,9 @@ public class Enemy extends MovingObject {
 
 	public void inflictDamage(int damage) {
 		health -= damage;
+		if (isDead()) {
+			die();
+		}
 	}
 	
 	public void die() {
@@ -49,6 +52,6 @@ public class Enemy extends MovingObject {
 	}
 	
 	public void escape() {
-		// stub
+		escaped = true;
 	}
 }
