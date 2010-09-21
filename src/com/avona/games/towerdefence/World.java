@@ -10,19 +10,19 @@ public class World {
 
 	public World() {
 		waypoints.clear();
-		addwp(30, 480);
-		addwp(30, 400);
-		addwp(600, 400);
-		addwp(600, 300);
-		addwp(500, 300);
-		addwp(500, 350);
-		addwp(30, 350);
-		addwp(30, 200);
-		addwp(300, 200);
-		addwp(300, 0);
+		addWaypoint(30, 480);
+		addWaypoint(30, 400);
+		addWaypoint(600, 400);
+		addWaypoint(600, 300);
+		addWaypoint(500, 300);
+		addWaypoint(500, 350);
+		addWaypoint(30, 350);
+		addWaypoint(30, 200);
+		addWaypoint(300, 200);
+		addWaypoint(300, 0);
 	}
 
-	private void addwp(int x, int y) {
+	public void addWaypoint(int x, int y) {
 		waypoints.add(new V2(x, y));
 	}
 
