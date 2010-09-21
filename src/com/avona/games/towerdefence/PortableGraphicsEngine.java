@@ -178,16 +178,20 @@ public abstract class PortableGraphicsEngine {
 
 		if (previousWP.x < currentWP.x) {
 			/**
+			 * <pre>
 			 * *--------------- ...
 			 * 
 			 * ---------------- ...
+			 * </pre>
 			 */
 			if (nextWP.y < currentWP.y) {
 				/**
+				 * <pre>
 				 * *------------------2
 				 *                  X |
 				 * ---------------1/4 3
 				 *                |   |
+				 * </pre>
 				 */
 				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 1x
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
@@ -199,10 +203,12 @@ public abstract class PortableGraphicsEngine {
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y=4y
 			} else if (nextWP.y > currentWP.y) {
 				/**
+				 * <pre>
 				 *                |  |
 				 * *--------------2  3
 				 *                 X | 
 				 * ------------------1
+				 * </pre>
 				 */
 				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 1x
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
@@ -212,9 +218,11 @@ public abstract class PortableGraphicsEngine {
 				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 3y
 			} else {
 				/**
+				 * <pre>
 				 * *--------------2
 				 *                X
 				 * ---------------1
+				 * </pre>
 				 */
 				vertexBuffer.put(currentWP.x); // 1x
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
@@ -223,16 +231,20 @@ public abstract class PortableGraphicsEngine {
 			}
 		} else if (previousWP.x > currentWP.x) {
 			/**
+			 * <pre>
 			 * -----------------*
 			 * 
 			 * ------------------
+			 * </pre>
 			 */
 			if (nextWP.y < currentWP.y) {
 				/**
+				 * <pre>
 				 * 2-----------------*
 				 * | X
 				 * 4  3--------------1
 				 * |  |
+				 * </pre>
 				 */
 				vertexBuffer.put(previousWP.x); // 1x
 				vertexBuffer.put(previousWP.y - WAYPOINT_SPACING); // 1y
@@ -244,10 +256,12 @@ public abstract class PortableGraphicsEngine {
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 4y
 			} else if (nextWP.y > currentWP.y) {
 				/**
+				 * <pre>
 				 * |  |
 				 * 3  2--------------*
 				 * | X
 				 * 1------------------
+				 * </pre>
 				 */
 				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 1x
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
@@ -257,9 +271,11 @@ public abstract class PortableGraphicsEngine {
 				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 3y
 			} else {
 				/**
+				 * <pre>
 				 * 2------------------*
 				 * X
 				 * 1-------------------
+				 * </pre>
 				 */
 				vertexBuffer.put(currentWP.x); // 1x
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
@@ -269,11 +285,13 @@ public abstract class PortableGraphicsEngine {
 		} else {
 			if (previousWP.y > currentWP.y) {
 				/**
+				 * <pre>
 				 * *   1
 				 * |   |
 				 * |   |
 				 * | X | TODO: 2 X 3
-				 * 2   3 
+				 * 2   3
+				 * </pre>
 				 */
 				vertexBuffer.put(previousWP.x + WAYPOINT_SPACING); // 1x
 				vertexBuffer.put(previousWP.y); // 1y
@@ -283,21 +301,25 @@ public abstract class PortableGraphicsEngine {
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 3y
 				if (nextWP.x > currentWP.x) {
 					/**
+					 * <pre>
 					 * *   1
 					 * |   |
 					 * |   4
 					 * | X 
 					 * 2---3
+					 * </pre>
 					 */
 					vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 4x
 					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 4y
 				} else if (nextWP.x < currentWP.x) {
 					/**
+					 * <pre>
 					 * *   1
 					 * |   |
 					 * 4   |
 					 *   X |
 					 * 2---3
+					 * </pre>
 					 */
 					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 4x
 					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 4y
@@ -307,11 +329,13 @@ public abstract class PortableGraphicsEngine {
 				// illegal anyway
 				if (nextWP.x > currentWP.x) {
 					/**
+					 * <pre>
 					 * 1---2
 					 * | X 
 					 * |   |
 					 * |   |
 					 * *   |
+					 * </pre>
 					 */
 					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 1x
 					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 1y
@@ -319,11 +343,13 @@ public abstract class PortableGraphicsEngine {
 					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
 				} else if (nextWP.x <= currentWP.x) {
 					/**
+					 * <pre>
 					 * 2---1
 					 *   X |
 					 * |   |
 					 * |   |
 					 * *   |
+					 * </pre>
 					 */
 					vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 1x
 					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 1y
