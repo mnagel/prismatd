@@ -7,10 +7,18 @@ public class Tower extends StationaryObject {
 	protected RechargeTimer timer = new RechargeTimer(0.3);
 	public boolean showRange = false;
 	public EnemySelectionPolicy enemySelectionPolicy = new NearestEnemyPolicy();
+	public int price = 100;
 
-	public Tower(V2 location) {
-		this.location = location;
+	public Tower() {
+		super();
 		radius = 16;
+	}
+
+	public Tower(final Tower t) {
+		super(t);
+		range = t.range;
+		price = t.price;
+		timer = new RechargeTimer(t.timer);
 	}
 
 	public Particle shootTowards(Enemy e) {

@@ -8,6 +8,15 @@ package com.avona.games.towerdefence;
 public abstract class StationaryObject {
 	public V2 location;
 	public float radius;
+	
+	protected StationaryObject() {
+	}
+
+	protected StationaryObject(final StationaryObject o) {
+		if (o.location != null)
+			location = new V2(o.location);
+		radius = o.radius;
+	}
 
 	/**
 	 * Update all state of the object based on the changed in-game time.

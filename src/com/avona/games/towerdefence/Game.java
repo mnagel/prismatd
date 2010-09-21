@@ -19,27 +19,40 @@ public class Game {
 	public int escaped = 0;
 	
 	public int money = 250;
-	
+
 	/**
 	 * Debugging value that counts the number of enemies that have left the
 	 * game area.
 	 */
 	public int leftBuilding = 0;
 
-	private Tower rangeShowingTower = null;
+	/**
+	 * Which type of tower to build - if any.
+	 */
+	public Tower selectedBuildTower = null;
+
+	/**
+	 * Currently selected, existing tower.  We will typically show the
+	 * properties of that tower.
+	 */
+	private Tower selectedExistingTower = null;
 
 	public Game(TimedCodeManager gameTime) {
 		this.gameTime = gameTime;		
 		world = new World();
+		
+		selectedBuildTower = new Tower();
 	}
 	
 	public boolean canBuildTowerAt(V2 location) {
-		return money >= 100;
+		return money >= selectedBuildTower.price;
 	}
 
 	public void addTowerAt(V2 location) {
-		money -= 100;
-		towers.add(new Tower(location));
+		Tower t = new Tower(selectedBuildTower);
+		t.location = new V2(location);
+		money -= t.price;
+		towers.add(t);
 	}
 
 	public void spawnWave(int waveCount) {
@@ -65,14 +78,14 @@ public class Game {
 	}
 
 	public void showTowersRange(Tower t) {
-		if (t == rangeShowingTower)
+		if (t == selectedExistingTower)
 			return;
 
-		if (rangeShowingTower != null)
-			rangeShowingTower.showRange = false;
-		rangeShowingTower = t;
-		if (rangeShowingTower != null)
-			rangeShowingTower.showRange = true;
+		if (selectedExistingTower != null)
+			selectedExistingTower.showRange = false;
+		selectedExistingTower = t;
+		if (selectedExistingTower != null)
+			selectedExistingTower.showRange = true;
 	}
 
 	public Tower closestTowerWithinRadius(V2 location, float range) {

@@ -10,6 +10,11 @@ public class RechargeTimer {
 		this.timeRemaining = 0.0;
 	}
 
+	public RechargeTimer(RechargeTimer t) {
+		this.time = t.time;
+		this.timeRemaining = t.timeRemaining;
+	}
+
 	public boolean isReady() {
 		return this.timeRemaining <= 0.0;
 	}
