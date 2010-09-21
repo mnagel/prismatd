@@ -77,6 +77,11 @@ public abstract class PortableGraphicsEngine {
 		for (Particle p : game.particles) {
 			renderParticle(p);
 		}
+		if (game.selectedExistingTower != null) {
+			final Tower t = game.selectedExistingTower;
+			drawCircle(t.location.x, t.location.y, t.range, 1.0f, 1.0f, 1.0f,
+					1.0f);
+		}
 		resetTransformation();
 
 		prepareTransformationForLayer(menuLayer);
@@ -93,7 +98,7 @@ public abstract class PortableGraphicsEngine {
 
 		vertexBuffer.put((float) (gameLayer.virtualRegion.x));
 		vertexBuffer.put((float) (gameLayer.virtualRegion.y));
-		//colorBuffer.put(new float[] { 0.35f, 0.82f, 0.90f, 1.0f });
+		// colorBuffer.put(new float[] { 0.35f, 0.82f, 0.90f, 1.0f });
 		colorBuffer.put(new float[] { 0.00f, 0.00f, 0.00f, 1.0f });
 
 		vertexBuffer.put((float) (gameLayer.virtualRegion.x));
@@ -117,9 +122,9 @@ public abstract class PortableGraphicsEngine {
 		assert (vertexBuffer.capacity() >= game.world.waypoints.size() * 2 * 4);
 		assert (colorBuffer.capacity() >= game.world.waypoints.size() * 4);
 		assert (game.world.waypoints.size() > 1);
-		
+
 		// Start the triangle strip by drawing two points at the first
-		// waypoint.  TODO: This assumes that it's always starting at
+		// waypoint. TODO: This assumes that it's always starting at
 		// the top!
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
@@ -131,45 +136,45 @@ public abstract class PortableGraphicsEngine {
 		vertexBuffer.put(wp.x - WAYPOINT_SPACING);
 		vertexBuffer.put(wp.y);
 
-		for(int i = 1; i < waypoints.size(); ++i)
+		for (int i = 1; i < waypoints.size(); ++i)
 			putWaypointVertices(waypoints, vertexBuffer, i);
-		
+
 		wp = waypoints.get(waypoints.size() - 1);
 		vertexBuffer.put(wp.x + WAYPOINT_SPACING);
 		vertexBuffer.put(wp.y);
-		
-		for(int i = 1; i < (vertexBuffer.position() - oldPosition) / 2; ++i) {
+
+		for (int i = 1; i < (vertexBuffer.position() - oldPosition) / 2; ++i) {
 			colorBuffer.put(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
 			++vertices;
 		}
-		
+
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
 
 		drawTriangleStrip(vertices, vertexBuffer, colorBuffer);
 	}
-	
-	private void putWaypointVertices(final ArrayList<V2> waypoints, final FloatBuffer vertexBuffer,
-			final int index) {
+
+	private void putWaypointVertices(final ArrayList<V2> waypoints,
+			final FloatBuffer vertexBuffer, final int index) {
 		V2 previousWP;
 		final V2 currentWP = waypoints.get(index);
 		V2 nextWP;
-		
+
 		try {
 			previousWP = waypoints.get(index - 1);
-		} catch(IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException e) {
 			// get first one instead
 			previousWP = waypoints.get(0);
 		}
-		
+
 		try {
 			nextWP = waypoints.get(index + 1);
-		} catch(IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException e) {
 			// get last one instead
 			nextWP = waypoints.get(waypoints.size() - 1);
 		}
-		
-		if(previousWP.x < currentWP.x) {
+
+		if (previousWP.x < currentWP.x) {
 			/**
 			 * *--------------- ...
 			 * 
@@ -190,7 +195,7 @@ public abstract class PortableGraphicsEngine {
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 3y
 				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 1x=4x
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y=4y
-			} else if(nextWP.y > currentWP.y) {
+			} else if (nextWP.y > currentWP.y) {
 				/**
 				 *                |  |
 				 * *--------------2  3
@@ -214,7 +219,7 @@ public abstract class PortableGraphicsEngine {
 				vertexBuffer.put(currentWP.x); // 2x
 				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
 			}
-		} else if(previousWP.x > currentWP.x) {
+		} else if (previousWP.x > currentWP.x) {
 			/**
 			 * -----------------*
 			 * 
@@ -235,7 +240,7 @@ public abstract class PortableGraphicsEngine {
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 3y
 				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 4x
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 4y
-			} else if(nextWP.y > currentWP.y) {
+			} else if (nextWP.y > currentWP.y) {
 				/**
 				 * |  |
 				 * 3  2--------------*
@@ -260,7 +265,7 @@ public abstract class PortableGraphicsEngine {
 				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
 			}
 		} else {
-			if(previousWP.y > currentWP.y) {
+			if (previousWP.y > currentWP.y) {
 				/**
 				 * *   1
 				 * |   |
@@ -274,7 +279,7 @@ public abstract class PortableGraphicsEngine {
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 2y
 				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 3x
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 3y
-				if(nextWP.x > currentWP.x) {
+				if (nextWP.x > currentWP.x) {
 					/**
 					 * *   1
 					 * |   |
@@ -284,7 +289,7 @@ public abstract class PortableGraphicsEngine {
 					 */
 					vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 4x
 					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 4y
-				} else if(nextWP.x < currentWP.x) {
+				} else if (nextWP.x < currentWP.x) {
 					/**
 					 * *   1
 					 * |   |
@@ -296,8 +301,9 @@ public abstract class PortableGraphicsEngine {
 					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 4y
 				}
 
-			} else if(previousWP.y <= currentWP.y) {// do both, x=x,y=y is illegal anyway
-				if(nextWP.x > currentWP.x) {
+			} else if (previousWP.y <= currentWP.y) {// do both, x=x,y=y is
+				// illegal anyway
+				if (nextWP.x > currentWP.x) {
 					/**
 					 * 1---2
 					 * | X 
@@ -309,7 +315,7 @@ public abstract class PortableGraphicsEngine {
 					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 1y
 					vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 2x
 					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
-				} else if(nextWP.x <= currentWP.x) {
+				} else if (nextWP.x <= currentWP.x) {
 					/**
 					 * 2---1
 					 *   X |
@@ -327,7 +333,7 @@ public abstract class PortableGraphicsEngine {
 			}
 		}
 	}
-	
+
 	private float WAYPOINT_SPACING = 4.0f;
 
 	protected void renderMenu() {
@@ -336,7 +342,7 @@ public abstract class PortableGraphicsEngine {
 
 		vertexBuffer.put((float) (menuLayer.virtualRegion.x));
 		vertexBuffer.put((float) (menuLayer.virtualRegion.y));
-		//colorBuffer.put(new float[] { 0.3568f, 0.1019f, 0.2117f, 1.0f });
+		// colorBuffer.put(new float[] { 0.3568f, 0.1019f, 0.2117f, 1.0f });
 		colorBuffer.put(new float[] { 0.2314f, 0.4275f, 0.8980f, 1.0f });
 
 		vertexBuffer.put((float) (menuLayer.virtualRegion.x));
@@ -355,21 +361,21 @@ public abstract class PortableGraphicsEngine {
 		colorBuffer.position(0);
 
 		drawTriangleStrip(4, vertexBuffer, colorBuffer);
-		
+
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
-		
+
 		vertexBuffer.put(0.0f);
 		vertexBuffer.put(menuLayer.virtualRegion.y);
 		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.0f, 1.0f });
-		
+
 		vertexBuffer.put(0.0f);
 		vertexBuffer.put(0.0f);
 		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.0f, 1.0f });
 
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
-		
+
 		drawLine(2, vertexBuffer, colorBuffer);
 	}
 
@@ -415,10 +421,19 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	public void renderStats() {
-		final String fpsString = String.format(
-				"wave %d | %d killed | %d escaped | %d left building | $%d | fps %.2f",
-				game.waveCount, game.killed, game.escaped, game.leftBuilding,
-				game.money, graphicsTickRater.tickRate);
+		String towerString;
+		if (game.selectedExistingTower != null) {
+			final Tower t = game.selectedExistingTower;
+			towerString = String.format("tower lvl %d | ", t.level);
+		} else {
+			towerString = "";
+		}
+		final String fpsString = String
+				.format(
+						"%swave %d | %d killed | %d escaped | %d left building | $%d | fps %.2f",
+						towerString, game.waveCount, game.killed, game.escaped,
+						game.leftBuilding, game.money,
+						graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);
 		final double width = bounds.x + 4;
 		final double height = bounds.y + 2;
@@ -455,11 +470,6 @@ public abstract class PortableGraphicsEngine {
 	public void renderTower(final Tower t) {
 		final double width = t.radius;
 		final V2 location = t.location;
-
-		if (t.showRange) {
-			drawCircle(t.location.x, t.location.y, t.range, 1.0f, 1.0f, 1.0f,
-					1.0f);
-		}
 
 		vertexBuffer.position(0);
 		colorBuffer.position(0);

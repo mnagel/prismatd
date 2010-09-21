@@ -17,12 +17,12 @@ public class Game {
 
 	public int killed = 0;
 	public int escaped = 0;
-	
+
 	public int money = 250;
 
 	/**
-	 * Debugging value that counts the number of enemies that have left the
-	 * game area.
+	 * Debugging value that counts the number of enemies that have left the game
+	 * area.
 	 */
 	public int leftBuilding = 0;
 
@@ -32,24 +32,24 @@ public class Game {
 	public Tower selectedBuildTower = null;
 
 	/**
-	 * Currently selected, existing tower.  We will typically show the
-	 * properties of that tower.
+	 * Currently selected, existing tower. We will typically show the properties
+	 * of that tower.
 	 */
-	private Tower selectedExistingTower = null;
+	public Tower selectedExistingTower = null;
 
 	public Game(TimedCodeManager gameTime) {
-		this.gameTime = gameTime;		
+		this.gameTime = gameTime;
 		world = new World();
-		
-		selectedBuildTower = new Tower();
+
+		selectedBuildTower = new Tower(1);
 	}
-	
+
 	public boolean canBuildTowerAt(V2 location) {
 		return money >= selectedBuildTower.price;
 	}
 
 	public void addTowerAt(V2 location) {
-		Tower t = new Tower(selectedBuildTower);
+		Tower t = selectedBuildTower.copy();
 		t.location = new V2(location);
 		money -= t.price;
 		towers.add(t);
@@ -74,18 +74,12 @@ public class Game {
 	}
 
 	public void spawnEnemy(int level) {
-		enemies.add(new Enemy(world, new V2(world.waypoints.get(0)), level, this));
+		enemies.add(new Enemy(world, new V2(world.waypoints.get(0)), level,
+				this));
 	}
 
-	public void showTowersRange(Tower t) {
-		if (t == selectedExistingTower)
-			return;
-
-		if (selectedExistingTower != null)
-			selectedExistingTower.showRange = false;
+	public void showTowerDetails(Tower t) {
 		selectedExistingTower = t;
-		if (selectedExistingTower != null)
-			selectedExistingTower.showRange = true;
 	}
 
 	public Tower closestTowerWithinRadius(V2 location, float range) {
@@ -154,7 +148,8 @@ public class Game {
 					if (e.isDead()) {
 						killed += 1;
 						eiter.remove();
-						continue nextEnemy; // enemy dead, no more particles to check
+						continue nextEnemy; // enemy dead, no more particles to
+											// check
 					}
 				}
 

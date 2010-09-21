@@ -6,15 +6,17 @@ public class Enemy extends MovingObject {
 	public int waypointId = 1;
 	public boolean escaped = false;
 	public boolean left = false;
-	
+	public int worth;
+
 	public Game game;
 
 	public Enemy(World world, V2 location, int level, Game game) {
 		this.health = 50 + 20 * level;
+		this.worth = 25 + level;
 		this.game = game;
 		this.world = world;
 		this.location = location;
-		this.velocity.setLength(80);
+		this.velocity.setLength(80 + 3 * level);
 		setWPID(1);
 	}
 
@@ -46,11 +48,11 @@ public class Enemy extends MovingObject {
 			die();
 		}
 	}
-	
+
 	public void die() {
-		game.money += 25;
+		game.money += worth;
 	}
-	
+
 	public void escape() {
 		escaped = true;
 	}

@@ -1,7 +1,7 @@
 package com.avona.games.towerdefence;
 
 public class Particle extends MovingObject {
-	protected int strength = 10;
+	protected int strength;
 	protected float range = 5;
 	protected double timeAlive = 4.0;
 
@@ -9,11 +9,12 @@ public class Particle extends MovingObject {
 	protected Enemy target;
 	protected double counter = 0.0;
 
-	public Particle(V2 location, Enemy target) {
+	public Particle(int level, V2 location, Enemy target) {
 		this.location = new V2(location);
 		this.target = target;
 
-		this.velocity.setLength(150);
+		this.velocity.setLength(150 + 2 * level);
+		strength = 10 + 2 * level;
 		recalculateTargetVector();
 	}
 

@@ -18,7 +18,7 @@ public abstract class PortableMainLoop {
 
 	public PortableMainLoop() {
 		game = new Game(gameTime);
-		
+
 		Layer gameLayer = new Layer();
 		gameLayer.virtualRegion.x = World.WIDTH;
 		gameLayer.virtualRegion.y = World.HEIGHT;

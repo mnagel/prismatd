@@ -8,7 +8,7 @@ package com.avona.games.towerdefence;
 public abstract class StationaryObject {
 	public V2 location;
 	public float radius;
-	
+
 	protected StationaryObject() {
 	}
 

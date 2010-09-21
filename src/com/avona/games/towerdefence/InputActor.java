@@ -70,7 +70,7 @@ public class InputActor {
 
 	public void checkMouseOverTower(V2 location) {
 		Tower t = game.closestTowerWithinRadius(location, mouse.radius);
-		game.showTowersRange(t);
+		game.showTowerDetails(t);
 	}
 
 	public void mouseMovedTo(V2 location) {
