@@ -31,6 +31,8 @@ public abstract class PortableMainLoop {
 		menuLayer.virtualRegion.y = 480;
 		menuLayer.name = MENU_LAYER_NAME;
 		layerHerder.layers.add(menuLayer);
+
+		game.waveBegunListeners.add(new GrantInterestPerWave(game, 0.10f));
 	}
 
 	public void setupInputActors() {

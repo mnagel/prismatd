@@ -8,6 +8,8 @@ public class Game {
 	public List<Enemy> enemies = new LinkedList<Enemy>();
 	public List<Tower> towers = new LinkedList<Tower>();
 	public List<Particle> particles = new LinkedList<Particle>();
+	public List<WaveListener> waveCompletedListeners = new LinkedList<WaveListener>();
+	public List<WaveListener> waveBegunListeners = new LinkedList<WaveListener>();
 
 	public TimeTrack gameTime;
 	public TimedCodeManager timedCodeManager;
@@ -66,21 +68,27 @@ public class Game {
 	}
 
 	public void startWave() {
-		int level = 0;
+		int level = 1;
 		if (currentWave != null) {
 			if (!currentWave.isCompleted()) {
 				// Wait for the wave to complete before starting a new one.
 				startNextWave = true;
 				return;
 			}
-			level = currentWave.getLevel();
+			level = currentWave.getLevel() + 1;
 		}
 
 		startNextWave = false;
-		currentWave = new Wave(this, timedCodeManager, level + 1);
+		currentWave = new Wave(this, timedCodeManager, level);
+		for (WaveListener l : waveBegunListeners) {
+			l.onWave(level);
+		}
 	}
 
 	public void onWaveCompleted(int level) {
+		for (WaveListener l : waveCompletedListeners) {
+			l.onWave(level);
+		}
 		if (startNextWave)
 			startWave();
 	}
