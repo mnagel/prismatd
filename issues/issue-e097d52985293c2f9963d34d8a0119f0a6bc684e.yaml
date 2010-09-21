@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Reintroduce timeAlive for particles
+desc: ""
+type: :feature
+component: core
+release: 
+reporter: Fabian Knittel <fabian.knittel@avona.com>
+status: :unstarted
+disposition: 
+creation_time: 2010-09-21 15:57:06.658683 Z
+references: []
+
+id: e097d52985293c2f9963d34d8a0119f0a6bc684e
+log_events: 
+- - 2010-09-21 15:57:07.878529 Z
+  - Fabian Knittel <fabian.knittel@avona.com>
+  - created
+  - ""
