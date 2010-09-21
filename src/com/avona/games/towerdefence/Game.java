@@ -56,7 +56,7 @@ public class Game {
 		this.timedCodeManager = timedCodeManager;
 		world = new World();
 
-		selectedBuildTower = new Tower(1);
+		selectedBuildTower = new Tower(timedCodeManager, 1);
 	}
 
 	public boolean canBuildTowerAt(V2 location) {
@@ -180,7 +180,7 @@ public class Game {
 
 				if (p.isDead()) {
 					piter.remove();
-					continue; // particle exploded, dont use it any more
+					continue; // particle exploded, don't use it any more
 				}
 			}
 
