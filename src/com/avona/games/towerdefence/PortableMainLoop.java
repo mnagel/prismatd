@@ -12,12 +12,13 @@ public abstract class PortableMainLoop {
 	public LayeredInputActor inputActor;
 	public Mouse mouse = new Mouse();
 	public LayerHerder layerHerder = new LayerHerder();
-	protected TimedCodeManager gameTime = new TimedCodeManager();
+	protected TimeTrack gameTime = new TimeTrack();
 	protected TimeTrack graphicsTime = new TimeTrack();
+	protected TimedCodeManager timedCodeManager = new TimedCodeManager();
 	private float gameTicks = 0;
 
 	public PortableMainLoop() {
-		game = new Game(gameTime);
+		game = new Game(gameTime, timedCodeManager);
 
 		Layer gameLayer = new Layer();
 		gameLayer.virtualRegion.x = World.WIDTH;
@@ -49,6 +50,7 @@ public abstract class PortableMainLoop {
 		final double wallClock = getWallClock();
 		graphicsTime.update(wallClock);
 		gameTime.update(wallClock);
+		timedCodeManager.update(gameTime.tick);
 
 		// Updating of inputs is done asynchronously.
 

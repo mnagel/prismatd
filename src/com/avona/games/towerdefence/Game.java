@@ -9,7 +9,8 @@ public class Game {
 	public List<Tower> towers = new LinkedList<Tower>();
 	public List<Particle> particles = new LinkedList<Particle>();
 
-	public TimedCodeManager gameTime;
+	public TimeTrack gameTime;
+	public TimedCodeManager timedCodeManager;
 
 	public World world;
 
@@ -37,8 +38,9 @@ public class Game {
 	 */
 	public LocationObject selectedObject = null;
 
-	public Game(TimedCodeManager gameTime) {
+	public Game(TimeTrack gameTime, TimedCodeManager timedCodeManager) {
 		this.gameTime = gameTime;
+		this.timedCodeManager = timedCodeManager;
 		world = new World();
 
 		selectedBuildTower = new Tower(1);
@@ -69,7 +71,7 @@ public class Game {
 				}
 			};
 
-			gameTime.addCode(0.4f * i, tc);
+			timedCodeManager.addCode(0.4f * i, tc);
 		}
 	}
 

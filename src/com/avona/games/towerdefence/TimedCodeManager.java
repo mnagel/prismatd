@@ -5,19 +5,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class TimedCodeManager extends TimeTrack {
+public class TimedCodeManager {
 
 	private List<TimedCode> timedCode = new LinkedList<TimedCode>();
+	private double clock = 0.0;
 
-	@Override
-	public void updateTick(final float wallTick) {
-		super.updateTick(wallTick);
+	public void update(final float dt) {
+		clock += dt;
 
 		// find code that timed out and execute it
 		Iterator<TimedCode> titer = timedCode.iterator();
 		while (titer.hasNext()) {
 			final TimedCode tc = titer.next();
-			if (tc.startTime < this.clock) {
+			if (tc.startTime < clock) {
 				tc.execute();
 				titer.remove();
 			} else {
@@ -36,7 +36,7 @@ public class TimedCodeManager extends TimeTrack {
 	 *            code to execute then.
 	 */
 	public void addCode(final float delay, final TimedCode newCode) {
-		newCode.startTime = this.clock + delay;
+		newCode.startTime = clock + delay;
 
 		ListIterator<TimedCode> titer = timedCode
 				.listIterator(timedCode.size()); // traverse backwards
@@ -52,12 +52,11 @@ public class TimedCodeManager extends TimeTrack {
 	}
 
 	public String toString() {
-		String s = "" + this.clock + ": ";
+		String s = "" + clock + ": ";
 		ListIterator<TimedCode> titer = timedCode.listIterator(0);
 		while (titer.hasNext()) {
 			s += " " + String.format("%.1f", titer.next().startTime);
 		}
 		return s;
 	}
-
 }
