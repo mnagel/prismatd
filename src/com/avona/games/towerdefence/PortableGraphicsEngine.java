@@ -190,7 +190,6 @@ public abstract class PortableGraphicsEngine {
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 3y
 				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 1x=4x
 				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y=4y
-
 			} else if(nextWP.y > currentWP.y) {
 				/**
 				 *                |  |
@@ -298,20 +297,18 @@ public abstract class PortableGraphicsEngine {
 				}
 
 			} else if(previousWP.y <= currentWP.y) {// do both, x=x,y=y is illegal anyway
-				if(nextWP.y == currentWP.y) {
+				if(nextWP.x > currentWP.x) {
 					/**
-					 * 3 X 2
+					 * 1---2
+					 * | X 
 					 * |   |
-					 * *   1
+					 * |   |
+					 * *   |
 					 */
-					vertexBuffer.put(previousWP.x + WAYPOINT_SPACING); // 1x
-					vertexBuffer.put(previousWP.y); // 1y
+					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 1x
+					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 1y
 					vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 2x
-					vertexBuffer.put(currentWP.y); // 2y				
-					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 3x
-					vertexBuffer.put(currentWP.y); // 3y
-				} else if(nextWP.x > currentWP.x) {
-
+					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
 				} else if(nextWP.x <= currentWP.x) {
 					/**
 					 * 2---1
@@ -320,18 +317,12 @@ public abstract class PortableGraphicsEngine {
 					 * |   |
 					 * *   |
 					 */
-//					vertexBuffer.put(previousWP.x + WAYPOINT_SPACING); // 1x
-//					vertexBuffer.put(previousWP.y); // 1y
-//					vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 2x
-//					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y				
-//					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 3x
-//					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 3y
-//					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 4x
-//					vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 4y
 					vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 1x
 					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 1y
 					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 2x
 					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
+				} else {
+					throw new RuntimeException("Should not be reached.");
 				}
 			}
 		}
