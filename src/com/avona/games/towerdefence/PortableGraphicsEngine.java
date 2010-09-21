@@ -416,9 +416,9 @@ public abstract class PortableGraphicsEngine {
 
 	public void renderStats() {
 		final String fpsString = String.format(
-				"wave %d | %d killed | %d escaped | %d left building | fps %.2f",
+				"wave %d | %d killed | %d escaped | %d left building | $%d | fps %.2f",
 				game.waveCount, game.killed, game.escaped, game.leftBuilding,
-				graphicsTickRater.tickRate);
+				game.money, graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);
 		final double width = bounds.x + 4;
 		final double height = bounds.y + 2;

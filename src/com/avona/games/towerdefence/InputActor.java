@@ -43,7 +43,9 @@ public class InputActor {
 			location = layer.convertToVirtual(location);
 			Tower t = game.closestTowerWithinRadius(location, mouse.radius);
 			if (t == null) {
-				game.addTowerAt(location);
+				if (game.canBuildTowerAt(location)) {
+					game.addTowerAt(location);
+				}
 			}
 			checkMouseOverTower(location);
 		} else if (layer == menuLayer) {
