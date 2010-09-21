@@ -35,7 +35,7 @@ public class Game {
 	 * Currently selected, existing tower. We will typically show the properties
 	 * of that tower.
 	 */
-	public StationaryObject selectedExistingStationary = null;
+	public LocationObject selectedObject = null;
 
 	public Game(TimedCodeManager gameTime) {
 		this.gameTime = gameTime;
@@ -91,7 +91,7 @@ public class Game {
 	public static Object closestStationaryWithinRadius(final List objects,
 			final V2 location, final float range) {
 		for (final Object o : objects) {
-			if (((StationaryObject) o).collidesWith(location, range))
+			if (((LocationObject) o).collidesWith(location, range))
 				return o;
 		}
 		return null;

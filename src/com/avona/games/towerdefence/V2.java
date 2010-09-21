@@ -32,6 +32,10 @@ public final class V2 {
 		this.setLength(length);
 	}
 
+	public V2 copy() {
+		return new V2(this);
+	}
+
 	public String toString() {
 		return String.format("V2<%f|%f>", x, y);
 	}

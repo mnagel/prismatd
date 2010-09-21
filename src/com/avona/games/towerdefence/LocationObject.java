@@ -1,20 +1,19 @@
 package com.avona.games.towerdefence;
 
 /**
- * StationaryObject is the base class of all non-moving and moving objects on
- * the screen. It provides a point location and a simple radius for collision
- * detection.
+ * The base class of all non-moving and moving objects on the screen. It
+ * provides a point location and a simple radius for collision detection.
  */
-public abstract class StationaryObject {
+public abstract class LocationObject {
 	public V2 location;
 	public float radius;
 
-	protected StationaryObject() {
+	protected LocationObject() {
 	}
 
-	protected StationaryObject(final StationaryObject o) {
+	protected LocationObject(final LocationObject o) {
 		if (o.location != null)
-			location = new V2(o.location);
+			location = o.location.copy();
 		radius = o.radius;
 	}
 

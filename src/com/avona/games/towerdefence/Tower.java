@@ -2,7 +2,7 @@ package com.avona.games.towerdefence;
 
 import java.util.List;
 
-public class Tower extends StationaryObject {
+public class Tower extends LocationObject {
 	public float range;
 	protected RechargeTimer timer;
 	public EnemySelectionPolicy enemySelectionPolicy = new NearestEnemyPolicy();
