@@ -10,7 +10,7 @@ public class TimedCodeManager extends TimeTrack {
 	private List<TimedCode> timedCode = new LinkedList<TimedCode>();
 
 	@Override
-	public void updateTick(float wallTick) {
+	public void updateTick(final float wallTick) {
 		super.updateTick(wallTick);
 
 		// find code that timed out and execute it
@@ -26,21 +26,20 @@ public class TimedCodeManager extends TimeTrack {
 		}
 	}
 
-	/*
-	 * delay: delay in seconds from now code: code to execute then. startTime
-	 * should not be set beforehand. when calling multiple times, use in
-	 * chronological order
+	/**
+	 * startTime should not be set beforehand. when calling multiple times, use
+	 * in chronological order.
+	 * 
+	 * @param delay
+	 *            delay in seconds from now
+	 * @param newCode
+	 *            code to execute then.
 	 */
-	public void addCode(float delay, TimedCode newCode) {
+	public void addCode(final float delay, final TimedCode newCode) {
 		newCode.startTime = this.clock + delay;
 
-		final int s = timedCode.size();
-		if (s == 0) {
-			timedCode.add(newCode); // add as only element
-		}
-
-		ListIterator<TimedCode> titer = timedCode.listIterator(s); // traverse
-		// backwards
+		ListIterator<TimedCode> titer = timedCode
+				.listIterator(timedCode.size()); // traverse backwards
 		while (titer.hasPrevious()) {
 			final TimedCode reference = titer.previous();
 			if (newCode.startTime > reference.startTime) {
