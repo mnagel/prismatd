@@ -20,8 +20,8 @@ type: :bugfix
 component: awt
 release: 
 reporter: Michael Nagel <m.nagel@devzero.de>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2010-09-22 18:30:09.738902 Z
 references: []
 
@@ -31,3 +31,7 @@ log_events:
   - Michael Nagel <m.nagel@devzero.de>
   - created
   - ""
+- - 2010-09-22 20:53:21.744984 Z
+  - Fabian Knittel <fabian.knittel@avona.com>
+  - closed with disposition fixed
+  - Fixed by initialising PortableGraphicsEngine.size early.  The event location will be broken, but that early in the start-up, it doesn't really matter.

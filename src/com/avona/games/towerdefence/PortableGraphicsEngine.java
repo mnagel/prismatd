@@ -10,7 +10,7 @@ public abstract class PortableGraphicsEngine {
 	public static final int DEFAULT_HEIGHT = 480;
 	public static final int DEFAULT_WIDTH = 675;
 
-	public V2 size;
+	public V2 size = new V2();
 
 	public Layer menuLayer;
 	public Layer gameLayer;
