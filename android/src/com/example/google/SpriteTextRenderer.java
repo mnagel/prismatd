@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.apis.graphics.spritetext;
+package com.example.google;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +36,11 @@ import android.opengl.GLU;
 import android.opengl.GLUtils;
 import android.os.SystemClock;
 
-import com.example.android.apis.R;
+//import com.example.android.apis.R;
+import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.Util;
+import com.avona.games.towerdefence.android.GameRenderProxy;
+import com.avona.games.towerdefence.android.R;
 
 public class SpriteTextRenderer implements GLSurfaceView.Renderer{
 
@@ -51,24 +55,24 @@ public class SpriteTextRenderer implements GLSurfaceView.Renderer{
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        /*
-         * By default, OpenGL enables features that improve quality
-         * but reduce performance. One might want to tweak that
-         * especially on software renderer.
-         */
-        gl.glDisable(GL10.GL_DITHER);
-
-        /*
-         * Some one-time OpenGL initialization can be made here
-         * probably based on features of this particular context
-         */
-        gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT,
-                GL10.GL_FASTEST);
-
-        gl.glClearColor(.5f, .5f, .5f, 1);
-        gl.glShadeModel(GL10.GL_SMOOTH);
-        gl.glEnable(GL10.GL_DEPTH_TEST);
-        gl.glEnable(GL10.GL_TEXTURE_2D);
+//        /*
+//         * By default, OpenGL enables features that improve quality
+//         * but reduce performance. One might want to tweak that
+//         * especially on software renderer.
+//         */
+//        gl.glDisable(GL10.GL_DITHER);
+//
+//        /*
+//         * Some one-time OpenGL initialization can be made here
+//         * probably based on features of this particular context
+//         */
+//        gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT,
+//                GL10.GL_FASTEST);
+//
+//        gl.glClearColor(.5f, .5f, .5f, 1);
+//        gl.glShadeModel(GL10.GL_SMOOTH);
+//        gl.glEnable(GL10.GL_DEPTH_TEST);
+//        gl.glEnable(GL10.GL_TEXTURE_2D);
 
         /*
          * Create our texture. This has to be done each time the
@@ -133,12 +137,83 @@ public class SpriteTextRenderer implements GLSurfaceView.Renderer{
     }
 
     public void onDrawFrame(GL10 gl) {
+//    	
+//    	onSurfaceChanged2(gl, mWidth, mHeight);
+//    	
+//    	//if ( 1.0 < 2.0) return ;
+//        /*
+//         * By default, OpenGL enables features that improve quality
+//         * but reduce performance. One might want to tweak that
+//         * especially on software renderer.
+//         */
+//        gl.glDisable(GL10.GL_DITHER);
+//
+//        gl.glTexEnvx(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE,
+//                GL10.GL_MODULATE);
+//
+//        /*
+//         * Usually, the first thing one might want to do is to clear
+//         * the screen. The most efficient way of doing this is to use
+//         * glClear().
+//         */
+//
+//        	//gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+//
+//        /*
+//         * Now we're ready to draw some 3D objects
+//         */
+//
+//        gl.glMatrixMode(GL10.GL_MODELVIEW);
+//        gl.glLoadIdentity();
+//
+//        GLU.gluLookAt(gl, 0.0f, 0.0f, -2.5f,
+//                0.0f, 0.0f, 0.0f,
+//                0.0f, 1.0f, 0.0f);
+//
+//        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+//        gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+//
+//        gl.glActiveTexture(GL10.GL_TEXTURE0);
+//        gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureID);
+//        gl.glTexParameterx(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S,
+//                GL10.GL_REPEAT);
+//        gl.glTexParameterx(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T,
+//                GL10.GL_REPEAT);
+//
+//        long time = SystemClock.uptimeMillis() % 4000L;
+//        float angle = 0.090f * ((int) time);
+//
+//        gl.glRotatef(angle, 0, 0, 1.0f);
+//        gl.glScalef(2.0f, 2.0f, 2.0f);
+//
+//        mTriangle.draw(gl);
+//
+//        mProjector.getCurrentModelView(gl);
+//        mLabels.beginDrawing(gl, mWidth, mHeight);
+//        drawLabel(gl, 0, mLabelA);
+//        drawLabel(gl, 1, mLabelB);
+//        drawLabel(gl, 2, mLabelC);
+//        float msPFX = mWidth - mLabels.getWidth(mLabelMsPF) - 1;
+//        mLabels.draw(gl, msPFX, 0, mLabelMsPF);
+//        mLabels.endDrawing(gl);
+//
+//        drawMsPF(gl, msPFX);
+    }
+    
+    // when refactoring beware of some strange inheritance...
+   public void onDrawFrame2(GL10 gl) {
+	   
+	
+    	
+    	//onSurfaceChanged2(gl, mWidth, mHeight);
+    	 
+    	
         /*
          * By default, OpenGL enables features that improve quality
          * but reduce performance. One might want to tweak that
          * especially on software renderer.
          */
-        gl.glDisable(GL10.GL_DITHER);
+        //gl.glDisable(GL10.GL_DITHER);
 
         gl.glTexEnvx(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE,
                 GL10.GL_MODULATE);
@@ -149,7 +224,7 @@ public class SpriteTextRenderer implements GLSurfaceView.Renderer{
          * glClear().
          */
 
-        gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+        	//gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
         /*
          * Now we're ready to draw some 3D objects
@@ -157,13 +232,21 @@ public class SpriteTextRenderer implements GLSurfaceView.Renderer{
 
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
-
+        
+        gl.glPushMatrix();
+        
+       
+        
         GLU.gluLookAt(gl, 0.0f, 0.0f, -2.5f,
                 0.0f, 0.0f, 0.0f,
                 0.0f, 1.0f, 0.0f);
+        
+
 
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+        
+       
 
         gl.glActiveTexture(GL10.GL_TEXTURE0);
         gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureID);
@@ -171,16 +254,45 @@ public class SpriteTextRenderer implements GLSurfaceView.Renderer{
                 GL10.GL_REPEAT);
         gl.glTexParameterx(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T,
                 GL10.GL_REPEAT);
+        
+        
+
 
         long time = SystemClock.uptimeMillis() % 4000L;
         float angle = 0.090f * ((int) time);
 
         gl.glRotatef(angle, 0, 0, 1.0f);
         gl.glScalef(2.0f, 2.0f, 2.0f);
+        
+
 
         mTriangle.draw(gl);
 
+        
+
+        
         mProjector.getCurrentModelView(gl);
+        
+        try {
+        	
+        
+        
+        mLabels.beginAdding(gl);
+        mLabelA = mLabels.add(gl, ""+((GameRenderProxy)this).ml.game.money, mLabelPaint);
+        mLabelB = mLabels.add(gl, "B", mLabelPaint);
+        mLabelC = mLabels.add(gl, "C", mLabelPaint);
+        mLabelMsPF = mLabels.add(gl, "ms/f", mLabelPaint);
+        mLabels.endAdding(gl);
+        }
+        catch (RuntimeException e) {
+        	
+            Util.log("label maker failed");
+            throw e;
+        	
+        }
+        
+
+        
         mLabels.beginDrawing(gl, mWidth, mHeight);
         drawLabel(gl, 0, mLabelA);
         drawLabel(gl, 1, mLabelB);
@@ -190,7 +302,15 @@ public class SpriteTextRenderer implements GLSurfaceView.Renderer{
         mLabels.endDrawing(gl);
 
         drawMsPF(gl, msPFX);
+        
+        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+        gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+        gl.glPopMatrix();
+
+        
+
     }
+
 
     private void drawMsPF(GL10 gl, float rightMargin) {
         long time = SystemClock.uptimeMillis();
@@ -229,6 +349,25 @@ public class SpriteTextRenderer implements GLSurfaceView.Renderer{
     }
 
     public void onSurfaceChanged(GL10 gl, int w, int h) {
+        mWidth = w;
+        mHeight = h;
+        gl.glViewport(0, 0, w, h);
+        mProjector.setCurrentView(0, 0, w, h);
+
+        /*
+        * Set our projection matrix. This doesn't have to be done
+        * each time we draw, but usually a new projection needs to
+        * be set when the viewport is resized.
+        */
+
+        float ratio = (float) w / h;
+        gl.glMatrixMode(GL10.GL_PROJECTION);
+        gl.glLoadIdentity();
+        gl.glFrustumf(-ratio, ratio, -1, 1, 1, 10);
+        mProjector.getCurrentProjection(gl);
+    }
+    
+    public void onSurfaceChanged2(GL10 gl, int w, int h) {
         mWidth = w;
         mHeight = h;
         gl.glViewport(0, 0, w, h);

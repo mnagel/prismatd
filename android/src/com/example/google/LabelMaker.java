@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.apis.graphics.spritetext;
+package com.example.google;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -371,11 +371,12 @@ public class LabelMaker {
      */
     public void endDrawing(GL10 gl) {
         checkState(STATE_DRAWING, STATE_INITIALIZED);
-        gl.glDisable(GL10.GL_BLEND);
+        //gl.glDisable(GL10.GL_BLEND);
         gl.glMatrixMode(GL10.GL_PROJECTION);
         gl.glPopMatrix();
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glPopMatrix();
+        gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
     }
 
     private void checkState(int oldState, int newState) {

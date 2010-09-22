@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.apis.graphics.spritetext;
+package com.example.google;
 
 import android.opengl.Matrix;
 

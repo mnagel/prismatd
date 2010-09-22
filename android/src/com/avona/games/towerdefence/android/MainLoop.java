@@ -1,9 +1,12 @@
 package com.avona.games.towerdefence.android;
 
+import javax.microedition.khronos.opengles.GL;
+
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 
 import com.avona.games.towerdefence.PortableMainLoop;
+import com.example.google.MatrixTrackingGL;
 
 public class MainLoop extends PortableMainLoop {
 	public Activity activity;
@@ -21,7 +24,14 @@ public class MainLoop extends PortableMainLoop {
 		setupInputActors();
 
 		surfaceView = new InputForwardingGLSurfaceView(activity, inputActor, ge);
-		final GameRenderProxy r = new GameRenderProxy(this, graphicsEngine);
+		
+		surfaceView.setGLWrapper(new GLSurfaceView.GLWrapper() {
+            public GL wrap(GL gl) {
+                return new MatrixTrackingGL(gl);
+            }});
+		
+		
+		final GameRenderProxy r = new GameRenderProxy(activity, this, graphicsEngine);
 		surfaceView.setRenderer(r);
 		activity.setContentView(surfaceView);
 	}
