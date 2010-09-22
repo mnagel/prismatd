@@ -1,0 +1,33 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: event location null pointer exception
+desc: |-
+  Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException
+  	at com.avona.games.towerdefence.awt.InputMangler.eventLocation(InputMangler.java:47)
+  	at com.avona.games.towerdefence.awt.InputMangler.mouseMoved(InputMangler.java:86)
+  	at java.awt.Component.processMouseMotionEvent(Component.java:6153)
+  	at java.awt.Component.processEvent(Component.java:5877)
+  	at java.awt.Component.dispatchEventImpl(Component.java:4469)
+  	at java.awt.Component.dispatchEvent(Component.java:4295)
+  	at java.awt.EventQueue.dispatchEvent(EventQueue.java:604)
+  	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:275)
+  	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:200)
+  	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:190)
+  	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:185)
+  	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:177)
+  	at java.awt.EventDispatchThread.run(EventDispatchThread.java:138)
+  zero tick: 0.0
+type: :bugfix
+component: awt
+release: 
+reporter: Michael Nagel <m.nagel@devzero.de>
+status: :unstarted
+disposition: 
+creation_time: 2010-09-22 18:30:09.738902 Z
+references: []
+
+id: 6c5fdf529ee5120cb93c9f85b3ec74a97245a6d3
+log_events: 
+- - 2010-09-22 18:30:17.754834 Z
+  - Michael Nagel <m.nagel@devzero.de>
+  - created
+  - ""
