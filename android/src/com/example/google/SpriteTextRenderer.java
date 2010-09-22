@@ -278,7 +278,7 @@ public class SpriteTextRenderer implements GLSurfaceView.Renderer{
         
         
         mLabels.beginAdding(gl);
-        mLabelA = mLabels.add(gl, ""+((GameRenderProxy)this).ml.game.money, mLabelPaint);
+        mLabelA = mLabels.add(gl, "$"+((GameRenderProxy)this).ml.game.money, mLabelPaint);
         mLabelB = mLabels.add(gl, "B", mLabelPaint);
         mLabelC = mLabels.add(gl, "C", mLabelPaint);
         mLabelMsPF = mLabels.add(gl, "ms/f", mLabelPaint);
