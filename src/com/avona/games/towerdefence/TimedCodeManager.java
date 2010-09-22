@@ -5,42 +5,56 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class TimedCodeManager extends TimeTrack {
+public class TimedCodeManager {
 
 	private List<TimedCode> timedCode = new LinkedList<TimedCode>();
+	private double clock = 0.0;
 
-	@Override
-	public void updateTick(float wallTick) {
-		super.updateTick(wallTick);
+	/**
+	 * Flag to detect list changes while processing the list.
+	 */
+	private boolean modified;
 
-		// find code that timed out and execute it
-		Iterator<TimedCode> titer = timedCode.iterator();
-		while (titer.hasNext()) {
-			final TimedCode tc = titer.next();
-			if (tc.startTime < this.clock) {
-				tc.execute();
-				titer.remove();
-			} else {
-				break; // list must be sorted
+	public void update(final float dt) {
+		clock += dt;
+
+		// Find code that timed out and execute it.
+		parse_again: do {
+			modified = false;
+			Iterator<TimedCode> titer = timedCode.iterator();
+			while (titer.hasNext()) {
+				final TimedCode tc = titer.next();
+				if (tc.startTime < clock) {
+					titer.remove();
+					tc.execute();
+					if (modified) {
+						// The list was modified, so we need new iterators.
+						continue parse_again;
+					}
+				} else {
+					// The list is sorted, so we can exit as soon as we hit a
+					// future timeout.
+					break;
+				}
 			}
-		}
+		} while (false);
 	}
 
-	/*
-	 * delay: delay in seconds from now code: code to execute then. startTime
-	 * should not be set beforehand. when calling multiple times, use in
-	 * chronological order
+	/**
+	 * startTime should not be set beforehand. when calling multiple times, use
+	 * in chronological order.
+	 * 
+	 * @param delay
+	 *            delay in seconds from now
+	 * @param newCode
+	 *            code to execute then.
 	 */
-	public void addCode(float delay, TimedCode newCode) {
-		newCode.startTime = this.clock + delay;
+	public void addCode(final float delay, final TimedCode newCode) {
+		modified = true;
+		newCode.startTime = clock + delay;
 
-		final int s = timedCode.size();
-		if (s == 0) {
-			timedCode.add(newCode); // add as only element
-		}
-
-		ListIterator<TimedCode> titer = timedCode.listIterator(s); // traverse
-		// backwards
+		ListIterator<TimedCode> titer = timedCode
+				.listIterator(timedCode.size()); // traverse backwards
 		while (titer.hasPrevious()) {
 			final TimedCode reference = titer.previous();
 			if (newCode.startTime > reference.startTime) {
@@ -53,12 +67,11 @@ public class TimedCodeManager extends TimeTrack {
 	}
 
 	public String toString() {
-		String s = "" + this.clock + ": ";
+		String s = "" + clock + ": ";
 		ListIterator<TimedCode> titer = timedCode.listIterator(0);
 		while (titer.hasNext()) {
 			s += " " + String.format("%.1f", titer.next().startTime);
 		}
 		return s;
 	}
-
 }

@@ -66,7 +66,7 @@ public class GameInputActor implements InputActor {
 	 * games.towerdefence.V2)
 	 */
 	public void pressedMouseBtn2At(V2 location) {
-		game.spawnWave(0);
+		game.startWave();
 	}
 
 	/*
@@ -88,11 +88,11 @@ public class GameInputActor implements InputActor {
 	public void checkMouseOverTower(V2 location) {
 		final Tower t = game.closestTowerWithinRadius(location, mouse.radius);
 		if (t != null) {
-			game.selectedExistingStationary = t;
+			game.selectedObject = t;
 			return;
 		}
 		final Enemy e = game.closestEnemyWithinRadius(location, mouse.radius);
-		game.selectedExistingStationary = e;
+		game.selectedObject = e;
 	}
 
 	/*

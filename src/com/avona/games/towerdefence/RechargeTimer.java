@@ -1,29 +1,31 @@
 package com.avona.games.towerdefence;
 
-// TODO -- maybe use DelayedRunnable here...
-public class RechargeTimer {
-	public double time;
-	public double timeRemaining;
+public class RechargeTimer extends TimedCode {
+	private TimedCodeManager timedCodeManager;
+	public float time;
+	public boolean ready = true;
 
-	public RechargeTimer(double time) {
+	public RechargeTimer(TimedCodeManager timedCodeManager, float time) {
+		this.timedCodeManager = timedCodeManager;
 		this.time = time;
-		this.timeRemaining = 0.0;
 	}
 
 	public RechargeTimer(RechargeTimer t) {
+		this.timedCodeManager = t.timedCodeManager;
 		this.time = t.time;
-		this.timeRemaining = t.timeRemaining;
 	}
 
-	public boolean isReady() {
-		return this.timeRemaining <= 0.0;
+	public RechargeTimer copy() {
+		return new RechargeTimer(this);
 	}
 
 	public void rearm() {
-		this.timeRemaining = this.time;
+		ready = false;
+		timedCodeManager.addCode(time, this);
 	}
 
-	public void step(double dt) {
-		this.timeRemaining -= dt;
+	@Override
+	public void execute() {
+		ready = true;
 	}
 }

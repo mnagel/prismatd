@@ -2,17 +2,17 @@ package com.avona.games.towerdefence;
 
 import java.util.List;
 
-public class Tower extends StationaryObject {
+public class Tower extends LocationObject {
 	public float range;
 	protected RechargeTimer timer;
 	public EnemySelectionPolicy enemySelectionPolicy = new NearestEnemyPolicy();
 	public int price;
 	public int level;
 
-	public Tower(int level) {
+	public Tower(TimedCodeManager timedCodeManager, int level) {
 		super();
 		this.level = level;
-		timer = new RechargeTimer(0.3);
+		timer = new RechargeTimer(timedCodeManager, 0.3f);
 		range = 75 + 2 * level;
 		price = 100 + 2 * level;
 		radius = 16;
@@ -20,7 +20,7 @@ public class Tower extends StationaryObject {
 
 	public Tower(final Tower t) {
 		super(t);
-		timer = new RechargeTimer(t.timer);
+		timer = t.timer.copy();
 		level = t.level;
 		range = t.range;
 		price = t.price;
@@ -32,7 +32,7 @@ public class Tower extends StationaryObject {
 	}
 
 	public Particle shootTowards(Enemy e) {
-		if (timer.isReady()) {
+		if (timer.ready) {
 			timer.rearm();
 			return new Particle(level, location, e);
 		} else {
@@ -42,7 +42,6 @@ public class Tower extends StationaryObject {
 
 	@Override
 	public void step(float dt) {
-		timer.step(dt);
 	}
 
 	public Enemy findSuitableEnemy(List<Enemy> enemies) {

@@ -77,9 +77,9 @@ public abstract class PortableGraphicsEngine {
 		for (Particle p : game.particles) {
 			renderParticle(p);
 		}
-		if (game.selectedExistingStationary != null) {
-			if (game.selectedExistingStationary instanceof Tower) {
-				final Tower t = (Tower) game.selectedExistingStationary;
+		if (game.selectedObject != null) {
+			if (game.selectedObject instanceof Tower) {
+				final Tower t = (Tower) game.selectedObject;
 				drawCircle(t.location.x, t.location.y, t.range, 1.0f, 1.0f,
 						1.0f, 1.0f);
 			}
@@ -450,12 +450,12 @@ public abstract class PortableGraphicsEngine {
 
 	public void renderStats() {
 		String towerString = "";
-		if (game.selectedExistingStationary != null) {
-			if (game.selectedExistingStationary instanceof Tower) {
-				final Tower t = (Tower) game.selectedExistingStationary;
+		if (game.selectedObject != null) {
+			if (game.selectedObject instanceof Tower) {
+				final Tower t = (Tower) game.selectedObject;
 				towerString = String.format("tower lvl %d | ", t.level);
-			} else if (game.selectedExistingStationary instanceof Enemy) {
-				final Enemy e = (Enemy) game.selectedExistingStationary;
+			} else if (game.selectedObject instanceof Enemy) {
+				final Enemy e = (Enemy) game.selectedObject;
 				towerString = String.format("enemy lvl %d, health %d/%d | ",
 						e.level, e.health, e.maxHealth);
 			}
@@ -463,7 +463,9 @@ public abstract class PortableGraphicsEngine {
 		final String fpsString = String
 				.format(
 						"%swave %d | %d killed | %d escaped | %d left building | $%d | fps %.2f",
-						towerString, game.waveCount, game.killed, game.escaped,
+						towerString,
+						game.currentWave != null ? game.currentWave.getLevel()
+								: -1, game.killed, game.escaped,
 						game.leftBuilding, game.money,
 						graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);

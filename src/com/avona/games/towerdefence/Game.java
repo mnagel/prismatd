@@ -8,12 +8,23 @@ public class Game {
 	public List<Enemy> enemies = new LinkedList<Enemy>();
 	public List<Tower> towers = new LinkedList<Tower>();
 	public List<Particle> particles = new LinkedList<Particle>();
+	public List<WaveListener> waveCompletedListeners = new LinkedList<WaveListener>();
+	public List<WaveListener> waveBegunListeners = new LinkedList<WaveListener>();
 
-	public TimedCodeManager gameTime;
+	public TimeTrack gameTime;
+	public TimedCodeManager timedCodeManager;
 
 	public World world;
 
-	public int waveCount = 0;
+	/**
+	 * Currently running wave.
+	 */
+	public Wave currentWave;
+
+	/**
+	 * The user has indicated, that the next wave should be started when ready.
+	 */
+	public boolean startNextWave = false;
 
 	public int killed = 0;
 	public int escaped = 0;
@@ -35,13 +46,17 @@ public class Game {
 	 * Currently selected, existing tower. We will typically show the properties
 	 * of that tower.
 	 */
-	public StationaryObject selectedExistingStationary = null;
+	public LocationObject selectedObject = null;
 
-	public Game(TimedCodeManager gameTime) {
+	private EnemyDeathGivesMoney enemyDeathGivesMoney = new EnemyDeathGivesMoney(
+			this);
+
+	public Game(TimeTrack gameTime, TimedCodeManager timedCodeManager) {
 		this.gameTime = gameTime;
+		this.timedCodeManager = timedCodeManager;
 		world = new World();
 
-		selectedBuildTower = new Tower(1);
+		selectedBuildTower = new Tower(timedCodeManager, 1);
 	}
 
 	public boolean canBuildTowerAt(V2 location) {
@@ -55,27 +70,37 @@ public class Game {
 		towers.add(t);
 	}
 
-	public void spawnWave(int waveCount) {
-		this.waveCount++; // TODO keep state somewhere else
-		final Game self = this;
-		final int wc = this.waveCount;
+	public void startWave() {
+		int level = 1;
+		if (currentWave != null) {
+			if (!currentWave.isCompleted()) {
+				// Wait for the wave to complete before starting a new one.
+				startNextWave = true;
+				return;
+			}
+			level = currentWave.getLevel() + 1;
+		}
 
-		for (int i = 0; i < 2 * this.waveCount + 2; i++) {
-			TimedCode tc = new TimedCode() {
-
-				@Override
-				public void execute() {
-					self.spawnEnemy(wc);
-				}
-			};
-
-			gameTime.addCode(0.4f * i, tc);
+		startNextWave = false;
+		currentWave = new Wave(this, timedCodeManager, level);
+		for (WaveListener l : waveBegunListeners) {
+			l.onWave(level);
 		}
 	}
 
+	public void onWaveCompleted(int level) {
+		for (WaveListener l : waveCompletedListeners) {
+			l.onWave(level);
+		}
+		if (startNextWave)
+			startWave();
+	}
+
 	public void spawnEnemy(int level) {
-		enemies.add(new Enemy(world, new V2(world.waypoints.get(0)), level,
-				this));
+		final V2 location = world.waypoints.get(0).copy();
+		final Enemy e = new Enemy(world, location, level);
+		e.eventListeners.add(enemyDeathGivesMoney);
+		enemies.add(e);
 	}
 
 	public Tower closestTowerWithinRadius(V2 location, float range) {
@@ -91,7 +116,7 @@ public class Game {
 	public static Object closestStationaryWithinRadius(final List objects,
 			final V2 location, final float range) {
 		for (final Object o : objects) {
-			if (((StationaryObject) o).collidesWith(location, range))
+			if (((LocationObject) o).collidesWith(location, range))
 				return o;
 		}
 		return null;
@@ -155,7 +180,7 @@ public class Game {
 
 				if (p.isDead()) {
 					piter.remove();
-					continue; // particle exploded, dont use it any more
+					continue; // particle exploded, don't use it any more
 				}
 			}
 

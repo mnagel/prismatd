@@ -3,7 +3,14 @@ package com.avona.games.towerdefence.android;
 import javax.microedition.khronos.opengles.GL;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.opengl.GLSurfaceView;
+import android.os.Vibrator;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
 
 import com.avona.games.towerdefence.PortableMainLoop;
 import com.example.google.MatrixTrackingGL;
@@ -23,17 +30,18 @@ public class MainLoop extends PortableMainLoop {
 
 		setupInputActors();
 
-		surfaceView = new InputForwardingGLSurfaceView(activity, inputActor, ge);
-		
+		surfaceView = new InputForwardingGLSurfaceView(activity, inputActor, ge, (Vibrator)activity.getSystemService(Context.VIBRATOR_SERVICE));
 		surfaceView.setGLWrapper(new GLSurfaceView.GLWrapper() {
             public GL wrap(GL gl) {
                 return new MatrixTrackingGL(gl);
             }});
-		
-		
+
 		final GameRenderProxy r = new GameRenderProxy(activity, this, graphicsEngine);
 		surfaceView.setRenderer(r);
-		activity.setContentView(surfaceView);
+		
+		FrameLayout v = (FrameLayout)activity.findViewById(R.id.gl_frame);
+		v.addView(surfaceView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		v.setVisibility(View.VISIBLE);
 	}
 
 	@Override
