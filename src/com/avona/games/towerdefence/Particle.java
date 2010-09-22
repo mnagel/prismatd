@@ -1,12 +1,13 @@
 package com.avona.games.towerdefence;
 
 public class Particle extends MovingObject {
+	public Enemy target;
+
 	protected int strength;
 	protected float range = 5;
 	protected double timeAlive = 4.0;
 
 	protected boolean dead = false;
-	protected Enemy target;
 	protected double counter = 0.0;
 
 	public Particle(int level, V2 location, Enemy target) {

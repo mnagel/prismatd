@@ -13,7 +13,7 @@ public class Enemy extends MovingObject {
 	public boolean left = false;
 	public int worth;
 	public List<EnemyEventListener> eventListeners = new LinkedList<EnemyEventListener>();
-	public EnemyParticleCollisionSelector enemyParticleCollisionSelection = new NearestEnemyParticleCollision();
+	public EnemyParticleCollisionSelector enemyParticleCollisionSelection = new OnlyTargetEnemyParticleCollidor();
 
 	public Enemy(World world, V2 location, int level) {
 		this.level = level;
