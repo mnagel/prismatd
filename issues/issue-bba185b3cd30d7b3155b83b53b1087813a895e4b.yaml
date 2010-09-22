@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: make pictures work on website
+desc: zim export does not seem to export embedded images making things break
+type: :feature
+component: core
+release: 
+reporter: Michael Nagel <m.nagel@devzero.de>
+status: :unstarted
+disposition: 
+creation_time: 2010-09-22 13:18:02.628759 Z
+references: []
+
+id: bba185b3cd30d7b3155b83b53b1087813a895e4b
+log_events: 
+- - 2010-09-22 13:18:06.064663 Z
+  - Michael Nagel <m.nagel@devzero.de>
+  - created
+  - ""
