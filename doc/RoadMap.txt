@@ -2,7 +2,7 @@ Content-Type: text/x-zim-wiki
 Wiki-Format: zim 0.4
 Creation-Date: 2010-09-06T09:54:39.867461
 
-====== 01 Home ======
+====== RoadMap ======
 
 ==== Desktop Java ====
 [*] Surface (o.Ä.) erstellen, auf der performante 2D und/oder 3D Grafik ausgegeben werden kann
@@ -15,18 +15,20 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] (optional: (asynchrones Abspielen von Soundeffekten))
 	[ ] wave/mp3 o.ä.
 	[ ] 8-bit-Synthesizer-Stil
+[ ] Laden von Grafiken als Textur
 
 ==== Android ====
 [*] Surface (o.Ä.) erstellen, auf der performante 2D und/oder 3D Grafik ausgegeben werden kann
 [*] Eingaben entgegennehmen
 	[*] entweder in Form von Maus-, Tastatur- und Touch-Events 
 	[x] oder durch Polling der Mauskoordinaten, Maustasten und Keystates
-[ ] Freitext ausgeben
+[*] Freitext ausgeben
 	[ ] im eigentlichen Spiel (Hitpoints, ...)
-	[ ] pixelgenau auf einem HUD-Layer (Geld, ...)
+	[*] pixelgenau auf einem HUD-Layer (Geld, ...)
 [ ] (optional: (asynchrones Abspielen von Soundeffekten))
 	[ ] wave/mp3 o.ä.
 	[ ] 8-bit-Synthesizer-Stil
+[ ] Laden von Grafiken als Textur
 
 ==== Windows ====
 [x] Platzhalter
@@ -94,10 +96,10 @@ Creation-Date: 2010-09-06T09:54:39.867461
 
 ===== Interaktion =====
 [*] Erstellen von Tuermen per Maus/Finger-Klick
-[ ] Neustart der "Simulation" per Eingabe
-[ ] Selektieren 
+[x] Neustart der "Simulation" per Eingabe
+[*] Selektieren 
 	[*] von Tuermen
-	[ ] von Monstern
+	[*] von Monstern
 [ ] Dokumentation der Abläufe
 	[ ] Check gegen Control Flow Artikel
 	[ ] Check gegen Units Artikel
@@ -131,7 +133,12 @@ Creation-Date: 2010-09-06T09:54:39.867461
 	[ ] (optional: (Package))
 [ ] APK fuer Android
 [ ] Installations-Anleitung
-[ ] How-To-Play-Anleitung mit Bildern schreiben
+[ ] externe How-To-Play-Anleitung mit Bildern schreiben
+[ ] interner Getting-Started Splash Screen
+	[ ] klicke hier um Turm zu bauen
+	[ ] klicke hier um Welle zu starten
+	[ ] stoppe die Monster vor hier
+	[ ] Tipp: baue den ersten Turm hier
 [ ] Dokumentation nachziehen / sortieren
 [ ] Lizenz-Header
 [ ] Artwork (Launcher Icon) verbessern
@@ -141,6 +148,7 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [*] Issue Tracker (launchpad?, trac?, sd?)
 [ ] Pause / Resume / State sichern auf android
 [ ] Zim-Export als Webseite
+[ ] Neustart des Spiels / Levels
 
 ===== Roadmap =====
 [ ] Code-Geschwindigkeit Profiling, insbes. fuer Android

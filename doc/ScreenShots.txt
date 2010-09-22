@@ -2,17 +2,17 @@ Content-Type: text/x-zim-wiki
 Wiki-Format: zim 0.4
 Creation-Date: 2010-09-09T11:33:57.460888
 
-====== Bilder ======
+====== ScreenShots ======
 
 ===== Desktop Java =====
-2010-09-09
-{{../screenshots/screenshot-desktop-2010-09-09.png}}
+2010-09-19
+{{../screenshots/screenshot-desktop-2010-09-19.png}}
 
 2010-09-10
 {{../screenshots/screenshot-desktop-2010-09-10.png}}
 
-2010-09-19
-{{../screenshots/screenshot-desktop-2010-09-19.png}}
+2010-09-09
+{{../screenshots/screenshot-desktop-2010-09-09.png}}
 
 ===== Android =====
 2010-09-09

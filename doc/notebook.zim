@@ -1,4 +1,8 @@
 [Notebook]
 name=towerdefence
-version=0.4
+version=0.40000000000000002
+home=towerdefence
+icon=
+document_root=
+slow_fs=False
 

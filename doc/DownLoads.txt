@@ -1,0 +1,19 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2010-09-22T14:53:03.932406
+
+====== DownLoads ======
+
+FIXME
+
+here should be links for downloading
+* APK
+* JAR
+* DEB?
+* SRC
+
+here should be link for checking out git
+* git
+
+here should be link to android market
+* market

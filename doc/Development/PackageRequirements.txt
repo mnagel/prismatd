@@ -2,8 +2,7 @@ Content-Type: text/x-zim-wiki
 Wiki-Format: zim 0.4
 Creation-Date: 2010-09-07T23:21:45.572685
 
-====== Package requirements ======
-Created Tuesday 07 September 2010
+====== PackageRequirements ======
 
 (In Debian Packages...)
 

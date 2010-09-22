@@ -1,0 +1,11 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2010-09-22T14:44:56.111643
+
+====== Development ======
+
+===== interesting Links =====
+• how to check out source code and docu: [[Development:CheckingOut]]
+• how the code is structured: [[Development:ControlFlow]]
+* external dependencies: [[Development:PackageRequirements]]
+• units used within the code: [[Development:Units]]

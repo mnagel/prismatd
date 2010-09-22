@@ -2,8 +2,9 @@ Content-Type: text/x-zim-wiki
 Wiki-Format: zim 0.4
 Creation-Date: 2010-09-07T23:14:55.414495
 
-====== Checking out ======
-Created Tuesday 07 September 2010
+====== CheckingOut ======
+
+Info on the Repository to use see here: [[DownLoads]]
 
 ===== Desktop-Linux-Version (egit) =====
 * (Diese Anleitung geht von installiertem egit aus, aber man kann das bestimmt auch wunderbar auf der Kommandozeile machen.)
