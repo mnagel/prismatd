@@ -162,26 +162,13 @@ public class Game {
 		 * Check for any particle collisions and handle damage.
 		 */
 		Iterator<Enemy> eiter = enemies.iterator();
-		nextEnemy: while (eiter.hasNext()) {
+		while (eiter.hasNext()) {
 			final Enemy e = eiter.next();
-			piter = particles.iterator();
-			while (piter.hasNext()) {
-				final Particle p = piter.next();
-
-				if (p.collidedWith(e, dt)) {
-					p.attack(e);
-					if (e.isDead()) {
-						killed += 1;
-						eiter.remove();
-						continue nextEnemy; // enemy dead, no more particles to
-						// check
-					}
-				}
-
-				if (p.isDead()) {
-					piter.remove();
-					continue; // particle exploded, don't use it any more
-				}
+			if (e.collideWithParticles(particles, dt)) {
+				// Enemy dead.
+				killed += 1;
+				eiter.remove();
+				continue;
 			}
 
 			final V2 w = world.waypoints.get(e.waypointId);

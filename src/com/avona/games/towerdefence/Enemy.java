@@ -13,6 +13,7 @@ public class Enemy extends MovingObject {
 	public boolean left = false;
 	public int worth;
 	public List<EnemyEventListener> eventListeners = new LinkedList<EnemyEventListener>();
+	public EnemyParticleCollisionSelector enemyParticleCollisionSelection = new NearestEnemyParticleCollision();
 
 	public Enemy(World world, V2 location, int level) {
 		this.level = level;
@@ -23,6 +24,12 @@ public class Enemy extends MovingObject {
 		this.location = location;
 		this.velocity.setLength(80 + 3 * level);
 		setWPID(1);
+	}
+
+	public boolean collideWithParticles(final List<Particle> particles,
+			final float dt) {
+		return enemyParticleCollisionSelection.collideWithParticles(this,
+				particles, dt);
 	}
 
 	public void setWPID(int i) {
