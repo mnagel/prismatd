@@ -6,8 +6,11 @@ THIS REPOSITORY CONTAINS
 FOLDERS
 
 * android         - all Android related files
+* bin             - binary files (optional)
 * doc             - all documentation related files
 * doc/screenshots - screenshots
+* gfx             - graphics used within the game
+* issues          - bug tracker and feature requests (uses "ditz" distributed issue tracker)
 * src             - src to the game engine and the Desktop Java version
 * README          - this file
 
