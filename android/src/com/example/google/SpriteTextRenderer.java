@@ -276,7 +276,7 @@ public class SpriteTextRenderer implements GLSurfaceView.Renderer{
         try {
         	
         
-        
+        // TODO implement some caching here...
         mLabels.beginAdding(gl);
         mLabelA = mLabels.add(gl, "$"+((GameRenderProxy)this).ml.game.money, mLabelPaint);
         mLabelB = mLabels.add(gl, "B", mLabelPaint);
