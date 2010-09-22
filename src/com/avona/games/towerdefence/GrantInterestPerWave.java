@@ -3,7 +3,7 @@ package com.avona.games.towerdefence;
 public class GrantInterestPerWave implements WaveListener {
 	private Game game;
 	public float interestRate;
-	
+
 	public GrantInterestPerWave(Game game, float interestRate) {
 		this.game = game;
 		this.interestRate = interestRate;
