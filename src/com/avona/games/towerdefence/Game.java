@@ -50,13 +50,24 @@ public class Game {
 
 	private EnemyDeathGivesMoney enemyDeathGivesMoney = new EnemyDeathGivesMoney(
 			this);
+	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(
+			this);
+
+	public List<EnemyParticleCollidor> enemyParticleCollidors = new LinkedList<EnemyParticleCollidor>();
 
 	public Game(TimeTrack gameTime, TimedCodeManager timedCodeManager) {
 		this.gameTime = gameTime;
 		this.timedCodeManager = timedCodeManager;
 		world = new World();
 
-		selectedBuildTower = new Tower(timedCodeManager, 1);
+		EnemyParticleCollidor onlyTargetEnemyColl = new OnlyTargetEnemyParticleCollidor();
+		enemyParticleCollidors.add(onlyTargetEnemyColl);
+
+		EnemyParticleCollidor nearestEnemyParticleCollidor = new NearestEnemyParticleCollidor();
+		enemyParticleCollidors.add(nearestEnemyParticleCollidor);
+
+		selectedBuildTower = new Tower(timedCodeManager,
+				new NearestEnemyPolicy(), onlyTargetEnemyColl, 1);
 	}
 
 	public boolean canBuildTowerAt(V2 location) {
@@ -100,6 +111,7 @@ public class Game {
 		final V2 location = world.waypoints.get(0).copy();
 		final Enemy e = new Enemy(world, location, level);
 		e.eventListeners.add(enemyDeathGivesMoney);
+		e.eventListeners.add(enemyDeathUpdatesGameStats);
 		enemies.add(e);
 	}
 
@@ -159,14 +171,19 @@ public class Game {
 		}
 
 		/**
-		 * Check for any particle collisions and handle damage.
+		 * See whether any particles collided with any enemies.
+		 */
+		for (EnemyParticleCollidor epc : enemyParticleCollidors) {
+			epc.collideParticlesWithEnemies(enemies, dt);
+		}
+
+		/**
+		 * Handle enemy damage / deaths.
 		 */
 		Iterator<Enemy> eiter = enemies.iterator();
 		while (eiter.hasNext()) {
 			final Enemy e = eiter.next();
-			if (e.collideWithParticles(particles, dt)) {
-				// Enemy dead.
-				killed += 1;
+			if (e.isDead()) {
 				eiter.remove();
 				continue;
 			}
@@ -176,7 +193,6 @@ public class Game {
 					e.velocity, e.radius, w, V2.ZERO, 1, dt)) {
 				e.setWPID(e.waypointId + 1);
 				if (e.escaped) {
-					escaped += 1;
 					eiter.remove();
 					continue;
 				}
