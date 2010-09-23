@@ -61,7 +61,7 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [*] Default Target Policy auf "Nearest" ändern
 
 ===== Grafik-Engine-Stub =====
-[ ] Prototyp einer Grafik-Engine, die Grafik ausgibt und entsprechenden Status haelt
+[ ] Prototyp einer Grafik-Engine, die Grafik ausgibt und entsprechenden Status hält
 	[*] alle Dinge malen
 	[*] desktop: Ausgabe eines Ingame-Debug-Strings als Text auf einem HUD-Layer
 	[ ] android: Ausgabe eines Ingame-Debug-Strings als Text auf einem HUD-Layer
@@ -78,7 +78,7 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Ingame-Ausgabe von Debug o.Ä. Meldungen
 
 ===== erste Design-Entscheidungen =====
-[*] Screen-Aufteilung der GUI klaeren -- nicht technisch sondern Usability-mäßig
+[*] Screen-Aufteilung der GUI klären -- nicht technisch sondern Usability-mäßig
 
 ===== Zusammenstecken =====
 [*] erstellen einer Minimal-Welt per Skript
@@ -95,10 +95,10 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [*] Pausieren der Ingame-Zeit
 
 ===== Interaktion =====
-[*] Erstellen von Tuermen per Maus/Finger-Klick
+[*] Erstellen von Türmen per Maus/Finger-Klick
 [x] Neustart der "Simulation" per Eingabe
 [*] Selektieren 
-	[*] von Tuermen
+	[*] von Türmen
 	[*] von Monstern
 [ ] Dokumentation der Abläufe
 	[ ] Check gegen Control Flow Artikel
@@ -109,9 +109,9 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [*] Erkennen von Kollission
 	[*] Geschoss -- Monster
 [*] "Beheben" von Kollissionen
-	[ ] Double Dispatch ueber Geschoss, Monster
-	[ ] daraufhin bestimmte Effekte anwenden (Schaden, Tempoaenderung, Tod/Geld-Auszahlung, Objekt entfernen ...)
-[*] Timerbasiertes "Feuern" von Tuermen
+	[ ] Double Dispatch über Geschoss, Monster
+	[ ] daraufhin bestimmte Effekte anwenden (Schaden, Tempoänderung, Tod/Geld-Auszahlung, Objekt entfernen ...)
+[*] Timerbasiertes "Feuern" von Türmen
 	[*] nur falls Ziel vorhanden (weitere Kollissionsabfrage)
 [*] Timerbasiertes Spawnen von Monstern
 	[*] Spawnen einer Welle von  Monstern
@@ -126,12 +126,13 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [*] Leben
 [*] Punkte
 	[ ] Highscore
-[*] verschiedene Seitenverhaeltnisse / Screengroessen / ...
+[*] verschiedene Seitenverhältnisse / Screengrößen / ...
+[ ] Game Over 
 
 ===== Alpha Release =====
-[ ] Source / Binary - Download fuer Linux
+[ ] Source / Binary - Download für Linux
 	[ ] (optional: (Package))
-[ ] APK fuer Android
+[ ] APK für Android
 [ ] Installations-Anleitung
 [ ] externe How-To-Play-Anleitung mit Bildern schreiben
 [ ] interner Getting-Started Splash Screen
@@ -149,19 +150,21 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Pause / Resume / State sichern auf android
 [ ] Zim-Export als Webseite
 [ ] Neustart des Spiels / Levels
+[ ] grobes Trial-and-Error Balancing
+[ ] Weichenstellung Themeing / Branding / Alleinstellung
 
 ===== Roadmap =====
-[ ] Code-Geschwindigkeit Profiling, insbes. fuer Android
+[ ] Code-Geschwindigkeit Profiling, insbes. für Android
 [ ] Festlegen, wie das fertige Spiel "aussehen" soll
 	[ ] welche Monster
-	[ ] welche Tuerme
+	[ ] welche Türme
 	[ ] welche Geschosse
 	[ ] welche "Effekte"
 		[ ] Schaden verursachen
 		[ ] bremsen
-		[ ] schwaechen
+		[ ] schwächen
 		[ ] ...
-		[ ] (Schaden, Tempoaenderung, Tod/Geld-Auszahlung, Objekt entfernen ...)
+		[ ] (Schaden, Tempoänderung, Tod/Geld-Auszahlung, Objekt entfernen ...)
 		
 [ ] welche Level soll es geben / wodurch unterscheiden sich Level
 	[ ] wie werden Level erstellt / definiert
@@ -169,11 +172,11 @@ Creation-Date: 2010-09-06T09:54:39.867461
 		[ ] Editor?
 		
 [ ] wie funktioniert Tower-Bau / Tower-Upgrades
-	[ ] was fuer ein Geld / Credits / XP - System soll verwendet werden
+	[ ] was für ein Geld / Credits / XP - System soll verwendet werden
 [ ] Target-Auswahl beim Feuern
 
 [ ] Ingame-Tutorial
-[ ] Ingame-Menue
+[ ] Ingame-Menü
 
 [ ] Specials
 
@@ -183,6 +186,8 @@ Creation-Date: 2010-09-06T09:54:39.867461
 
 [ ] Spiel-Interaktion (will ich bauen, will ich updaten, ...)
 
+[ ] professionelle Grafiken -- Linien-Malen-Mit-OpenGL (vgl. Vector TD) vs Bunte-Bildchen-Bitmap-Texturen
+
 [ ] Themeing / Branding / Alleinstellung
 
-[ ] professionelle Grafiken
+[ ] tragfähiges Balancing-Konzept
