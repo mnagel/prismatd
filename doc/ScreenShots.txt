@@ -15,5 +15,8 @@ Creation-Date: 2010-09-09T11:33:57.460888
 {{../screenshots/screenshot-desktop-2010-09-09.png}}
 
 ===== Android =====
+2010-09-23
+{{../screenshots/screenshot-android-2010-09-23.jpg}}
+
 2010-09-09
 {{../screenshots/screenshot-android-2010-09-09.jpg}}
