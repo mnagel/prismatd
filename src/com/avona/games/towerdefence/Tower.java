@@ -13,8 +13,8 @@ public class Tower extends LocationObject {
 		super();
 		this.level = level;
 		timer = new RechargeTimer(timedCodeManager, 0.3f);
-		range = 75 + 2 * level;
-		price = 100 + 2 * level;
+		range = 75 + 2 * (level - 1);
+		price = 10 + 2 * (level - 1);
 		radius = 16;
 	}
 

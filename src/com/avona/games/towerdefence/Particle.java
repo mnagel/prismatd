@@ -14,8 +14,8 @@ public class Particle extends MovingObject {
 		this.location = new V2(location);
 		this.target = target;
 
-		this.velocity.setLength(150 + 2 * level);
-		strength = 10 + 2 * level;
+		this.velocity.setLength(150 + 2 * (level - 1));
+		strength = 10 + 2 * (level - 1);
 		recalculateTargetVector();
 	}
 

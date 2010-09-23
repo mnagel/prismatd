@@ -29,7 +29,7 @@ public class Game {
 	public int killed = 0;
 	public int escaped = 0;
 
-	public int money = 250;
+	public int money = 25;
 
 	/**
 	 * Debugging value that counts the number of enemies that have left the game

@@ -17,12 +17,12 @@ public class Enemy extends MovingObject {
 
 	public Enemy(World world, V2 location, int level) {
 		this.level = level;
-		this.maxHealth = 50 + 20 * level;
+		this.maxHealth = 50 + 20 * (level - 1);
 		this.health = this.maxHealth;
-		this.worth = 25 + level;
+		this.worth = 3 + (level - 1);
 		this.world = world;
 		this.location = location;
-		this.velocity.setLength(80 + 3 * level);
+		this.velocity.setLength(80 + 3 * (level - 1));
 		setWPID(1);
 	}
 
