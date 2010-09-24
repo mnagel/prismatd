@@ -44,6 +44,8 @@ public class Game {
 	 */
 	public Tower selectedBuildTower = null;
 
+	public boolean draggingTower = false;
+
 	/**
 	 * Currently selected, existing tower. We will typically show the properties
 	 * of that tower.

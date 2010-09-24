@@ -55,6 +55,13 @@ public class GameInputActor implements InputActor {
 	 * games.towerdefence.V2)
 	 */
 	public void mouseBtn1DownAt(V2 location) {
+		game.draggingTower = true;
+	}
+
+	@Override
+	public void mouseBtn1UpAt(V2 location) {
+		game.draggingTower = false;
+
 		Tower t = game.closestTowerWithinRadius(location, mouse.radius);
 		if (t == null) {
 			if (game.canBuildTowerAt(location)) {
@@ -62,10 +69,6 @@ public class GameInputActor implements InputActor {
 			}
 		}
 		checkMouseOverTower(location);
-	}
-
-	@Override
-	public void mouseBtn2UpAt(V2 location) {
 	}
 
 	/*
@@ -80,7 +83,7 @@ public class GameInputActor implements InputActor {
 	}
 
 	@Override
-	public void mouseBtn1UpAt(V2 location) {
+	public void mouseBtn2UpAt(V2 location) {
 	}
 
 	/*
@@ -97,6 +100,7 @@ public class GameInputActor implements InputActor {
 	 * @see com.avona.games.towerdefence.InputActor#mouseExited()
 	 */
 	public void mouseExited() {
+		game.draggingTower = false;
 	}
 
 	public void checkMouseOverTower(V2 location) {
