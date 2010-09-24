@@ -1,5 +1,6 @@
 package com.avona.games.towerdefence;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,7 +11,9 @@ import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
 import com.avona.games.towerdefence.particleCollidors.NearestEnemyCollidorPolicy;
 import com.avona.games.towerdefence.waveListeners.WaveListener;
 
-public class Game {
+public class Game implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	public List<Enemy> enemies = new LinkedList<Enemy>();
 	public List<Tower> towers = new LinkedList<Tower>();
 	public List<Particle> particles = new LinkedList<Particle>();

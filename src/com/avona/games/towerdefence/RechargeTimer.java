@@ -1,6 +1,8 @@
 package com.avona.games.towerdefence;
 
 public class RechargeTimer extends TimedCode {
+	private static final long serialVersionUID = 1L;
+
 	private TimedCodeManager timedCodeManager;
 	public float time;
 	public boolean ready = true;

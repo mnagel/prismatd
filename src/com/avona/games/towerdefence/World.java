@@ -1,8 +1,11 @@
 package com.avona.games.towerdefence;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class World {
+public class World implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	public final static float ORIGIN_X = 0;
 	public final static float WIDTH = 675;
 	public final static float ORIGIN_Y = 0;

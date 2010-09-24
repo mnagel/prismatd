@@ -1,6 +1,8 @@
 package com.avona.games.towerdefence;
 
 public class Wave extends TimedCode {
+	private static final long serialVersionUID = 1L;
+
 	private int level;
 	private boolean completed = false;
 	private Game game;

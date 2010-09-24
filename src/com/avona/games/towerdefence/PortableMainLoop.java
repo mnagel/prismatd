@@ -1,11 +1,14 @@
 package com.avona.games.towerdefence;
 
+import java.io.Serializable;
+
 import com.avona.games.towerdefence.inputActors.GameInputActor;
 import com.avona.games.towerdefence.inputActors.LayeredInputActor;
 import com.avona.games.towerdefence.inputActors.MenuInputActor;
 import com.avona.games.towerdefence.waveListeners.GrantInterestPerWave;
 
-public abstract class PortableMainLoop {
+public abstract class PortableMainLoop implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private static final float FIXED_TICK = 0.04f;
 
@@ -89,5 +92,4 @@ public abstract class PortableMainLoop {
 	}
 
 	public abstract void exit();
-
 }

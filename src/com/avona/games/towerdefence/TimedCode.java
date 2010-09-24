@@ -1,6 +1,9 @@
 package com.avona.games.towerdefence;
 
-public abstract class TimedCode {
+import java.io.Serializable;
+
+public abstract class TimedCode implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	public double startTime = 0.0f;
 

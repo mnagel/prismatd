@@ -5,6 +5,8 @@ import java.util.List;
 import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
 
 public class Particle extends MovingObject {
+	private static final long serialVersionUID = 1L;
+
 	public Enemy target;
 
 	protected int strength;

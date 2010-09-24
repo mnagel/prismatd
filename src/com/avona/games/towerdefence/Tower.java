@@ -6,6 +6,8 @@ import com.avona.games.towerdefence.enemySelection.EnemySelectionPolicy;
 import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
 
 public class Tower extends LocationObject {
+	private static final long serialVersionUID = 1L;
+	
 	public float range;
 	protected RechargeTimer timer;
 	public EnemySelectionPolicy enemySelectionPolicy;
