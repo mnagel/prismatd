@@ -55,11 +55,15 @@ public class GameInputActor implements InputActor {
 	 * games.towerdefence.V2)
 	 */
 	public void mouseBtn1DownAt(V2 location) {
+		if (game.selectedBuildTower == null)
+			return;
 		game.draggingTower = true;
 	}
 
 	@Override
 	public void mouseBtn1UpAt(V2 location) {
+		if (!game.draggingTower)
+			return;
 		game.draggingTower = false;
 
 		Tower t = game.closestTowerWithinRadius(location, mouse.radius);
