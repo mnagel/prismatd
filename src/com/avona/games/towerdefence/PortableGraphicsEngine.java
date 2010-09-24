@@ -101,26 +101,20 @@ public abstract class PortableGraphicsEngine {
 
 	protected void renderWorld() {
 		vertexBuffer.position(0);
-		colorBuffer.position(0);
-
-		vertexBuffer.put((float) (gameLayer.virtualRegion.x));
-		vertexBuffer.put((float) (gameLayer.virtualRegion.y));
-		// colorBuffer.put(new float[] { 0.35f, 0.82f, 0.90f, 1.0f });
-		colorBuffer.put(new float[] { 0.00f, 0.00f, 0.00f, 1.0f });
-
-		vertexBuffer.put((float) (gameLayer.virtualRegion.x));
-		vertexBuffer.put(0.0f);
-		colorBuffer.put(new float[] { 0.60f, 0.83f, 0.91f, 1.0f });
-
-		vertexBuffer.put(0.0f);
-		vertexBuffer.put((float) (gameLayer.virtualRegion.y));
-		colorBuffer.put(new float[] { 0.34f, 0.81f, 0.89f, 1.0f });
-
-		vertexBuffer.put(0.0f);
-		vertexBuffer.put(0.0f);
-		colorBuffer.put(new float[] { 0.37f, 0.84f, 0.92f, 1.0f });
-
+		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f,
+				gameLayer.virtualRegion.x, gameLayer.virtualRegion.y,
+				vertexBuffer);
 		vertexBuffer.position(0);
+
+		colorBuffer.position(0);
+		// Top right
+		colorBuffer.put(new float[] { 0.00f, 0.00f, 0.00f, 1.0f });
+		// Lower right
+		colorBuffer.put(new float[] { 0.60f, 0.83f, 0.91f, 1.0f });
+		// Top left
+		colorBuffer.put(new float[] { 0.34f, 0.81f, 0.89f, 1.0f });
+		// Lower left
+		colorBuffer.put(new float[] { 0.37f, 0.84f, 0.92f, 1.0f });
 		colorBuffer.position(0);
 
 		drawTriangleStrip(4, vertexBuffer, colorBuffer);
@@ -371,26 +365,20 @@ public abstract class PortableGraphicsEngine {
 
 	protected void renderMenu() {
 		vertexBuffer.position(0);
-		colorBuffer.position(0);
-
-		vertexBuffer.put((float) (menuLayer.virtualRegion.x));
-		vertexBuffer.put((float) (menuLayer.virtualRegion.y));
-		// colorBuffer.put(new float[] { 0.3568f, 0.1019f, 0.2117f, 1.0f });
-		colorBuffer.put(new float[] { 0.2314f, 0.4275f, 0.8980f, 1.0f });
-
-		vertexBuffer.put((float) (menuLayer.virtualRegion.x));
-		vertexBuffer.put((float) (0));
-		colorBuffer.put(new float[] { 0.4627f, 0.6863f, 0.9372f, 1.0f });
-
-		vertexBuffer.put((float) (0));
-		vertexBuffer.put((float) (menuLayer.virtualRegion.y));
-		colorBuffer.put(new float[] { 0.2314f, 0.4275f, 0.8980f, 1.0f });
-
-		vertexBuffer.put((float) (0));
-		vertexBuffer.put((float) (0));
-		colorBuffer.put(new float[] { 0.4627f, 0.6863f, 0.9372f, 1.0f });
-
+		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f,
+				menuLayer.virtualRegion.x, menuLayer.virtualRegion.y,
+				vertexBuffer);
 		vertexBuffer.position(0);
+
+		colorBuffer.position(0);
+		// Top right
+		colorBuffer.put(new float[] { 0.2314f, 0.4275f, 0.8980f, 1.0f });
+		// Lower right
+		colorBuffer.put(new float[] { 0.4627f, 0.6863f, 0.9372f, 1.0f });
+		// Top left
+		colorBuffer.put(new float[] { 0.2314f, 0.4275f, 0.8980f, 1.0f });
+		// Lower left
+		colorBuffer.put(new float[] { 0.4627f, 0.6863f, 0.9372f, 1.0f });
 		colorBuffer.position(0);
 
 		drawTriangleStrip(4, vertexBuffer, colorBuffer);
@@ -425,29 +413,23 @@ public abstract class PortableGraphicsEngine {
 		final float pg = (float) e.health / (float) e.maxHealth;
 		final float pr = 1.0f - pg;
 
-		final double width = 12;
+		final float width = 12;
 		final V2 location = e.location;
 
 		vertexBuffer.position(0);
-		colorBuffer.position(0);
-
-		vertexBuffer.put((float) (location.x + width / 2));
-		vertexBuffer.put((float) (location.y + width / 2));
-		colorBuffer.put(new float[] { pr * 1.0f, pg * 0.9f, 0.0f, 1.0f });
-
-		vertexBuffer.put((float) (location.x + width / 2));
-		vertexBuffer.put((float) (location.y - width / 2));
-		colorBuffer.put(new float[] { pr * 0.8f, pg * 0.6f, 0.0f, 1.0f });
-
-		vertexBuffer.put((float) (location.x - width / 2));
-		vertexBuffer.put((float) (location.y + width / 2));
-		colorBuffer.put(new float[] { pr * 0.6f, pg * 0.8f, 0.0f, 1.0f });
-
-		vertexBuffer.put((float) (location.x - width / 2));
-		vertexBuffer.put((float) (location.y - width / 2));
-		colorBuffer.put(new float[] { pr * 0.9f, pg * 1.0f, 0.0f, 1.0f });
-
+		GeometryHelper.boxVerticesAsTriangleStrip(location.x - width / 2,
+				location.y - width / 2, width, width, vertexBuffer);
 		vertexBuffer.position(0);
+
+		colorBuffer.position(0);
+		// Top right
+		colorBuffer.put(new float[] { pr * 1.0f, pg * 0.9f, 0.0f, 1.0f });
+		// Bottom right
+		colorBuffer.put(new float[] { pr * 0.8f, pg * 0.6f, 0.0f, 1.0f });
+		// Top left
+		colorBuffer.put(new float[] { pr * 0.6f, pg * 0.8f, 0.0f, 1.0f });
+		// Bottom left
+		colorBuffer.put(new float[] { pr * 0.9f, pg * 1.0f, 0.0f, 1.0f });
 		colorBuffer.position(0);
 
 		drawTriangleStrip(4, vertexBuffer, colorBuffer);
@@ -471,31 +453,17 @@ public abstract class PortableGraphicsEngine {
 						.getLevel() : -1, game.killed, game.escaped,
 				game.money, graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);
-		final double width = bounds.x + 4;
-		final double height = bounds.y + 2;
-
-		final float[] cols = new float[] { 0.0f, 0.0f, 0.0f, 0.2f };
+		final float width = bounds.x + 4;
+		final float height = bounds.y + 2;
 
 		vertexBuffer.position(0);
+		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f, width, height,
+				vertexBuffer);
+		vertexBuffer.position(0);
+
 		colorBuffer.position(0);
-
-		vertexBuffer.put((float) (width));
-		vertexBuffer.put((float) (height));
-		colorBuffer.put(cols);
-
-		vertexBuffer.put((float) (width));
-		vertexBuffer.put((float) (0));
-		colorBuffer.put(cols);
-
-		vertexBuffer.put((float) (0));
-		vertexBuffer.put((float) (height));
-		colorBuffer.put(cols);
-
-		vertexBuffer.put((float) (0));
-		vertexBuffer.put((float) (0));
-		colorBuffer.put(cols);
-
-		vertexBuffer.position(0);
+		GeometryHelper.boxColoursAsTriangleStrip(0.0f, 0.0f, 0.0f, 0.2f,
+				colorBuffer);
 		colorBuffer.position(0);
 
 		drawTriangleStrip(4, vertexBuffer, colorBuffer);
@@ -504,29 +472,23 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	public void renderTower(final Tower t) {
-		final double width = t.radius;
+		final float width = t.radius;
 		final V2 location = t.location;
 
 		vertexBuffer.position(0);
-		colorBuffer.position(0);
-
-		vertexBuffer.put((float) (location.x + width / 2));
-		vertexBuffer.put((float) (location.y + width / 2));
-		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.9f, 1.0f });
-
-		vertexBuffer.put((float) (location.x + width / 2));
-		vertexBuffer.put((float) (location.y - width / 2));
-		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.6f, 1.0f });
-
-		vertexBuffer.put((float) (location.x - width / 2));
-		vertexBuffer.put((float) (location.y + width / 2));
-		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.8f, 1.0f });
-
-		vertexBuffer.put((float) (location.x - width / 2));
-		vertexBuffer.put((float) (location.y - width / 2));
-		colorBuffer.put(new float[] { 0.0f, 0.0f, 1.0f, 1.0f });
-
+		GeometryHelper.boxVerticesAsTriangleStrip(location.x - width / 2,
+				location.y - width / 2, width, width, vertexBuffer);
 		vertexBuffer.position(0);
+
+		colorBuffer.position(0);
+		// Top right
+		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.9f, 1.0f });
+		// Bottom right
+		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.6f, 1.0f });
+		// Top left
+		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.8f, 1.0f });
+		// Bottom left
+		colorBuffer.put(new float[] { 0.0f, 0.0f, 1.0f, 1.0f });
 		colorBuffer.position(0);
 
 		drawTriangleStrip(4, vertexBuffer, colorBuffer);
@@ -536,29 +498,23 @@ public abstract class PortableGraphicsEngine {
 		if (p.isDead())
 			return;
 
-		final double width = 10;
+		final float width = 10;
 		final V2 location = p.location;
 
 		vertexBuffer.position(0);
-		colorBuffer.position(0);
-
-		vertexBuffer.put((float) (location.x + width / 2));
-		vertexBuffer.put((float) (location.y + width / 2));
-		colorBuffer.put(new float[] { 0.9f, 0.6f, 0.2f, 1.0f });
-
-		vertexBuffer.put((float) (location.x + width / 2));
-		vertexBuffer.put((float) (location.y - width / 2));
-		colorBuffer.put(new float[] { 0.6f, 0.9f, 0.2f, 1.0f });
-
-		vertexBuffer.put((float) (location.x - width / 2));
-		vertexBuffer.put((float) (location.y + width / 2));
-		colorBuffer.put(new float[] { 0.8f, 1.0f, 0.2f, 1.0f });
-
-		vertexBuffer.put((float) (location.x - width / 2));
-		vertexBuffer.put((float) (location.y - width / 2));
-		colorBuffer.put(new float[] { 1.0f, 0.8f, 0.2f, 1.0f });
-
+		GeometryHelper.boxVerticesAsTriangleStrip(location.x - width / 2,
+				location.y - width / 2, width, width, vertexBuffer);
 		vertexBuffer.position(0);
+
+		colorBuffer.position(0);
+		// Top right
+		colorBuffer.put(new float[] { 0.9f, 0.6f, 0.2f, 1.0f });
+		// Bottom right
+		colorBuffer.put(new float[] { 0.6f, 0.9f, 0.2f, 1.0f });
+		// Top left
+		colorBuffer.put(new float[] { 0.8f, 1.0f, 0.2f, 1.0f });
+		// Bottom left
+		colorBuffer.put(new float[] { 1.0f, 0.8f, 0.2f, 1.0f });
 		colorBuffer.position(0);
 
 		drawTriangleStrip(4, vertexBuffer, colorBuffer);
