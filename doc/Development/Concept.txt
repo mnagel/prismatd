@@ -1,0 +1,70 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2010-09-24T20:50:04.623495
+
+====== Concept ======
+
+===== Theming =====
+* das ganze Spiel inkl. Konzepten, Prinzpien, Grafiken, ... soll zum Titel "Prisma TD" passen
+
+passend:
+• Prisma, Farbe, Licht, Strahl
+• einfache geometrische Elemente: Linie, Dreieck, Quadrat, Polygon, Kreis, Stern, Pfeil
+
+betroffen:
+* GUI / Grafiken
+* Namen / Beschriftungen
+* Spiel-Konzepte
+* Doku
+* Code
+
+
+===== Umsetzung des Konzepts =====
+
+
+==== Gegner <<< FIXME: umbennenen (Irrlichter?) ====
+bislang
+ein Hitpoint-Stand
+
+angedacht
+drei Werte: Rot/Grün/Blau
+
+ein Gegner stirbt, sobald er entweder kein Rot/Grün/Blau meh "übrig hat" oder komplett Rot/Grün/Blau angemalt ist
+bei einfachen Gegnern ist das ein oder-oder-oder, bei mittleren ein 2-aus-3 und bei schweren kann es ein und-und-und sein
+
+Gegner können verschieden vorkoloriert starten und sind dann unterschiedlich zu knacken
+
+Levelling: Gegner werden schneller/stärker/mehr/2-aus-3-iger
+
+LATER: es gibt unterschiedliche Gegner (erkennbar an der Form (Quadrat, Kreis, Dreieck)), die unterschiedlich schnell sind und möglicherweise weitere assozierte Special-Skills haben (mehr Geld/Farbe wert, ...)
+
+Für Alpha: verschieden vorkolorierte Gegner mit 1-aus-3
+
+==== Türme / Geschosse <<< FIXME: umbenennen (Laser?) ====
+bislang
+Gegner verursachen Schaden (ziehen Hitpoints ab)
+
+angedacht
+Gegner rauben ein/zwei/drei Farbkonten
+
+Levelling: Türme schießen schneller/strärker/weiter
+
+LATER: es gibt unterschiedliche Geschoss-Arten (Machine-Gun-Geschoss, Lenkraketen-Geschoss, Splash-Damage-Geschoss)
+es gibt weitere Effekte (Brems-Geschoss, Farb-Manipulations-Geschoss, ...)
+Türme können XP sammeln (weitere Währung / weiterer Freiheitsgrad, daher vertagt)
+
+Für Alpha: 1 Geschoss-Art, verschiedene Farben, keine Levels
+
+==== Geld <<< FIXME: umbenennen (Farbe?) ====
+bislang
+es gibt Geld
+
+angedacht
+es gibt drei verschiedene Arten von Geld/Farben
+
+Türme kosten pro Farbe einen bestimmten Betrag, Monster geben pro Farbe einen bestimmten Betrag
+
+Für Alpha: Drei Sorten Geld
+
+===== ToDo =====
+[ ] Hintergrund-Geschichte, warum die Gegner dort hin wollen und warum man sie wie stoppen muss, und was sonst passiert (nie-wieder-bunt (Bildschirm schwarz/weiss))
