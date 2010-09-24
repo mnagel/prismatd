@@ -1,12 +1,13 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.inputActors;
 
-public class GameInputActor implements InputActor {
+import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.V2;
+
+public class MenuInputActor implements InputActor {
 	private Game game;
-	private Mouse mouse;
 
-	public GameInputActor(Game game, Mouse mouse) {
+	public MenuInputActor(Game game) {
 		this.game = game;
-		this.mouse = mouse;
 	}
 
 	/*
@@ -49,13 +50,7 @@ public class GameInputActor implements InputActor {
 	 * games.towerdefence.V2)
 	 */
 	public void pressedMouseBtn1At(V2 location) {
-		Tower t = game.closestTowerWithinRadius(location, mouse.radius);
-		if (t == null) {
-			if (game.canBuildTowerAt(location)) {
-				game.addTowerAt(location);
-			}
-		}
-		checkMouseOverTower(location);
+		game.startWave();
 	}
 
 	/*
@@ -66,7 +61,6 @@ public class GameInputActor implements InputActor {
 	 * games.towerdefence.V2)
 	 */
 	public void pressedMouseBtn2At(V2 location) {
-		game.startWave();
 	}
 
 	/*
@@ -85,16 +79,6 @@ public class GameInputActor implements InputActor {
 	public void mouseExited() {
 	}
 
-	public void checkMouseOverTower(V2 location) {
-		final Tower t = game.closestTowerWithinRadius(location, mouse.radius);
-		if (t != null) {
-			game.selectedObject = t;
-			return;
-		}
-		final Enemy e = game.closestEnemyWithinRadius(location, mouse.radius);
-		game.selectedObject = e;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -103,7 +87,6 @@ public class GameInputActor implements InputActor {
 	 * towerdefence.V2)
 	 */
 	public void mouseMovedTo(V2 location) {
-		checkMouseOverTower(location);
 	}
 
 	/*

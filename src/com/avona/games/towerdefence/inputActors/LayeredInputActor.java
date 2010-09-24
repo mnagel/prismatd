@@ -1,6 +1,12 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.inputActors;
 
 import java.util.HashMap;
+
+import com.avona.games.towerdefence.Layer;
+import com.avona.games.towerdefence.LayerHerder;
+import com.avona.games.towerdefence.Mouse;
+import com.avona.games.towerdefence.PortableMainLoop;
+import com.avona.games.towerdefence.V2;
 
 public class LayeredInputActor implements InputActor {
 	private PortableMainLoop ml;

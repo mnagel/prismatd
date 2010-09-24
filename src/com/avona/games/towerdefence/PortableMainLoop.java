@@ -1,5 +1,10 @@
 package com.avona.games.towerdefence;
 
+import com.avona.games.towerdefence.inputActors.GameInputActor;
+import com.avona.games.towerdefence.inputActors.LayeredInputActor;
+import com.avona.games.towerdefence.inputActors.MenuInputActor;
+import com.avona.games.towerdefence.waveListeners.GrantInterestPerWave;
+
 public abstract class PortableMainLoop {
 
 	private static final float FIXED_TICK = 0.04f;

@@ -2,6 +2,8 @@ package com.avona.games.towerdefence;
 
 import java.util.List;
 
+import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
+
 public class Particle extends MovingObject {
 	public Enemy target;
 

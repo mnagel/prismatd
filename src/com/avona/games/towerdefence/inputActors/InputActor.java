@@ -1,4 +1,6 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.inputActors;
+
+import com.avona.games.towerdefence.V2;
 
 public interface InputActor {
 

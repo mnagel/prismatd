@@ -2,6 +2,9 @@ package com.avona.games.towerdefence;
 
 import java.util.List;
 
+import com.avona.games.towerdefence.enemySelection.EnemySelectionPolicy;
+import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
+
 public class Tower extends LocationObject {
 	public float range;
 	protected RechargeTimer timer;

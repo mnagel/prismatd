@@ -3,6 +3,8 @@ package com.avona.games.towerdefence;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.avona.games.towerdefence.enemyEventListeners.EnemyEventListener;
+
 public class Enemy extends MovingObject {
 	public V2 target;
 	public int health;

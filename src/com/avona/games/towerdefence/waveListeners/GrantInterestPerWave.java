@@ -1,4 +1,6 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.waveListeners;
+
+import com.avona.games.towerdefence.Game;
 
 public class GrantInterestPerWave implements WaveListener {
 	private Game game;
