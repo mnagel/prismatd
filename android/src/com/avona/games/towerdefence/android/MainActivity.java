@@ -3,56 +3,98 @@ package com.avona.games.towerdefence.android;
 import com.avona.games.towerdefence.Util;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.os.Vibrator;
 import android.os.PowerManager.WakeLock;
 
 public class MainActivity extends Activity {
 	private MainLoop ml;
+	protected WakeLock wl;
+	boolean paused = true; // onResume will start us
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Util.log("instance: onCreate");
+
+		final Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+		final PowerManager powerManager = (PowerManager)getSystemService(Context.POWER_SERVICE);
+		wl = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "td-game");
 
 		if (savedInstanceState == null) {
-			Util.log("creating fresh instance");
 		} else {
-			// TODO Restore game state (using Bundles).
-			Util.log("would have restored instance");
+			// TODO: Restore.
+			Util.log("restoring instance");
 		}
-		
-		pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
-		wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "td-game");
-		
-		setContentView(R.layout.main);
-
-		ml = new MainLoop(this);
+		ml = new MainLoop(this, vibrator);
+		setContentView(ml.surfaceView);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		ml.inputActor.onPause();
-		ml.surfaceView.onPause();
-		wl.release();
+		Util.log("instance: onPause");
+		pause();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Util.log("instance: onResume");
+		resume();
+	}
+
+	private void pause() {
+		if (paused)
+			return;
+
+		ml.inputActor.onPause();
+		ml.surfaceView.onPause();
+		wl.release();
+
+		paused = true;
+	}
+
+	private void resume() {
+		if (!paused)
+			return;
+
 		ml.inputActor.onResume();
 		ml.surfaceView.onResume();
 		wl.acquire();
+
+		paused = false;
 	}
-	
-	protected PowerManager pm;
-	protected WakeLock wl;
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		// TODO Store the game state (using Bundles)
-		Util.log("supposed to save instance state");
+	public void onBackPressed() {
+		pause();
+
+		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+		alertBuilder.setCancelable(true);
+		alertBuilder.setPositiveButton("Continue", new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				resume();
+			}
+		});
+		alertBuilder.setNegativeButton("Quit", new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				finish();
+			}
+		});
+
+		final AlertDialog alertDialog = alertBuilder.create();
+		alertDialog.setMessage("Do you really want to quit Prisma TD?");
+		alertDialog.show();
 	}
 }
+
