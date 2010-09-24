@@ -1,5 +1,7 @@
 package com.avona.games.towerdefence;
 
+import java.util.List;
+
 public class Particle extends MovingObject {
 	public Enemy target;
 
@@ -10,9 +12,13 @@ public class Particle extends MovingObject {
 	protected boolean dead = false;
 	protected double counter = 0.0;
 
-	public Particle(int level, V2 location, Enemy target) {
+	private ParticleCollidorPolicy collidorPolicy;
+
+	public Particle(int level, V2 location, Enemy target,
+			ParticleCollidorPolicy collidorPolicy) {
 		this.location = new V2(location);
 		this.target = target;
+		this.collidorPolicy = collidorPolicy;
 
 		this.velocity.setLength(150 + 2 * (level - 1));
 		strength = 10 + 2 * (level - 1);
@@ -58,5 +64,9 @@ public class Particle extends MovingObject {
 
 		recalculateTargetVector();
 		location.addWeighted(velocity, dt);
+	}
+
+	public void collideWithEnemies(final List<Enemy> enemies, final float dt) {
+		collidorPolicy.collideParticleWithEnemies(this, enemies, dt);
 	}
 }

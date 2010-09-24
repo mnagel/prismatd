@@ -53,21 +53,13 @@ public class Game {
 	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(
 			this);
 
-	public List<EnemyParticleCollidor> enemyParticleCollidors = new LinkedList<EnemyParticleCollidor>();
-
 	public Game(TimeTrack gameTime, TimedCodeManager timedCodeManager) {
 		this.gameTime = gameTime;
 		this.timedCodeManager = timedCodeManager;
 		world = new World();
 
-		EnemyParticleCollidor onlyTargetEnemyColl = new OnlyTargetEnemyParticleCollidor();
-		enemyParticleCollidors.add(onlyTargetEnemyColl);
-
-		EnemyParticleCollidor nearestEnemyParticleCollidor = new NearestEnemyParticleCollidor();
-		enemyParticleCollidors.add(nearestEnemyParticleCollidor);
-
 		selectedBuildTower = new Tower(timedCodeManager,
-				new NearestEnemyPolicy(), onlyTargetEnemyColl, 1);
+				new NearestEnemyPolicy(), new NearestEnemyCollidorPolicy(), 1);
 	}
 
 	public boolean canBuildTowerAt(V2 location) {
@@ -148,9 +140,19 @@ public class Game {
 		Iterator<Particle> piter = particles.iterator();
 		while (piter.hasNext()) {
 			final Particle p = piter.next();
+
+			// Advance particle.
 			p.step(dt);
 			if (p.isDead()) {
 				piter.remove();
+				continue;
+			}
+
+			// Collide particle with enemies.
+			p.collideWithEnemies(enemies, dt);
+			if (p.isDead()) {
+				piter.remove();
+				continue;
 			}
 		}
 
@@ -168,13 +170,6 @@ public class Game {
 					particles.add(p);
 				}
 			}
-		}
-
-		/**
-		 * See whether any particles collided with any enemies.
-		 */
-		for (EnemyParticleCollidor epc : enemyParticleCollidors) {
-			epc.collideParticlesWithEnemies(enemies, dt);
 		}
 
 		/**

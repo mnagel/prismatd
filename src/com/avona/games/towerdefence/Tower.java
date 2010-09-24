@@ -6,16 +6,16 @@ public class Tower extends LocationObject {
 	public float range;
 	protected RechargeTimer timer;
 	public EnemySelectionPolicy enemySelectionPolicy;
-	public EnemyParticleCollidor enemyParticleCollidor;
+	public ParticleCollidorPolicy enemyParticleCollidorPolicy;
 	public int price;
 	public int level;
 
 	public Tower(TimedCodeManager timedCodeManager,
 			EnemySelectionPolicy enemySelectionPolicy,
-			EnemyParticleCollidor enemyParticleCollidor, int level) {
+			ParticleCollidorPolicy enemyParticleCollidorPolicy, int level) {
 		super();
 		this.enemySelectionPolicy = enemySelectionPolicy;
-		this.enemyParticleCollidor = enemyParticleCollidor;
+		this.enemyParticleCollidorPolicy = enemyParticleCollidorPolicy;
 		this.level = level;
 		timer = new RechargeTimer(timedCodeManager, 0.3f);
 		range = 75 + 2 * (level - 1);
@@ -26,7 +26,7 @@ public class Tower extends LocationObject {
 	public Tower(final Tower t) {
 		super(t);
 		enemySelectionPolicy = t.enemySelectionPolicy;
-		enemyParticleCollidor = t.enemyParticleCollidor;
+		enemyParticleCollidorPolicy = t.enemyParticleCollidorPolicy;
 		timer = t.timer.copy();
 		level = t.level;
 		range = t.range;
@@ -41,8 +41,8 @@ public class Tower extends LocationObject {
 	public Particle shootTowards(Enemy e) {
 		if (timer.ready) {
 			timer.rearm();
-			Particle p = new Particle(level, location, e);
-			enemyParticleCollidor.registerEnemyVsParticle(e, p);
+			Particle p = new Particle(level, location, e,
+					enemyParticleCollidorPolicy);
 			return p;
 		} else {
 			return null;
