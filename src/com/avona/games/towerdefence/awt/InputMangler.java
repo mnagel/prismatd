@@ -62,13 +62,19 @@ public class InputMangler implements KeyListener, MouseListener,
 	public void mousePressed(MouseEvent e) {
 		final V2 location = eventLocation(e);
 		if (e.getButton() == MouseEvent.BUTTON1) {
-			actor.pressedMouseBtn1At(location);
+			actor.mouseBtn1DownAt(location);
 		} else {
-			actor.pressedMouseBtn2At(location);
+			actor.mouseBtn2DownAt(location);
 		}
 	}
 
 	public void mouseReleased(MouseEvent e) {
+		final V2 location = eventLocation(e);
+		if (e.getButton() == MouseEvent.BUTTON1) {
+			actor.mouseBtn1UpAt(location);
+		} else {
+			actor.mouseBtn2UpAt(location);
+		}
 	}
 
 	public void mouseEntered(MouseEvent e) {
