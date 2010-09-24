@@ -4,6 +4,8 @@ import java.nio.CharBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
+import com.avona.games.towerdefence.gfx.GeometryHelper;
+
 public abstract class PortableGraphicsEngine {
 
 	public static final int DEFAULT_HEIGHT = 480;

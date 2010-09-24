@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.gfx;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
