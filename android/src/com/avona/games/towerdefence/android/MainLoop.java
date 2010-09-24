@@ -25,12 +25,17 @@ public class MainLoop extends PortableMainLoop {
 
 		setupInputActors();
 
-		surfaceView = new InputForwardingGLSurfaceView(activity, inputActor, ge, (Vibrator)activity.getSystemService(Context.VIBRATOR_SERVICE));
+		eventListener.listeners
+				.add(new AndroidEventListener((Vibrator) activity
+						.getSystemService(Context.VIBRATOR_SERVICE)));
+
+		surfaceView = new InputForwardingGLSurfaceView(activity, inputActor, ge);
 		final GameRenderProxy r = new GameRenderProxy(this, graphicsEngine);
 		surfaceView.setRenderer(r);
-		
-		FrameLayout v = (FrameLayout)activity.findViewById(R.id.gl_frame);
-		v.addView(surfaceView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+
+		FrameLayout v = (FrameLayout) activity.findViewById(R.id.gl_frame);
+		v.addView(surfaceView, new LayoutParams(LayoutParams.FILL_PARENT,
+				LayoutParams.FILL_PARENT));
 		v.setVisibility(View.VISIBLE);
 	}
 
