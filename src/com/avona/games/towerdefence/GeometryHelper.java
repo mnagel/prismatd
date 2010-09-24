@@ -1,8 +1,28 @@
 package com.avona.games.towerdefence;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.CharBuffer;
 import java.nio.FloatBuffer;
 
 public class GeometryHelper {
+	public final static int FLOAT_SIZE = 4;
+	public final static int CHAR_SIZE = 2;
+
+	public static FloatBuffer allocateFloatBuffer(final int size) {
+		return ByteBuffer.allocateDirect(FLOAT_SIZE * size).order(
+				ByteOrder.nativeOrder()).asFloatBuffer();
+	}
+
+	public static CharBuffer allocateCharBuffer(final int size) {
+		return ByteBuffer.allocateDirect(CHAR_SIZE * size).order(
+				ByteOrder.nativeOrder()).asCharBuffer();
+	}
+
+	public static CharBuffer allocateTriangleIndexBuffer(final int triangles) {
+		return allocateCharBuffer(3 * triangles);
+	}
+
 	/**
 	 * Constructs the vertices for a box in triangle strip form.
 	 * 

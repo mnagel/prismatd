@@ -1,7 +1,5 @@
 package com.avona.games.towerdefence;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
@@ -35,8 +33,8 @@ public abstract class PortableGraphicsEngine {
 		menuLayer = layerHerder
 				.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
 
-		vertexBuffer = allocateFloatBuffer(102 * 2);
-		colorBuffer = allocateFloatBuffer(102 * 4);
+		vertexBuffer = GeometryHelper.allocateFloatBuffer(102 * 2);
+		colorBuffer = GeometryHelper.allocateFloatBuffer(102 * 4);
 	}
 
 	public abstract void prepareTransformationForLayer(Layer layer);
@@ -398,12 +396,6 @@ public abstract class PortableGraphicsEngine {
 		colorBuffer.position(0);
 
 		drawLine(2, vertexBuffer, colorBuffer);
-	}
-
-	protected FloatBuffer allocateFloatBuffer(final int entries) {
-		final ByteBuffer byteBuf = ByteBuffer.allocateDirect(entries * 4);
-		byteBuf.order(ByteOrder.nativeOrder());
-		return byteBuf.asFloatBuffer();
 	}
 
 	public void renderEnemy(final Enemy e) {
