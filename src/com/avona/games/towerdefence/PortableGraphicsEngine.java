@@ -460,14 +460,11 @@ public abstract class PortableGraphicsEngine {
 						e.level, e.health, e.maxHealth);
 			}
 		}
-		final String fpsString = String
-				.format(
-						"%swave %d | %d killed | %d escaped | %d left building | $%d | fps %.2f",
-						towerString,
-						game.currentWave != null ? game.currentWave.getLevel()
-								: -1, game.killed, game.escaped,
-						game.leftBuilding, game.money,
-						graphicsTickRater.tickRate);
+		final String fpsString = String.format(
+				"%swave %d | %d killed | %d escaped $%d | fps %.2f",
+				towerString, game.currentWave != null ? game.currentWave
+						.getLevel() : -1, game.killed, game.escaped,
+				game.money, graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);
 		final double width = bounds.x + 4;
 		final double height = bounds.y + 2;

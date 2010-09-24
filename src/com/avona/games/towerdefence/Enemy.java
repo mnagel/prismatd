@@ -12,7 +12,6 @@ public class Enemy extends MovingObject {
 	public int level;
 	public int waypointId = 1;
 	public boolean escaped = false;
-	public boolean left = false;
 	public int worth;
 	public List<EnemyEventListener> eventListeners = new LinkedList<EnemyEventListener>();
 

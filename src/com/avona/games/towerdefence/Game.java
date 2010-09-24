@@ -38,12 +38,6 @@ public class Game {
 	public int money = 25;
 
 	/**
-	 * Debugging value that counts the number of enemies that have left the game
-	 * area.
-	 */
-	public int leftBuilding = 0;
-
-	/**
 	 * Which type of tower to build - if any.
 	 */
 	public Tower selectedBuildTower = null;
@@ -197,20 +191,6 @@ public class Game {
 					eiter.remove();
 					continue;
 				}
-			}
-
-			if (e.location.x < World.ORIGIN_X || e.location.y < World.ORIGIN_Y
-					|| e.location.x > World.WIDTH
-					|| e.location.y > World.HEIGHT) {
-				if (!e.left) {
-					e.left = true;
-					leftBuilding += 1;
-					Util.log("enemy " + e + " has left the building");
-				}
-			} else if (e.left) {
-				e.left = false;
-				leftBuilding -= 1;
-				Util.log("enemy " + e + " has reentered the building!");
 			}
 		}
 	}
