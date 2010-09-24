@@ -4,24 +4,28 @@ import com.avona.games.towerdefence.V2;
 
 public interface InputActor {
 
-	public abstract void pressedEscapeKey();
+	public void pressedEscapeKey();
 
-	public abstract void onPause();
+	public void onPause();
 
-	public abstract void onResume();
+	public void onResume();
 
-	public abstract void pressedSpaceKey();
+	public void pressedSpaceKey();
 
-	public abstract void pressedMouseBtn1At(V2 location);
+	public void mouseBtn1DownAt(V2 location);
 
-	public abstract void pressedMouseBtn2At(V2 location);
+	public void mouseBtn1UpAt(V2 location);
 
-	public abstract void mouseEntered();
+	public void mouseBtn2DownAt(V2 location);
 
-	public abstract void mouseExited();
+	public void mouseBtn2UpAt(V2 location);
 
-	public abstract void mouseMovedTo(V2 location);
+	public void mouseEntered();
 
-	public abstract void mouseDraggedTo(V2 location);
+	public void mouseExited();
+
+	public void mouseMovedTo(V2 location);
+
+	public void mouseDraggedTo(V2 location);
 
 }

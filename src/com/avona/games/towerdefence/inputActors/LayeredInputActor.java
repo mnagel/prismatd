@@ -64,7 +64,7 @@ public class LayeredInputActor implements InputActor {
 	 * com.avona.games.towerdefence.InputActor#pressedMouseBtn1At(com.avona.
 	 * games.towerdefence.V2)
 	 */
-	public void pressedMouseBtn1At(V2 location) {
+	public void mouseBtn1DownAt(V2 location) {
 		final Layer layer = layerHerder.findLayerWithinPoint(location);
 		if (layer == null)
 			return;
@@ -72,7 +72,19 @@ public class LayeredInputActor implements InputActor {
 		final InputActor inputActor = inputLayerMap.get(layer);
 		if (inputActor == null)
 			return;
-		inputActor.pressedMouseBtn1At(location);
+		inputActor.mouseBtn1DownAt(location);
+	}
+
+	@Override
+	public void mouseBtn1UpAt(V2 location) {
+		final Layer layer = layerHerder.findLayerWithinPoint(location);
+		if (layer == null)
+			return;
+		location = layer.convertToVirtual(location);
+		final InputActor inputActor = inputLayerMap.get(layer);
+		if (inputActor == null)
+			return;
+		inputActor.mouseBtn1UpAt(location);
 	}
 
 	/*
@@ -82,7 +94,7 @@ public class LayeredInputActor implements InputActor {
 	 * com.avona.games.towerdefence.InputActor#pressedMouseBtn2At(com.avona.
 	 * games.towerdefence.V2)
 	 */
-	public void pressedMouseBtn2At(V2 location) {
+	public void mouseBtn2DownAt(V2 location) {
 		final Layer layer = layerHerder.findLayerWithinPoint(location);
 		if (layer == null)
 			return;
@@ -90,7 +102,19 @@ public class LayeredInputActor implements InputActor {
 		final InputActor inputActor = inputLayerMap.get(layer);
 		if (inputActor == null)
 			return;
-		inputActor.pressedMouseBtn2At(location);
+		inputActor.mouseBtn2DownAt(location);
+	}
+
+	@Override
+	public void mouseBtn2UpAt(V2 location) {
+		final Layer layer = layerHerder.findLayerWithinPoint(location);
+		if (layer == null)
+			return;
+		location = layer.convertToVirtual(location);
+		final InputActor inputActor = inputLayerMap.get(layer);
+		if (inputActor == null)
+			return;
+		inputActor.mouseBtn2UpAt(location);
 	}
 
 	/*
