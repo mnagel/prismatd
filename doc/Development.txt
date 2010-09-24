@@ -7,7 +7,6 @@ Creation-Date: 2010-09-22T14:44:56.111643
 ===== interesting Links =====
 * how to check out source code and docu: [[Development:CheckingOut]]
 * how the code is structured: [[Development:ControlFlow]]
-* how to generate the website: 
-[[Development:CreateWebsite]]
-• external dependencies: [[Development:PackageRequirements]]
+* how to generate the website: [[Development:CreateWebsite]]
+* external dependencies: [[Development:PackageRequirements]]
 * units used within the code: [[Development:Units]]

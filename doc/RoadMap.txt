@@ -63,8 +63,8 @@ Creation-Date: 2010-09-06T09:54:39.867461
 ===== Grafik-Engine-Stub =====
 [ ] Prototyp einer Grafik-Engine, die Grafik ausgibt und entsprechenden Status hält
 	[*] alle Dinge malen
-	[*] desktop: Ausgabe eines Ingame-Debug-Strings als Text auf einem HUD-Layer
-	[ ] android: Ausgabe eines Ingame-Debug-Strings als Text auf einem HUD-Layer
+	[*] Desktop: Ausgabe eines Ingame-Debug-Strings als Text auf einem HUD-Layer
+	[ ] Android: Ausgabe eines Ingame-Debug-Strings als Text auf einem HUD-Layer
 [ ] Objekte um gfx_tick(dt :: float) erweitern
 [ ] Objekte um gfx-related Eigenschaft erweitern
 	[ ] Farbe
@@ -127,7 +127,34 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [*] Punkte
 	[ ] Highscore
 [*] verschiedene Seitenverhältnisse / Screengrößen / ...
-[ ] Game Over 
+[ ] Game Over
+
+===== Theming =====
+[ ] Umstellen auf Prisma TD
+	[ ] im Spiel / der GUI
+	[ ] in der Doku
+	[ ] im Code
+[ ] einführen der drei Schadensklassen
+[ ] zwei verschiedene Türme um das Konzept auszudrücken
+[ ] zwei verschiedene Gegner um das Konzept auszudrücken
+[ ] [[Development:Concept]] weiterentwickeln
+[ ] [[Development:Concept]] allgemein+verbindlich absegnen
+[ ] [[Development:Concept]] umsetzen soweit mit "Alpha" markiert
+
+===== Menü =====
+[ ] erste sinnvolle Version des Menüs implementieren
+[ ] Überlegung + Mockup, was alles ins Menü soll
+
+===== Usability =====
+[ ] Probespiel, ob ein "minimal useful product" vorliegt
+[ ] Killer-Usability-Probleme benennen
+	[ ] Pause / Resume / State sichern auf Android
+	[ ] interner Getting-Started Splash Screen
+		[ ] klicke hier um Turm zu bauen
+		[ ] klicke hier um Welle zu starten
+		[ ] stoppe die Monster vor hier
+		[ ] Tipp: baue den ersten Turm hier
+	[ ] Neustart des Spiels / Levels
 
 ===== Alpha Release =====
 [ ] Source / Binary - Download für Linux
@@ -135,59 +162,17 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] APK für Android
 [ ] Installations-Anleitung
 [ ] externe How-To-Play-Anleitung mit Bildern schreiben
-[ ] interner Getting-Started Splash Screen
-	[ ] klicke hier um Turm zu bauen
-	[ ] klicke hier um Welle zu starten
-	[ ] stoppe die Monster vor hier
-	[ ] Tipp: baue den ersten Turm hier
 [ ] Dokumentation nachziehen / sortieren
-[ ] Lizenz-Header
-[ ] Artwork (Launcher Icon) verbessern
-[ ] Programm-Name (wiedererkennbar, auf Android-Screen darstellbar)
+[ ] Lizenz-Header in Quelldateien
+[*] Artwork (Launcher Icon) verbessern
+[*] Programm-Name (wiedererkennbar, auf Android-Screen darstellbar)
 [ ] TODOs im Code durchgehen
 [*] nur eine absolut einzige Version von Korrdinaten-Tupel verwenden keine Mischung von Point2d, Vector2d, Velocity, ...
 [*] Issue Tracker (launchpad?, trac?, sd?)
-[ ] Pause / Resume / State sichern auf android
 [ ] Zim-Export als Webseite
-[ ] Neustart des Spiels / Levels
+	[ ] wo hosten
 [ ] grobes Trial-and-Error Balancing
-[ ] Weichenstellung Themeing / Branding / Alleinstellung
-
-===== Roadmap =====
-[ ] Code-Geschwindigkeit Profiling, insbes. für Android
-[ ] Festlegen, wie das fertige Spiel "aussehen" soll
-	[ ] welche Monster
-	[ ] welche Türme
-	[ ] welche Geschosse
-	[ ] welche "Effekte"
-		[ ] Schaden verursachen
-		[ ] bremsen
-		[ ] schwächen
-		[ ] ...
-		[ ] (Schaden, Tempoänderung, Tod/Geld-Auszahlung, Objekt entfernen ...)
-		
-[ ] welche Level soll es geben / wodurch unterscheiden sich Level
-	[ ] wie werden Level erstellt / definiert
-		[ ] Dateiformat
-		[ ] Editor?
-		
-[ ] wie funktioniert Tower-Bau / Tower-Upgrades
-	[ ] was für ein Geld / Credits / XP - System soll verwendet werden
-[ ] Target-Auswahl beim Feuern
-
-[ ] Ingame-Tutorial
-[ ] Ingame-Menü
-
-[ ] Specials
-
-[ ] Business Plan
-[ ] Planung Beta Release / sonstige Previews
-[ ] was tun mit Android-Devices, die außer Touch auch noch eine Tastatur haben?
-
-[ ] Spiel-Interaktion (will ich bauen, will ich updaten, ...)
-
-[ ] professionelle Grafiken -- Linien-Malen-Mit-OpenGL (vgl. Vector TD) vs Bunte-Bildchen-Bitmap-Texturen
-
-[ ] Themeing / Branding / Alleinstellung
-
-[ ] tragfähiges Balancing-Konzept
+[*] Weichenstellung Theming / Branding / Alleinstellung
+[ ] Liste der (Alpha) Release Critical Bugs erstellen
+	[x] ...
+[ ] Release Critical Bugs fixen
