@@ -23,6 +23,8 @@ public class Game implements Serializable {
 	public TimeTrack gameTime;
 	public TimedCodeManager timedCodeManager;
 
+	public EventListener eventListener;
+
 	public World world;
 
 	/**
@@ -45,6 +47,8 @@ public class Game implements Serializable {
 	 */
 	public Tower selectedBuildTower = null;
 
+	public boolean draggingTower = false;
+
 	/**
 	 * Currently selected, existing tower. We will typically show the properties
 	 * of that tower.
@@ -56,9 +60,11 @@ public class Game implements Serializable {
 	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(
 			this);
 
-	public Game(TimeTrack gameTime, TimedCodeManager timedCodeManager) {
+	public Game(TimeTrack gameTime, TimedCodeManager timedCodeManager,
+			EventListener eventListener) {
 		this.gameTime = gameTime;
 		this.timedCodeManager = timedCodeManager;
+		this.eventListener = eventListener;
 		world = new World();
 
 		selectedBuildTower = new Tower(timedCodeManager,
@@ -74,6 +80,7 @@ public class Game implements Serializable {
 		t.location = new V2(location);
 		money -= t.price;
 		towers.add(t);
+		eventListener.onBuildTower(t);
 	}
 
 	public void startWave() {

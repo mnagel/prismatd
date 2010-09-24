@@ -84,6 +84,11 @@ public abstract class PortableGraphicsEngine {
 						1.0f, 1.0f);
 			}
 		}
+		if (game.draggingTower && game.selectedBuildTower != null) {
+			final V2 l = gameLayer.convertToVirtual(mouse.location);
+			final Tower t = game.selectedBuildTower;
+			drawCircle(l.x, l.y, t.range, 1.0f, 1.0f, 1.0f, 1.0f);
+		}
 		resetTransformation();
 
 		prepareTransformationForLayer(menuLayer);

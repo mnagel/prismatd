@@ -49,8 +49,12 @@ public class MenuInputActor implements InputActor {
 	 * com.avona.games.towerdefence.InputActor#pressedMouseBtn1At(com.avona.
 	 * games.towerdefence.V2)
 	 */
-	public void pressedMouseBtn1At(V2 location) {
+	public void mouseBtn1DownAt(V2 location) {
 		game.startWave();
+	}
+
+	@Override
+	public void mouseBtn1UpAt(V2 location) {
 	}
 
 	/*
@@ -60,7 +64,11 @@ public class MenuInputActor implements InputActor {
 	 * com.avona.games.towerdefence.InputActor#pressedMouseBtn2At(com.avona.
 	 * games.towerdefence.V2)
 	 */
-	public void pressedMouseBtn2At(V2 location) {
+	public void mouseBtn2DownAt(V2 location) {
+	}
+
+	@Override
+	public void mouseBtn2UpAt(V2 location) {
 	}
 
 	/*

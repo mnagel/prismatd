@@ -20,13 +20,14 @@ public abstract class PortableMainLoop implements Serializable {
 	public LayeredInputActor inputActor;
 	public Mouse mouse = new Mouse();
 	public LayerHerder layerHerder = new LayerHerder();
+	public EventDistributor eventListener = new EventDistributor();
 	protected TimeTrack gameTime = new TimeTrack();
 	protected TimeTrack graphicsTime = new TimeTrack();
 	protected TimedCodeManager timedCodeManager = new TimedCodeManager();
 	private float gameTicks = 0;
 
 	public PortableMainLoop() {
-		game = new Game(gameTime, timedCodeManager);
+		game = new Game(gameTime, timedCodeManager, eventListener);
 
 		Layer gameLayer = new Layer();
 		gameLayer.virtualRegion.x = World.WIDTH;
