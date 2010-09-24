@@ -66,4 +66,50 @@ public class GeometryHelper {
 		buffer.put(cols);
 		buffer.put(cols);
 	}
+
+	/**
+	 * Constructs the vertices for a box as triangles in vertex array form.
+	 * 
+	 * @param x
+	 *            X-coordinate of the left corners of the box.
+	 * @param y
+	 *            Y-coordinate of the lower corners of the box.
+	 * @param width
+	 *            Width of the box.
+	 * @param height
+	 *            Height of the box.
+	 * @param coordBuffer
+	 *            Buffer into which the vertex coordinates are inserted.
+	 * @param indexBuffer
+	 *            Target buffer into which the vertices are inserted.
+	 */
+	public static void boxVerticesAsTriangles(final float x, final float y,
+			final float width, final float height,
+			final FloatBuffer coordBuffer, final CharBuffer indexBuffer) {
+		final float left = x;
+		final float right = x + width;
+		final float bottom = y;
+		final float top = y + height;
+
+		final int baseIdx = coordBuffer.position() / 2;
+		coordBuffer.put(left);
+		coordBuffer.put(top);
+
+		coordBuffer.put(right);
+		coordBuffer.put(top);
+
+		coordBuffer.put(left);
+		coordBuffer.put(bottom);
+
+		coordBuffer.put(right);
+		coordBuffer.put(bottom);
+		
+		indexBuffer.put((char) (baseIdx + 0));
+		indexBuffer.put((char) (baseIdx + 1));
+		indexBuffer.put((char) (baseIdx + 2));
+
+		indexBuffer.put((char) (baseIdx + 2));
+		indexBuffer.put((char) (baseIdx + 1));
+		indexBuffer.put((char) (baseIdx + 3));
+	}
 }

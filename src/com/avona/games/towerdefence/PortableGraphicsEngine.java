@@ -1,5 +1,6 @@
 package com.avona.games.towerdefence;
 
+import java.nio.CharBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
@@ -51,6 +52,10 @@ public abstract class PortableGraphicsEngine {
 
 	protected abstract void drawTriangleFan(final int vertices,
 			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer);
+
+	protected abstract void drawTriangles(final int numTriangles,
+			final FloatBuffer coordBuffer, final FloatBuffer colorBuffer,
+			final CharBuffer indexBuffer);
 
 	public abstract void drawText(final String text, final double x,
 			final double y, final float colR, final float colG,

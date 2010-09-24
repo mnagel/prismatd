@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.nio.CharBuffer;
 import java.nio.FloatBuffer;
 
 import javax.media.opengl.GL;
@@ -99,6 +100,23 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 		gl.glEnableClientState(GL.GL_COLOR_ARRAY);
 
 		gl.glDrawArrays(GL.GL_TRIANGLE_STRIP, 0, vertices);
+
+		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
+		gl.glDisableClientState(GL.GL_COLOR_ARRAY);
+	}
+
+	protected void drawTriangles(final int numTriangles,
+			final FloatBuffer coordBuffer, final FloatBuffer colorBuffer,
+			final CharBuffer indexBuffer) {
+
+		gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
+		gl.glVertexPointer(2, GL.GL_FLOAT, 0, coordBuffer);
+
+		gl.glEnableClientState(GL.GL_COLOR_ARRAY);
+		gl.glColorPointer(4, GL.GL_FLOAT, 0, colorBuffer);
+
+		gl.glDrawElements(GL.GL_TRIANGLES, numTriangles * 3,
+				GL.GL_UNSIGNED_SHORT, indexBuffer);
 
 		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL.GL_COLOR_ARRAY);
