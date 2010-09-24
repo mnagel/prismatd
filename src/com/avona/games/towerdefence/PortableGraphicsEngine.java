@@ -422,7 +422,7 @@ public abstract class PortableGraphicsEngine {
 		if (e.isDead())
 			return;
 
-		final float pg = 0.01f * (float) e.health;
+		final float pg = (float) e.health / (float) e.maxHealth;
 		final float pr = 1.0f - pg;
 
 		final double width = 12;
