@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
 
 		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 		alertBuilder.setCancelable(true);
-		alertBuilder.setPositiveButton("Continue", new OnClickListener() {
+		alertBuilder.setPositiveButton("Continue Playing", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				resume();
@@ -92,7 +92,7 @@ public class MainActivity extends Activity {
 		});
 
 		final AlertDialog alertDialog = alertBuilder.create();
-		alertDialog.setMessage("Do you really want to quit Prisma TD?");
+		alertDialog.setMessage("Do you really want to quit Prisma TD?\nYour progress will be lost!");
 		alertDialog.show();
 	}
 }
