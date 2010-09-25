@@ -1,3 +1,5 @@
+*.jar
+
 bin/
 html/
 web/
