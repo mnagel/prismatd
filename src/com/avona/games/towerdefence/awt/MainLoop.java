@@ -1,8 +1,5 @@
 package com.avona.games.towerdefence.awt;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
