@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: forbid towers on the route
+desc: players should not be able to place towers on the route/track/white line
+type: :bugfix
+component: core
+release: 
+reporter: Michael Nagel <m.nagel@devzero.de>
+status: :unstarted
+disposition: 
+creation_time: 2010-09-25 19:18:59.949284 Z
+references: []
+
+id: 1e1cf368b0a1aec8b3800115353406100c6ded8f
+log_events: 
+- - 2010-09-25 19:19:02.341201 Z
+  - Michael Nagel <m.nagel@devzero.de>
+  - created
+  - ""
