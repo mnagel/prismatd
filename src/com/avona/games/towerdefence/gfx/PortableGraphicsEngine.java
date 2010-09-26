@@ -1,10 +1,20 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.gfx;
 
 import java.nio.CharBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
-import com.avona.games.towerdefence.gfx.GeometryHelper;
+import com.avona.games.towerdefence.Enemy;
+import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.Layer;
+import com.avona.games.towerdefence.LayerHerder;
+import com.avona.games.towerdefence.Mouse;
+import com.avona.games.towerdefence.Particle;
+import com.avona.games.towerdefence.PortableMainLoop;
+import com.avona.games.towerdefence.TickRater;
+import com.avona.games.towerdefence.TimeTrack;
+import com.avona.games.towerdefence.Tower;
+import com.avona.games.towerdefence.V2;
 
 public abstract class PortableGraphicsEngine {
 
