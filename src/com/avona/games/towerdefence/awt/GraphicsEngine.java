@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.nio.CharBuffer;
 import java.nio.FloatBuffer;
 
 import javax.media.opengl.GL;
@@ -22,6 +21,7 @@ import com.avona.games.towerdefence.Mouse;
 import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
+import com.avona.games.towerdefence.gfx.VertexArray;
 import com.sun.opengl.util.j2d.TextRenderer;
 
 /**
@@ -91,39 +91,6 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 	}
 
 	@Override
-	public void drawTriangleStrip(final int vertices,
-			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer) {
-		gl.glVertexPointer(2, GL.GL_FLOAT, 0, vertexBuffer);
-		gl.glColorPointer(4, GL.GL_FLOAT, 0, colorBuffer);
-
-		gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
-		gl.glEnableClientState(GL.GL_COLOR_ARRAY);
-
-		gl.glDrawArrays(GL.GL_TRIANGLE_STRIP, 0, vertices);
-
-		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
-		gl.glDisableClientState(GL.GL_COLOR_ARRAY);
-	}
-
-	@Override
-	protected void drawTriangles(final int numTriangles,
-			final FloatBuffer coordBuffer, final FloatBuffer colorBuffer,
-			final CharBuffer indexBuffer) {
-
-		gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
-		gl.glVertexPointer(2, GL.GL_FLOAT, 0, coordBuffer);
-
-		gl.glEnableClientState(GL.GL_COLOR_ARRAY);
-		gl.glColorPointer(4, GL.GL_FLOAT, 0, colorBuffer);
-
-		gl.glDrawElements(GL.GL_TRIANGLES, numTriangles * 3,
-				GL.GL_UNSIGNED_SHORT, indexBuffer);
-
-		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
-		gl.glDisableClientState(GL.GL_COLOR_ARRAY);
-	}
-
-	@Override
 	public void display(GLAutoDrawable drawable) {
 	}
 
@@ -177,32 +144,33 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 	}
 
 	@Override
-	protected void drawLine(int vertices, FloatBuffer vertexBuffer,
-			FloatBuffer colorBuffer) {
-		gl.glVertexPointer(2, GL.GL_FLOAT, 0, vertexBuffer);
-		gl.glColorPointer(4, GL.GL_FLOAT, 0, colorBuffer);
-
+	protected void drawVertexArray(final VertexArray array) {
+		assert array.coordBuffer != null;
 		gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
-		gl.glEnableClientState(GL.GL_COLOR_ARRAY);
+		gl.glVertexPointer(2, GL.GL_FLOAT, 0, array.coordBuffer);
 
-		gl.glDrawArrays(GL.GL_LINE_STRIP, 0, vertices);
+		if (array.hasColour) {
+			assert array.colourBuffer != null;
+			gl.glEnableClientState(GL.GL_COLOR_ARRAY);
+			gl.glColorPointer(4, GL.GL_FLOAT, 0, array.colourBuffer);
+		}
+
+		if (array.mode == VertexArray.Mode.TRIANGLE_FAN) {
+			gl.glDrawArrays(GL.GL_TRIANGLE_FAN, 0, array.numElements);
+		} else if (array.mode == VertexArray.Mode.TRIANGLE_STRIP) {
+			gl.glDrawArrays(GL.GL_TRIANGLE_STRIP, 0, array.numElements);
+		} else if (array.mode == VertexArray.Mode.TRIANGLES) {
+			assert array.indexBuffer != null;
+			gl.glDrawElements(GL.GL_TRIANGLES, array.numElements,
+					GL.GL_UNSIGNED_SHORT, array.indexBuffer);
+		} else if (array.mode == VertexArray.Mode.LINE_STRIP) {
+			gl.glDrawArrays(GL.GL_LINE_STRIP, 0, array.numElements);
+		}
+
+		if (array.hasColour) {
+			gl.glDisableClientState(GL.GL_COLOR_ARRAY);
+		}
 
 		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
-		gl.glDisableClientState(GL.GL_COLOR_ARRAY);
-	}
-
-	@Override
-	protected void drawTriangleFan(int vertices, FloatBuffer vertexBuffer,
-			FloatBuffer colorBuffer) {
-		gl.glVertexPointer(2, GL.GL_FLOAT, 0, vertexBuffer);
-		gl.glColorPointer(4, GL.GL_FLOAT, 0, colorBuffer);
-
-		gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
-		gl.glEnableClientState(GL.GL_COLOR_ARRAY);
-
-		gl.glDrawArrays(GL.GL_TRIANGLE_FAN, 0, vertices);
-
-		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
-		gl.glDisableClientState(GL.GL_COLOR_ARRAY);
 	}
 }

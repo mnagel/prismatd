@@ -1,6 +1,5 @@
 package com.avona.games.towerdefence.gfx;
 
-import java.nio.CharBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
@@ -56,18 +55,7 @@ public abstract class PortableGraphicsEngine {
 
 	protected abstract void prepareScreen();
 
-	protected abstract void drawTriangleStrip(final int vertices,
-			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer);
-
-	protected abstract void drawLine(final int vertices,
-			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer);
-
-	protected abstract void drawTriangleFan(final int vertices,
-			final FloatBuffer vertexBuffer, final FloatBuffer colorBuffer);
-
-	protected abstract void drawTriangles(final int numTriangles,
-			final FloatBuffer coordBuffer, final FloatBuffer colorBuffer,
-			final CharBuffer indexBuffer);
+	protected abstract void drawVertexArray(final VertexArray array);
 
 	public abstract void drawText(final String text, final double x,
 			final double y, final float colR, final float colG,
@@ -132,7 +120,13 @@ public abstract class PortableGraphicsEngine {
 		colorBuffer.put(new float[] { 0.37f, 0.84f, 0.92f, 1.0f });
 		colorBuffer.position(0);
 
-		drawTriangleStrip(4, vertexBuffer, colorBuffer);
+		VertexArray va = new VertexArray();
+		va.coordBuffer = vertexBuffer;
+		va.colourBuffer = colorBuffer;
+		va.hasColour = true;
+		va.numElements = 4;
+		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+		drawVertexArray(va);
 
 		// Draw the waypoints... top first...
 		assert (vertexBuffer.capacity() >= game.world.waypoints.size() * 2 * 4);
@@ -167,7 +161,13 @@ public abstract class PortableGraphicsEngine {
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
 
-		drawTriangleStrip(vertices, vertexBuffer, colorBuffer);
+		va = new VertexArray();
+		va.coordBuffer = vertexBuffer;
+		va.colourBuffer = colorBuffer;
+		va.hasColour = true;
+		va.numElements = vertices;
+		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+		drawVertexArray(va);
 	}
 
 	private void putWaypointVertices(final ArrayList<V2> waypoints,
@@ -396,7 +396,13 @@ public abstract class PortableGraphicsEngine {
 		colorBuffer.put(new float[] { 0.4627f, 0.6863f, 0.9372f, 1.0f });
 		colorBuffer.position(0);
 
-		drawTriangleStrip(4, vertexBuffer, colorBuffer);
+		VertexArray va = new VertexArray();
+		va.coordBuffer = vertexBuffer;
+		va.colourBuffer = colorBuffer;
+		va.hasColour = true;
+		va.numElements = 4;
+		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+		drawVertexArray(va);
 
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
@@ -412,7 +418,13 @@ public abstract class PortableGraphicsEngine {
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
 
-		drawLine(2, vertexBuffer, colorBuffer);
+		va = new VertexArray();
+		va.coordBuffer = vertexBuffer;
+		va.colourBuffer = colorBuffer;
+		va.hasColour = true;
+		va.numElements = 2;
+		va.mode = VertexArray.Mode.LINE_STRIP;
+		drawVertexArray(va);
 	}
 
 	public void renderEnemy(final Enemy e) {
@@ -441,7 +453,13 @@ public abstract class PortableGraphicsEngine {
 		colorBuffer.put(new float[] { pr * 0.9f, pg * 1.0f, 0.0f, 1.0f });
 		colorBuffer.position(0);
 
-		drawTriangleStrip(4, vertexBuffer, colorBuffer);
+		VertexArray va = new VertexArray();
+		va.coordBuffer = vertexBuffer;
+		va.colourBuffer = colorBuffer;
+		va.hasColour = true;
+		va.numElements = 4;
+		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+		drawVertexArray(va);
 	}
 
 	public void renderStats() {
@@ -475,7 +493,13 @@ public abstract class PortableGraphicsEngine {
 				colorBuffer);
 		colorBuffer.position(0);
 
-		drawTriangleStrip(4, vertexBuffer, colorBuffer);
+		VertexArray va = new VertexArray();
+		va.coordBuffer = vertexBuffer;
+		va.colourBuffer = colorBuffer;
+		va.hasColour = true;
+		va.numElements = 4;
+		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+		drawVertexArray(va);
 
 		drawText(fpsString, 2, 4, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
@@ -500,7 +524,13 @@ public abstract class PortableGraphicsEngine {
 		colorBuffer.put(new float[] { 0.0f, 0.0f, 1.0f, 1.0f });
 		colorBuffer.position(0);
 
-		drawTriangleStrip(4, vertexBuffer, colorBuffer);
+		VertexArray va = new VertexArray();
+		va.coordBuffer = vertexBuffer;
+		va.colourBuffer = colorBuffer;
+		va.hasColour = true;
+		va.numElements = 4;
+		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+		drawVertexArray(va);
 	}
 
 	public void renderParticle(final Particle p) {
@@ -526,7 +556,13 @@ public abstract class PortableGraphicsEngine {
 		colorBuffer.put(new float[] { 1.0f, 0.8f, 0.2f, 1.0f });
 		colorBuffer.position(0);
 
-		drawTriangleStrip(4, vertexBuffer, colorBuffer);
+		VertexArray va = new VertexArray();
+		va.coordBuffer = vertexBuffer;
+		va.colourBuffer = colorBuffer;
+		va.hasColour = true;
+		va.numElements = 4;
+		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+		drawVertexArray(va);
 	}
 
 	public void renderMouse() {
@@ -611,7 +647,13 @@ public abstract class PortableGraphicsEngine {
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
 
-		drawLine(101, vertexBuffer, colorBuffer);
+		VertexArray va = new VertexArray();
+		va.coordBuffer = vertexBuffer;
+		va.colourBuffer = colorBuffer;
+		va.hasColour = true;
+		va.numElements = 101;
+		va.mode = VertexArray.Mode.LINE_STRIP;
+		drawVertexArray(va);
 	}
 
 	public void drawFilledCircle(final float x, final float y,
@@ -635,6 +677,12 @@ public abstract class PortableGraphicsEngine {
 		vertexBuffer.position(0);
 		colorBuffer.position(0);
 
-		drawTriangleFan(101, vertexBuffer, colorBuffer);
+		VertexArray va = new VertexArray();
+		va.coordBuffer = vertexBuffer;
+		va.colourBuffer = colorBuffer;
+		va.hasColour = true;
+		va.numElements = 101;
+		va.mode = VertexArray.Mode.TRIANGLE_FAN;
+		drawVertexArray(va);
 	}
 }

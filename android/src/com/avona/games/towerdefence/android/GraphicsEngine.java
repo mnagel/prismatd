@@ -1,8 +1,5 @@
 package com.avona.games.towerdefence.android;
 
-import java.nio.CharBuffer;
-import java.nio.FloatBuffer;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -18,6 +15,7 @@ import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
+import com.avona.games.towerdefence.gfx.VertexArray;
 import com.example.google.LabelMaker;
 
 /**
@@ -79,20 +77,6 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 	}
 
-	protected void drawTriangleStrip(final int vertices,
-			final FloatBuffer vertexBuffer, final FloatBuffer colourBuffer) {
-		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertexBuffer);
-		gl.glColorPointer(4, GL10.GL_FLOAT, 0, colourBuffer);
-
-		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-
-		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices);
-
-		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
-	}
-
 	public void drawText(final String text, final double x, final double y,
 			final float colR, final float colG, final float colB,
 			final float colA) {
@@ -128,49 +112,33 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 	}
 
 	@Override
-	protected void drawLine(int vertices, FloatBuffer vertexBuffer,
-			FloatBuffer colorBuffer) {
-		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertexBuffer);
-		gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
-
+	protected void drawVertexArray(final VertexArray array) {
+		assert array.coordBuffer != null;
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, array.coordBuffer);
 
-		gl.glDrawArrays(GL10.GL_LINE_STRIP, 0, vertices);
+		if (array.hasColour) {
+			assert array.colourBuffer != null;
+			gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+			gl.glColorPointer(4, GL10.GL_FLOAT, 0, array.colourBuffer);
+		}
+
+		if (array.mode == VertexArray.Mode.TRIANGLE_FAN) {
+			gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, array.numElements);
+		} else if (array.mode == VertexArray.Mode.TRIANGLE_STRIP) {
+			gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, array.numElements);
+		} else if (array.mode == VertexArray.Mode.TRIANGLES) {
+			assert array.indexBuffer != null;
+			gl.glDrawElements(GL10.GL_TRIANGLES, array.numElements,
+					GL10.GL_UNSIGNED_SHORT, array.indexBuffer);
+		} else if (array.mode == VertexArray.Mode.LINE_STRIP) {
+			gl.glDrawArrays(GL10.GL_LINE_STRIP, 0, array.numElements);
+		}
+
+		if (array.hasColour) {
+			gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+		}
 
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
-	}
-
-	@Override
-	protected void drawTriangleFan(int vertices, FloatBuffer vertexBuffer,
-			FloatBuffer colorBuffer) {
-		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, vertexBuffer);
-		gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
-
-		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-
-		gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, vertices);
-
-		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
-	}
-
-	@Override
-	protected void drawTriangles(int numTriangles, FloatBuffer coordBuffer,
-			FloatBuffer colorBuffer, CharBuffer indexBuffer) {
-
-		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, coordBuffer);
-
-		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-		gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
-
-		gl.glDrawElements(GL10.GL_TRIANGLES, numTriangles * 3,
-				GL10.GL_UNSIGNED_SHORT, indexBuffer);
-
-		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 	}
 }
