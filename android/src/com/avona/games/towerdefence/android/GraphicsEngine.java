@@ -1,5 +1,6 @@
 package com.avona.games.towerdefence.android;
 
+import java.nio.CharBuffer;
 import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -151,6 +152,23 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
 		gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, vertices);
+
+		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+	}
+
+	@Override
+	protected void drawTriangles(int numTriangles, FloatBuffer coordBuffer,
+			FloatBuffer colorBuffer, CharBuffer indexBuffer) {
+
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, coordBuffer);
+
+		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+		gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
+
+		gl.glDrawElements(GL10.GL_TRIANGLES, numTriangles * 3,
+				GL10.GL_UNSIGNED_SHORT, indexBuffer);
 
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL10.GL_COLOR_ARRAY);

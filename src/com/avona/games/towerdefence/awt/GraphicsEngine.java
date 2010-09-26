@@ -105,6 +105,7 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 		gl.glDisableClientState(GL.GL_COLOR_ARRAY);
 	}
 
+	@Override
 	protected void drawTriangles(final int numTriangles,
 			final FloatBuffer coordBuffer, final FloatBuffer colorBuffer,
 			final CharBuffer indexBuffer) {
