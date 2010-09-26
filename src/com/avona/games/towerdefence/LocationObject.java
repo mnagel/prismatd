@@ -1,10 +1,14 @@
 package com.avona.games.towerdefence;
 
+import java.io.Serializable;
+
 /**
  * The base class of all non-moving and moving objects on the screen. It
  * provides a point location and a simple radius for collision detection.
  */
-public abstract class LocationObject {
+public abstract class LocationObject implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	public V2 location;
 	public float radius;
 

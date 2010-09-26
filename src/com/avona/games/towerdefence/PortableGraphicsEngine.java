@@ -447,7 +447,7 @@ public abstract class PortableGraphicsEngine {
 			}
 		}
 		final String fpsString = String.format(
-				"%swave %d | %d killed | %d escaped $%d | fps %.2f",
+				"%swave %d | %d killed | %d escaped | $%d | fps %.2f",
 				towerString, game.currentWave != null ? game.currentWave
 						.getLevel() : -1, game.killed, game.escaped,
 				game.money, graphicsTickRater.tickRate);

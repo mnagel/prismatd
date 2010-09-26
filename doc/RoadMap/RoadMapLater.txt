@@ -1,0 +1,44 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2010-09-24T20:33:49.070854
+
+====== RoadMapLater ======
+
+===== Roadmap =====
+[ ] Code-Geschwindigkeit Profiling, insbes. für Android
+[x] Festlegen, wie das fertige Spiel "aussehen" soll -- [[Development:Concept]]
+	[x] welche Monster
+	[x] welche Türme
+	[x] welche Geschosse
+	[x] welche "Effekte"
+		[x] Schaden verursachen
+		[x] bremsen
+		[x] schwächen
+		[x] ...
+		[x] (Schaden, Tempoänderung, Tod/Geld-Auszahlung, Objekt entfernen ...)
+		
+[ ] welche Level soll es geben / wodurch unterscheiden sich Level
+	[ ] wie werden Level erstellt / definiert
+		[ ] Dateiformat
+		[ ] Editor?
+		
+[x] wie funktioniert Tower-Bau / Tower-Upgrades -- [[Development:Concept]]
+	[x] was für ein Geld / Credits / XP - System soll verwendet werden -- [[Development:Concept]]
+[ ] Target-Auswahl beim Feuern
+
+[x] Ingame-Tutorial -- vorverlegt
+[x] Ingame-Menü -- vorverlegt
+
+[*] Specials -- [[Development:Concept]]
+
+[ ] Business Plan
+[ ] Planung Beta Release / sonstige Previews
+[ ] was tun mit Android-Devices, die außer Touch auch noch eine Tastatur haben?
+
+[x] Spiel-Interaktion (will ich bauen, will ich updaten, ...) -- ???
+
+[ ] professionelle Grafiken -- Linien-Malen-Mit-OpenGL (vgl. Vector TD) vs Bunte-Bildchen-Bitmap-Texturen
+
+[x] Themeing / Branding / Alleinstellung -- siehe [[Development:Concept]]
+
+[ ] tragfähiges Balancing-Konzept

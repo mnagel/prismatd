@@ -1,12 +1,14 @@
 package com.avona.games.towerdefence;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class TimedCodeManager {
-
+public class TimedCodeManager implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private List<TimedCode> timedCode = new LinkedList<TimedCode>();
 	private double clock = 0.0;
 

@@ -6,6 +6,7 @@ import com.avona.games.towerdefence.Enemy;
 import com.avona.games.towerdefence.Tower;
 
 public class NearestEnemyPolicy implements EnemySelectionPolicy {
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Enemy findSuitableEnemy(Tower t, List<Enemy> enemies) {

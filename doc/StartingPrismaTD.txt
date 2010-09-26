@@ -1,0 +1,21 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2010-09-25T20:58:54.429178
+
+====== StartingPrismaTD ======
+
+===== On Linux (precompiled jar) =====
+* double click "prismatd.ubuntu.sh"
+OR
+• launch "prismatd.ubuntu.sh" from within a terminal]
+
+
+===== On Android =====
+* click the "Prisma TD" icon on your Home Screen
+OR
+• click the "Prisma TD" icon in your app list
+
+
+===== From Within Eclipse =====
+* just press the "Run" button
+

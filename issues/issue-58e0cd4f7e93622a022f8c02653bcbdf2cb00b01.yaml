@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: text background too narrow
+desc: on android the gray background behind the status text should rise higher
+type: :bugfix
+component: android
+release: 
+reporter: Michael Nagel <m.nagel@devzero.de>
+status: :unstarted
+disposition: 
+creation_time: 2010-09-25 19:19:52.877306 Z
+references: []
+
+id: 58e0cd4f7e93622a022f8c02653bcbdf2cb00b01
+log_events: 
+- - 2010-09-25 19:19:54.549173 Z
+  - Michael Nagel <m.nagel@devzero.de>
+  - created
+  - ""

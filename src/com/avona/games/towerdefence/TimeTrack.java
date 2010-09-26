@@ -1,6 +1,10 @@
 package com.avona.games.towerdefence;
 
-public class TimeTrack {
+import java.io.Serializable;
+
+public class TimeTrack implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	public float clock = 0;
 	public float tick = 0;
 

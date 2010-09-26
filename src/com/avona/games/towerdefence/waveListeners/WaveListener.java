@@ -1,5 +1,7 @@
 package com.avona.games.towerdefence.waveListeners;
 
-public interface WaveListener {
+import java.io.Serializable;
+
+public interface WaveListener extends Serializable {
 	public void onWave(int level);
 }

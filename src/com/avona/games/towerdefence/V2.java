@@ -1,6 +1,10 @@
 package com.avona.games.towerdefence;
 
-public final class V2 {
+import java.io.Serializable;
+
+public final class V2 implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	public static final V2 ZERO = new V2();
 
 	public float x = 0.0f;

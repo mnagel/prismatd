@@ -8,7 +8,9 @@ import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
 
 public class MainLoop extends PortableMainLoop implements GLEventListener {
-	final private int EXPECTED_FPS = 60;
+	private static final long serialVersionUID = 1L;
+
+	final private int EXPECTED_FPS = 30;
 
 	public InputMangler input;
 	private Animator animator;

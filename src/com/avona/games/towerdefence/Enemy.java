@@ -6,6 +6,8 @@ import java.util.List;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyEventListener;
 
 public class Enemy extends MovingObject {
+	private static final long serialVersionUID = 1L;
+
 	public V2 target;
 	public int health;
 	public int maxHealth;
