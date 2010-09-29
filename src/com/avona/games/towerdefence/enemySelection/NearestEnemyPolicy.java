@@ -2,8 +2,9 @@ package com.avona.games.towerdefence.enemySelection;
 
 import java.util.List;
 
-import com.avona.games.towerdefence.Enemy;
-import com.avona.games.towerdefence.Tower;
+import Tower.Tower;
+
+import com.avona.games.towerdefence.Enemy.Enemy;
 
 public class NearestEnemyPolicy implements EnemySelectionPolicy {
 	private static final long serialVersionUID = 1L;

@@ -2,17 +2,19 @@ package com.avona.games.towerdefence.gfx;
 
 import java.util.ArrayList;
 
-import com.avona.games.towerdefence.Enemy;
+import Tower.Tower;
+
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.LayerHerder;
 import com.avona.games.towerdefence.Mouse;
-import com.avona.games.towerdefence.Particle;
 import com.avona.games.towerdefence.PortableMainLoop;
+import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.TickRater;
 import com.avona.games.towerdefence.TimeTrack;
-import com.avona.games.towerdefence.Tower;
 import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.Enemy.Enemy;
+import com.avona.games.towerdefence.Particle.Particle;
 
 public abstract class PortableGraphicsEngine {
 
@@ -416,16 +418,8 @@ public abstract class PortableGraphicsEngine {
 	public void renderEnemy(final Enemy e) {
 		if (e.isDead())
 			return;
-
-		float lightness = (e.lifeR + e.lifeG + e.lifeB) * 1.0f
-				/ (e.lifeMaxR + e.lifeMaxG + e.lifeMaxB);
-		final float colgesfac = 1.0f / (e.lifeR + e.lifeG + e.lifeB);
-
-		lightness = 1;
-
-		final float cr = e.lifeR * colgesfac * lightness;
-		final float cg = e.lifeG * colgesfac * lightness;
-		final float cb = e.lifeB * colgesfac * lightness;
+		
+		RGB gfxcol = e.life.normalized();
 
 		final float width = 12;
 		final V2 location = e.location;
@@ -441,13 +435,13 @@ public abstract class PortableGraphicsEngine {
 				location.y - width / 2, width, width, va);
 
 		// Top right
-		va.addColour(cr * 1.0f, cg * 0.9f, cb * 0.9f, 1.0f);
+		va.addColour(gfxcol.R * 1.0f, gfxcol.G * 0.9f, gfxcol.B * 0.9f, 1.0f);
 		// Bottom right
-		va.addColour(cr * 0.8f, cg * 0.6f, cb * 0.6f, 1.0f);
+		va.addColour(gfxcol.R * 0.8f, gfxcol.G * 0.6f, gfxcol.B * 0.6f, 1.0f);
 		// Top left
-		va.addColour(cr * 0.6f, cg * 0.8f, cb * 0.8f, 1.0f);
+		va.addColour(gfxcol.R * 0.6f, gfxcol.G * 0.8f, gfxcol.B * 0.8f, 1.0f);
 		// Bottom left
-		va.addColour(cr * 0.9f, cg * 1.0f, cb * 1.0f, 1.0f);
+		va.addColour(gfxcol.R * 0.9f, gfxcol.G * 1.0f, gfxcol.B * 1.0f, 1.0f);
 
 		drawVertexArray(va);
 
@@ -464,8 +458,8 @@ public abstract class PortableGraphicsEngine {
 				final Enemy e = (Enemy) game.selectedObject;
 				towerString = String.format(
 						"enemy lvl %d, health R%d G%d B%d  /  R%d G%d B%d | ",
-						e.level, e.lifeR, e.lifeG, e.lifeB, e.lifeMaxR,
-						e.lifeMaxG, e.lifeMaxB);
+						e.level, e.life.R, e.life.G, e.life.B, e.maxLife.R,
+						e.maxLife.G, e.maxLife.B);
 			}
 		}
 		final String fpsString = String.format(
@@ -499,24 +493,7 @@ public abstract class PortableGraphicsEngine {
 		final float width = t.radius;
 		final V2 location = t.location;
 
-		// final float lightness = 1;
-		// final float colgesfac = 1.0f / (t.strengthR + t.strengthG +
-		// t.strengthB);
-
-		// final float cr = p.strengthR * colgesfac * lightness;
-		// final float cg = p.strengthG * colgesfac * lightness;
-		// final float cb = p.strengthB * colgesfac * lightness;
-
-		float cr, cg, cb;
-		cr = cg = cb = 0;
-
-		if (t.colors == 0) {
-			cr = 1;
-		} else if (t.colors == 1) {
-			cg = 1;
-		} else {
-			cb = 1;
-		}
+		RGB gfxcol = t.strength.normalized();
 
 		VertexArray va = new VertexArray();
 		va.hasColour = true;
@@ -529,13 +506,13 @@ public abstract class PortableGraphicsEngine {
 				location.y - width / 2, width, width, va);
 
 		// Top right
-		va.addColour(cr * 1.0f, cg * 0.9f, cb * 0.9f, 1.0f);
+		va.addColour(gfxcol.R * 1.0f, gfxcol.G * 0.9f, gfxcol.B * 0.9f, 1.0f);
 		// Bottom right
-		va.addColour(cr * 0.8f, cg * 0.6f, cb * 0.6f, 1.0f);
+		va.addColour(gfxcol.R * 0.8f, gfxcol.G * 0.6f, gfxcol.B * 0.6f, 1.0f);
 		// Top left
-		va.addColour(cr * 0.6f, cg * 0.8f, cb * 0.8f, 1.0f);
+		va.addColour(gfxcol.R * 0.6f, gfxcol.G * 0.8f, gfxcol.B * 0.8f, 1.0f);
 		// Bottom left
-		va.addColour(cr * 0.9f, cg * 1.0f, cb * 1.0f, 1.0f);
+		va.addColour(gfxcol.R * 0.9f, gfxcol.G * 1.0f, gfxcol.B * 1.0f, 1.0f);
 
 		drawVertexArray(va);
 
@@ -546,12 +523,7 @@ public abstract class PortableGraphicsEngine {
 		if (p.isDead())
 			return;
 
-		final float lightness = 1;
-		final float colgesfac = 1.0f / (p.strengthR + p.strengthG + p.strengthB);
-
-		final float cr = p.strengthR * colgesfac * lightness;
-		final float cg = p.strengthG * colgesfac * lightness;
-		final float cb = p.strengthB * colgesfac * lightness;
+		RGB gfxcol = p.strength.normalized();
 
 		final float width = 10;
 		final V2 location = p.location;
@@ -568,13 +540,13 @@ public abstract class PortableGraphicsEngine {
 				location.y - width / 2, width, width, va);
 
 		// Top right
-		va.addColour(cr * 1.0f, cg * 0.9f, cb * 0.9f, 1.0f);
+		va.addColour(gfxcol.R * 1.0f, gfxcol.G * 0.9f, gfxcol.B * 0.9f, 1.0f);
 		// Bottom right
-		va.addColour(cr * 0.8f, cg * 0.6f, cb * 0.6f, 1.0f);
+		va.addColour(gfxcol.R * 0.8f, gfxcol.G * 0.6f, gfxcol.B * 0.6f, 1.0f);
 		// Top left
-		va.addColour(cr * 0.6f, cg * 0.8f, cb * 0.8f, 1.0f);
+		va.addColour(gfxcol.R * 0.6f, gfxcol.G * 0.8f, gfxcol.B * 0.8f, 1.0f);
 		// Bottom left
-		va.addColour(cr * 0.9f, cg * 1.0f, cb * 1.0f, 1.0f);
+		va.addColour(gfxcol.R * 0.9f, gfxcol.G * 1.0f, gfxcol.B * 1.0f, 1.0f);
 
 		drawVertexArray(va);
 

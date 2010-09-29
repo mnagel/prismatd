@@ -3,6 +3,8 @@ package com.avona.games.towerdefence;
 import java.util.LinkedList;
 import java.util.List;
 
+import Tower.Tower;
+
 public class EventDistributor implements EventListener {
 
 	public List<EventListener> listeners = new LinkedList<EventListener>();

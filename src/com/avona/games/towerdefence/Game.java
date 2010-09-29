@@ -5,6 +5,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import Tower.EmeraldPrisma;
+import Tower.Tower;
+
+import com.avona.games.towerdefence.Enemy.Enemy;
+import com.avona.games.towerdefence.Enemy.LimeLizard;
+import com.avona.games.towerdefence.Particle.Particle;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameStats;
 import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
@@ -67,7 +73,7 @@ public class Game implements Serializable {
 		this.eventListener = eventListener;
 		world = new World();
 
-		selectedBuildTower = new Tower(timedCodeManager,
+		selectedBuildTower = new EmeraldPrisma(timedCodeManager,
 				new NearestEnemyPolicy(), new NearestEnemyCollidorPolicy(), 1);
 	}
 
@@ -111,7 +117,7 @@ public class Game implements Serializable {
 
 	public void spawnEnemy(int level) {
 		final V2 location = world.waypoints.get(0).copy();
-		final Enemy e = new Enemy(world, location, level);
+		final Enemy e = new LimeLizard(world, location, level);
 		e.eventListeners.add(enemyDeathGivesMoney);
 		e.eventListeners.add(enemyDeathUpdatesGameStats);
 		enemies.add(e);
