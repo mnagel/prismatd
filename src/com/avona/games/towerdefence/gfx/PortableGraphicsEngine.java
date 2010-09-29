@@ -29,6 +29,8 @@ public abstract class PortableGraphicsEngine {
 	protected Game game;
 	protected Mouse mouse;
 
+	protected VertexArray[] worldVertices;
+
 	public PortableGraphicsEngine(Game game, Mouse mouse,
 			LayerHerder layerHerder, TimeTrack graphicsTime) {
 		this.game = game;
@@ -95,7 +97,16 @@ public abstract class PortableGraphicsEngine {
 		renderMouse();
 	}
 
-	protected void renderWorld() {
+	protected void createWorld() {
+		if (worldVertices != null) {
+			// In case we're recreating the world, allow re-using of the
+			// buffers.
+			for (VertexArray va : worldVertices) {
+				va.freeBuffers();
+			}
+		}
+		worldVertices = new VertexArray[2];
+
 		VertexArray va = new VertexArray();
 		va.hasColour = true;
 		va.numCoords = 4;
@@ -114,8 +125,7 @@ public abstract class PortableGraphicsEngine {
 		// Lower left
 		va.addColour(0.37f, 0.84f, 0.92f, 1.0f);
 
-		drawVertexArray(va);
-		va.freeBuffers();
+		worldVertices[0] = va;
 
 		va = new VertexArray();
 		va.hasColour = true;
@@ -146,8 +156,17 @@ public abstract class PortableGraphicsEngine {
 			va.addColour(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 
-		drawVertexArray(va);
-		va.freeBuffers();
+		worldVertices[1] = va;
+	}
+
+	protected void renderWorld() {
+		if (worldVertices == null) {
+			createWorld();
+		}
+
+		for (VertexArray va : worldVertices) {
+			drawVertexArray(va);
+		}
 	}
 
 	private void putWaypointVertices(final ArrayList<V2> waypoints,
