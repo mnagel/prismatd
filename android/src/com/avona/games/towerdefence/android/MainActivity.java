@@ -23,9 +23,10 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		Util.log("instance: onCreate");
 
-		final Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-		final PowerManager powerManager = (PowerManager)getSystemService(Context.POWER_SERVICE);
-		wl = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "td-game");
+		final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		final PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		wl = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK,
+				"td-game");
 
 		if (savedInstanceState == null) {
 		} else {
@@ -78,12 +79,13 @@ public class MainActivity extends Activity {
 
 		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 		alertBuilder.setCancelable(true);
-		alertBuilder.setPositiveButton("Continue Playing", new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				resume();
-			}
-		});
+		alertBuilder.setPositiveButton("Continue Playing",
+				new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						resume();
+					}
+				});
 		alertBuilder.setNegativeButton("Quit", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -92,8 +94,8 @@ public class MainActivity extends Activity {
 		});
 
 		final AlertDialog alertDialog = alertBuilder.create();
-		alertDialog.setMessage("Do you really want to quit Prisma TD?\nYour progress will be lost!");
+		alertDialog
+				.setMessage("Do you really want to quit Prisma TD?\nYour progress will be lost!");
 		alertDialog.show();
 	}
 }
-

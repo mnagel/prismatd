@@ -20,7 +20,7 @@ public class Particle extends MovingObject {
 	protected double counter = 0.0;
 
 	private ParticleCollidorPolicy collidorPolicy;
-	
+
 	public static Random r = new Random();
 
 	public Particle(int level, V2 location, Enemy target,

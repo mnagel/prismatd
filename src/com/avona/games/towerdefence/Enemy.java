@@ -9,17 +9,17 @@ public class Enemy extends MovingObject {
 	private static final long serialVersionUID = 1L;
 
 	public V2 target;
-	//public int health;
-	//public int maxHealth;
-	
+	// public int health;
+	// public int maxHealth;
+
 	public int lifeR;
 	public int lifeG;
 	public int lifeB;
-	
+
 	public int lifeMaxR;
 	public int lifeMaxG;
 	public int lifeMaxB;
-	
+
 	public int level;
 	public int waypointId = 1;
 	public boolean escaped = false;
@@ -63,11 +63,11 @@ public class Enemy extends MovingObject {
 		lifeR -= damageR;
 		lifeG -= damageG;
 		lifeB -= damageB;
-		
+
 		lifeR = Math.max(lifeR, 0);
 		lifeG = Math.max(lifeG, 0);
 		lifeB = Math.max(lifeB, 0);
-		
+
 		if (isDead()) {
 			die();
 		}

@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 public abstract class LocationObject implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	public V2 location;
 	public float radius;
 

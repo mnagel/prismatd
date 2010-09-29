@@ -8,7 +8,7 @@ import java.util.ListIterator;
 
 public class TimedCodeManager implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<TimedCode> timedCode = new LinkedList<TimedCode>();
 	private double clock = 0.0;
 

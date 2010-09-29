@@ -248,8 +248,8 @@ public class LabelMaker {
 		mU = u + width;
 		mV = v;
 		mLineHeight = lineHeight;
-		mLabels.add(new Label(width, height, ascent, u, v + height,
-				width, -height));
+		mLabels.add(new Label(width, height, ascent, u, v + height, width,
+				-height));
 		return mLabels.size() - 1;
 	}
 
@@ -353,8 +353,8 @@ public class LabelMaker {
 	}
 
 	private static class Label {
-		public Label(float width, float height, float baseLine,
-				int cropU, int cropV, int cropW, int cropH) {
+		public Label(float width, float height, float baseLine, int cropU,
+				int cropV, int cropW, int cropH) {
 			this.width = width;
 			this.height = height;
 			this.baseline = baseLine;

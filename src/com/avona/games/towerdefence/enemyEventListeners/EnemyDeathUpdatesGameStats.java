@@ -5,7 +5,7 @@ import com.avona.games.towerdefence.Game;
 
 public class EnemyDeathUpdatesGameStats implements EnemyEventListener {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Game game;
 
 	public EnemyDeathUpdatesGameStats(Game game) {

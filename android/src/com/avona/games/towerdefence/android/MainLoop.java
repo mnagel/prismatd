@@ -22,7 +22,7 @@ public class MainLoop extends PortableMainLoop {
 
 		eventListener.listeners.add(new AndroidEventListener(vibrator));
 
-		surfaceView = new InputForwardingGLSurfaceView(context, inputActor, ge);		
+		surfaceView = new InputForwardingGLSurfaceView(context, inputActor, ge);
 		surfaceView.setRenderer(new GameRenderProxy(this, graphicsEngine));
 	}
 

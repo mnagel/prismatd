@@ -13,7 +13,7 @@ import com.avona.games.towerdefence.waveListeners.WaveListener;
 
 public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	public List<Enemy> enemies = new LinkedList<Enemy>();
 	public List<Tower> towers = new LinkedList<Tower>();
 	public List<Particle> particles = new LinkedList<Particle>();
