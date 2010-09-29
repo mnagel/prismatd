@@ -518,6 +518,8 @@ public abstract class PortableGraphicsEngine {
 		// Bottom left
 		va.addColour(cr * 0.9f, cg * 1.0f, cb * 1.0f, 1.0f);
 
+		drawVertexArray(va);
+
 		va.freeBuffers();
 	}
 
