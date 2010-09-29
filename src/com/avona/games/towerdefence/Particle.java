@@ -1,6 +1,7 @@
 package com.avona.games.towerdefence;
 
 import java.util.List;
+import java.util.Random;
 
 import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
 
@@ -9,7 +10,9 @@ public class Particle extends MovingObject {
 
 	public Enemy target;
 
-	protected int strength;
+	public int strengthR;
+	public int strengthG;
+	public int strengthB;
 	protected float range = 5;
 	protected double timeAlive = 4.0;
 
@@ -17,6 +20,8 @@ public class Particle extends MovingObject {
 	protected double counter = 0.0;
 
 	private ParticleCollidorPolicy collidorPolicy;
+	
+	public static Random r = new Random();
 
 	public Particle(int level, V2 location, Enemy target,
 			ParticleCollidorPolicy collidorPolicy) {
@@ -25,7 +30,7 @@ public class Particle extends MovingObject {
 		this.collidorPolicy = collidorPolicy;
 
 		this.velocity.setLength(150 + 2 * (level - 1));
-		strength = 10 + 2 * (level - 1);
+		strengthR = strengthG = strengthB = 10 + 2 * (level - 1);
 		recalculateTargetVector();
 	}
 
@@ -50,7 +55,7 @@ public class Particle extends MovingObject {
 			return;
 		}
 
-		e.inflictDamage(strength);
+		e.inflictDamage(strengthR, strengthG, strengthB);
 		dead = true;
 	}
 

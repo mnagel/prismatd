@@ -40,7 +40,7 @@ public class Game implements Serializable {
 	public int killed = 0;
 	public int escaped = 0;
 
-	public int money = 25;
+	public int money = 250;
 
 	/**
 	 * Which type of tower to build - if any.

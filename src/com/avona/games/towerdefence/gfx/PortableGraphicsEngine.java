@@ -397,9 +397,15 @@ public abstract class PortableGraphicsEngine {
 	public void renderEnemy(final Enemy e) {
 		if (e.isDead())
 			return;
+		
+		 float lightness = (e.lifeR + e.lifeG + e.lifeB) * 1.0f / (e.lifeMaxR + e.lifeMaxG + e.lifeMaxB);
+		final float colgesfac = 1.0f / (e.lifeR + e.lifeG + e.lifeB);
 
-		final float pg = (float) e.health / (float) e.maxHealth;
-		final float pr = 1.0f - pg;
+		lightness = 1;
+		
+		final float cr = e.lifeR * colgesfac * lightness;
+		final float cg = e.lifeG * colgesfac * lightness;
+		final float cb = e.lifeB * colgesfac * lightness;
 
 		final float width = 12;
 		final V2 location = e.location;
@@ -415,13 +421,13 @@ public abstract class PortableGraphicsEngine {
 				location.y - width / 2, width, width, va);
 
 		// Top right
-		va.addColour(pr * 1.0f, pg * 0.9f, 0.0f, 1.0f);
+		va.addColour(cr * 1.0f, cg * 0.9f, cb * 0.9f, 1.0f);
 		// Bottom right
-		va.addColour(pr * 0.8f, pg * 0.6f, 0.0f, 1.0f);
+		va.addColour(cr * 0.8f, cg * 0.6f, cb * 0.6f, 1.0f);
 		// Top left
-		va.addColour(pr * 0.6f, pg * 0.8f, 0.0f, 1.0f);
+		va.addColour(cr * 0.6f, cg * 0.8f, cb * 0.8f, 1.0f);
 		// Bottom left
-		va.addColour(pr * 0.9f, pg * 1.0f, 0.0f, 1.0f);
+		va.addColour(cr * 0.9f, cg * 1.0f, cb * 1.0f, 1.0f);
 
 		drawVertexArray(va);
 
@@ -436,8 +442,9 @@ public abstract class PortableGraphicsEngine {
 				towerString = String.format("tower lvl %d | ", t.level);
 			} else if (game.selectedObject instanceof Enemy) {
 				final Enemy e = (Enemy) game.selectedObject;
-				towerString = String.format("enemy lvl %d, health %d/%d | ",
-						e.level, e.health, e.maxHealth);
+				towerString = String.format("enemy lvl %d, health R%d G%d B%d  /  R%d G%d B%d | ",
+						e.level, e.lifeR, e.lifeG, e.lifeB, 
+						e.lifeMaxR, e.lifeMaxG, e.lifeMaxB);
 			}
 		}
 		final String fpsString = String.format(
@@ -470,6 +477,25 @@ public abstract class PortableGraphicsEngine {
 	public void renderTower(final Tower t) {
 		final float width = t.radius;
 		final V2 location = t.location;
+		
+		//final float lightness = 1;
+		//final float colgesfac = 1.0f / (t.strengthR + t.strengthG + t.strengthB);
+
+		//final float cr = p.strengthR * colgesfac * lightness;
+		//final float cg = p.strengthG * colgesfac * lightness;
+		//final float cb = p.strengthB * colgesfac * lightness;
+		
+		float cr, cg, cb; cr = cg = cb = 0;
+		
+		if (t.colors == 0) {
+			cr = 1;
+		}
+		else if (t.colors == 1) {
+			cg = 1;
+		} 
+		else {
+			cb = 1;
+		}
 
 		VertexArray va = new VertexArray();
 		va.hasColour = true;
@@ -482,15 +508,13 @@ public abstract class PortableGraphicsEngine {
 				location.y - width / 2, width, width, va);
 
 		// Top right
-		va.addColour(0.0f, 0.0f, 0.9f, 1.0f);
+		va.addColour(cr * 1.0f, cg * 0.9f, cb * 0.9f, 1.0f);
 		// Bottom right
-		va.addColour(0.0f, 0.0f, 0.6f, 1.0f);
+		va.addColour(cr * 0.8f, cg * 0.6f, cb * 0.6f, 1.0f);
 		// Top left
-		va.addColour(0.0f, 0.0f, 0.8f, 1.0f);
+		va.addColour(cr * 0.6f, cg * 0.8f, cb * 0.8f, 1.0f);
 		// Bottom left
-		va.addColour(0.0f, 0.0f, 1.0f, 1.0f);
-
-		drawVertexArray(va);
+		va.addColour(cr * 0.9f, cg * 1.0f, cb * 1.0f, 1.0f);
 
 		va.freeBuffers();
 	}
@@ -498,6 +522,13 @@ public abstract class PortableGraphicsEngine {
 	public void renderParticle(final Particle p) {
 		if (p.isDead())
 			return;
+		
+		final float lightness = 1;
+		final float colgesfac = 1.0f / (p.strengthR + p.strengthG + p.strengthB);
+
+		final float cr = p.strengthR * colgesfac * lightness;
+		final float cg = p.strengthG * colgesfac * lightness;
+		final float cb = p.strengthB * colgesfac * lightness;
 
 		final float width = 10;
 		final V2 location = p.location;
@@ -514,13 +545,13 @@ public abstract class PortableGraphicsEngine {
 				location.y - width / 2, width, width, va);
 
 		// Top right
-		va.addColour(0.9f, 0.6f, 0.2f, 1.0f);
+		va.addColour(cr * 1.0f, cg * 0.9f, cb * 0.9f, 1.0f);
 		// Bottom right
-		va.addColour(0.6f, 0.9f, 0.2f, 1.0f);
+		va.addColour(cr * 0.8f, cg * 0.6f, cb * 0.6f, 1.0f);
 		// Top left
-		va.addColour(0.8f, 1.0f, 0.2f, 1.0f);
+		va.addColour(cr * 0.6f, cg * 0.8f, cb * 0.8f, 1.0f);
 		// Bottom left
-		va.addColour(1.0f, 0.8f, 0.2f, 1.0f);
+		va.addColour(cr * 0.9f, cg * 1.0f, cb * 1.0f, 1.0f);
 
 		drawVertexArray(va);
 

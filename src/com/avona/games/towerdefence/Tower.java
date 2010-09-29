@@ -37,7 +37,22 @@ public class Tower extends LocationObject {
 		range = t.range;
 		price = t.price;
 		radius = t.radius;
+		
+
+		
+		if (cnt % 3 == 0) {
+			colors = 0;
+		}
+		else if (cnt % 3 == 1) {
+			colors = 1;
+		}
+		else {
+			colors = 2;
+		}		cnt++;
 	}
+	
+	public int colors;
+	public static int cnt = 0;
 
 	public Tower copy() {
 		return new Tower(this);
@@ -48,6 +63,20 @@ public class Tower extends LocationObject {
 			timer.rearm();
 			Particle p = new Particle(level, location, e,
 					enemyParticleCollidorPolicy);
+			
+			if (this.colors == 0) {
+				p.strengthR *= 3;
+				p.strengthG = p.strengthB = 0;
+			}
+			else if (this.colors == 1) {
+				p.strengthG *= 3;
+				p.strengthR = p.strengthB = 0;
+			} 
+			else {
+				p.strengthB *= 3;
+				p.strengthR = p.strengthG = 0;
+			}
+			
 			return p;
 		} else {
 			return null;
