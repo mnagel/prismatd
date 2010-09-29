@@ -115,24 +115,27 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 	protected void drawVertexArray(final VertexArray array) {
 		assert array.coordBuffer != null;
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+		array.coordBuffer.position(0);
 		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, array.coordBuffer);
 
 		if (array.hasColour) {
 			assert array.colourBuffer != null;
 			gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+			array.colourBuffer.position(0);
 			gl.glColorPointer(4, GL10.GL_FLOAT, 0, array.colourBuffer);
 		}
 
 		if (array.mode == VertexArray.Mode.TRIANGLE_FAN) {
-			gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, array.numElements);
+			gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, array.numCoords);
 		} else if (array.mode == VertexArray.Mode.TRIANGLE_STRIP) {
-			gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, array.numElements);
+			gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, array.numCoords);
 		} else if (array.mode == VertexArray.Mode.TRIANGLES) {
 			assert array.indexBuffer != null;
-			gl.glDrawElements(GL10.GL_TRIANGLES, array.numElements,
+			array.indexBuffer.position(0);
+			gl.glDrawElements(GL10.GL_TRIANGLES, array.numIndexes,
 					GL10.GL_UNSIGNED_SHORT, array.indexBuffer);
 		} else if (array.mode == VertexArray.Mode.LINE_STRIP) {
-			gl.glDrawArrays(GL10.GL_LINE_STRIP, 0, array.numElements);
+			gl.glDrawArrays(GL10.GL_LINE_STRIP, 0, array.numCoords);
 		}
 
 		if (array.hasColour) {

@@ -1,6 +1,5 @@
 package com.avona.games.towerdefence.gfx;
 
-import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
 import com.avona.games.towerdefence.Enemy;
@@ -30,9 +29,6 @@ public abstract class PortableGraphicsEngine {
 	protected Game game;
 	protected Mouse mouse;
 
-	private FloatBuffer vertexBuffer;
-	private FloatBuffer colorBuffer;
-
 	public PortableGraphicsEngine(Game game, Mouse mouse,
 			LayerHerder layerHerder, TimeTrack graphicsTime) {
 		this.game = game;
@@ -44,9 +40,6 @@ public abstract class PortableGraphicsEngine {
 				.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
 		menuLayer = layerHerder
 				.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
-
-		vertexBuffer = GeometryHelper.allocateFloatBuffer(102 * 2);
-		colorBuffer = GeometryHelper.allocateFloatBuffer(102 * 4);
 	}
 
 	public abstract void prepareTransformationForLayer(Layer layer);
@@ -103,75 +96,62 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	protected void renderWorld() {
-		vertexBuffer.position(0);
-		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f,
-				gameLayer.virtualRegion.x, gameLayer.virtualRegion.y,
-				vertexBuffer);
-		vertexBuffer.position(0);
-
-		colorBuffer.position(0);
-		// Top right
-		colorBuffer.put(new float[] { 0.00f, 0.00f, 0.00f, 1.0f });
-		// Lower right
-		colorBuffer.put(new float[] { 0.60f, 0.83f, 0.91f, 1.0f });
-		// Top left
-		colorBuffer.put(new float[] { 0.34f, 0.81f, 0.89f, 1.0f });
-		// Lower left
-		colorBuffer.put(new float[] { 0.37f, 0.84f, 0.92f, 1.0f });
-		colorBuffer.position(0);
-
 		VertexArray va = new VertexArray();
-		va.coordBuffer = vertexBuffer;
-		va.colourBuffer = colorBuffer;
 		va.hasColour = true;
-		va.numElements = 4;
+		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
-		drawVertexArray(va);
 
+		va.reserveBuffers();
+		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f,
+				gameLayer.virtualRegion.x, gameLayer.virtualRegion.y, va);
+
+		// Top right
+		va.addColour(0.00f, 0.00f, 0.00f, 1.0f);
+		// Lower right
+		va.addColour(0.60f, 0.83f, 0.91f, 1.0f);
+		// Top left
+		va.addColour(0.34f, 0.81f, 0.89f, 1.0f);
+		// Lower left
+		va.addColour(0.37f, 0.84f, 0.92f, 1.0f);
+
+		drawVertexArray(va);
+		va.freeBuffers();
+
+		va = new VertexArray();
+		va.hasColour = true;
+		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+
+		DynamicCoordsArray coords = new DynamicCoordsArray();
 		// Draw the waypoints... top first...
-		assert (vertexBuffer.capacity() >= game.world.waypoints.size() * 2 * 4);
-		assert (colorBuffer.capacity() >= game.world.waypoints.size() * 4);
 		assert (game.world.waypoints.size() > 1);
 
 		// Start the triangle strip by drawing two points at the first
-		// waypoint. TODO: This assumes that it's always starting at
-		// the top!
-		vertexBuffer.position(0);
-		colorBuffer.position(0);
+		// waypoint.
+		// TODO: This assumes that it's always starting at the top!
 		final ArrayList<V2> waypoints = game.world.waypoints;
-		int vertices = 0;
-		V2 wp = waypoints.get(0);
 
-		int oldPosition = vertexBuffer.position();
-		vertexBuffer.put(wp.x - WAYPOINT_SPACING);
-		vertexBuffer.put(wp.y);
+		V2 wp = waypoints.get(0);
+		coords.addCoord(wp.x - WAYPOINT_SPACING, wp.y);
 
 		for (int i = 1; i < waypoints.size(); ++i)
-			putWaypointVertices(waypoints, vertexBuffer, i);
+			putWaypointVertices(waypoints, coords, i);
 
+		// TODO: This assumes that the last waypoint is at the top or bottom.
 		wp = waypoints.get(waypoints.size() - 1);
-		vertexBuffer.put(wp.x + WAYPOINT_SPACING);
-		vertexBuffer.put(wp.y);
+		coords.addCoord(wp.x + WAYPOINT_SPACING, wp.y);
 
-		for (int i = 1; i < (vertexBuffer.position() - oldPosition) / 2; ++i) {
-			colorBuffer.put(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
-			++vertices;
+		coords.loadIntoVertexArray(va);
+
+		for (int i = 1; i < va.numCoords; ++i) {
+			va.addColour(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 
-		vertexBuffer.position(0);
-		colorBuffer.position(0);
-
-		va = new VertexArray();
-		va.coordBuffer = vertexBuffer;
-		va.colourBuffer = colorBuffer;
-		va.hasColour = true;
-		va.numElements = vertices;
-		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
 		drawVertexArray(va);
+		va.freeBuffers();
 	}
 
 	private void putWaypointVertices(final ArrayList<V2> waypoints,
-			final FloatBuffer vertexBuffer, final int index) {
+			final DynamicCoordsArray coords, final int index) {
 		V2 previousWP;
 		final V2 currentWP = waypoints.get(index);
 		V2 nextWP;
@@ -207,14 +187,14 @@ public abstract class PortableGraphicsEngine {
 				 *                |   |
 				 * </pre>
 				 */
-				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 1x
-				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
-				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 2x
-				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
-				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 3x
-				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 3y
-				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 1x=4x
-				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y=4y
+				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
+						- WAYPOINT_SPACING); // 1
+				coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
+						+ WAYPOINT_SPACING); // 2
+				coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
+						- WAYPOINT_SPACING); // 3
+				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
+						- WAYPOINT_SPACING); // 1=4
 			} else if (nextWP.y > currentWP.y) {
 				/**
 				 * <pre>
@@ -224,12 +204,12 @@ public abstract class PortableGraphicsEngine {
 				 * ------------------1
 				 * </pre>
 				 */
-				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 1x
-				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
-				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 2x
-				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
-				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 3x
-				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 3y
+				coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
+						- WAYPOINT_SPACING); // 1
+				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
+						+ WAYPOINT_SPACING); // 2
+				coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
+						+ WAYPOINT_SPACING); // 3
 			} else {
 				/**
 				 * <pre>
@@ -238,10 +218,8 @@ public abstract class PortableGraphicsEngine {
 				 * ---------------1
 				 * </pre>
 				 */
-				vertexBuffer.put(currentWP.x); // 1x
-				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
-				vertexBuffer.put(currentWP.x); // 2x
-				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
+				coords.addCoord(currentWP.x, currentWP.y - WAYPOINT_SPACING); // 1
+				coords.addCoord(currentWP.x, currentWP.y + WAYPOINT_SPACING); // 2
 			}
 		} else if (previousWP.x > currentWP.x) {
 			/**
@@ -260,14 +238,13 @@ public abstract class PortableGraphicsEngine {
 				 * |  |
 				 * </pre>
 				 */
-				vertexBuffer.put(previousWP.x); // 1x
-				vertexBuffer.put(previousWP.y - WAYPOINT_SPACING); // 1y
-				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 2x
-				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
-				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 3x
-				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 3y
-				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 4x
-				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 4y
+				coords.addCoord(previousWP.x, previousWP.y - WAYPOINT_SPACING); // 1
+				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
+						+ WAYPOINT_SPACING); // 2
+				coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
+						- WAYPOINT_SPACING); // 3
+				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
+						- WAYPOINT_SPACING); // 4
 			} else if (nextWP.y > currentWP.y) {
 				/**
 				 * <pre>
@@ -277,12 +254,12 @@ public abstract class PortableGraphicsEngine {
 				 * 1------------------
 				 * </pre>
 				 */
-				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 1x
-				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
-				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 2x
-				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
-				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 3x
-				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 3y
+				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
+						- WAYPOINT_SPACING); // 1
+				coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
+						+ WAYPOINT_SPACING); // 2
+				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
+						+ WAYPOINT_SPACING); // 3
 			} else {
 				/**
 				 * <pre>
@@ -291,10 +268,8 @@ public abstract class PortableGraphicsEngine {
 				 * 1-------------------
 				 * </pre>
 				 */
-				vertexBuffer.put(currentWP.x); // 1x
-				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 1y
-				vertexBuffer.put(currentWP.x); // 2x
-				vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
+				coords.addCoord(currentWP.x, currentWP.y - WAYPOINT_SPACING); // 1
+				coords.addCoord(currentWP.x, currentWP.y + WAYPOINT_SPACING); // 2
 			}
 		} else {
 			if (previousWP.y > currentWP.y) {
@@ -307,12 +282,11 @@ public abstract class PortableGraphicsEngine {
 				 * 2   3
 				 * </pre>
 				 */
-				vertexBuffer.put(previousWP.x + WAYPOINT_SPACING); // 1x
-				vertexBuffer.put(previousWP.y); // 1y
-				vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 2x
-				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 2y
-				vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 3x
-				vertexBuffer.put(currentWP.y - WAYPOINT_SPACING); // 3y
+				coords.addCoord(previousWP.x + WAYPOINT_SPACING, previousWP.y); // 1
+				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
+						- WAYPOINT_SPACING); // 2
+				coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
+						- WAYPOINT_SPACING); // 3
 				if (nextWP.x > currentWP.x) {
 					/**
 					 * <pre>
@@ -323,8 +297,8 @@ public abstract class PortableGraphicsEngine {
 					 * 2---3
 					 * </pre>
 					 */
-					vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 4x
-					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 4y
+					coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
+							+ WAYPOINT_SPACING); // 4
 				} else if (nextWP.x < currentWP.x) {
 					/**
 					 * <pre>
@@ -335,8 +309,8 @@ public abstract class PortableGraphicsEngine {
 					 * 2---3
 					 * </pre>
 					 */
-					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 4x
-					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 4y
+					coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
+							+ WAYPOINT_SPACING); // 4
 				}
 
 			} else if (previousWP.y <= currentWP.y) {// do both, x=x,y=y is
@@ -351,10 +325,10 @@ public abstract class PortableGraphicsEngine {
 					 * *   |
 					 * </pre>
 					 */
-					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 1x
-					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 1y
-					vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 2x
-					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
+					coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
+							+ WAYPOINT_SPACING); // 1
+					coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
+							+ WAYPOINT_SPACING); // 2
 				} else if (nextWP.x <= currentWP.x) {
 					/**
 					 * <pre>
@@ -365,10 +339,10 @@ public abstract class PortableGraphicsEngine {
 					 * *   |
 					 * </pre>
 					 */
-					vertexBuffer.put(currentWP.x + WAYPOINT_SPACING); // 1x
-					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 1y
-					vertexBuffer.put(currentWP.x - WAYPOINT_SPACING); // 2x
-					vertexBuffer.put(currentWP.y + WAYPOINT_SPACING); // 2y
+					coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
+							+ WAYPOINT_SPACING); // 1
+					coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
+							+ WAYPOINT_SPACING); // 2
 				} else {
 					throw new RuntimeException("Should not be reached.");
 				}
@@ -379,52 +353,45 @@ public abstract class PortableGraphicsEngine {
 	private float WAYPOINT_SPACING = 4.0f;
 
 	protected void renderMenu() {
-		vertexBuffer.position(0);
-		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f,
-				menuLayer.virtualRegion.x, menuLayer.virtualRegion.y,
-				vertexBuffer);
-		vertexBuffer.position(0);
-
-		colorBuffer.position(0);
-		// Top right
-		colorBuffer.put(new float[] { 0.2314f, 0.4275f, 0.8980f, 1.0f });
-		// Lower right
-		colorBuffer.put(new float[] { 0.4627f, 0.6863f, 0.9372f, 1.0f });
-		// Top left
-		colorBuffer.put(new float[] { 0.2314f, 0.4275f, 0.8980f, 1.0f });
-		// Lower left
-		colorBuffer.put(new float[] { 0.4627f, 0.6863f, 0.9372f, 1.0f });
-		colorBuffer.position(0);
-
 		VertexArray va = new VertexArray();
-		va.coordBuffer = vertexBuffer;
-		va.colourBuffer = colorBuffer;
 		va.hasColour = true;
-		va.numElements = 4;
+		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+
+		va.reserveBuffers();
+
+		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f,
+				menuLayer.virtualRegion.x, menuLayer.virtualRegion.y, va);
+
+		// Top right
+		va.addColour(new float[] { 0.2314f, 0.4275f, 0.8980f, 1.0f });
+		// Lower right
+		va.addColour(new float[] { 0.4627f, 0.6863f, 0.9372f, 1.0f });
+		// Top left
+		va.addColour(new float[] { 0.2314f, 0.4275f, 0.8980f, 1.0f });
+		// Lower left
+		va.addColour(new float[] { 0.4627f, 0.6863f, 0.9372f, 1.0f });
+
 		drawVertexArray(va);
 
-		vertexBuffer.position(0);
-		colorBuffer.position(0);
-
-		vertexBuffer.put(0.0f);
-		vertexBuffer.put(menuLayer.virtualRegion.y);
-		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.0f, 1.0f });
-
-		vertexBuffer.put(0.0f);
-		vertexBuffer.put(0.0f);
-		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.0f, 1.0f });
-
-		vertexBuffer.position(0);
-		colorBuffer.position(0);
+		va.freeBuffers();
 
 		va = new VertexArray();
-		va.coordBuffer = vertexBuffer;
-		va.colourBuffer = colorBuffer;
 		va.hasColour = true;
-		va.numElements = 2;
+		va.numCoords = 2;
 		va.mode = VertexArray.Mode.LINE_STRIP;
+
+		va.reserveBuffers();
+
+		va.addCoord(0.0f, menuLayer.virtualRegion.y);
+		va.addColour(0.0f, 0.0f, 0.0f, 1.0f);
+
+		va.addCoord(0.0f, 0.0f);
+		va.addColour(0.0f, 0.0f, 0.0f, 1.0f);
+
 		drawVertexArray(va);
+
+		va.freeBuffers();
 	}
 
 	public void renderEnemy(final Enemy e) {
@@ -437,29 +404,28 @@ public abstract class PortableGraphicsEngine {
 		final float width = 12;
 		final V2 location = e.location;
 
-		vertexBuffer.position(0);
-		GeometryHelper.boxVerticesAsTriangleStrip(location.x - width / 2,
-				location.y - width / 2, width, width, vertexBuffer);
-		vertexBuffer.position(0);
-
-		colorBuffer.position(0);
-		// Top right
-		colorBuffer.put(new float[] { pr * 1.0f, pg * 0.9f, 0.0f, 1.0f });
-		// Bottom right
-		colorBuffer.put(new float[] { pr * 0.8f, pg * 0.6f, 0.0f, 1.0f });
-		// Top left
-		colorBuffer.put(new float[] { pr * 0.6f, pg * 0.8f, 0.0f, 1.0f });
-		// Bottom left
-		colorBuffer.put(new float[] { pr * 0.9f, pg * 1.0f, 0.0f, 1.0f });
-		colorBuffer.position(0);
-
 		VertexArray va = new VertexArray();
-		va.coordBuffer = vertexBuffer;
-		va.colourBuffer = colorBuffer;
 		va.hasColour = true;
-		va.numElements = 4;
+		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+
+		va.reserveBuffers();
+
+		GeometryHelper.boxVerticesAsTriangleStrip(location.x - width / 2,
+				location.y - width / 2, width, width, va);
+
+		// Top right
+		va.addColour(pr * 1.0f, pg * 0.9f, 0.0f, 1.0f);
+		// Bottom right
+		va.addColour(pr * 0.8f, pg * 0.6f, 0.0f, 1.0f);
+		// Top left
+		va.addColour(pr * 0.6f, pg * 0.8f, 0.0f, 1.0f);
+		// Bottom left
+		va.addColour(pr * 0.9f, pg * 1.0f, 0.0f, 1.0f);
+
 		drawVertexArray(va);
+
+		va.freeBuffers();
 	}
 
 	public void renderStats() {
@@ -483,23 +449,20 @@ public abstract class PortableGraphicsEngine {
 		final float width = bounds.x + 4;
 		final float height = bounds.y + 2;
 
-		vertexBuffer.position(0);
-		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f, width, height,
-				vertexBuffer);
-		vertexBuffer.position(0);
-
-		colorBuffer.position(0);
-		GeometryHelper.boxColoursAsTriangleStrip(0.0f, 0.0f, 0.0f, 0.2f,
-				colorBuffer);
-		colorBuffer.position(0);
-
 		VertexArray va = new VertexArray();
-		va.coordBuffer = vertexBuffer;
-		va.colourBuffer = colorBuffer;
 		va.hasColour = true;
-		va.numElements = 4;
+		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+
+		va.reserveBuffers();
+
+		GeometryHelper
+				.boxVerticesAsTriangleStrip(0.0f, 0.0f, width, height, va);
+		GeometryHelper.boxColoursAsTriangleStrip(0.0f, 0.0f, 0.0f, 0.2f, va);
+
 		drawVertexArray(va);
+
+		va.freeBuffers();
 
 		drawText(fpsString, 2, 4, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
@@ -508,29 +471,28 @@ public abstract class PortableGraphicsEngine {
 		final float width = t.radius;
 		final V2 location = t.location;
 
-		vertexBuffer.position(0);
-		GeometryHelper.boxVerticesAsTriangleStrip(location.x - width / 2,
-				location.y - width / 2, width, width, vertexBuffer);
-		vertexBuffer.position(0);
-
-		colorBuffer.position(0);
-		// Top right
-		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.9f, 1.0f });
-		// Bottom right
-		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.6f, 1.0f });
-		// Top left
-		colorBuffer.put(new float[] { 0.0f, 0.0f, 0.8f, 1.0f });
-		// Bottom left
-		colorBuffer.put(new float[] { 0.0f, 0.0f, 1.0f, 1.0f });
-		colorBuffer.position(0);
-
 		VertexArray va = new VertexArray();
-		va.coordBuffer = vertexBuffer;
-		va.colourBuffer = colorBuffer;
 		va.hasColour = true;
-		va.numElements = 4;
+		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+
+		va.reserveBuffers();
+
+		GeometryHelper.boxVerticesAsTriangleStrip(location.x - width / 2,
+				location.y - width / 2, width, width, va);
+
+		// Top right
+		va.addColour(0.0f, 0.0f, 0.9f, 1.0f);
+		// Bottom right
+		va.addColour(0.0f, 0.0f, 0.6f, 1.0f);
+		// Top left
+		va.addColour(0.0f, 0.0f, 0.8f, 1.0f);
+		// Bottom left
+		va.addColour(0.0f, 0.0f, 1.0f, 1.0f);
+
 		drawVertexArray(va);
+
+		va.freeBuffers();
 	}
 
 	public void renderParticle(final Particle p) {
@@ -540,29 +502,29 @@ public abstract class PortableGraphicsEngine {
 		final float width = 10;
 		final V2 location = p.location;
 
-		vertexBuffer.position(0);
-		GeometryHelper.boxVerticesAsTriangleStrip(location.x - width / 2,
-				location.y - width / 2, width, width, vertexBuffer);
-		vertexBuffer.position(0);
-
-		colorBuffer.position(0);
-		// Top right
-		colorBuffer.put(new float[] { 0.9f, 0.6f, 0.2f, 1.0f });
-		// Bottom right
-		colorBuffer.put(new float[] { 0.6f, 0.9f, 0.2f, 1.0f });
-		// Top left
-		colorBuffer.put(new float[] { 0.8f, 1.0f, 0.2f, 1.0f });
-		// Bottom left
-		colorBuffer.put(new float[] { 1.0f, 0.8f, 0.2f, 1.0f });
-		colorBuffer.position(0);
-
 		VertexArray va = new VertexArray();
-		va.coordBuffer = vertexBuffer;
-		va.colourBuffer = colorBuffer;
+
 		va.hasColour = true;
-		va.numElements = 4;
+		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+
+		va.reserveBuffers();
+
+		GeometryHelper.boxVerticesAsTriangleStrip(location.x - width / 2,
+				location.y - width / 2, width, width, va);
+
+		// Top right
+		va.addColour(0.9f, 0.6f, 0.2f, 1.0f);
+		// Bottom right
+		va.addColour(0.6f, 0.9f, 0.2f, 1.0f);
+		// Top left
+		va.addColour(0.8f, 1.0f, 0.2f, 1.0f);
+		// Bottom left
+		va.addColour(1.0f, 0.8f, 0.2f, 1.0f);
+
 		drawVertexArray(va);
+
+		va.freeBuffers();
 	}
 
 	public void renderMouse() {
@@ -613,24 +575,21 @@ public abstract class PortableGraphicsEngine {
 
 	public void drawCircle(final float x, final float y, final float radius,
 			final float colR, final float colG, final float colB,
-			final float colA, final int segments) {
+			final float colA, final int segments, VertexArray va) {
 
 		final double angleStep = 2 * Math.PI / segments;
-		final float[] colors = new float[] { colR, colG, colB, colA };
-
-		assert (vertexBuffer.capacity() >= (segments + 2) * 2);
-		assert (colorBuffer.capacity() >= (segments + 2) * 4);
+		final float[] cols = new float[] { colR, colG, colB, colA };
 
 		for (int i = 0; i < segments; ++i) {
 			final double angle = i * angleStep;
-			vertexBuffer.put((float) (x + (Math.cos(angle) * radius)));
-			vertexBuffer.put((float) (y + (Math.sin(angle) * radius)));
-			colorBuffer.put(colors);
+			va.addCoord(x + (Math.cos(angle) * radius), y
+					+ (Math.sin(angle) * radius));
+			va.addColour(cols);
 		}
 		// Close the circle.
-		vertexBuffer.put((float) (x + (Math.cos(angleStep) * radius)));
-		vertexBuffer.put((float) (y + (Math.sin(angleStep) * radius)));
-		colorBuffer.put(colors);
+		va.addCoord(x + (Math.cos(angleStep) * radius), y
+				+ (Math.sin(angleStep) * radius));
+		va.addColour(cols);
 	}
 
 	public void drawCircle(final float x, final float y, final float radius,
@@ -639,21 +598,17 @@ public abstract class PortableGraphicsEngine {
 
 		final int segments = 100;
 
-		vertexBuffer.position(0);
-		colorBuffer.position(0);
-
-		drawCircle(x, y, radius, colR, colG, colB, colA, segments);
-
-		vertexBuffer.position(0);
-		colorBuffer.position(0);
-
 		VertexArray va = new VertexArray();
-		va.coordBuffer = vertexBuffer;
-		va.colourBuffer = colorBuffer;
 		va.hasColour = true;
-		va.numElements = 101;
+		va.numCoords = 101;
 		va.mode = VertexArray.Mode.LINE_STRIP;
+
+		va.reserveBuffers();
+
+		drawCircle(x, y, radius, colR, colG, colB, colA, segments, va);
+
 		drawVertexArray(va);
+		va.freeBuffers();
 	}
 
 	public void drawFilledCircle(final float x, final float y,
@@ -662,27 +617,17 @@ public abstract class PortableGraphicsEngine {
 
 		final int segments = 100;
 
-		vertexBuffer.position(0);
-		colorBuffer.position(0);
-
-		assert (vertexBuffer.capacity() >= (segments + 2) * 2);
-		assert (colorBuffer.capacity() >= (segments + 2) * 4);
-
-		vertexBuffer.put((float) x);
-		vertexBuffer.put((float) y);
-		colorBuffer.put(new float[] { colR, colG, colB, colA });
-
-		drawCircle(x, y, radius, colR, colG, colB, colA, segments);
-
-		vertexBuffer.position(0);
-		colorBuffer.position(0);
-
 		VertexArray va = new VertexArray();
-		va.coordBuffer = vertexBuffer;
-		va.colourBuffer = colorBuffer;
 		va.hasColour = true;
-		va.numElements = 101;
+		va.numCoords = 101;
 		va.mode = VertexArray.Mode.TRIANGLE_FAN;
+
+		va.reserveBuffers();
+		va.addCoord(x, y);
+		va.addColour(colR, colG, colB, colA);
+
+		drawCircle(x, y, radius, colR, colG, colB, colA, segments, va);
+
 		drawVertexArray(va);
 	}
 }
