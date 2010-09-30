@@ -2,7 +2,7 @@ package com.avona.games.towerdefence.Enemy;
 
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.World;
+import com.avona.games.towerdefence.World.World;
 
 public class VioletViper extends Enemy {
 

@@ -6,7 +6,7 @@ import java.util.List;
 import com.avona.games.towerdefence.MovingObject;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.World;
+import com.avona.games.towerdefence.World.World;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyEventListener;
 
 public abstract class Enemy extends MovingObject {

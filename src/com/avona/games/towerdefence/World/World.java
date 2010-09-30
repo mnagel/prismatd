@@ -1,9 +1,11 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.World;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class World implements Serializable {
+import com.avona.games.towerdefence.V2;
+
+public abstract class World implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public final static float ORIGIN_X = 0;
@@ -13,16 +15,6 @@ public class World implements Serializable {
 
 	public World() {
 		waypoints.clear();
-		addWaypoint(30, 480);
-		addWaypoint(30, 400);
-		addWaypoint(600, 400);
-		addWaypoint(600, 300);
-		addWaypoint(500, 300);
-		addWaypoint(500, 350);
-		addWaypoint(30, 350);
-		addWaypoint(30, 200);
-		addWaypoint(300, 200);
-		addWaypoint(300, 0);
 	}
 
 	public void addWaypoint(int x, int y) {

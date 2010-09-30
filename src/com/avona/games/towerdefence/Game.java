@@ -15,6 +15,9 @@ import com.avona.games.towerdefence.Tower.MousePointerTower;
 import com.avona.games.towerdefence.Tower.RubyPrisma;
 import com.avona.games.towerdefence.Tower.SapphirePrisma;
 import com.avona.games.towerdefence.Tower.Tower;
+import com.avona.games.towerdefence.World.World;
+import com.avona.games.towerdefence.World._010_Hello_World;
+import com.avona.games.towerdefence.World._020_About_Colors;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameStats;
 import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
@@ -75,7 +78,7 @@ public class Game implements Serializable {
 		this.gameTime = gameTime;
 		this.timedCodeManager = timedCodeManager;
 		this.eventListener = eventListener;
-		world = new World();
+		world = new _020_About_Colors();
 
 		selectedBuildTower = new MousePointerTower(timedCodeManager,
 				new NearestEnemyPolicy(), new NearestEnemyCollidorPolicy(), 1);
