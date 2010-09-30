@@ -2,7 +2,6 @@ package com.avona.games.towerdefence.gfx;
 
 import java.util.ArrayList;
 
-
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.LayerHerder;
@@ -418,7 +417,7 @@ public abstract class PortableGraphicsEngine {
 	public void renderEnemy(final Enemy e) {
 		if (e.isDead())
 			return;
-		
+
 		RGB gfxcol = e.life.normalized();
 
 		final float width = 12;

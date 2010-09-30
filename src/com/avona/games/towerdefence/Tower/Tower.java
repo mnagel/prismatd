@@ -20,7 +20,7 @@ public abstract class Tower extends LocationObject {
 	public ParticleCollidorPolicy enemyParticleCollidorPolicy;
 	public int price;
 	public int level;
-	
+
 	public RGB strength;
 
 	// FIXME one ctor should call the other
@@ -48,11 +48,11 @@ public abstract class Tower extends LocationObject {
 		radius = t.radius;
 	}
 
-	// FIXME will fail
-	public Tower copy() {
-		return new EmeraldPrisma(this);
-	}
-	
+	// // FIXME will fail
+	// public Tower copy() {
+	// return new EmeraldPrisma(this);
+	// }
+
 	public abstract Particle makeParticle(Enemy e);
 
 	public Particle shootTowards(Enemy e) {

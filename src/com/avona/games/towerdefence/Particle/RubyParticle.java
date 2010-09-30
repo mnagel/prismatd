@@ -5,15 +5,15 @@ import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.Enemy.Enemy;
 import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
 
-public class EmeraldParticle extends Particle {
+public class RubyParticle extends Particle {
 
-	private static final long serialVersionUID = 5591841836118929513L;
+	private static final long serialVersionUID = 8441019002619600846L;
 
-	public EmeraldParticle(int level, V2 location, Enemy target,
+	public RubyParticle(int level, V2 location, Enemy target,
 			ParticleCollidorPolicy collidorPolicy) {
 
 		super(level, location, target, collidorPolicy);
-		this.strength = new RGB(0, 10 + 2 * (level - 1), 0);
+		this.strength = new RGB(10 + 2 * (level - 1), 0, 0);
 	}
 
 }

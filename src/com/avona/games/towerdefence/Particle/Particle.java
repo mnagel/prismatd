@@ -16,7 +16,7 @@ public abstract class Particle extends MovingObject {
 	public Enemy target;
 
 	public RGB strength;
-	
+
 	protected float range = 5;
 	protected double timeAlive = 4.0;
 
@@ -34,7 +34,7 @@ public abstract class Particle extends MovingObject {
 		this.collidorPolicy = collidorPolicy;
 
 		this.velocity.setLength(150 + 2 * (level - 1));
-//		strengthR = strengthG = strengthB = 10 + 2 * (level - 1);
+		// strengthR = strengthG = strengthB = 10 + 2 * (level - 1);
 		recalculateTargetVector();
 	}
 

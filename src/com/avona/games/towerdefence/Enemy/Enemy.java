@@ -13,10 +13,10 @@ public abstract class Enemy extends MovingObject {
 	private static final long serialVersionUID = 1L;
 
 	public V2 target;
-	
+
 	public RGB life;
 	public RGB maxLife;
-	
+
 	public int level;
 	public int waypointId = 1;
 	public boolean escaped = false;
@@ -25,8 +25,9 @@ public abstract class Enemy extends MovingObject {
 
 	public Enemy(World world, V2 location, int level) {
 		this.level = level;
-		//this.lifeMaxR = this.lifeMaxG = this.lifeMaxB = 50 + 20 * (level - 1);
-		//this.lifeR = this.lifeG = this.lifeB = this.lifeMaxR;
+		// this.lifeMaxR = this.lifeMaxG = this.lifeMaxB = 50 + 20 * (level -
+		// 1);
+		// this.lifeR = this.lifeG = this.lifeB = this.lifeMaxR;
 		this.worth = 3 + (level - 1);
 		this.world = world;
 		this.location = location;
