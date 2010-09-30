@@ -1,11 +1,11 @@
 package com.avona.games.towerdefence.inputActors;
 
-import Tower.Tower;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Mouse;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.Enemy.Enemy;
+import com.avona.games.towerdefence.Tower.Tower;
 
 public class GameInputActor implements InputActor {
 	private Game game;

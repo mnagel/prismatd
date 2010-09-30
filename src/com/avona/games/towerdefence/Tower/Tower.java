@@ -1,4 +1,4 @@
-package Tower;
+package com.avona.games.towerdefence.Tower;
 
 import java.util.List;
 

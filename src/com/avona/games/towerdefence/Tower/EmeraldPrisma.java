@@ -1,4 +1,4 @@
-package Tower;
+package com.avona.games.towerdefence.Tower;
 
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.RechargeTimer;

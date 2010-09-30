@@ -2,7 +2,6 @@ package com.avona.games.towerdefence.gfx;
 
 import java.util.ArrayList;
 
-import Tower.Tower;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Layer;
@@ -15,6 +14,7 @@ import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.Enemy.Enemy;
 import com.avona.games.towerdefence.Particle.Particle;
+import com.avona.games.towerdefence.Tower.Tower;
 
 public abstract class PortableGraphicsEngine {
 

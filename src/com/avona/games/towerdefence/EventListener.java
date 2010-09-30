@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence;
 
-import Tower.Tower;
+import com.avona.games.towerdefence.Tower.Tower;
 
 public interface EventListener {
 

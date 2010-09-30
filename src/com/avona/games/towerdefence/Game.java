@@ -5,12 +5,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import Tower.EmeraldPrisma;
-import Tower.Tower;
 
 import com.avona.games.towerdefence.Enemy.Enemy;
 import com.avona.games.towerdefence.Enemy.LimeLizard;
 import com.avona.games.towerdefence.Particle.Particle;
+import com.avona.games.towerdefence.Tower.EmeraldPrisma;
+import com.avona.games.towerdefence.Tower.Tower;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameStats;
 import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
