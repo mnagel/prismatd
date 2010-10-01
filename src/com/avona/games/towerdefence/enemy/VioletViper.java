@@ -11,7 +11,7 @@ public class VioletViper extends Enemy {
 	public VioletViper(World world, V2 location, int level) {
 		super(world, location, level);
 	}
-	
+
 	@Override
 	public RGB getMaxLife() {
 		return new RGB(50 * level + 10, 0, 50 * level + 10);

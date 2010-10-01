@@ -36,12 +36,13 @@ public class AwtTexture extends Texture {
 		nativeHeight = bi.getHeight();
 		final byte[] data = ((DataBufferByte) bi.getRaster().getDataBuffer())
 				.getData();
-		final ByteBuffer buf = resizeAndCopyToBuffer(data, ImageColorFormat.ABGR);
+		final ByteBuffer buf = resizeAndCopyToBuffer(data,
+				ImageColorFormat.ABGR);
 
 		gl.glBindTexture(GL.GL_TEXTURE_2D, textureId);
 		assert gl.glGetError() == 0;
-		gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width,
-				height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, buf);
+		gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0,
+				GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, buf);
 		assert gl.glGetError() == 0;
 		gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
 	}

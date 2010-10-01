@@ -44,14 +44,14 @@ public class Game implements Serializable {
 
 	public int killed = 0;
 	public int lifes;
-	
+
 	public void looseLife() {
 		this.lifes--;
 		if (this.lifes <= 0) {
 			gameOver();
 		}
 	}
-	
+
 	public void gameOver() {
 		// FIXME add some game over logic here...
 		Util.log("you should die now...");
@@ -65,10 +65,10 @@ public class Game implements Serializable {
 	public Tower selectedBuildTower = null;
 
 	public boolean draggingTower = false;
-	
+
 	public void LoadLevel(World w) {
 		this.world = w;
-		
+
 		this.world.initWaypoints();
 		this.lifes = this.world.getStartLifes();
 		this.money = this.world.getStartMoney();
@@ -92,12 +92,10 @@ public class Game implements Serializable {
 		this.gameTime = gameTime;
 		this.timedCodeManager = timedCodeManager;
 		this.eventListener = eventListener;
-		
-		World[] levels = new World[] {
-				new _010_Hello_World(), 
-				new _020_About_Colors()
-		};
-		
+
+		World[] levels = new World[] { new _010_Hello_World(),
+				new _020_About_Colors() };
+
 		LoadLevel(levels[rand.nextInt(levels.length)]);
 
 		selectedBuildTower = new EmeraldPrismaTower(timedCodeManager, 1);
@@ -114,7 +112,8 @@ public class Game implements Serializable {
 		towers.add(newTower);
 		eventListener.onBuildTower(newTower);
 
-		// TODO While we have no true tower selection, pick a new tower by random.
+		// TODO While we have no true tower selection, pick a new tower by
+		// random.
 		final int val = rand.nextInt(3);
 		if (val == 1) {
 			selectedBuildTower = new EmeraldPrismaTower(timedCodeManager, 1);
@@ -127,20 +126,20 @@ public class Game implements Serializable {
 
 	public void startWave() {
 		int level = 1;
-		
+
 		if (currentWave != null) {
 			if (!currentWave.isCompleted()) {
 				return; // one wave at a time
 			}
 		}
-		
+
 		if (currentWave != null) {
 			level = currentWave.getLevel() + 1;
 		}
-		
+
 		// generate new wave
 		this.currentWave = this.world.sendWave(level, this);
-		
+
 		// trigger events
 		for (WaveListener l : waveBegunListeners) {
 			l.onWave(level);
@@ -150,7 +149,7 @@ public class Game implements Serializable {
 	public void onWaveCompleted(int level) {
 		// world-specific handlers
 		this.world.onWaveCompleted(level);
-		
+
 		// game-specific handlers
 		for (WaveListener l : waveCompletedListeners) {
 			l.onWave(level);

@@ -16,8 +16,7 @@ public class AndroidResourceResolver implements ResourceResolver {
 
 	@Override
 	public InputStream getRawResource(String name) {
-		final int id = res.getIdentifier(PACKAGE_NAME + ":" + name, null,
-				null);
+		final int id = res.getIdentifier(PACKAGE_NAME + ":" + name, null, null);
 		return res.openRawResource(id);
 	}
 }

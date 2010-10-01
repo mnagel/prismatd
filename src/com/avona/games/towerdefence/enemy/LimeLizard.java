@@ -10,7 +10,7 @@ public class LimeLizard extends Enemy {
 	public LimeLizard(World world, V2 location, int level) {
 		super(world, location, level);
 	}
-	
+
 	@Override
 	public RGB getMaxLife() {
 		return new RGB(0, 50 * level + 10, 0);
