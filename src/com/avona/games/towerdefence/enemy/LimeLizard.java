@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.Enemy;
+package com.avona.games.towerdefence.enemy;
 
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;

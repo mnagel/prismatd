@@ -43,5 +43,4 @@ public class Wave extends TimedCode {
 			game.onWaveCompleted(level);
 		}
 	}
-
 }

@@ -7,7 +7,7 @@ import com.avona.games.towerdefence.Collision;
 import com.avona.games.towerdefence.MovingObject;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.Enemy.Enemy;
+import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
 
 public abstract class Particle extends MovingObject {

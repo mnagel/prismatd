@@ -2,8 +2,8 @@ package com.avona.games.towerdefence.Tower;
 
 import com.avona.games.towerdefence.RechargeTimer;
 import com.avona.games.towerdefence.TimedCodeManager;
-import com.avona.games.towerdefence.Enemy.Enemy;
 import com.avona.games.towerdefence.Particle.Particle;
+import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemySelection.EnemySelectionPolicy;
 import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
 

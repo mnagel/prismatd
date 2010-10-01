@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.Enemy;
+package com.avona.games.towerdefence.enemy;
 
 import java.util.LinkedList;
 import java.util.List;

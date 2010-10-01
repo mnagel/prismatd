@@ -1,9 +1,9 @@
 package com.avona.games.towerdefence.Tower;
 
 import com.avona.games.towerdefence.RGB;
-import com.avona.games.towerdefence.Enemy.Enemy;
 import com.avona.games.towerdefence.Particle.Particle;
 import com.avona.games.towerdefence.Particle.SapphireParticle;
+import com.avona.games.towerdefence.enemy.Enemy;
 
 public class SapphirePrisma extends Tower {
 

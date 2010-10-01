@@ -11,9 +11,9 @@ import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.TickRater;
 import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.Enemy.Enemy;
 import com.avona.games.towerdefence.Particle.Particle;
 import com.avona.games.towerdefence.Tower.Tower;
+import com.avona.games.towerdefence.enemy.Enemy;
 
 public abstract class PortableGraphicsEngine {
 

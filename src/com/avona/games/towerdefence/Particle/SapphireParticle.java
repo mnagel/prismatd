@@ -2,7 +2,7 @@ package com.avona.games.towerdefence.Particle;
 
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.Enemy.Enemy;
+import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
 
 public class SapphireParticle extends Particle {
