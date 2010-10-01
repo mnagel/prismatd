@@ -15,6 +15,7 @@ import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
+import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.gfx.VertexArray;
 import com.example.google.LabelMaker;
 
@@ -124,6 +125,15 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 			array.colourBuffer.position(0);
 			gl.glColorPointer(4, GL10.GL_FLOAT, 0, array.colourBuffer);
 		}
+		if (array.hasTexture) {
+			assert array.textureBuffer != null;
+			assert array.texture != null;
+			array.textureBuffer.position(0);
+			gl.glEnable(GL10.GL_TEXTURE_2D);
+			gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+			gl.glBindTexture(GL10.GL_TEXTURE_2D, array.texture.textureId);
+			gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, array.textureBuffer);
+		}
 
 		if (array.mode == VertexArray.Mode.TRIANGLE_FAN) {
 			gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, array.numCoords);
@@ -138,10 +148,46 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 			gl.glDrawArrays(GL10.GL_LINE_STRIP, 0, array.numCoords);
 		}
 
+		if (array.hasTexture) {
+			gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
+			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+			gl.glDisable(GL10.GL_TEXTURE_2D);
+		}
 		if (array.hasColour) {
 			gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 		}
 
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+	}
+
+	@Override
+	public Texture allocateTexture() {
+		assert gl != null;
+
+		Texture texture = new AndroidTexture(gl);
+
+		int[] textures = new int[1];
+		gl.glGenTextures(1, textures, 0);
+		texture.textureId = textures[0];
+
+		assert gl.glGetError() == 0;
+		gl.glBindTexture(GL10.GL_TEXTURE_2D, texture.textureId);
+
+		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER,
+				GL10.GL_NEAREST);
+		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER,
+				GL10.GL_LINEAR);
+
+		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S,
+				GL10.GL_CLAMP_TO_EDGE);
+		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T,
+				GL10.GL_CLAMP_TO_EDGE);
+
+		gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_REPLACE);
+
+		assert gl.glGetError() == 0;
+		gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
+
+		return texture;
 	}
 }

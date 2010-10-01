@@ -22,6 +22,11 @@ final public class VertexArray {
 	public FloatBuffer colourBuffer;
 	public boolean hasColour;
 
+	private ByteBuffer textureByteBuffer;
+	public FloatBuffer textureBuffer;
+	public Texture texture;
+	public boolean hasTexture;
+
 	public int numIndexes;
 	public ByteBuffer indexByteBuffer;
 	public CharBuffer indexBuffer;
@@ -37,6 +42,11 @@ final public class VertexArray {
 			colourByteBuffer = bc.retrieveBuffer(numCoords * FLOAT_SIZE * 4);
 			colourBuffer = colourByteBuffer.asFloatBuffer();
 			colourBuffer.position(0);
+		}
+		if (hasTexture) {
+			textureByteBuffer = bc.retrieveBuffer(numCoords * FLOAT_SIZE * 2);
+			textureBuffer = textureByteBuffer.asFloatBuffer();
+			textureBuffer.position(0);
 		}
 		if (numIndexes > 0) {
 			indexByteBuffer = bc.retrieveBuffer(numIndexes * CHAR_SIZE);
@@ -56,6 +66,11 @@ final public class VertexArray {
 			bc.storeBuffer(colourByteBuffer);
 			colourByteBuffer = null;
 			colourBuffer = null;
+		}
+		if (textureByteBuffer != null) {
+			bc.storeBuffer(textureByteBuffer);
+			textureByteBuffer = null;
+			textureBuffer = null;
 		}
 		if (indexByteBuffer != null) {
 			bc.storeBuffer(indexByteBuffer);
@@ -77,6 +92,11 @@ final public class VertexArray {
 	public void addCoord(final V2 p) {
 		coordBuffer.put(p.x);
 		coordBuffer.put(p.y);
+	}
+
+	public void addTextureCoord(final float tx, final float ty) {
+		textureBuffer.put(tx);
+		textureBuffer.put(ty);
 	}
 
 	public void addColour(final float colR, final float colG, final float colB,

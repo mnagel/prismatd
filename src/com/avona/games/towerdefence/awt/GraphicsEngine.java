@@ -21,6 +21,7 @@ import com.avona.games.towerdefence.Mouse;
 import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
+import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.gfx.VertexArray;
 import com.sun.opengl.util.j2d.TextRenderer;
 
@@ -149,12 +150,20 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 		gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
 		array.coordBuffer.position(0);
 		gl.glVertexPointer(2, GL.GL_FLOAT, 0, array.coordBuffer);
-
 		if (array.hasColour) {
 			assert array.colourBuffer != null;
 			gl.glEnableClientState(GL.GL_COLOR_ARRAY);
 			array.colourBuffer.position(0);
 			gl.glColorPointer(4, GL.GL_FLOAT, 0, array.colourBuffer);
+		}
+		if (array.hasTexture) {
+			assert array.textureBuffer != null;
+			assert array.texture != null;
+			array.textureBuffer.position(0);
+			gl.glEnable(GL.GL_TEXTURE_2D);
+			gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY);
+			gl.glBindTexture(GL.GL_TEXTURE_2D, array.texture.textureId);
+			gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, array.textureBuffer);
 		}
 
 		if (array.mode == VertexArray.Mode.TRIANGLE_FAN) {
@@ -170,10 +179,45 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 			gl.glDrawArrays(GL.GL_LINE_STRIP, 0, array.numCoords);
 		}
 
+		if (array.hasTexture) {
+			gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
+			gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY);
+			gl.glDisable(GL.GL_TEXTURE_2D);
+		}
 		if (array.hasColour) {
 			gl.glDisableClientState(GL.GL_COLOR_ARRAY);
 		}
-
 		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
+	}
+
+	@Override
+	public Texture allocateTexture() {
+		assert gl != null;
+
+		Texture texture = new AwtTexture(gl);
+
+		int[] textures = new int[1];
+		gl.glGenTextures(1, textures, 0);
+		texture.textureId = textures[0];
+
+		assert gl.glGetError() == 0;
+		gl.glBindTexture(GL.GL_TEXTURE_2D, texture.textureId);
+
+		gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER,
+				GL.GL_NEAREST);
+		gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER,
+				GL.GL_LINEAR);
+
+		gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S,
+				GL.GL_CLAMP_TO_EDGE);
+		gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T,
+				GL.GL_CLAMP_TO_EDGE);
+
+		gl.glTexEnvf(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_REPLACE);
+
+		assert gl.glGetError() == 0;
+		gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
+
+		return texture;
 	}
 }

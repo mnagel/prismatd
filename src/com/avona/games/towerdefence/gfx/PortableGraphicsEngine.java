@@ -43,6 +43,8 @@ public abstract class PortableGraphicsEngine {
 		menuLayer = layerHerder
 				.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
 	}
+	
+	public abstract Texture allocateTexture();
 
 	public abstract void prepareTransformationForLayer(Layer layer);
 
