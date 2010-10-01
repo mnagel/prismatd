@@ -6,8 +6,8 @@ import java.util.List;
 import com.avona.games.towerdefence.MovingObject;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.World.World;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyEventListener;
+import com.avona.games.towerdefence.world.World;
 
 public abstract class Enemy extends MovingObject {
 	private static final long serialVersionUID = 1L;

@@ -1,9 +1,9 @@
-package com.avona.games.towerdefence.Tower;
+package com.avona.games.towerdefence.tower;
 
 import com.avona.games.towerdefence.RGB;
-import com.avona.games.towerdefence.Particle.EmeraldParticle;
-import com.avona.games.towerdefence.Particle.Particle;
 import com.avona.games.towerdefence.enemy.Enemy;
+import com.avona.games.towerdefence.particle.EmeraldParticle;
+import com.avona.games.towerdefence.particle.Particle;
 
 public class EmeraldPrisma extends Tower {
 

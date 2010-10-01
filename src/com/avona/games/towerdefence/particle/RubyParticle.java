@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.Particle;
+package com.avona.games.towerdefence.particle;
 
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;

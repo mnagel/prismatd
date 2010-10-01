@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.World;
+package com.avona.games.towerdefence.world;
 
 import java.io.Serializable;
 import java.util.ArrayList;

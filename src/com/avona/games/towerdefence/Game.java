@@ -6,23 +6,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import com.avona.games.towerdefence.Particle.Particle;
-import com.avona.games.towerdefence.Tower.EmeraldPrisma;
-import com.avona.games.towerdefence.Tower.MousePointerTower;
-import com.avona.games.towerdefence.Tower.RubyPrisma;
-import com.avona.games.towerdefence.Tower.SapphirePrisma;
-import com.avona.games.towerdefence.Tower.Tower;
-import com.avona.games.towerdefence.World.World;
-import com.avona.games.towerdefence.World._010_Hello_World;
-import com.avona.games.towerdefence.World._020_About_Colors;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemy.LimeLizard;
 import com.avona.games.towerdefence.enemy.VioletViper;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameStats;
 import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
+import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.particleCollidors.NearestEnemyCollidorPolicy;
+import com.avona.games.towerdefence.tower.EmeraldPrisma;
+import com.avona.games.towerdefence.tower.MousePointerTower;
+import com.avona.games.towerdefence.tower.RubyPrisma;
+import com.avona.games.towerdefence.tower.SapphirePrisma;
+import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.waveListeners.WaveListener;
+import com.avona.games.towerdefence.world.World;
+import com.avona.games.towerdefence.world._010_Hello_World;
+import com.avona.games.towerdefence.world._020_About_Colors;
 
 public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;

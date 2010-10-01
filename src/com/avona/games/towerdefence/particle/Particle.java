@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.Particle;
+package com.avona.games.towerdefence.particle;
 
 import java.util.List;
 import java.util.Random;

@@ -2,8 +2,8 @@ package com.avona.games.towerdefence.particleCollidors;
 
 import java.util.List;
 
-import com.avona.games.towerdefence.Particle.Particle;
 import com.avona.games.towerdefence.enemy.Enemy;
+import com.avona.games.towerdefence.particle.Particle;
 
 public class OnlyTargetEnemyCollidorPolicy implements ParticleCollidorPolicy {
 	private static final long serialVersionUID = 1L;

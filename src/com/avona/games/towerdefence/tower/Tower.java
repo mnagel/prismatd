@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.Tower;
+package com.avona.games.towerdefence.tower;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import com.avona.games.towerdefence.LocationObject;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.RechargeTimer;
 import com.avona.games.towerdefence.TimedCodeManager;
-import com.avona.games.towerdefence.Particle.Particle;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemySelection.EnemySelectionPolicy;
+import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
 
 public abstract class Tower extends LocationObject {

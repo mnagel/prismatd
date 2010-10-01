@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.World;
+package com.avona.games.towerdefence.world;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Wave;
