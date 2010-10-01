@@ -14,16 +14,14 @@ import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
 public abstract class Tower extends LocationObject {
 	private static final long serialVersionUID = 1L;
 
-	public float range;
-	protected RechargeTimer timer;
 	public EnemySelectionPolicy enemySelectionPolicy;
 	public ParticleCollidorPolicy enemyParticleCollidorPolicy;
-	public int price;
 	public int level;
-
+	protected RechargeTimer timer;
+	public float range;
+	public int price;
 	public RGB strength;
 
-	// FIXME one ctor should call the other
 	public Tower(TimedCodeManager timedCodeManager,
 			EnemySelectionPolicy enemySelectionPolicy,
 			ParticleCollidorPolicy enemyParticleCollidorPolicy, int level) {
@@ -41,17 +39,14 @@ public abstract class Tower extends LocationObject {
 		super(t);
 		enemySelectionPolicy = t.enemySelectionPolicy;
 		enemyParticleCollidorPolicy = t.enemyParticleCollidorPolicy;
-		timer = t.timer.copy();
 		level = t.level;
+		timer = t.timer.copy();
 		range = t.range;
 		price = t.price;
-		radius = t.radius;
+		strength = t.strength;
 	}
 
-	// // FIXME will fail
-	// public Tower copy() {
-	// return new EmeraldPrisma(this);
-	// }
+	public abstract Tower copy();
 
 	public abstract Particle makeParticle(Enemy e);
 

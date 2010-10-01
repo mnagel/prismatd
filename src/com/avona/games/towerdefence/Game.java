@@ -11,11 +11,8 @@ import com.avona.games.towerdefence.enemy.LimeLizard;
 import com.avona.games.towerdefence.enemy.VioletViper;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameStats;
-import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
 import com.avona.games.towerdefence.particle.Particle;
-import com.avona.games.towerdefence.particleCollidors.NearestEnemyCollidorPolicy;
 import com.avona.games.towerdefence.tower.EmeraldPrisma;
-import com.avona.games.towerdefence.tower.MousePointerTower;
 import com.avona.games.towerdefence.tower.RubyPrisma;
 import com.avona.games.towerdefence.tower.SapphirePrisma;
 import com.avona.games.towerdefence.tower.Tower;
@@ -103,8 +100,7 @@ public class Game implements Serializable {
 		
 		LoadLevel(levels[rand.nextInt(levels.length)]);
 
-		selectedBuildTower = new MousePointerTower(timedCodeManager,
-				new NearestEnemyPolicy(), new NearestEnemyCollidorPolicy(), 1);
+		selectedBuildTower = new EmeraldPrisma(timedCodeManager, 1);
 	}
 
 	public boolean canBuildTowerAt(V2 location) {
@@ -112,23 +108,21 @@ public class Game implements Serializable {
 	}
 
 	public void addTowerAt(V2 location) {
-
-		Tower newTower;
-		int val = rand.nextInt(3);
-
-		if (val == 1) {
-			newTower = new EmeraldPrisma(selectedBuildTower);
-		} else if (val == 2) {
-			newTower = new RubyPrisma(selectedBuildTower);
-		} else {
-			newTower = new SapphirePrisma(selectedBuildTower);
-		}
-
-		// Tower t = selectedBuildTower.copy();
+		Tower newTower = selectedBuildTower.copy();
 		newTower.location = new V2(location);
 		money -= newTower.price;
 		towers.add(newTower);
 		eventListener.onBuildTower(newTower);
+
+		// While we have no true tower selection, pick a new tower by random.
+		final int val = rand.nextInt(3);
+		if (val == 1) {
+			selectedBuildTower = new EmeraldPrisma(timedCodeManager, 1);
+		} else if (val == 2) {
+			selectedBuildTower = new RubyPrisma(timedCodeManager, 1);
+		} else {
+			selectedBuildTower = new SapphirePrisma(timedCodeManager, 1);
+		}
 	}
 
 	public void startWave() {
