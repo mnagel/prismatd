@@ -55,6 +55,8 @@ public class InputMangler implements KeyListener, MouseListener,
 			actor.pressedSpaceKey();
 		} else if (e.getKeyCode() == KeyEvent.VK_P) {
 			actor.pressedPauseKey();
+		} else if (e.getKeyCode() == KeyEvent.VK_0) {
+			ml.serialize();
 		}
 	}
 
