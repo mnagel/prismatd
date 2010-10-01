@@ -114,7 +114,7 @@ public class Game implements Serializable {
 		towers.add(newTower);
 		eventListener.onBuildTower(newTower);
 
-		// While we have no true tower selection, pick a new tower by random.
+		// TODO While we have no true tower selection, pick a new tower by random.
 		final int val = rand.nextInt(3);
 		if (val == 1) {
 			selectedBuildTower = new EmeraldPrismaTower(timedCodeManager, 1);

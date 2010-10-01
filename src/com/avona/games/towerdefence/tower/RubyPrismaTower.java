@@ -5,14 +5,14 @@ import com.avona.games.towerdefence.TimedCodeManager;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
 import com.avona.games.towerdefence.particle.Particle;
-import com.avona.games.towerdefence.particle.RubyParticle;
 import com.avona.games.towerdefence.particleCollidors.NearestEnemyCollidorPolicy;
 
 public class RubyPrismaTower extends Tower {
 
 	private static final long serialVersionUID = 3932215952475151291L;
 
-	public RubyPrismaTower(final TimedCodeManager timedCodeManager, final int level) {
+	public RubyPrismaTower(final TimedCodeManager timedCodeManager,
+			final int level) {
 		super(timedCodeManager, new NearestEnemyPolicy(),
 				new NearestEnemyCollidorPolicy(), level);
 		strength = new RGB(level * 10 + 10, 0, 0);
@@ -29,6 +29,7 @@ public class RubyPrismaTower extends Tower {
 
 	@Override
 	public Particle makeParticle(Enemy e) {
-		return new RubyParticle(level, location, e, enemyParticleCollidorPolicy);
+		return new Particle(location, e, enemyParticleCollidorPolicy,
+				150 + 2 * (level - 1), new RGB(10 + 2 * (level - 1), 0, 0));
 	}
 }

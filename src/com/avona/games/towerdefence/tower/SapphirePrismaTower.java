@@ -5,7 +5,6 @@ import com.avona.games.towerdefence.TimedCodeManager;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
 import com.avona.games.towerdefence.particle.Particle;
-import com.avona.games.towerdefence.particle.SapphireParticle;
 import com.avona.games.towerdefence.particleCollidors.NearestEnemyCollidorPolicy;
 
 public class SapphirePrismaTower extends Tower {
@@ -30,7 +29,7 @@ public class SapphirePrismaTower extends Tower {
 
 	@Override
 	public Particle makeParticle(Enemy e) {
-		return new SapphireParticle(level, location, e,
-				enemyParticleCollidorPolicy);
+		return new Particle(location, e, enemyParticleCollidorPolicy,
+				150 + 2 * (level - 1), new RGB(0, 0, 10 + 2 * (level - 1)));
 	}
 }
