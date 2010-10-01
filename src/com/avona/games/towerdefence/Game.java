@@ -96,7 +96,7 @@ public class Game implements Serializable {
 		World[] levels = new World[] { new _010_Hello_World(),
 				new _020_About_Colors() };
 
-		LoadLevel(levels[rand.nextInt(levels.length)]);
+		LoadLevel(levels[0]);
 
 		selectedBuildTower = new EmeraldPrismaTower(timedCodeManager, 1);
 	}

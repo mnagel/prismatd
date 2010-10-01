@@ -7,6 +7,12 @@ public class _020_About_Colors extends World {
 
 	private static final long serialVersionUID = -2476503319147078452L;
 
+	public _020_About_Colors() {
+		super();
+		gameBackgroundName = "back_l";
+		menuBackgroundName = "back_r";
+	}
+
 	@Override
 	public int getStartLifes() {
 		return 10;

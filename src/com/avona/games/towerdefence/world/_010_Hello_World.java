@@ -7,6 +7,12 @@ public class _010_Hello_World extends World {
 
 	private static final long serialVersionUID = -2476503319147078452L;
 
+	public _010_Hello_World() {
+		super();
+		gameBackgroundName = "back_l";
+		menuBackgroundName = "back_r";
+	}
+
 	@Override
 	public int getStartLifes() {
 		return 10;

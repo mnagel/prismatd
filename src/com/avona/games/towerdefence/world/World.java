@@ -15,6 +15,11 @@ public abstract class World implements Serializable {
 	public final static float ORIGIN_Y = 0;
 	public final static float HEIGHT = 480;
 
+	public String gameBackgroundName;
+	public String menuBackgroundName;
+
+	public float WAYPOINT_WIDTH = 4.0f;
+
 	public ArrayList<V2> waypoints = new ArrayList<V2>();
 
 	public World() {
