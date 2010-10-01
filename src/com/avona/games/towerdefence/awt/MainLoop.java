@@ -4,6 +4,7 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
 import com.avona.games.towerdefence.PortableMainLoop;
+import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
 
@@ -23,6 +24,8 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 
 	public MainLoop() {
 		super();
+
+		ResourceResolverRegistry.setInstance(new FileResourceResolver("gfx"));
 
 		GraphicsEngine graphicsEngine = new GraphicsEngine(game, mouse,
 				layerHerder, graphicsTime);

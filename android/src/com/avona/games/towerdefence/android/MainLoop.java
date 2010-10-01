@@ -5,6 +5,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Vibrator;
 
 import com.avona.games.towerdefence.PortableMainLoop;
+import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 
 public class MainLoop extends PortableMainLoop {
 	private static final long serialVersionUID = 1L;
@@ -13,6 +14,9 @@ public class MainLoop extends PortableMainLoop {
 
 	public MainLoop(Context context, Vibrator vibrator) {
 		super();
+
+		ResourceResolverRegistry.setInstance(new AndroidResourceResolver(
+				context.getResources()));
 
 		final GraphicsEngine graphicsEngine = new GraphicsEngine(game, mouse,
 				layerHerder, graphicsTime);
