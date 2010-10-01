@@ -4,7 +4,20 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
+import com.avona.games.towerdefence.Enemy.Enemy;
+import com.avona.games.towerdefence.Enemy.LimeLizard;
+import com.avona.games.towerdefence.Enemy.VioletViper;
+import com.avona.games.towerdefence.Particle.Particle;
+import com.avona.games.towerdefence.Tower.EmeraldPrisma;
+import com.avona.games.towerdefence.Tower.MousePointerTower;
+import com.avona.games.towerdefence.Tower.RubyPrisma;
+import com.avona.games.towerdefence.Tower.SapphirePrisma;
+import com.avona.games.towerdefence.Tower.Tower;
+import com.avona.games.towerdefence.World.World;
+import com.avona.games.towerdefence.World._010_Hello_World;
+import com.avona.games.towerdefence.World._020_About_Colors;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameStats;
 import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
@@ -32,15 +45,22 @@ public class Game implements Serializable {
 	 */
 	public Wave currentWave;
 
-	/**
-	 * The user has indicated, that the next wave should be started when ready.
-	 */
-	public boolean startNextWave = false;
-
 	public int killed = 0;
-	public int escaped = 0;
+	public int lifes;
+	
+	public void looseLife() {
+		this.lifes--;
+		if (this.lifes <= 0) {
+			gameOver();
+		}
+	}
+	
+	public void gameOver() {
+		// FIXME add some game over logic here...
+		Util.log("you should die now...");
+	}
 
-	public int money = 250;
+	public int money;
 
 	/**
 	 * Which type of tower to build - if any.
@@ -48,6 +68,16 @@ public class Game implements Serializable {
 	public Tower selectedBuildTower = null;
 
 	public boolean draggingTower = false;
+	
+	public void LoadLevel(World w) {
+		this.world = w;
+		
+		this.world.initWaypoints();
+		this.lifes = this.world.getStartLifes();
+		this.money = this.world.getStartMoney();
+		// FIXME use this call...
+		// something = this.world.listBuildableTowers();
+	}
 
 	/**
 	 * Currently selected, existing tower. We will typically show the properties
@@ -65,9 +95,15 @@ public class Game implements Serializable {
 		this.gameTime = gameTime;
 		this.timedCodeManager = timedCodeManager;
 		this.eventListener = eventListener;
-		world = new World();
+		
+		World[] levels = new World[] {
+				new _010_Hello_World(), 
+				new _020_About_Colors()
+		};
+		
+		LoadLevel(levels[rand.nextInt(levels.length)]);
 
-		selectedBuildTower = new Tower(timedCodeManager,
+		selectedBuildTower = new MousePointerTower(timedCodeManager,
 				new NearestEnemyPolicy(), new NearestEnemyCollidorPolicy(), 1);
 	}
 
@@ -76,42 +112,67 @@ public class Game implements Serializable {
 	}
 
 	public void addTowerAt(V2 location) {
-		Tower t = selectedBuildTower.copy();
-		t.location = new V2(location);
-		money -= t.price;
-		towers.add(t);
-		eventListener.onBuildTower(t);
+
+		Tower newTower;
+		int val = rand.nextInt(3);
+
+		if (val == 1) {
+			newTower = new EmeraldPrisma(selectedBuildTower);
+		} else if (val == 2) {
+			newTower = new RubyPrisma(selectedBuildTower);
+		} else {
+			newTower = new SapphirePrisma(selectedBuildTower);
+		}
+
+		// Tower t = selectedBuildTower.copy();
+		newTower.location = new V2(location);
+		money -= newTower.price;
+		towers.add(newTower);
+		eventListener.onBuildTower(newTower);
 	}
 
 	public void startWave() {
 		int level = 1;
+		
 		if (currentWave != null) {
 			if (!currentWave.isCompleted()) {
-				// Wait for the wave to complete before starting a new one.
-				startNextWave = true;
-				return;
+				return; // one wave at a time
 			}
+		}
+		
+		if (currentWave != null) {
 			level = currentWave.getLevel() + 1;
 		}
-
-		startNextWave = false;
-		currentWave = new Wave(this, timedCodeManager, level);
+		
+		// generate new wave
+		this.currentWave = this.world.sendWave(level, this);
+		
+		// trigger events
 		for (WaveListener l : waveBegunListeners) {
 			l.onWave(level);
 		}
 	}
 
 	public void onWaveCompleted(int level) {
+		// world-specific handlers
+		this.world.onWaveCompleted(level);
+		
+		// game-specific handlers
 		for (WaveListener l : waveCompletedListeners) {
 			l.onWave(level);
 		}
-		if (startNextWave)
-			startWave();
 	}
+
+	static Random rand = new Random();
 
 	public void spawnEnemy(int level) {
 		final V2 location = world.waypoints.get(0).copy();
-		final Enemy e = new Enemy(world, location, level);
+		Enemy e;
+		if (rand.nextBoolean()) {
+			e = new LimeLizard(world, location, level);
+		} else {
+			e = new VioletViper(world, location, level);
+		}
 		e.eventListeners.add(enemyDeathGivesMoney);
 		e.eventListeners.add(enemyDeathUpdatesGameStats);
 		enemies.add(e);

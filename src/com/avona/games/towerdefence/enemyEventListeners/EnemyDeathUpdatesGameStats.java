@@ -1,7 +1,7 @@
 package com.avona.games.towerdefence.enemyEventListeners;
 
-import com.avona.games.towerdefence.Enemy;
 import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.Enemy.Enemy;
 
 public class EnemyDeathUpdatesGameStats implements EnemyEventListener {
 	private static final long serialVersionUID = 1L;
@@ -19,7 +19,7 @@ public class EnemyDeathUpdatesGameStats implements EnemyEventListener {
 
 	@Override
 	public void onEscapeEvent(Enemy e) {
-		game.escaped += 1;
+		game.looseLife();
 	}
 
 }

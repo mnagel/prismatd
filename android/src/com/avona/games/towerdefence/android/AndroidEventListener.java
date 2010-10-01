@@ -3,7 +3,7 @@ package com.avona.games.towerdefence.android;
 import android.os.Vibrator;
 
 import com.avona.games.towerdefence.EventListener;
-import com.avona.games.towerdefence.Tower;
+import com.avona.games.towerdefence.Tower.Tower;
 
 public class AndroidEventListener implements EventListener {
 

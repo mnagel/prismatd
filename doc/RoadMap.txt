@@ -4,6 +4,8 @@ Creation-Date: 2010-09-06T09:54:39.867461
 
 ====== RoadMap ======
 
+spätere Sachen auch auf [[RoadMap:RoadMapLater]]
+
 ==== Desktop Java ====
 [*] Surface (o.Ä.) erstellen, auf der performante 2D und/oder 3D Grafik ausgegeben werden kann
 [*] Eingaben entgegennehmen
@@ -130,31 +132,34 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] Game Over
 
 ===== Theming =====
-[ ] Umstellen auf Prisma TD
+[*] Umstellen auf Prisma TD
 	[ ] im Spiel / der GUI
 	[ ] in der Doku
 	[ ] im Code
-[ ] einführen der drei Schadensklassen
-[ ] zwei verschiedene Türme um das Konzept auszudrücken
-[ ] zwei verschiedene Gegner um das Konzept auszudrücken
+	[ ] im Programm/JAR-Namen
+[*] einführen der drei Schadensklassen
+[*] zwei verschiedene Türme um das Konzept auszudrücken
+[*] zwei verschiedene Gegner um das Konzept auszudrücken
 [ ] [[Development:Concept]] weiterentwickeln
 [ ] [[Development:Concept]] allgemein+verbindlich absegnen
 [ ] [[Development:Concept]] umsetzen soweit mit "Alpha" markiert
 
 ===== Menü =====
 [ ] erste sinnvolle Version des Menüs implementieren
-[ ] Überlegung + Mockup, was alles ins Menü soll
+[*] Überlegung + Mockup, was alles ins Menü soll
+[ ] Gegenchecken gegen [[../modelle/gui.odg|gui.odg]]
 
 ===== Usability =====
 [ ] Probespiel, ob ein "minimal useful product" vorliegt
 [ ] Killer-Usability-Probleme benennen
 	[ ] Pause / Resume / State sichern auf Android
-	[ ] interner Getting-Started Splash Screen
-		[ ] klicke hier um Turm zu bauen
-		[ ] klicke hier um Welle zu starten
-		[ ] stoppe die Monster vor hier
-		[ ] Tipp: baue den ersten Turm hier
+	[ ] interner Getting-Started Splash Screen -- inkl. der gelisteten Unterpunkte
+		[x] klicke hier um Turm zu bauen
+		[x] klicke hier um Welle zu starten
+		[x] stoppe die Monster vor hier
+		[x] Tipp: baue den ersten Turm hier
 	[ ] Neustart des Spiels / Levels
+	[ ] Levelauswahl
 
 ===== Alpha Release =====
 [ ] Source / Binary - Download für Linux
@@ -169,10 +174,11 @@ Creation-Date: 2010-09-06T09:54:39.867461
 [ ] TODOs im Code durchgehen
 [*] nur eine absolut einzige Version von Korrdinaten-Tupel verwenden keine Mischung von Point2d, Vector2d, Velocity, ...
 [*] Issue Tracker (launchpad?, trac?, sd?)
-[ ] Zim-Export als Webseite
+[*] Zim-Export als Webseite
 	[ ] wo hosten
 [ ] grobes Trial-and-Error Balancing
 [*] Weichenstellung Theming / Branding / Alleinstellung
 [ ] Liste der (Alpha) Release Critical Bugs erstellen
 	[x] ...
 [ ] Release Critical Bugs fixen
+[ ] Business Plan

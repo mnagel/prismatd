@@ -1,24 +1,21 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.Enemy;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import com.avona.games.towerdefence.MovingObject;
+import com.avona.games.towerdefence.RGB;
+import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.World.World;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyEventListener;
 
-public class Enemy extends MovingObject {
+public abstract class Enemy extends MovingObject {
 	private static final long serialVersionUID = 1L;
 
 	public V2 target;
-	// public int health;
-	// public int maxHealth;
 
-	public int lifeR;
-	public int lifeG;
-	public int lifeB;
-
-	public int lifeMaxR;
-	public int lifeMaxG;
-	public int lifeMaxB;
+	public RGB life;
+	public RGB maxLife;
 
 	public int level;
 	public int waypointId = 1;
@@ -28,8 +25,9 @@ public class Enemy extends MovingObject {
 
 	public Enemy(World world, V2 location, int level) {
 		this.level = level;
-		this.lifeMaxR = this.lifeMaxG = this.lifeMaxB = 50 + 20 * (level - 1);
-		this.lifeR = this.lifeG = this.lifeB = this.lifeMaxR;
+		// this.lifeMaxR = this.lifeMaxG = this.lifeMaxB = 50 + 20 * (level -
+		// 1);
+		// this.lifeR = this.lifeG = this.lifeB = this.lifeMaxR;
 		this.worth = 3 + (level - 1);
 		this.world = world;
 		this.location = location;
@@ -56,17 +54,11 @@ public class Enemy extends MovingObject {
 	}
 
 	public boolean isDead() {
-		return lifeR <= 0 && lifeG <= 0 && lifeB <= 0;
+		return life.R <= 0 && life.G <= 0 && life.B <= 0;
 	}
 
-	public void inflictDamage(int damageR, int damageG, int damageB) {
-		lifeR -= damageR;
-		lifeG -= damageG;
-		lifeB -= damageB;
-
-		lifeR = Math.max(lifeR, 0);
-		lifeG = Math.max(lifeG, 0);
-		lifeB = Math.max(lifeB, 0);
+	public void inflictDamage(RGB dmg) {
+		life.sub(dmg, 0.0f);
 
 		if (isDead()) {
 			die();

@@ -1,18 +1,22 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.Particle;
 
 import java.util.List;
 import java.util.Random;
 
+import com.avona.games.towerdefence.Collision;
+import com.avona.games.towerdefence.MovingObject;
+import com.avona.games.towerdefence.RGB;
+import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.Enemy.Enemy;
 import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
 
-public class Particle extends MovingObject {
+public abstract class Particle extends MovingObject {
 	private static final long serialVersionUID = 1L;
 
 	public Enemy target;
 
-	public int strengthR;
-	public int strengthG;
-	public int strengthB;
+	public RGB strength;
+
 	protected float range = 5;
 	protected double timeAlive = 4.0;
 
@@ -30,7 +34,7 @@ public class Particle extends MovingObject {
 		this.collidorPolicy = collidorPolicy;
 
 		this.velocity.setLength(150 + 2 * (level - 1));
-		strengthR = strengthG = strengthB = 10 + 2 * (level - 1);
+		// strengthR = strengthG = strengthB = 10 + 2 * (level - 1);
 		recalculateTargetVector();
 	}
 
@@ -55,7 +59,7 @@ public class Particle extends MovingObject {
 			return;
 		}
 
-		e.inflictDamage(strengthR, strengthG, strengthB);
+		e.inflictDamage(this.strength);
 		dead = true;
 	}
 

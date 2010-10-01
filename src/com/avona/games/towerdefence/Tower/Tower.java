@@ -1,11 +1,17 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.Tower;
 
 import java.util.List;
 
+import com.avona.games.towerdefence.LocationObject;
+import com.avona.games.towerdefence.RGB;
+import com.avona.games.towerdefence.RechargeTimer;
+import com.avona.games.towerdefence.TimedCodeManager;
+import com.avona.games.towerdefence.Enemy.Enemy;
+import com.avona.games.towerdefence.Particle.Particle;
 import com.avona.games.towerdefence.enemySelection.EnemySelectionPolicy;
 import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
 
-public class Tower extends LocationObject {
+public abstract class Tower extends LocationObject {
 	private static final long serialVersionUID = 1L;
 
 	public float range;
@@ -15,6 +21,9 @@ public class Tower extends LocationObject {
 	public int price;
 	public int level;
 
+	public RGB strength;
+
+	// FIXME one ctor should call the other
 	public Tower(TimedCodeManager timedCodeManager,
 			EnemySelectionPolicy enemySelectionPolicy,
 			ParticleCollidorPolicy enemyParticleCollidorPolicy, int level) {
@@ -37,42 +46,19 @@ public class Tower extends LocationObject {
 		range = t.range;
 		price = t.price;
 		radius = t.radius;
-
-		if (cnt % 3 == 0) {
-			colors = 0;
-		} else if (cnt % 3 == 1) {
-			colors = 1;
-		} else {
-			colors = 2;
-		}
-		cnt++;
 	}
 
-	public int colors;
-	public static int cnt = 0;
+	// // FIXME will fail
+	// public Tower copy() {
+	// return new EmeraldPrisma(this);
+	// }
 
-	public Tower copy() {
-		return new Tower(this);
-	}
+	public abstract Particle makeParticle(Enemy e);
 
 	public Particle shootTowards(Enemy e) {
 		if (timer.ready) {
 			timer.rearm();
-			Particle p = new Particle(level, location, e,
-					enemyParticleCollidorPolicy);
-
-			if (this.colors == 0) {
-				p.strengthR *= 3;
-				p.strengthG = p.strengthB = 0;
-			} else if (this.colors == 1) {
-				p.strengthG *= 3;
-				p.strengthR = p.strengthB = 0;
-			} else {
-				p.strengthB *= 3;
-				p.strengthR = p.strengthG = 0;
-			}
-
-			return p;
+			return makeParticle(e);
 		} else {
 			return null;
 		}

@@ -7,13 +7,13 @@ Creation-Date: 2010-09-25T20:58:54.429178
 ===== On Linux (precompiled jar) =====
 * double click "prismatd.ubuntu.sh"
 OR
-• launch "prismatd.ubuntu.sh" from within a terminal]
+* launch "prismatd.ubuntu.sh" from within a terminal
 
 
 ===== On Android =====
 * click the "Prisma TD" icon on your Home Screen
 OR
-• click the "Prisma TD" icon in your app list
+* click the "Prisma TD" icon in your app list
 
 
 ===== From Within Eclipse =====
