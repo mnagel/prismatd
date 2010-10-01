@@ -4,31 +4,33 @@ import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.TimedCodeManager;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
+import com.avona.games.towerdefence.particle.EmeraldParticle;
 import com.avona.games.towerdefence.particle.Particle;
-import com.avona.games.towerdefence.particle.RubyParticle;
 import com.avona.games.towerdefence.particleCollidors.NearestEnemyCollidorPolicy;
 
-public class RubyPrisma extends Tower {
+public class EmeraldPrismaTower extends Tower {
 
-	private static final long serialVersionUID = 3932215952475151291L;
+	private static final long serialVersionUID = 730930808330710179L;
 
-	public RubyPrisma(final TimedCodeManager timedCodeManager, final int level) {
+	public EmeraldPrismaTower(final TimedCodeManager timedCodeManager,
+			final int level) {
 		super(timedCodeManager, new NearestEnemyPolicy(),
 				new NearestEnemyCollidorPolicy(), level);
-		strength = new RGB(level * 10 + 10, 0, 0);
+		strength = new RGB(0, level * 10 + 10, 0);
 	}
 
-	public RubyPrisma(final RubyPrisma other) {
+	public EmeraldPrismaTower(final EmeraldPrismaTower other) {
 		super(other);
 	}
 
 	@Override
 	public Tower copy() {
-		return new RubyPrisma(this);
+		return new EmeraldPrismaTower(this);
 	}
 
 	@Override
-	public Particle makeParticle(Enemy e) {
-		return new RubyParticle(level, location, e, enemyParticleCollidorPolicy);
+	public Particle makeParticle(final Enemy e) {
+		return new EmeraldParticle(level, location, e,
+				enemyParticleCollidorPolicy);
 	}
 }

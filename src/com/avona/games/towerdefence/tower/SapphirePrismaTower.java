@@ -8,24 +8,24 @@ import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.particle.SapphireParticle;
 import com.avona.games.towerdefence.particleCollidors.NearestEnemyCollidorPolicy;
 
-public class SapphirePrisma extends Tower {
+public class SapphirePrismaTower extends Tower {
 
 	private static final long serialVersionUID = -8299463941517744976L;
 
-	public SapphirePrisma(final TimedCodeManager timedCodeManager,
+	public SapphirePrismaTower(final TimedCodeManager timedCodeManager,
 			final int level) {
 		super(timedCodeManager, new NearestEnemyPolicy(),
 				new NearestEnemyCollidorPolicy(), level);
 		strength = new RGB(0, 0, level * 10 + 10);
 	}
 
-	public SapphirePrisma(final SapphirePrisma other) {
+	public SapphirePrismaTower(final SapphirePrismaTower other) {
 		super(other);
 	}
 
 	@Override
 	public Tower copy() {
-		return new SapphirePrisma(this);
+		return new SapphirePrismaTower(this);
 	}
 
 	@Override

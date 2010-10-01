@@ -12,9 +12,9 @@ import com.avona.games.towerdefence.enemy.VioletViper;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameStats;
 import com.avona.games.towerdefence.particle.Particle;
-import com.avona.games.towerdefence.tower.EmeraldPrisma;
-import com.avona.games.towerdefence.tower.RubyPrisma;
-import com.avona.games.towerdefence.tower.SapphirePrisma;
+import com.avona.games.towerdefence.tower.EmeraldPrismaTower;
+import com.avona.games.towerdefence.tower.RubyPrismaTower;
+import com.avona.games.towerdefence.tower.SapphirePrismaTower;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.waveListeners.WaveListener;
 import com.avona.games.towerdefence.world.World;
@@ -100,7 +100,7 @@ public class Game implements Serializable {
 		
 		LoadLevel(levels[rand.nextInt(levels.length)]);
 
-		selectedBuildTower = new EmeraldPrisma(timedCodeManager, 1);
+		selectedBuildTower = new EmeraldPrismaTower(timedCodeManager, 1);
 	}
 
 	public boolean canBuildTowerAt(V2 location) {
@@ -117,11 +117,11 @@ public class Game implements Serializable {
 		// While we have no true tower selection, pick a new tower by random.
 		final int val = rand.nextInt(3);
 		if (val == 1) {
-			selectedBuildTower = new EmeraldPrisma(timedCodeManager, 1);
+			selectedBuildTower = new EmeraldPrismaTower(timedCodeManager, 1);
 		} else if (val == 2) {
-			selectedBuildTower = new RubyPrisma(timedCodeManager, 1);
+			selectedBuildTower = new RubyPrismaTower(timedCodeManager, 1);
 		} else {
-			selectedBuildTower = new SapphirePrisma(timedCodeManager, 1);
+			selectedBuildTower = new SapphirePrismaTower(timedCodeManager, 1);
 		}
 	}
 
