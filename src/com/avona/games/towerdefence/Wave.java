@@ -10,7 +10,8 @@ public class Wave extends TimedCode {
 	private int totalEnemies;
 	private int numEnemies = 0;
 
-	// FIXME add convenience constructors to be used in spawnWave of the World subclasses...
+	// FIXME add convenience constructors to be used in spawnWave of the World
+	// subclasses...
 	public Wave(Game game, TimedCodeManager timedCodeManager, int level) {
 		this.game = game;
 		this.timedCodeManager = timedCodeManager;

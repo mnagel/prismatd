@@ -33,46 +33,10 @@ public abstract class Texture {
 	 */
 	public int height;
 
-	/**
-	 * Width of the texture contents in percent. [0,1]
-	 */
-	public float widthScale;
-	/**
-	 * Height of the texture contents in percent. [0,1]
-	 */
-	public float heightScale;
+	public float leftBorder;
+	public float rightBorder;
+	public float topBorder;
+	public float lowerBorder;
 
 	abstract public void loadImage(String fileName);
-
-	protected ByteBuffer resizeAndCopyToBuffer(byte[] data,
-			final ImageColorFormat fmt) {
-		assert nativeHeight * nativeWidth * 4 == data.length;
-
-		width = Util.roundUpPower2(nativeWidth);
-		height = Util.roundUpPower2(nativeHeight);
-
-		widthScale = (float) nativeWidth / (float) width;
-		heightScale = (float) nativeHeight / (float) height;
-
-		ByteBuffer buf = ByteBuffer.allocateDirect(width * height * 4);
-		buf.order(ByteOrder.nativeOrder());
-		for (int row = nativeHeight - 1; row >= 0; --row) {
-			for (int i = 0; i < nativeWidth; ++i) {
-				buf.put(data[row * 4 * nativeHeight + i * 4 + fmt.redIndex]); // R
-				buf.put(data[row * 4 * nativeHeight + i * 4 + fmt.greenIndex]); // G
-				buf.put(data[row * 4 * nativeHeight + i * 4 + fmt.blueIndex]); // B
-				buf.put(data[row * 4 * nativeHeight + i * 4 + fmt.alphaIndex]); // A
-			}
-			for (int i = 0; i < (width - nativeWidth) * 4; ++i) {
-				buf.put((byte) 0);
-			}
-		}
-		for (int row = 0; row < height - nativeHeight; ++row) {
-			for (int i = 0; i < width * 4; ++i) {
-				buf.put((byte) 0);
-			}
-		}
-		buf.position(0);
-		return buf;
-	}
 }

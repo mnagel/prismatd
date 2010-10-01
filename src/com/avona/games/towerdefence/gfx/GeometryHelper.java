@@ -76,4 +76,15 @@ public class GeometryHelper {
 		va.addIndex(1);
 		va.addIndex(3);
 	}
+
+	public static void boxTextureAsTriangleStrip(final VertexArray va) {
+		// Top right
+		va.addTextureCoord(va.texture.rightBorder, va.texture.topBorder);
+		// Lower right
+		va.addTextureCoord(va.texture.rightBorder, va.texture.lowerBorder);
+		// Top left
+		va.addTextureCoord(va.texture.leftBorder, va.texture.topBorder);
+		// Lower left
+		va.addTextureCoord(va.texture.leftBorder, va.texture.lowerBorder);
+	}
 }

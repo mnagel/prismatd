@@ -1,7 +1,5 @@
 package com.avona.games.towerdefence.gfx;
 
-import java.util.ArrayList;
-
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.LayerHerder;
@@ -31,6 +29,7 @@ public abstract class PortableGraphicsEngine {
 	protected Mouse mouse;
 
 	protected VertexArray[] worldVertices;
+	protected VertexArray[] menuVertices;
 
 	public PortableGraphicsEngine(Game game, Mouse mouse,
 			LayerHerder layerHerder, TimeTrack graphicsTime) {
@@ -44,7 +43,7 @@ public abstract class PortableGraphicsEngine {
 		menuLayer = layerHerder
 				.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
 	}
-	
+
 	public abstract Texture allocateTexture();
 
 	public abstract void prepareTransformationForLayer(Layer layer);
@@ -137,10 +136,10 @@ public abstract class PortableGraphicsEngine {
 				va.freeBuffers();
 			}
 		}
-		worldVertices = new VertexArray[2];
+		worldVertices = new VertexArray[1];
 
 		VertexArray va = new VertexArray();
-		va.hasColour = true;
+		va.hasTexture = true;
 		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
 
@@ -148,47 +147,12 @@ public abstract class PortableGraphicsEngine {
 		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f,
 				gameLayer.virtualRegion.x, gameLayer.virtualRegion.y, va);
 
-		// Top right
-		va.addColour(0.00f, 0.00f, 0.00f, 1.0f);
-		// Lower right
-		va.addColour(0.60f, 0.83f, 0.91f, 1.0f);
-		// Top left
-		va.addColour(0.34f, 0.81f, 0.89f, 1.0f);
-		// Lower left
-		va.addColour(0.37f, 0.84f, 0.92f, 1.0f);
+		va.texture = allocateTexture();
+		va.texture.loadImage(game.world.gameBackgroundName);
+
+		GeometryHelper.boxTextureAsTriangleStrip(va);
 
 		worldVertices[0] = va;
-
-		va = new VertexArray();
-		va.hasColour = true;
-		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
-
-		DynamicCoordsArray coords = new DynamicCoordsArray();
-		// Draw the waypoints... top first...
-		assert (game.world.waypoints.size() > 1);
-
-		// Start the triangle strip by drawing two points at the first
-		// waypoint.
-		// TODO: This assumes that it's always starting at the top!
-		final ArrayList<V2> waypoints = game.world.waypoints;
-
-		V2 wp = waypoints.get(0);
-		coords.addCoord(wp.x - WAYPOINT_SPACING, wp.y);
-
-		for (int i = 1; i < waypoints.size(); ++i)
-			putWaypointVertices(waypoints, coords, i);
-
-		// TODO: This assumes that the last waypoint is at the top or bottom.
-		wp = waypoints.get(waypoints.size() - 1);
-		coords.addCoord(wp.x + WAYPOINT_SPACING, wp.y);
-
-		coords.loadIntoVertexArray(va);
-
-		for (int i = 1; i < va.numCoords; ++i) {
-			va.addColour(1.0f, 1.0f, 1.0f, 1.0f);
-		}
-
-		worldVertices[1] = va;
 	}
 
 	protected void renderWorld() {
@@ -201,211 +165,11 @@ public abstract class PortableGraphicsEngine {
 		}
 	}
 
-	private void putWaypointVertices(final ArrayList<V2> waypoints,
-			final DynamicCoordsArray coords, final int index) {
-		V2 previousWP;
-		final V2 currentWP = waypoints.get(index);
-		V2 nextWP;
+	protected void buildMenu() {
+		menuVertices = new VertexArray[1];
 
-		try {
-			previousWP = waypoints.get(index - 1);
-		} catch (IndexOutOfBoundsException e) {
-			// get first one instead
-			previousWP = waypoints.get(0);
-		}
-
-		try {
-			nextWP = waypoints.get(index + 1);
-		} catch (IndexOutOfBoundsException e) {
-			// get last one instead
-			nextWP = waypoints.get(waypoints.size() - 1);
-		}
-
-		if (previousWP.x < currentWP.x) {
-			/**
-			 * <pre>
-			 * *--------------- ...
-			 * 
-			 * ---------------- ...
-			 * </pre>
-			 */
-			if (nextWP.y < currentWP.y) {
-				/**
-				 * <pre>
-				 * *------------------2
-				 *                  X |
-				 * ---------------1/4 3
-				 *                |   |
-				 * </pre>
-				 */
-				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
-						- WAYPOINT_SPACING); // 1
-				coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
-						+ WAYPOINT_SPACING); // 2
-				coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
-						- WAYPOINT_SPACING); // 3
-				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
-						- WAYPOINT_SPACING); // 1=4
-			} else if (nextWP.y > currentWP.y) {
-				/**
-				 * <pre>
-				 *                |  |
-				 * *--------------2  3
-				 *                 X | 
-				 * ------------------1
-				 * </pre>
-				 */
-				coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
-						- WAYPOINT_SPACING); // 1
-				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
-						+ WAYPOINT_SPACING); // 2
-				coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
-						+ WAYPOINT_SPACING); // 3
-			} else {
-				/**
-				 * <pre>
-				 * *--------------2
-				 *                X
-				 * ---------------1
-				 * </pre>
-				 */
-				coords.addCoord(currentWP.x, currentWP.y - WAYPOINT_SPACING); // 1
-				coords.addCoord(currentWP.x, currentWP.y + WAYPOINT_SPACING); // 2
-			}
-		} else if (previousWP.x > currentWP.x) {
-			/**
-			 * <pre>
-			 * -----------------*
-			 * 
-			 * ------------------
-			 * </pre>
-			 */
-			if (nextWP.y < currentWP.y) {
-				/**
-				 * <pre>
-				 * 2-----------------*
-				 * | X
-				 * 4  3--------------1
-				 * |  |
-				 * </pre>
-				 */
-				coords.addCoord(previousWP.x, previousWP.y - WAYPOINT_SPACING); // 1
-				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
-						+ WAYPOINT_SPACING); // 2
-				coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
-						- WAYPOINT_SPACING); // 3
-				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
-						- WAYPOINT_SPACING); // 4
-			} else if (nextWP.y > currentWP.y) {
-				/**
-				 * <pre>
-				 * |  |
-				 * 3  2--------------*
-				 * | X
-				 * 1------------------
-				 * </pre>
-				 */
-				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
-						- WAYPOINT_SPACING); // 1
-				coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
-						+ WAYPOINT_SPACING); // 2
-				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
-						+ WAYPOINT_SPACING); // 3
-			} else {
-				/**
-				 * <pre>
-				 * 2------------------*
-				 * X
-				 * 1-------------------
-				 * </pre>
-				 */
-				coords.addCoord(currentWP.x, currentWP.y - WAYPOINT_SPACING); // 1
-				coords.addCoord(currentWP.x, currentWP.y + WAYPOINT_SPACING); // 2
-			}
-		} else {
-			if (previousWP.y > currentWP.y) {
-				/**
-				 * <pre>
-				 * *   1
-				 * |   |
-				 * |   |
-				 * | X | TODO: 2 X 3
-				 * 2   3
-				 * </pre>
-				 */
-				coords.addCoord(previousWP.x + WAYPOINT_SPACING, previousWP.y); // 1
-				coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
-						- WAYPOINT_SPACING); // 2
-				coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
-						- WAYPOINT_SPACING); // 3
-				if (nextWP.x > currentWP.x) {
-					/**
-					 * <pre>
-					 * *   1
-					 * |   |
-					 * |   4
-					 * | X 
-					 * 2---3
-					 * </pre>
-					 */
-					coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
-							+ WAYPOINT_SPACING); // 4
-				} else if (nextWP.x < currentWP.x) {
-					/**
-					 * <pre>
-					 * *   1
-					 * |   |
-					 * 4   |
-					 *   X |
-					 * 2---3
-					 * </pre>
-					 */
-					coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
-							+ WAYPOINT_SPACING); // 4
-				}
-
-			} else if (previousWP.y <= currentWP.y) {// do both, x=x,y=y is
-				// illegal anyway
-				if (nextWP.x > currentWP.x) {
-					/**
-					 * <pre>
-					 * 1---2
-					 * | X 
-					 * |   |
-					 * |   |
-					 * *   |
-					 * </pre>
-					 */
-					coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
-							+ WAYPOINT_SPACING); // 1
-					coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
-							+ WAYPOINT_SPACING); // 2
-				} else if (nextWP.x <= currentWP.x) {
-					/**
-					 * <pre>
-					 * 2---1
-					 *   X |
-					 * |   |
-					 * |   |
-					 * *   |
-					 * </pre>
-					 */
-					coords.addCoord(currentWP.x + WAYPOINT_SPACING, currentWP.y
-							+ WAYPOINT_SPACING); // 1
-					coords.addCoord(currentWP.x - WAYPOINT_SPACING, currentWP.y
-							+ WAYPOINT_SPACING); // 2
-				} else {
-					throw new RuntimeException("Should not be reached.");
-				}
-			}
-		}
-	}
-
-	private float WAYPOINT_SPACING = 4.0f;
-
-	protected void renderMenu() {
 		VertexArray va = new VertexArray();
-		va.hasColour = true;
+		va.hasTexture = true;
 		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
 
@@ -414,35 +178,23 @@ public abstract class PortableGraphicsEngine {
 		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f,
 				menuLayer.virtualRegion.x, menuLayer.virtualRegion.y, va);
 
-		// Top right
-		va.addColour(new float[] { 0.2314f, 0.4275f, 0.8980f, 1.0f });
-		// Lower right
-		va.addColour(new float[] { 0.4627f, 0.6863f, 0.9372f, 1.0f });
-		// Top left
-		va.addColour(new float[] { 0.2314f, 0.4275f, 0.8980f, 1.0f });
-		// Lower left
-		va.addColour(new float[] { 0.4627f, 0.6863f, 0.9372f, 1.0f });
+		va.texture = allocateTexture();
+		va.texture.loadImage(game.world.menuBackgroundName);
+
+		GeometryHelper.boxTextureAsTriangleStrip(va);
 
 		drawVertexArray(va);
+		menuVertices[0] = va;
+	}
 
-		va.freeBuffers();
+	protected void renderMenu() {
+		if (menuVertices == null) {
+			buildMenu();
+		}
 
-		va = new VertexArray();
-		va.hasColour = true;
-		va.numCoords = 2;
-		va.mode = VertexArray.Mode.LINE_STRIP;
-
-		va.reserveBuffers();
-
-		va.addCoord(0.0f, menuLayer.virtualRegion.y);
-		va.addColour(0.0f, 0.0f, 0.0f, 1.0f);
-
-		va.addCoord(0.0f, 0.0f);
-		va.addColour(0.0f, 0.0f, 0.0f, 1.0f);
-
-		drawVertexArray(va);
-
-		va.freeBuffers();
+		for (VertexArray va : menuVertices) {
+			drawVertexArray(va);
+		}
 	}
 
 	public void renderEnemy(final Enemy e) {
@@ -486,17 +238,18 @@ public abstract class PortableGraphicsEngine {
 				towerString = String.format("tower lvl %d | ", t.level);
 			} else if (game.selectedObject instanceof Enemy) {
 				final Enemy e = (Enemy) game.selectedObject;
-				towerString = String.format(
-						"enemy lvl %d, health R%d G%d B%d  /  R%d G%d B%d | ",
-						e.level, e.life.R, e.life.G, e.life.B, e.maxLife.R,
-						e.maxLife.G, e.maxLife.B);
+				towerString = String
+						.format(
+								"enemy lvl %d, health R%.0f G%.0f B%.0f  /  R%.0f G%.0f B%.0f | ",
+								e.level, e.life.R, e.life.G, e.life.B,
+								e.maxLife.R, e.maxLife.G, e.maxLife.B);
 			}
 		}
 		final String fpsString = String.format(
 				"%swave %d | %d killed | %d lifes | $%d | fps %.2f",
 				towerString, game.currentWave != null ? game.currentWave
-						.getLevel() : -1, game.killed, game.lifes,
-				game.money, graphicsTickRater.tickRate);
+						.getLevel() : -1, game.killed, game.lifes, game.money,
+				graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);
 		final float width = bounds.x + 4;
 		final float height = bounds.y + 2;

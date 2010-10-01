@@ -1,6 +1,14 @@
 package com.avona.games.towerdefence;
 
 public class Layer {
+	public static int MIN_DEPTH = 0;
+	public static int MAX_DEPTH = 2;
+
+	/**
+	 * Defines the z order of the layer.
+	 */
+	public int depth = 1;
+
 	/**
 	 * Name of the layer. Must be unique among all layers.
 	 */

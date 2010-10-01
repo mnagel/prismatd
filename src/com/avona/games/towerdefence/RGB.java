@@ -15,6 +15,12 @@ public final class RGB implements Serializable {
 		B = b;
 	}
 
+	public RGB(RGB orig) {
+		R = orig.R;
+		G = orig.G;
+		B = orig.B;
+	}
+
 	public void sub(RGB other, float cutoff) {
 		R -= other.R;
 		G -= other.G;

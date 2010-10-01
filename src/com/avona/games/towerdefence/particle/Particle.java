@@ -10,7 +10,7 @@ import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
 
-public abstract class Particle extends MovingObject {
+public class Particle extends MovingObject {
 	private static final long serialVersionUID = 1L;
 
 	public Enemy target;
@@ -27,14 +27,14 @@ public abstract class Particle extends MovingObject {
 
 	public static Random r = new Random();
 
-	public Particle(int level, V2 location, Enemy target,
-			ParticleCollidorPolicy collidorPolicy) {
+	public Particle(V2 location, Enemy target,
+			ParticleCollidorPolicy collidorPolicy, int velocity, RGB strength) {
 		this.location = new V2(location);
 		this.target = target;
 		this.collidorPolicy = collidorPolicy;
+		this.strength = strength;
 
-		this.velocity.setLength(150 + 2 * (level - 1));
-		// strengthR = strengthG = strengthB = 10 + 2 * (level - 1);
+		this.velocity.setLength(velocity);
 		recalculateTargetVector();
 	}
 

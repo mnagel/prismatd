@@ -11,13 +11,10 @@ import com.avona.games.towerdefence.enemy.LimeLizard;
 import com.avona.games.towerdefence.enemy.VioletViper;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameStats;
-import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
 import com.avona.games.towerdefence.particle.Particle;
-import com.avona.games.towerdefence.particleCollidors.NearestEnemyCollidorPolicy;
-import com.avona.games.towerdefence.tower.EmeraldPrisma;
-import com.avona.games.towerdefence.tower.MousePointerTower;
-import com.avona.games.towerdefence.tower.RubyPrisma;
-import com.avona.games.towerdefence.tower.SapphirePrisma;
+import com.avona.games.towerdefence.tower.EmeraldPrismaTower;
+import com.avona.games.towerdefence.tower.RubyPrismaTower;
+import com.avona.games.towerdefence.tower.SapphirePrismaTower;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.waveListeners.WaveListener;
 import com.avona.games.towerdefence.world.World;
@@ -47,14 +44,14 @@ public class Game implements Serializable {
 
 	public int killed = 0;
 	public int lifes;
-	
+
 	public void looseLife() {
 		this.lifes--;
 		if (this.lifes <= 0) {
 			gameOver();
 		}
 	}
-	
+
 	public void gameOver() {
 		// FIXME add some game over logic here...
 		Util.log("you should die now...");
@@ -68,10 +65,10 @@ public class Game implements Serializable {
 	public Tower selectedBuildTower = null;
 
 	public boolean draggingTower = false;
-	
+
 	public void LoadLevel(World w) {
 		this.world = w;
-		
+
 		this.world.initWaypoints();
 		this.lifes = this.world.getStartLifes();
 		this.money = this.world.getStartMoney();
@@ -95,16 +92,13 @@ public class Game implements Serializable {
 		this.gameTime = gameTime;
 		this.timedCodeManager = timedCodeManager;
 		this.eventListener = eventListener;
-		
-		World[] levels = new World[] {
-				new _010_Hello_World(), 
-				new _020_About_Colors()
-		};
-		
-		LoadLevel(levels[rand.nextInt(levels.length)]);
 
-		selectedBuildTower = new MousePointerTower(timedCodeManager,
-				new NearestEnemyPolicy(), new NearestEnemyCollidorPolicy(), 1);
+		World[] levels = new World[] { new _010_Hello_World(),
+				new _020_About_Colors() };
+
+		LoadLevel(levels[0]);
+
+		selectedBuildTower = new EmeraldPrismaTower(timedCodeManager, 1);
 	}
 
 	public boolean canBuildTowerAt(V2 location) {
@@ -112,41 +106,40 @@ public class Game implements Serializable {
 	}
 
 	public void addTowerAt(V2 location) {
-
-		Tower newTower;
-		int val = rand.nextInt(3);
-
-		if (val == 1) {
-			newTower = new EmeraldPrisma(selectedBuildTower);
-		} else if (val == 2) {
-			newTower = new RubyPrisma(selectedBuildTower);
-		} else {
-			newTower = new SapphirePrisma(selectedBuildTower);
-		}
-
-		// Tower t = selectedBuildTower.copy();
+		Tower newTower = selectedBuildTower.copy();
 		newTower.location = new V2(location);
 		money -= newTower.price;
 		towers.add(newTower);
 		eventListener.onBuildTower(newTower);
+
+		// TODO While we have no true tower selection, pick a new tower by
+		// random.
+		final int val = rand.nextInt(3);
+		if (val == 1) {
+			selectedBuildTower = new EmeraldPrismaTower(timedCodeManager, 1);
+		} else if (val == 2) {
+			selectedBuildTower = new RubyPrismaTower(timedCodeManager, 1);
+		} else {
+			selectedBuildTower = new SapphirePrismaTower(timedCodeManager, 1);
+		}
 	}
 
 	public void startWave() {
 		int level = 1;
-		
+
 		if (currentWave != null) {
 			if (!currentWave.isCompleted()) {
 				return; // one wave at a time
 			}
 		}
-		
+
 		if (currentWave != null) {
 			level = currentWave.getLevel() + 1;
 		}
-		
+
 		// generate new wave
 		this.currentWave = this.world.sendWave(level, this);
-		
+
 		// trigger events
 		for (WaveListener l : waveBegunListeners) {
 			l.onWave(level);
@@ -156,7 +149,7 @@ public class Game implements Serializable {
 	public void onWaveCompleted(int level) {
 		// world-specific handlers
 		this.world.onWaveCompleted(level);
-		
+
 		// game-specific handlers
 		for (WaveListener l : waveCompletedListeners) {
 			l.onWave(level);

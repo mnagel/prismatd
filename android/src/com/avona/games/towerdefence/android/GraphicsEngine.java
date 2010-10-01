@@ -183,8 +183,10 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T,
 				GL10.GL_CLAMP_TO_EDGE);
 
-		gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_REPLACE);
+		gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE,
+				GL10.GL_REPLACE);
 
+		Util.log("glGetError after create texture: " + gl.glGetError());
 		assert gl.glGetError() == 0;
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
 

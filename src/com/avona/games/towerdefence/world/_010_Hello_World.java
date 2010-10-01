@@ -7,6 +7,12 @@ public class _010_Hello_World extends World {
 
 	private static final long serialVersionUID = -2476503319147078452L;
 
+	public _010_Hello_World() {
+		super();
+		gameBackgroundName = "back_l";
+		menuBackgroundName = "back_r";
+	}
+
 	@Override
 	public int getStartLifes() {
 		return 10;
@@ -44,7 +50,8 @@ public class _010_Hello_World extends World {
 	@Override
 	public Wave sendWave(int wave, Game g) {
 		// FIXME need convenience constructor for wave
-		// to allow for dynamic creation (set monster classes, set monster count, ...)
+		// to allow for dynamic creation (set monster classes, set monster
+		// count, ...)
 		// here...
 		return new Wave(g, g.timedCodeManager, wave);
 	}
