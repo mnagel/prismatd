@@ -19,7 +19,7 @@ public class EnemyDeathUpdatesGameStats implements EnemyEventListener {
 
 	@Override
 	public void onEscapeEvent(Enemy e) {
-		game.escaped += 1;
+		game.looseLife();
 	}
 
 }

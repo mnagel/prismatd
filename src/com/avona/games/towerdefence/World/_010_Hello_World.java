@@ -1,11 +1,24 @@
 package com.avona.games.towerdefence.World;
 
+import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.Wave;
+
 public class _010_Hello_World extends World {
 
 	private static final long serialVersionUID = -2476503319147078452L;
 
-	public _010_Hello_World() {
-		super();
+	@Override
+	public int getStartLifes() {
+		return 10;
+	}
+
+	@Override
+	public int getStartMoney() {
+		return 100;
+	}
+
+	@Override
+	public void initWaypoints() {
 		addWaypoint(30, 480);
 		addWaypoint(30, 400);
 		addWaypoint(600, 400);
@@ -16,5 +29,23 @@ public class _010_Hello_World extends World {
 		addWaypoint(30, 200);
 		addWaypoint(300, 200);
 		addWaypoint(300, 0);
+	}
+
+	@Override
+	public Object listBuildableTowers() {
+		return null;
+	}
+
+	@Override
+	public void onWaveCompleted(int wave) {
+		return;
+	}
+
+	@Override
+	public Wave sendWave(int wave, Game g) {
+		// FIXME need convenience constructor for wave
+		// to allow for dynamic creation (set monster classes, set monster count, ...)
+		// here...
+		return new Wave(g, g.timedCodeManager, wave);
 	}
 }

@@ -462,9 +462,9 @@ public abstract class PortableGraphicsEngine {
 			}
 		}
 		final String fpsString = String.format(
-				"%swave %d | %d killed | %d escaped | $%d | fps %.2f",
+				"%swave %d | %d killed | %d lifes | $%d | fps %.2f",
 				towerString, game.currentWave != null ? game.currentWave
-						.getLevel() : -1, game.killed, game.escaped,
+						.getLevel() : -1, game.killed, game.lifes,
 				game.money, graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);
 		final float width = bounds.x + 4;
