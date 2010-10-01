@@ -12,33 +12,46 @@ import com.avona.games.towerdefence.world.World;
 public abstract class Enemy extends MovingObject {
 	private static final long serialVersionUID = 1L;
 
-	public V2 target;
-
-	public RGB life;
-	public RGB maxLife;
-
-	public abstract RGB getMaxLife();
-
+	public World world;
 	public int level;
 	public int waypointId = 1;
 	public boolean escaped = false;
 	public int worth;
 	public List<EnemyEventListener> eventListeners = new LinkedList<EnemyEventListener>();
+	public V2 target;
+	public RGB life;
+	public RGB maxLife;
 
-	public Enemy(World world, V2 location, int level) {
-		this.level = level;
-		// this.lifeMaxR = this.lifeMaxG = this.lifeMaxB = 50 + 20 * (level -
-		// 1);
-		// this.lifeR = this.lifeG = this.lifeB = this.lifeMaxR;
-		this.worth = 3 + (level - 1);
+	public Enemy(World world, int level) {
+		super();
 		this.world = world;
-		this.location = location;
-		this.velocity.setLength(80 + 3 * (level - 1));
-		setWPID(1);
-
+		this.level = level;
+		this.worth = 3 + (level - 1);
 		this.maxLife = this.getMaxLife();
 		this.life = new RGB(this.maxLife);
 	}
+
+	public Enemy(Enemy other) {
+		super(other);
+		world = other.world;
+		level = other.level;
+		waypointId = other.waypointId;
+		escaped = other.escaped;
+		worth = other.worth;
+		target = other.target;
+		life = other.life;
+		maxLife = other.maxLife;
+	}
+
+	public void setInitialLocation(V2 location) {
+		this.location = location;
+		this.velocity.setLength(80 + 3 * (level - 1));
+		setWPID(1);
+	}
+
+	public abstract Enemy copy();
+
+	public abstract RGB getMaxLife();
 
 	public void setWPID(int i) {
 		if (waypointId + 1 < world.waypoints.size()) {

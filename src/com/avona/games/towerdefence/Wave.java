@@ -1,23 +1,27 @@
 package com.avona.games.towerdefence;
 
+import com.avona.games.towerdefence.enemy.Enemy;
+import com.avona.games.towerdefence.world.World;
+
 public class Wave extends TimedCode {
 	private static final long serialVersionUID = 1L;
 
 	private int level;
 	private boolean completed = false;
 	private Game game;
+	private World world;
 	private TimedCodeManager timedCodeManager;
-	private int totalEnemies;
-	private int numEnemies = 0;
+	private int curEnemy = 0;
+	private WaveEnemy[] enemies;
 
-	// FIXME add convenience constructors to be used in spawnWave of the World
-	// subclasses...
-	public Wave(Game game, TimedCodeManager timedCodeManager, int level) {
+	public Wave(Game game, World world, TimedCodeManager timedCodeManager,
+			int level, WaveEnemy[] enemies) {
 		this.game = game;
+		this.world = world;
 		this.timedCodeManager = timedCodeManager;
 		this.level = level;
+		this.enemies = enemies;
 
-		totalEnemies = 2 * level + 2;
 		spawnEnemy();
 	}
 
@@ -30,14 +34,20 @@ public class Wave extends TimedCode {
 	}
 
 	private void spawnEnemy() {
-		++numEnemies;
-		game.spawnEnemy(level);
-		timedCodeManager.addCode(0.4f, this);
+
+		final V2 location = world.waypoints.get(0).copy();
+		WaveEnemy we = enemies[curEnemy];
+		Enemy e = we.enemy.copy();
+		e.setInitialLocation(location);
+		game.onEnemySpawned(e);
+
+		++curEnemy;
+		timedCodeManager.addCode(we.delay, this);
 	}
 
 	@Override
 	public void execute() {
-		if (numEnemies < totalEnemies) {
+		if (curEnemy < enemies.length) {
 			spawnEnemy();
 		} else {
 			completed = true;

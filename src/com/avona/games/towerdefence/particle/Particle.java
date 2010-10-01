@@ -29,7 +29,7 @@ public class Particle extends MovingObject {
 
 	public Particle(V2 location, Enemy target,
 			ParticleCollidorPolicy collidorPolicy, int velocity, RGB strength) {
-		this.location = new V2(location);
+		this.location = location.copy();
 		this.target = target;
 		this.collidorPolicy = collidorPolicy;
 		this.strength = strength;

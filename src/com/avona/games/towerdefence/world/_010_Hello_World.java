@@ -2,6 +2,9 @@ package com.avona.games.towerdefence.world;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Wave;
+import com.avona.games.towerdefence.WaveEnemy;
+import com.avona.games.towerdefence.enemy.LimeLizardEnemy;
+import com.avona.games.towerdefence.enemy.VioletViperEnemy;
 
 public class _010_Hello_World extends World {
 
@@ -49,10 +52,22 @@ public class _010_Hello_World extends World {
 
 	@Override
 	public Wave sendWave(int wave, Game g) {
-		// FIXME need convenience constructor for wave
-		// to allow for dynamic creation (set monster classes, set monster
-		// count, ...)
-		// here...
-		return new Wave(g, g.timedCodeManager, wave);
+		final float delay = 0.35f;
+		final int level = 1;
+		return new Wave(g, this, g.timedCodeManager, wave, new WaveEnemy[] {
+				new WaveEnemy(new LimeLizardEnemy(this, level), delay),
+				new WaveEnemy(new VioletViperEnemy(this, level), delay),
+				new WaveEnemy(new LimeLizardEnemy(this, level), delay),
+				new WaveEnemy(new VioletViperEnemy(this, level), delay),
+				new WaveEnemy(new LimeLizardEnemy(this, level), delay),
+				new WaveEnemy(new VioletViperEnemy(this, level), delay),
+				new WaveEnemy(new LimeLizardEnemy(this, level), delay),
+				new WaveEnemy(new VioletViperEnemy(this, level), delay),
+				new WaveEnemy(new LimeLizardEnemy(this, level), delay),
+				new WaveEnemy(new VioletViperEnemy(this, level), delay),
+				new WaveEnemy(new LimeLizardEnemy(this, level), delay),
+				new WaveEnemy(new VioletViperEnemy(this, level), delay),
+				new WaveEnemy(new LimeLizardEnemy(this, level), delay),
+				new WaveEnemy(new VioletViperEnemy(this, level), delay) });
 	}
 }

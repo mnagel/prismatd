@@ -1,10 +1,5 @@
 package com.avona.games.towerdefence.gfx;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-
-import com.avona.games.towerdefence.Util;
-
 public abstract class Texture {
 	/**
 	 * Used by the graphics system to associate some hardware texture identifier

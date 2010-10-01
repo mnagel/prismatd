@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.avona.games.towerdefence.enemy.Enemy;
-import com.avona.games.towerdefence.enemy.LimeLizard;
-import com.avona.games.towerdefence.enemy.VioletViper;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameStats;
 import com.avona.games.towerdefence.particle.Particle;
@@ -158,14 +156,7 @@ public class Game implements Serializable {
 
 	static Random rand = new Random();
 
-	public void spawnEnemy(int level) {
-		final V2 location = world.waypoints.get(0).copy();
-		Enemy e;
-		if (rand.nextBoolean()) {
-			e = new LimeLizard(world, location, level);
-		} else {
-			e = new VioletViper(world, location, level);
-		}
+	public void onEnemySpawned(Enemy e) {
 		e.eventListeners.add(enemyDeathGivesMoney);
 		e.eventListeners.add(enemyDeathUpdatesGameStats);
 		enemies.add(e);
