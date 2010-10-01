@@ -458,7 +458,7 @@ public abstract class PortableGraphicsEngine {
 			} else if (game.selectedObject instanceof Enemy) {
 				final Enemy e = (Enemy) game.selectedObject;
 				towerString = String.format(
-						"enemy lvl %d, health R%d G%d B%d  /  R%d G%d B%d | ",
+						"enemy lvl %d, health R%.0f G%.0f B%.0f  /  R%.0f G%.0f B%.0f | ",
 						e.level, e.life.R, e.life.G, e.life.B, e.maxLife.R,
 						e.maxLife.G, e.maxLife.B);
 			}

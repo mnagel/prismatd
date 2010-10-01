@@ -182,3 +182,4 @@ spätere Sachen auch auf [[RoadMap:RoadMapLater]]
 	[x] ...
 [ ] Release Critical Bugs fixen
 [ ] Business Plan
+[ ] Util.log() sollte unter Android die Moeglichkeit haben, auf dem HUD etwas auszugeben
