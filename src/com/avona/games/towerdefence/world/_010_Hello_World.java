@@ -44,7 +44,8 @@ public class _010_Hello_World extends World {
 	@Override
 	public Wave sendWave(int wave, Game g) {
 		// FIXME need convenience constructor for wave
-		// to allow for dynamic creation (set monster classes, set monster count, ...)
+		// to allow for dynamic creation (set monster classes, set monster
+		// count, ...)
 		// here...
 		return new Wave(g, g.timedCodeManager, wave);
 	}

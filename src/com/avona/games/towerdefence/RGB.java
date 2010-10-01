@@ -10,7 +10,7 @@ public final class RGB {
 		G = g;
 		B = b;
 	}
-	
+
 	public RGB(RGB orig) {
 		R = orig.R;
 		G = orig.G;

@@ -44,7 +44,7 @@ public abstract class PortableGraphicsEngine {
 		menuLayer = layerHerder
 				.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
 	}
-	
+
 	public abstract Texture allocateTexture();
 
 	public abstract void prepareTransformationForLayer(Layer layer);
@@ -457,17 +457,18 @@ public abstract class PortableGraphicsEngine {
 				towerString = String.format("tower lvl %d | ", t.level);
 			} else if (game.selectedObject instanceof Enemy) {
 				final Enemy e = (Enemy) game.selectedObject;
-				towerString = String.format(
-						"enemy lvl %d, health R%.0f G%.0f B%.0f  /  R%.0f G%.0f B%.0f | ",
-						e.level, e.life.R, e.life.G, e.life.B, e.maxLife.R,
-						e.maxLife.G, e.maxLife.B);
+				towerString = String
+						.format(
+								"enemy lvl %d, health R%.0f G%.0f B%.0f  /  R%.0f G%.0f B%.0f | ",
+								e.level, e.life.R, e.life.G, e.life.B,
+								e.maxLife.R, e.maxLife.G, e.maxLife.B);
 			}
 		}
 		final String fpsString = String.format(
 				"%swave %d | %d killed | %d lifes | $%d | fps %.2f",
 				towerString, game.currentWave != null ? game.currentWave
-						.getLevel() : -1, game.killed, game.lifes,
-				game.money, graphicsTickRater.tickRate);
+						.getLevel() : -1, game.killed, game.lifes, game.money,
+				graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);
 		final float width = bounds.x + 4;
 		final float height = bounds.y + 2;

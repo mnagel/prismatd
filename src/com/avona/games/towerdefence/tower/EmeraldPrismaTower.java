@@ -29,8 +29,7 @@ public class EmeraldPrismaTower extends Tower {
 
 	@Override
 	public Particle makeParticle(final Enemy e) {
-		return new Particle(location, e,
-				enemyParticleCollidorPolicy, 150 + 2 * (level - 1),
-				new RGB(0, 10 + 2 * (level - 1), 0));
+		return new Particle(location, e, enemyParticleCollidorPolicy,
+				150 + 2 * (level - 1), new RGB(0, 10 + 2 * (level - 1), 0));
 	}
 }

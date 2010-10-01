@@ -14,7 +14,7 @@ import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 
 public class AndroidTexture extends Texture {
 	private GL10 gl;
-	
+
 	public AndroidTexture(GL10 gl) {
 		this.gl = gl;
 	}
@@ -28,7 +28,8 @@ public class AndroidTexture extends Texture {
 		nativeWidth = bm.getWidth();
 		nativeHeight = bm.getHeight();
 
-		ByteBuffer nativeBuf = ByteBuffer.allocate(nativeWidth * nativeHeight * 4);
+		ByteBuffer nativeBuf = ByteBuffer.allocate(nativeWidth * nativeHeight
+				* 4);
 		bm.copyPixelsToBuffer(nativeBuf);
 		bm.recycle();
 		byte[] data = nativeBuf.array();
@@ -36,8 +37,8 @@ public class AndroidTexture extends Texture {
 
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, textureId);
 		assert gl.glGetError() == 0;
-		gl.glTexImage2D(GL10.GL_TEXTURE_2D, 0, GL10.GL_RGBA, width,
-				height, 0, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, buf);
+		gl.glTexImage2D(GL10.GL_TEXTURE_2D, 0, GL10.GL_RGBA, width, height, 0,
+				GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, buf);
 		assert gl.glGetError() == 0;
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
 	}

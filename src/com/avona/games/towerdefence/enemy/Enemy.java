@@ -16,7 +16,7 @@ public abstract class Enemy extends MovingObject {
 
 	public RGB life;
 	public RGB maxLife;
-	
+
 	public abstract RGB getMaxLife();
 
 	public int level;
@@ -35,7 +35,7 @@ public abstract class Enemy extends MovingObject {
 		this.location = location;
 		this.velocity.setLength(80 + 3 * (level - 1));
 		setWPID(1);
-		
+
 		this.maxLife = this.getMaxLife();
 		this.life = new RGB(this.maxLife);
 	}
