@@ -12,8 +12,8 @@ It runs and is tested on:
 * Linux (Ubuntu 10.04, Debian)
 
 It might somehow be possible to get it running on:
-• Windows
-• Mac OS X
+* Windows
+* Mac OS X
 
 
 ===== SiteMap =====
@@ -21,3 +21,4 @@ It might somehow be possible to get it running on:
 * Screenshots are at [[ScreenShots]]
 * for a roadmap see [[RoadMap]]
 * Bugs, Feature Requests and other Issues are tracked at [[BugTracker]]
+* fot Information on Development see [[Development]]

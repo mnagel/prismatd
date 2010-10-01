@@ -31,7 +31,7 @@ Creation-Date: 2010-09-24T20:33:49.070854
 
 [*] Specials -- [[Development:Concept]]
 
-[ ] Business Plan
+[x] Business Plan -- vorvelegt
 [ ] Planung Beta Release / sonstige Previews
 [ ] was tun mit Android-Devices, die außer Touch auch noch eine Tastatur haben?
 
