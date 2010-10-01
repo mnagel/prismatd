@@ -61,7 +61,7 @@ public abstract class PortableGraphicsEngine {
 
 	public abstract V2 getTextBounds(final String text);
 
-	public void render(float gameDelta, float graphicsDelta) {
+	public void render(final float gameDelta, final float graphicsDelta) {
 		graphicsTickRater.updateTickRate();
 
 		prepareScreen();
@@ -454,7 +454,7 @@ public abstract class PortableGraphicsEngine {
 		final float width = 12;
 		final V2 location = e.location;
 
-		VertexArray va = new VertexArray();
+		final VertexArray va = new VertexArray();
 		va.hasColour = true;
 		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
