@@ -35,13 +35,13 @@ public abstract class PortableMainLoop implements Serializable {
 		gameLayer.virtualRegion.x = World.WIDTH;
 		gameLayer.virtualRegion.y = World.HEIGHT;
 		gameLayer.name = GAME_LAYER_NAME;
-		layerHerder.layers.add(gameLayer);
+		layerHerder.addLayer(gameLayer);
 
 		Layer menuLayer = new Layer();
 		menuLayer.virtualRegion.x = 125;
 		menuLayer.virtualRegion.y = 480;
 		menuLayer.name = MENU_LAYER_NAME;
-		layerHerder.layers.add(menuLayer);
+		layerHerder.addLayer(menuLayer);
 
 		game.waveBegunListeners.add(new GrantInterestPerWave(game, 0.10f));
 	}
