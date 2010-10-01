@@ -20,7 +20,7 @@ public abstract class World implements Serializable {
 
 	public float WAYPOINT_WIDTH = 4.0f;
 
-	public ArrayList<V2> waypoints = new ArrayList<V2>();
+	public final ArrayList<V2> waypoints = new ArrayList<V2>();
 
 	public World() {
 		waypoints.clear();
@@ -44,8 +44,8 @@ public abstract class World implements Serializable {
 	public abstract Object listBuildableTowers();
 
 	// gets called when a new wave should be spawned
-	public abstract Wave sendWave(int wave, Game g);
+	public abstract Wave sendWave(final int wave, final Game g);
 
 	// allows to execute some code when a wave completes
-	public abstract void onWaveCompleted(int wave);
+	public abstract void onWaveCompleted(final int wave);
 }

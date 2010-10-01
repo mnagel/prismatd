@@ -137,4 +137,9 @@ public class GameInputActor implements InputActor {
 	 */
 	public void mouseDraggedTo(V2 location) {
 	}
+
+	@Override
+	public void pressedPauseKey() {
+		
+	}
 }

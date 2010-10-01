@@ -106,4 +106,8 @@ public class MenuInputActor implements InputActor {
 	 */
 	public void mouseDraggedTo(V2 location) {
 	}
+
+	@Override
+	public void pressedPauseKey() {
+	}
 }

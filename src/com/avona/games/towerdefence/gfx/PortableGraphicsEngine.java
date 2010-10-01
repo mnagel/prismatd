@@ -60,7 +60,7 @@ public abstract class PortableGraphicsEngine {
 
 	public abstract V2 getTextBounds(final String text);
 
-	public void render(float gameDelta, float graphicsDelta) {
+	public void render(final float gameDelta, final float graphicsDelta) {
 		graphicsTickRater.updateTickRate();
 
 		prepareScreen();
@@ -95,8 +95,37 @@ public abstract class PortableGraphicsEngine {
 		renderMenu();
 		resetTransformation();
 
+		if(!game.gameTime.isRunning()) {
+			renderPauseOverlay(gameLayer, true);
+			renderPauseOverlay(menuLayer, false);
+		}
+
 		renderStats();
 		renderMouse();
+	}
+	
+	private void renderPauseOverlay(Layer layer, boolean renderText) {
+		prepareTransformationForLayer(layer);
+		final VertexArray va = new VertexArray();
+		va.hasColour = true;
+		va.numCoords = 4;
+		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+
+		va.reserveBuffers();
+
+		GeometryHelper.boxVerticesAsTriangleStrip(0, 0, layer.virtualRegion.x, layer.virtualRegion.y, va);
+		
+		for(int i = 0; i < 4; ++i)
+			va.addColour(0.0f, 0.0f, 0.0f, 0.4f);
+		drawVertexArray(va);
+
+		va.freeBuffers();
+		
+		if(renderText)
+			// XXX: Maybe this is working by chance? :P
+			drawText("Game paused", layer.virtualRegion.x / 2 - 10, layer.virtualRegion.y + 40f, 1.0f, 1.0f, 1.0f, 1.0f);
+		
+		resetTransformation();
 	}
 
 	protected void createWorld() {
@@ -177,7 +206,7 @@ public abstract class PortableGraphicsEngine {
 		final float width = 12;
 		final V2 location = e.location;
 
-		VertexArray va = new VertexArray();
+		final VertexArray va = new VertexArray();
 		va.hasColour = true;
 		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;

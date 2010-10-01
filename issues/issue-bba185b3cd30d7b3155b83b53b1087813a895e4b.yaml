@@ -5,8 +5,8 @@ type: :feature
 component: core
 release: 
 reporter: Michael Nagel <m.nagel@devzero.de>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2010-09-22 13:18:02.628759 Z
 references: []
 
@@ -16,3 +16,17 @@ log_events:
   - Michael Nagel <m.nagel@devzero.de>
   - created
   - ""
+- - 2010-10-01 18:54:06.571246 Z
+  - Philipp Kern <phil@philkern.de>
+  - changed status from unstarted to in_progress
+  - |-
+    Actually one just needs to settle on a fixed directory for the export.
+    Afterwards you can just symlink the screenshots directory to the right
+    location.  Of course installations from that export need to actually
+    copy the screenshots directory instead of taking the symlink.  So one
+    other solution would be to regenerate the screenshots subtree on
+    every make instead.
+- - 2010-10-01 18:57:54.624489 Z
+  - Philipp Kern <phil@philkern.de>
+  - closed with disposition fixed
+  - Fixed in 7abc575.

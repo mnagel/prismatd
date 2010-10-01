@@ -6,7 +6,7 @@ Creation-Date: 2010-09-09T11:33:57.460888
 
 ===== Desktop Java =====
 2010-10-01
-{{file:///home/nailor/code/towerdefence/doc/screenshots/screenshot-desktop-2010-10-01.png}}
+{{../screenshots/screenshot-desktop-2010-10-01.png}}
 
 2010-09-19
 {{../screenshots/screenshot-desktop-2010-09-19.png}}
