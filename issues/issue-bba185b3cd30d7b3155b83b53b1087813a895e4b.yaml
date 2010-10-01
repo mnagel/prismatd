@@ -5,8 +5,8 @@ type: :feature
 component: core
 release: 
 reporter: Michael Nagel <m.nagel@devzero.de>
-status: :in_progress
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2010-09-22 13:18:02.628759 Z
 references: []
 
@@ -26,3 +26,7 @@ log_events:
     copy the screenshots directory instead of taking the symlink.  So one
     other solution would be to regenerate the screenshots subtree on
     every make instead.
+- - 2010-10-01 18:57:54.624489 Z
+  - Philipp Kern <phil@philkern.de>
+  - closed with disposition fixed
+  - Fixed in 7abc575.
