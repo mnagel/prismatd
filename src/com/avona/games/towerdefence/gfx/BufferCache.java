@@ -2,7 +2,8 @@ package com.avona.games.towerdefence.gfx;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.ArrayDeque;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class BufferCache {
 	private static int BUF_MIN_POWER = 4;
@@ -10,7 +11,7 @@ public class BufferCache {
 	private static int NUM_BUFFER_CLASSES = BUF_MAX_POWER - BUF_MIN_POWER + 1;
 
 	@SuppressWarnings("unchecked")
-	private ArrayDeque<ByteBuffer>[] cacheClasses = new ArrayDeque[NUM_BUFFER_CLASSES];
+	private Queue<ByteBuffer>[] cacheClasses = new Queue[NUM_BUFFER_CLASSES];
 
 	private static BufferCache bufferCacheInstance = new BufferCache();
 
@@ -20,7 +21,7 @@ public class BufferCache {
 
 	private BufferCache() {
 		for (int i = 0; i < cacheClasses.length; ++i) {
-			cacheClasses[i] = new ArrayDeque<ByteBuffer>();
+			cacheClasses[i] = new LinkedList<ByteBuffer>();
 		}
 	}
 
@@ -55,7 +56,7 @@ public class BufferCache {
 			buf = ByteBuffer.allocateDirect(cacheBlockSize).order(
 					ByteOrder.nativeOrder());
 		} else {
-			buf = cacheClasses[cacheIdx].pop();
+			buf = cacheClasses[cacheIdx].remove();
 		}
 		return buf;
 	}
@@ -64,6 +65,6 @@ public class BufferCache {
 		final int powerOfTwo = findPower2Class(buf.capacity(), BUF_MIN_POWER,
 				BUF_MAX_POWER);
 		final int cacheIdx = powerOfTwo - BUF_MIN_POWER;
-		cacheClasses[cacheIdx].push(buf);
+		cacheClasses[cacheIdx].add(buf);
 	}
 }
