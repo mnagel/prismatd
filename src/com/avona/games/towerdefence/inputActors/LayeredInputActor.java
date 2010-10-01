@@ -224,4 +224,10 @@ public class LayeredInputActor implements InputActor {
 			mouseEnteredLayer(layer);
 		lastLayer = layer;
 	}
+
+	@Override
+	public void pressedPauseKey() {
+		System.out.println("toggleGamePause");
+		ml.toggleGamePause();
+	}
 }

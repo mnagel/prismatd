@@ -28,4 +28,6 @@ public interface InputActor {
 
 	public void mouseDraggedTo(V2 location);
 
+	public void pressedPauseKey();
+
 }
