@@ -7,16 +7,12 @@ public class LimeLizardEnemy extends Enemy {
 	private static final long serialVersionUID = 3102974967310386039L;
 
 	public LimeLizardEnemy(Level level, int levelNum) {
-		super(level, levelNum);
+		super(level, levelNum, 3 + (levelNum - 1), new RGB(0,
+				50 * levelNum + 10, 0), 80 + 3 * (levelNum - 1));
 	}
 
 	public LimeLizardEnemy(LimeLizardEnemy other) {
 		super(other);
-	}
-
-	@Override
-	public RGB getMaxLife() {
-		return new RGB(0, 50 * levelNum + 10, 0);
 	}
 
 	@Override

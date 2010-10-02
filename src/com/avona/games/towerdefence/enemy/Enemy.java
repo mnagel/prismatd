@@ -22,13 +22,14 @@ public abstract class Enemy extends MovingObject {
 	public RGB life;
 	public RGB maxLife;
 
-	public Enemy(Level level, int levelNum) {
+	public Enemy(Level level, int levelNum, int worth, RGB maxLife, int speed) {
 		super();
 		this.level = level;
-		this.worth = 3 + (levelNum - 1);
-		this.maxLife = this.getMaxLife();
-		this.life = new RGB(this.maxLife);
 		this.levelNum = levelNum;
+		this.worth = worth;
+		this.maxLife = maxLife;
+		this.velocity.setLength(speed);
+		life = maxLife.copy();
 	}
 
 	public Enemy(Enemy other) {
@@ -44,14 +45,11 @@ public abstract class Enemy extends MovingObject {
 	}
 
 	public void setInitialLocation(V2 location) {
-		this.location = location;
-		this.velocity.setLength(80 + 3 * (levelNum - 1));
+		this.location = location.copy();
 		setWPID(1);
 	}
 
 	public abstract Enemy copy();
-
-	public abstract RGB getMaxLife();
 
 	public void setWPID(int i) {
 		if (waypointId + 1 < level.waypoints.size()) {
@@ -76,7 +74,7 @@ public abstract class Enemy extends MovingObject {
 	}
 
 	public void inflictDamage(RGB dmg) {
-		life.sub(dmg, 0.0f);
+		life.subUpto(dmg, 0.0f);
 
 		if (isDead()) {
 			die();

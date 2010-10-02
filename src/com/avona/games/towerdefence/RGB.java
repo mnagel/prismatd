@@ -21,7 +21,11 @@ public final class RGB implements Serializable {
 		B = orig.B;
 	}
 
-	public void sub(RGB other, float cutoff) {
+	public RGB copy() {
+		return new RGB(this);
+	}
+
+	public void subUpto(RGB other, float cutoff) {
 		R -= other.R;
 		G -= other.G;
 		B -= other.B;
