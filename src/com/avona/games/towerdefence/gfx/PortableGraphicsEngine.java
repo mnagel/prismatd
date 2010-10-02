@@ -48,8 +48,8 @@ public abstract class PortableGraphicsEngine {
 	public void onNewScreenContext() {
 		// Make sure that the VertexArrays are cleared on a screen context
 		// reset. Otherwise, any preloaded texture wouldn't be reloaded again.
-		levelVertices = null;
-		menuVertices = null;
+		freeLevelVertices();
+		freeMenuVertices();
 	}
 
 	public abstract Texture allocateTexture();
@@ -129,13 +129,7 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	protected void createLevel() {
-		if (levelVertices != null) {
-			// In case we're recreating the world, allow re-using of the
-			// buffers.
-			for (VertexArray va : levelVertices) {
-				va.freeBuffers();
-			}
-		}
+		freeLevelVertices();
 		levelVertices = new VertexArray[1];
 
 		VertexArray va = new VertexArray();
@@ -155,6 +149,16 @@ public abstract class PortableGraphicsEngine {
 		levelVertices[0] = va;
 	}
 
+	protected void freeLevelVertices() {
+		if (levelVertices != null) {
+			// In case we're recreating the world, allow re-using of the
+			// buffers.
+			for (VertexArray va : levelVertices) {
+				va.freeBuffers();
+			}
+		}
+	}
+
 	protected void renderLevel() {
 		if (levelVertices == null) {
 			createLevel();
@@ -166,6 +170,7 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	protected void buildMenu() {
+		freeMenuVertices();
 		menuVertices = new VertexArray[1];
 
 		VertexArray va = new VertexArray();
@@ -185,6 +190,16 @@ public abstract class PortableGraphicsEngine {
 
 		drawVertexArray(va);
 		menuVertices[0] = va;
+	}
+
+	protected void freeMenuVertices() {
+		if (menuVertices != null) {
+			// In case we're recreating the world, allow re-using of the
+			// buffers.
+			for (VertexArray va : menuVertices) {
+				va.freeBuffers();
+			}
+		}
 	}
 
 	protected void renderMenu() {
