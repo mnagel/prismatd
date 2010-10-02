@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 import com.avona.games.towerdefence.enemy.Enemy;
 
-public class WaveEnemyConfig {
+public class WaveEnemyConfig implements Serializable {
+
+	private static final long serialVersionUID = -7341162462907266565L;
 
 	public Enemy enemy;
 	public float delay;
