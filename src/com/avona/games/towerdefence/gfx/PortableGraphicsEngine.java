@@ -104,38 +104,28 @@ public abstract class PortableGraphicsEngine {
 		resetTransformation();
 
 		if (!game.gameTime.isRunning()) {
-			renderPauseOverlay(gameLayer, true);
-			renderPauseOverlay(menuLayer, false);
+			renderPauseOverlay();
 		}
 
 		renderStats();
 		renderMouse();
 	}
 
-	private void renderPauseOverlay(Layer layer, boolean renderText) {
-		prepareTransformationForLayer(layer);
+	private void renderPauseOverlay() {
 		final VertexArray va = new VertexArray();
 		va.hasColour = true;
 		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
-
 		va.reserveBuffers();
-
-		GeometryHelper.boxVerticesAsTriangleStrip(0, 0, layer.virtualRegion.x,
-				layer.virtualRegion.y, va);
-
-		for (int i = 0; i < 4; ++i)
-			va.addColour(0.0f, 0.0f, 0.0f, 0.4f);
+		GeometryHelper.boxVerticesAsTriangleStrip(0, 0, size.x, size.y, va);
+		GeometryHelper.boxColoursAsTriangleStrip(0.0f, 0.0f, 0.0f, 0.4f, va);
 		drawVertexArray(va);
-
 		va.freeBuffers();
 
-		if (renderText)
-			// XXX: Maybe this is working by chance? :P
-			drawText("Game paused", layer.virtualRegion.x / 2 - 10,
-					layer.virtualRegion.y + 40f, 1.0f, 1.0f, 1.0f, 1.0f);
-
-		resetTransformation();
+		final String pauseText = "Game paused";
+		final V2 s = getTextBounds(pauseText);
+		drawText(pauseText, (size.x * 0.5f) - (s.x * 0.5f), (size.y * 0.5f)
+				+ (s.y * 0.5f), 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	protected void createLevel() {
