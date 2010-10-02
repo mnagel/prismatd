@@ -107,6 +107,8 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 
 		gl.glEnable(GL.GL_BLEND);
 		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+
+		onNewScreenContext();
 	}
 
 	@Override

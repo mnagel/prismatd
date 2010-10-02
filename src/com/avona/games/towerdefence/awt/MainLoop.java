@@ -36,11 +36,11 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 
 		initNewGame();
 	}
-	
+
 	public MainLoop(String[] args) {
 		super();
-		
-		if(args.length == 0) {
+
+		if (args.length == 0) {
 			initNewGame();
 		} else {
 			try {
@@ -73,7 +73,6 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		animator.setRunAsFastAsPossible(false);
 		animator.start();
 
-		
 		try {
 			final FileOutputStream fos = new FileOutputStream("savegame");
 			final ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -83,13 +82,14 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 			e.printStackTrace();
 		}
 	}
-	
-	private void loadGame(final String filename) throws FileNotFoundException, IOException, ClassNotFoundException {
+
+	private void loadGame(final String filename) throws FileNotFoundException,
+			IOException, ClassNotFoundException {
 		final InputStream is = new FileInputStream(filename);
 		final ObjectInputStream ois = new ObjectInputStream(is);
-		
+
 		// Otherwise the parent class would've set up game...
-		game = (Game)ois.readObject();
+		game = (Game) ois.readObject();
 		// ...thus we can call initNewGame now.
 		initNewGame();
 	}
@@ -118,7 +118,7 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 			int arg4) {
 		// Unused.
 	}
-	
+
 	@Override
 	public void serialize() {
 		try {

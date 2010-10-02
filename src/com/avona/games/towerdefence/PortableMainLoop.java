@@ -92,7 +92,7 @@ public abstract class PortableMainLoop implements Serializable {
 	}
 
 	public abstract void exit();
-	
+
 	public void serialize() {
 		// TODO: Make this abstract.
 	}
