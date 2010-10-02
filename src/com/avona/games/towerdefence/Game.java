@@ -9,15 +9,14 @@ import java.util.Random;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameStats;
+import com.avona.games.towerdefence.level.Level;
+import com.avona.games.towerdefence.level._010_Hello_World;
+import com.avona.games.towerdefence.level._020_About_Colors;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.EmeraldPrismaTower;
 import com.avona.games.towerdefence.tower.RubyPrismaTower;
 import com.avona.games.towerdefence.tower.SapphirePrismaTower;
 import com.avona.games.towerdefence.tower.Tower;
-import com.avona.games.towerdefence.waveListeners.WaveListener;
-import com.avona.games.towerdefence.world.World;
-import com.avona.games.towerdefence.world._010_Hello_World;
-import com.avona.games.towerdefence.world._020_About_Colors;
 
 public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -25,27 +24,23 @@ public class Game implements Serializable {
 	public List<Enemy> enemies = new LinkedList<Enemy>();
 	public List<Tower> towers = new LinkedList<Tower>();
 	public List<Particle> particles = new LinkedList<Particle>();
-	public List<WaveListener> waveCompletedListeners = new LinkedList<WaveListener>();
-	public List<WaveListener> waveBegunListeners = new LinkedList<WaveListener>();
 
 	public TimeTrack gameTime;
 	public TimedCodeManager timedCodeManager;
 
 	public EventListener eventListener;
 
-	public World world;
-
-	/**
-	 * Currently running wave.
-	 */
-	public Wave currentWave;
+	public Level level;
 
 	public int killed = 0;
-	public int lifes;
+	public int lives;
 
 	public void looseLife() {
-		this.lifes--;
-		if (this.lifes <= 0) {
+		if (lives <= 0) {
+			return;
+		}
+		--lives;
+		if (lives == 0) {
 			gameOver();
 		}
 	}
@@ -64,12 +59,12 @@ public class Game implements Serializable {
 
 	public boolean draggingTower = false;
 
-	public void LoadLevel(World w) {
-		this.world = w;
+	public void loadLevel(Level w) {
+		this.level = w;
 
-		this.world.initWaypoints();
-		this.lifes = this.world.getStartLifes();
-		this.money = this.world.getStartMoney();
+		this.level.initWaypoints();
+		this.lives = this.level.getStartLives();
+		this.money = this.level.getStartMoney();
 		// FIXME use this call...
 		// something = this.world.listBuildableTowers();
 	}
@@ -91,12 +86,16 @@ public class Game implements Serializable {
 		this.timedCodeManager = timedCodeManager;
 		this.eventListener = eventListener;
 
-		World[] levels = new World[] { new _010_Hello_World(),
-				new _020_About_Colors() };
+		Level[] levels = new Level[] { new _010_Hello_World(this),
+				new _020_About_Colors(this) };
 
-		LoadLevel(levels[0]);
+		loadLevel(levels[0]);
 
 		selectedBuildTower = new EmeraldPrismaTower(timedCodeManager, 1);
+	}
+	
+	public void startWave() {
+		level.waveTracker.startNextWave();
 	}
 
 	public boolean canBuildTowerAt(V2 location) {
@@ -119,38 +118,6 @@ public class Game implements Serializable {
 			selectedBuildTower = new RubyPrismaTower(timedCodeManager, 1);
 		} else {
 			selectedBuildTower = new SapphirePrismaTower(timedCodeManager, 1);
-		}
-	}
-
-	public void startWave() {
-		int level = 1;
-
-		if (currentWave != null) {
-			if (!currentWave.isCompleted()) {
-				return; // one wave at a time
-			}
-		}
-
-		if (currentWave != null) {
-			level = currentWave.getLevel() + 1;
-		}
-
-		// generate new wave
-		this.currentWave = this.world.sendWave(level, this);
-
-		// trigger events
-		for (WaveListener l : waveBegunListeners) {
-			l.onWave(level);
-		}
-	}
-
-	public void onWaveCompleted(int level) {
-		// world-specific handlers
-		this.world.onWaveCompleted(level);
-
-		// game-specific handlers
-		for (WaveListener l : waveCompletedListeners) {
-			l.onWave(level);
 		}
 	}
 
@@ -238,7 +205,7 @@ public class Game implements Serializable {
 				continue;
 			}
 
-			final V2 w = world.waypoints.get(e.waypointId);
+			final V2 w = level.waypoints.get(e.waypointId);
 			if (Collision.movingCircleCollidedWithCircle(e.location,
 					e.velocity, e.radius, w, V2.ZERO, 1, dt)) {
 				e.setWPID(e.waypointId + 1);

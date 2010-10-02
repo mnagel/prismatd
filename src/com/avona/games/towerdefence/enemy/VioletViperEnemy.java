@@ -1,13 +1,13 @@
 package com.avona.games.towerdefence.enemy;
 
 import com.avona.games.towerdefence.RGB;
-import com.avona.games.towerdefence.world.World;
+import com.avona.games.towerdefence.level.Level;
 
 public class VioletViperEnemy extends Enemy {
 
 	private static final long serialVersionUID = 93877621275472018L;
 
-	public VioletViperEnemy(World world, int level) {
+	public VioletViperEnemy(Level world, int level) {
 		super(world, level);
 	}
 

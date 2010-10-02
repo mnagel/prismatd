@@ -7,12 +7,12 @@ import com.avona.games.towerdefence.MovingObject;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyEventListener;
-import com.avona.games.towerdefence.world.World;
+import com.avona.games.towerdefence.level.Level;
 
 public abstract class Enemy extends MovingObject {
 	private static final long serialVersionUID = 1L;
 
-	public World world;
+	public Level world;
 	public int level;
 	public int waypointId = 1;
 	public boolean escaped = false;
@@ -22,7 +22,7 @@ public abstract class Enemy extends MovingObject {
 	public RGB life;
 	public RGB maxLife;
 
-	public Enemy(World world, int level) {
+	public Enemy(Level world, int level) {
 		super();
 		this.world = world;
 		this.level = level;

@@ -1,12 +1,12 @@
 package com.avona.games.towerdefence.enemy;
 
 import com.avona.games.towerdefence.RGB;
-import com.avona.games.towerdefence.world.World;
+import com.avona.games.towerdefence.level.Level;
 
 public class LimeLizardEnemy extends Enemy {
 	private static final long serialVersionUID = 3102974967310386039L;
 
-	public LimeLizardEnemy(World world, int level) {
+	public LimeLizardEnemy(Level world, int level) {
 		super(world, level);
 	}
 

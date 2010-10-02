@@ -1,32 +1,26 @@
 package com.avona.games.towerdefence;
 
 import com.avona.games.towerdefence.enemy.Enemy;
-import com.avona.games.towerdefence.world.World;
+import com.avona.games.towerdefence.level.Level;
 
 public class Wave extends TimedCode {
 	private static final long serialVersionUID = 1L;
 
-	private int level;
 	private boolean completed = false;
 	private Game game;
-	private World world;
+	private Level world;
 	private TimedCodeManager timedCodeManager;
 	private int curEnemy = 0;
 	private WaveEnemy[] enemies;
 
-	public Wave(Game game, World world, TimedCodeManager timedCodeManager,
-			int level, WaveEnemy[] enemies) {
+	public Wave(Game game, Level world, TimedCodeManager timedCodeManager,
+			WaveEnemy[] enemies) {
 		this.game = game;
 		this.world = world;
 		this.timedCodeManager = timedCodeManager;
-		this.level = level;
 		this.enemies = enemies;
 
 		spawnEnemy();
-	}
-
-	public int getLevel() {
-		return level;
 	}
 
 	public boolean isCompleted() {
@@ -34,7 +28,6 @@ public class Wave extends TimedCode {
 	}
 
 	private void spawnEnemy() {
-
 		final V2 location = world.waypoints.get(0).copy();
 		WaveEnemy we = enemies[curEnemy];
 		Enemy e = we.enemy.copy();
@@ -51,7 +44,7 @@ public class Wave extends TimedCode {
 			spawnEnemy();
 		} else {
 			completed = true;
-			game.onWaveCompleted(level);
+			world.waveTracker.waveCompleted();
 		}
 	}
 }

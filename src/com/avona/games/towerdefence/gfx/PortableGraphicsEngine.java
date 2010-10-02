@@ -9,6 +9,7 @@ import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.TickRater;
 import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.WaveTracker;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.Tower;
@@ -28,7 +29,7 @@ public abstract class PortableGraphicsEngine {
 	protected Game game;
 	protected Mouse mouse;
 
-	protected VertexArray[] worldVertices;
+	protected VertexArray[] levelVertices;
 	protected VertexArray[] menuVertices;
 
 	public PortableGraphicsEngine(Game game, Mouse mouse,
@@ -66,7 +67,7 @@ public abstract class PortableGraphicsEngine {
 		prepareScreen();
 
 		prepareTransformationForLayer(gameLayer);
-		renderWorld();
+		renderLevel();
 
 		for (Enemy e : game.enemies) {
 			renderEnemy(e);
@@ -128,15 +129,15 @@ public abstract class PortableGraphicsEngine {
 		resetTransformation();
 	}
 
-	protected void createWorld() {
-		if (worldVertices != null) {
+	protected void createLevel() {
+		if (levelVertices != null) {
 			// In case we're recreating the world, allow re-using of the
 			// buffers.
-			for (VertexArray va : worldVertices) {
+			for (VertexArray va : levelVertices) {
 				va.freeBuffers();
 			}
 		}
-		worldVertices = new VertexArray[1];
+		levelVertices = new VertexArray[1];
 
 		VertexArray va = new VertexArray();
 		va.hasTexture = true;
@@ -148,19 +149,19 @@ public abstract class PortableGraphicsEngine {
 				gameLayer.virtualRegion.x, gameLayer.virtualRegion.y, va);
 
 		va.texture = allocateTexture();
-		va.texture.loadImage(game.world.gameBackgroundName);
+		va.texture.loadImage(game.level.gameBackgroundName);
 
 		GeometryHelper.boxTextureAsTriangleStrip(va);
 
-		worldVertices[0] = va;
+		levelVertices[0] = va;
 	}
 
-	protected void renderWorld() {
-		if (worldVertices == null) {
-			createWorld();
+	protected void renderLevel() {
+		if (levelVertices == null) {
+			createLevel();
 		}
 
-		for (VertexArray va : worldVertices) {
+		for (VertexArray va : levelVertices) {
 			drawVertexArray(va);
 		}
 	}
@@ -179,7 +180,7 @@ public abstract class PortableGraphicsEngine {
 				menuLayer.virtualRegion.x, menuLayer.virtualRegion.y, va);
 
 		va.texture = allocateTexture();
-		va.texture.loadImage(game.world.menuBackgroundName);
+		va.texture.loadImage(game.level.menuBackgroundName);
 
 		GeometryHelper.boxTextureAsTriangleStrip(va);
 
@@ -235,7 +236,7 @@ public abstract class PortableGraphicsEngine {
 		if (game.selectedObject != null) {
 			if (game.selectedObject instanceof Tower) {
 				final Tower t = (Tower) game.selectedObject;
-				towerString = String.format("tower lvl %d | ", t.level);
+				towerString = String.format("Tower Lev%d | ", t.level);
 			} else if (game.selectedObject instanceof Enemy) {
 				final Enemy e = (Enemy) game.selectedObject;
 				towerString = String
@@ -245,10 +246,16 @@ public abstract class PortableGraphicsEngine {
 								e.maxLife.R, e.maxLife.G, e.maxLife.B);
 			}
 		}
+		String waveString = "";
+		if (game.level != null) {
+			final WaveTracker wt = game.level.waveTracker;
+			if (wt.hasWaveStarted() || wt.hasWaveEnded()) {
+				waveString = String.format("Wave %d | ", wt.currentWaveNum());
+			}
+		}
 		final String fpsString = String.format(
-				"%swave %d | %d killed | %d lifes | $%d | fps %.2f",
-				towerString, game.currentWave != null ? game.currentWave
-						.getLevel() : -1, game.killed, game.lifes, game.money,
+				"%s%s%d killed | %d lives | $%d | fps %.2f",
+				towerString, waveString, game.killed, game.lives, game.money,
 				graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);
 		final float width = bounds.x + 4;

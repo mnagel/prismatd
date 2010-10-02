@@ -7,6 +7,8 @@ import com.avona.games.towerdefence.tower.Tower;
 
 public class AndroidEventListener implements EventListener {
 
+	private static final long serialVersionUID = 5134420451781390194L;
+
 	private Vibrator vibrator;
 
 	public AndroidEventListener(Vibrator vibrator) {

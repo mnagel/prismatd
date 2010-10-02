@@ -6,8 +6,7 @@ import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.inputActors.GameInputActor;
 import com.avona.games.towerdefence.inputActors.LayeredInputActor;
 import com.avona.games.towerdefence.inputActors.MenuInputActor;
-import com.avona.games.towerdefence.waveListeners.GrantInterestPerWave;
-import com.avona.games.towerdefence.world.World;
+import com.avona.games.towerdefence.level.Level;
 
 public abstract class PortableMainLoop implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -32,8 +31,8 @@ public abstract class PortableMainLoop implements Serializable {
 		game = new Game(gameTime, timedCodeManager, eventListener);
 
 		Layer gameLayer = new Layer();
-		gameLayer.virtualRegion.x = World.WIDTH;
-		gameLayer.virtualRegion.y = World.HEIGHT;
+		gameLayer.virtualRegion.x = Level.WIDTH;
+		gameLayer.virtualRegion.y = Level.HEIGHT;
 		gameLayer.name = GAME_LAYER_NAME;
 		layerHerder.addLayer(gameLayer);
 
@@ -42,8 +41,6 @@ public abstract class PortableMainLoop implements Serializable {
 		menuLayer.virtualRegion.y = 480;
 		menuLayer.name = MENU_LAYER_NAME;
 		layerHerder.addLayer(menuLayer);
-
-		game.waveBegunListeners.add(new GrantInterestPerWave(game, 0.10f));
 	}
 
 	public void setupInputActors() {
