@@ -251,7 +251,7 @@ public abstract class PortableGraphicsEngine {
 				towerString = String
 						.format(
 								"enemy lvl %d, health R%.0f G%.0f B%.0f  /  R%.0f G%.0f B%.0f | ",
-								e.level, e.life.R, e.life.G, e.life.B,
+								e.levelNum, e.life.R, e.life.G, e.life.B,
 								e.maxLife.R, e.maxLife.G, e.maxLife.B);
 			}
 		}
@@ -263,8 +263,8 @@ public abstract class PortableGraphicsEngine {
 			}
 		}
 		final String fpsString = String.format(
-				"%s%s%d killed | %d lives | $%d | fps %.2f",
-				towerString, waveString, game.killed, game.lives, game.money,
+				"%s%s%d killed | %d lives | $%d | fps %.2f", towerString,
+				waveString, game.killed, game.lives, game.money,
 				graphicsTickRater.tickRate);
 		final V2 bounds = getTextBounds(fpsString);
 		final float width = bounds.x + 4;

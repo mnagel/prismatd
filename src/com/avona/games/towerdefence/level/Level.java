@@ -17,7 +17,7 @@ public abstract class Level implements Serializable, WaveSender {
 	public final static float HEIGHT = 480;
 
 	protected Game game;
-	
+
 	public String gameBackgroundName;
 	public String menuBackgroundName;
 
@@ -36,7 +36,8 @@ public abstract class Level implements Serializable, WaveSender {
 	}
 
 	/**
-	 *  gets called on construction -- needs to add waypoints to the list of waypoints
+	 * gets called on construction -- needs to add waypoints to the list of
+	 * waypoints
 	 */
 	public abstract void initWaypoints();
 

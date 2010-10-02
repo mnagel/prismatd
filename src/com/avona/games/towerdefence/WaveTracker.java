@@ -20,10 +20,11 @@ public class WaveTracker implements Serializable {
 	public int currentWaveNum() {
 		return waveNum;
 	}
-	
+
 	public boolean hasWaveStarted() {
 		return currentWave != null && !currentWave.isCompleted();
 	}
+
 	public boolean hasWaveEnded() {
 		return currentWave != null && currentWave.isCompleted();
 	}
@@ -32,7 +33,7 @@ public class WaveTracker implements Serializable {
 		if (currentWave != null && !currentWave.isCompleted()) {
 			return; // one wave at a time
 		}
-		
+
 		++waveNum;
 
 		// Generate new wave

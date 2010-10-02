@@ -12,8 +12,8 @@ import com.avona.games.towerdefence.level.Level;
 public abstract class Enemy extends MovingObject {
 	private static final long serialVersionUID = 1L;
 
-	public Level world;
-	public int level;
+	public Level level;
+	public int levelNum;
 	public int waypointId = 1;
 	public boolean escaped = false;
 	public int worth;
@@ -22,19 +22,19 @@ public abstract class Enemy extends MovingObject {
 	public RGB life;
 	public RGB maxLife;
 
-	public Enemy(Level world, int level) {
+	public Enemy(Level level, int levelNum) {
 		super();
-		this.world = world;
 		this.level = level;
-		this.worth = 3 + (level - 1);
+		this.worth = 3 + (levelNum - 1);
 		this.maxLife = this.getMaxLife();
 		this.life = new RGB(this.maxLife);
+		this.levelNum = levelNum;
 	}
 
 	public Enemy(Enemy other) {
 		super(other);
-		world = other.world;
 		level = other.level;
+		levelNum = other.levelNum;
 		waypointId = other.waypointId;
 		escaped = other.escaped;
 		worth = other.worth;
@@ -45,7 +45,7 @@ public abstract class Enemy extends MovingObject {
 
 	public void setInitialLocation(V2 location) {
 		this.location = location;
-		this.velocity.setLength(80 + 3 * (level - 1));
+		this.velocity.setLength(80 + 3 * (levelNum - 1));
 		setWPID(1);
 	}
 
@@ -54,9 +54,9 @@ public abstract class Enemy extends MovingObject {
 	public abstract RGB getMaxLife();
 
 	public void setWPID(int i) {
-		if (waypointId + 1 < world.waypoints.size()) {
+		if (waypointId + 1 < level.waypoints.size()) {
 			waypointId = i;
-			target = world.waypoints.get(waypointId);
+			target = level.waypoints.get(waypointId);
 			velocity.setDirection(location, target);
 		} else {
 			escape();

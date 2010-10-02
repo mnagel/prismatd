@@ -66,7 +66,7 @@ public class Game implements Serializable {
 		this.lives = this.level.getStartLives();
 		this.money = this.level.getStartMoney();
 		// FIXME use this call...
-		// something = this.world.listBuildableTowers();
+		// something = this.level.listBuildableTowers();
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class Game implements Serializable {
 
 		selectedBuildTower = new EmeraldPrismaTower(timedCodeManager, 1);
 	}
-	
+
 	public void startWave() {
 		level.waveTracker.startNextWave();
 	}

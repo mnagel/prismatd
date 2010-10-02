@@ -7,8 +7,8 @@ public class VioletViperEnemy extends Enemy {
 
 	private static final long serialVersionUID = 93877621275472018L;
 
-	public VioletViperEnemy(Level world, int level) {
-		super(world, level);
+	public VioletViperEnemy(Level level, int levelNum) {
+		super(level, levelNum);
 	}
 
 	public VioletViperEnemy(VioletViperEnemy other) {
@@ -17,7 +17,7 @@ public class VioletViperEnemy extends Enemy {
 
 	@Override
 	public RGB getMaxLife() {
-		return new RGB(50 * level + 10, 0, 50 * level + 10);
+		return new RGB(50 * levelNum + 10, 0, 50 * levelNum + 10);
 	}
 
 	@Override

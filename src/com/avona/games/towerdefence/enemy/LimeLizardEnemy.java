@@ -6,8 +6,8 @@ import com.avona.games.towerdefence.level.Level;
 public class LimeLizardEnemy extends Enemy {
 	private static final long serialVersionUID = 3102974967310386039L;
 
-	public LimeLizardEnemy(Level world, int level) {
-		super(world, level);
+	public LimeLizardEnemy(Level level, int levelNum) {
+		super(level, levelNum);
 	}
 
 	public LimeLizardEnemy(LimeLizardEnemy other) {
@@ -16,7 +16,7 @@ public class LimeLizardEnemy extends Enemy {
 
 	@Override
 	public RGB getMaxLife() {
-		return new RGB(0, 50 * level + 10, 0);
+		return new RGB(0, 50 * levelNum + 10, 0);
 	}
 
 	@Override
