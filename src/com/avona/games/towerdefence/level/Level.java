@@ -7,6 +7,7 @@ import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.WaveSender;
 import com.avona.games.towerdefence.WaveTracker;
+import com.avona.games.towerdefence.tower.Tower;
 
 public abstract class Level implements Serializable, WaveSender {
 	private static final long serialVersionUID = 1L;
@@ -54,5 +55,5 @@ public abstract class Level implements Serializable, WaveSender {
 	/**
 	 * @return A list of towers that can be built in this level.
 	 */
-	public abstract Object listBuildableTowers();
+	public abstract Tower[] listBuildableTowers();
 }

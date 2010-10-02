@@ -13,9 +13,6 @@ import com.avona.games.towerdefence.level.Level;
 import com.avona.games.towerdefence.level._010_Hello_World;
 import com.avona.games.towerdefence.level._020_About_Colors;
 import com.avona.games.towerdefence.particle.Particle;
-import com.avona.games.towerdefence.tower.EmeraldPrismaTower;
-import com.avona.games.towerdefence.tower.RubyPrismaTower;
-import com.avona.games.towerdefence.tower.SapphirePrismaTower;
 import com.avona.games.towerdefence.tower.Tower;
 
 public class Game implements Serializable {
@@ -59,14 +56,13 @@ public class Game implements Serializable {
 
 	public boolean draggingTower = false;
 
-	public void loadLevel(Level w) {
-		this.level = w;
+	public void loadLevel(Level l) {
+		this.level = l;
 
-		this.level.initWaypoints();
-		this.lives = this.level.getStartLives();
-		this.money = this.level.getStartMoney();
-		// FIXME use this call...
-		// something = this.level.listBuildableTowers();
+		level.initWaypoints();
+		lives = level.getStartLives();
+		money = level.getStartMoney();
+		selectedBuildTower = level.listBuildableTowers()[0];
 	}
 
 	/**
@@ -86,12 +82,13 @@ public class Game implements Serializable {
 		this.timedCodeManager = timedCodeManager;
 		this.eventListener = eventListener;
 
+		/*
+		 * TODO We need some sort of fixed list of levels and a current level -> next level approach.
+		 * TODO Levels need to be completed / finished / done at some point, so that the next level can be selected.
+		 */
 		Level[] levels = new Level[] { new _010_Hello_World(this),
 				new _020_About_Colors(this) };
-
 		loadLevel(levels[0]);
-
-		selectedBuildTower = new EmeraldPrismaTower(timedCodeManager, 1);
 	}
 
 	public void startWave() {
@@ -111,14 +108,9 @@ public class Game implements Serializable {
 
 		// TODO While we have no true tower selection, pick a new tower by
 		// random.
-		final int val = rand.nextInt(3);
-		if (val == 1) {
-			selectedBuildTower = new EmeraldPrismaTower(timedCodeManager, 1);
-		} else if (val == 2) {
-			selectedBuildTower = new RubyPrismaTower(timedCodeManager, 1);
-		} else {
-			selectedBuildTower = new SapphirePrismaTower(timedCodeManager, 1);
-		}
+		final Tower[] availableTowers = level.listBuildableTowers();
+		final int val = rand.nextInt(availableTowers.length);
+		selectedBuildTower = availableTowers[val];
 	}
 
 	static Random rand = new Random();

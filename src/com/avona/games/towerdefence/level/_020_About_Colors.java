@@ -5,11 +5,17 @@ import com.avona.games.towerdefence.Wave;
 import com.avona.games.towerdefence.WaveEnemyConfig;
 import com.avona.games.towerdefence.enemy.LimeLizardEnemy;
 import com.avona.games.towerdefence.enemy.VioletViperEnemy;
+import com.avona.games.towerdefence.tower.EmeraldPrismaTower;
+import com.avona.games.towerdefence.tower.RubyPrismaTower;
+import com.avona.games.towerdefence.tower.SapphirePrismaTower;
+import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.waveListeners.GrantInterestPerWave;
 
 public class _020_About_Colors extends Level {
 
 	private static final long serialVersionUID = -2476503319147078452L;
+
+	private Tower[] buildableTowers;
 
 	public _020_About_Colors(final Game game) {
 		super(game);
@@ -17,6 +23,11 @@ public class _020_About_Colors extends Level {
 		menuBackgroundName = "back_r";
 		waveTracker.waveBegunListeners
 				.add(new GrantInterestPerWave(game, 0.10f));
+
+		buildableTowers = new Tower[] {
+				new EmeraldPrismaTower(game.timedCodeManager, 1),
+				new RubyPrismaTower(game.timedCodeManager, 1),
+				new SapphirePrismaTower(game.timedCodeManager, 1) };
 	}
 
 	@Override
@@ -44,8 +55,8 @@ public class _020_About_Colors extends Level {
 	}
 
 	@Override
-	public Object listBuildableTowers() {
-		return null;
+	public Tower[] listBuildableTowers() {
+		return buildableTowers;
 	}
 
 	@Override
