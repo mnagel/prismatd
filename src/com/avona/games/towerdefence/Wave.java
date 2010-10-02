@@ -12,10 +12,10 @@ public class Wave extends TimedCode {
 	private World world;
 	private TimedCodeManager timedCodeManager;
 	private int curEnemy = 0;
-	private WaveEnemy[] enemies;
+	private WaveEnemyConfig[] enemies;
 
 	public Wave(Game game, World world, TimedCodeManager timedCodeManager,
-			int level, WaveEnemy[] enemies) {
+			int level, WaveEnemyConfig[] enemies) {
 		this.game = game;
 		this.world = world;
 		this.timedCodeManager = timedCodeManager;
@@ -36,7 +36,7 @@ public class Wave extends TimedCode {
 	private void spawnEnemy() {
 
 		final V2 location = world.waypoints.get(0).copy();
-		WaveEnemy we = enemies[curEnemy];
+		WaveEnemyConfig we = enemies[curEnemy];
 		Enemy e = we.enemy.copy();
 		e.setInitialLocation(location);
 		game.onEnemySpawned(e);
