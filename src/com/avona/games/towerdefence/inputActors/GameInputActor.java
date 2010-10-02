@@ -6,7 +6,7 @@ import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.tower.Tower;
 
-public class GameInputActor implements InputActor {
+public class GameInputActor extends EmptyInputActor {
 	private Game game;
 	private Mouse mouse;
 
@@ -15,45 +15,7 @@ public class GameInputActor implements InputActor {
 		this.mouse = mouse;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.avona.games.towerdefence.InputActor#pressedEscapeKey()
-	 */
-	public void pressedEscapeKey() {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.avona.games.towerdefence.InputActor#onPause()
-	 */
-	public void onPause() {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.avona.games.towerdefence.InputActor#onResume()
-	 */
-	public void onResume() {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.avona.games.towerdefence.InputActor#pressedSpaceKey()
-	 */
-	public void pressedSpaceKey() {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.avona.games.towerdefence.InputActor#pressedMouseBtn1At(com.avona.
-	 * games.towerdefence.V2)
-	 */
+	@Override
 	public void mouseBtn1DownAt(V2 location) {
 		if (game.selectedBuildTower == null)
 			return;
@@ -75,34 +37,12 @@ public class GameInputActor implements InputActor {
 		checkMouseOverTower(location);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.avona.games.towerdefence.InputActor#pressedMouseBtn2At(com.avona.
-	 * games.towerdefence.V2)
-	 */
+	@Override
 	public void mouseBtn2DownAt(V2 location) {
 		game.startWave();
 	}
 
 	@Override
-	public void mouseBtn2UpAt(V2 location) {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.avona.games.towerdefence.InputActor#mouseEntered()
-	 */
-	public void mouseEntered() {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.avona.games.towerdefence.InputActor#mouseExited()
-	 */
 	public void mouseExited() {
 		game.draggingTower = false;
 	}
@@ -117,29 +57,8 @@ public class GameInputActor implements InputActor {
 		game.selectedObject = e;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.avona.games.towerdefence.InputActor#mouseMovedTo(com.avona.games.
-	 * towerdefence.V2)
-	 */
+	@Override
 	public void mouseMovedTo(V2 location) {
 		checkMouseOverTower(location);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.avona.games.towerdefence.InputActor#mouseDraggedTo(com.avona.games
-	 * .towerdefence.V2)
-	 */
-	public void mouseDraggedTo(V2 location) {
-	}
-
-	@Override
-	public void pressedPauseKey() {
-
 	}
 }
