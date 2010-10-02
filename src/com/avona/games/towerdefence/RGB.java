@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public final class RGB implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	public float R;
 	public float G;
 	public float B;

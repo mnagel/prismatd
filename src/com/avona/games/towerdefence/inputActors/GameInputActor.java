@@ -140,6 +140,6 @@ public class GameInputActor implements InputActor {
 
 	@Override
 	public void pressedPauseKey() {
-		
+
 	}
 }

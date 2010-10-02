@@ -46,7 +46,7 @@ public abstract class PortableGraphicsEngine {
 
 	public void onNewScreenContext() {
 		// Make sure that the VertexArrays are cleared on a screen context
-		// reset.  Otherwise, any preloaded texture wouldn't be reloaded again.
+		// reset. Otherwise, any preloaded texture wouldn't be reloaded again.
 		worldVertices = null;
 		menuVertices = null;
 	}
@@ -102,7 +102,7 @@ public abstract class PortableGraphicsEngine {
 		renderMenu();
 		resetTransformation();
 
-		if(!game.gameTime.isRunning()) {
+		if (!game.gameTime.isRunning()) {
 			renderPauseOverlay(gameLayer, true);
 			renderPauseOverlay(menuLayer, false);
 		}
@@ -110,7 +110,7 @@ public abstract class PortableGraphicsEngine {
 		renderStats();
 		renderMouse();
 	}
-	
+
 	private void renderPauseOverlay(Layer layer, boolean renderText) {
 		prepareTransformationForLayer(layer);
 		final VertexArray va = new VertexArray();
@@ -120,18 +120,20 @@ public abstract class PortableGraphicsEngine {
 
 		va.reserveBuffers();
 
-		GeometryHelper.boxVerticesAsTriangleStrip(0, 0, layer.virtualRegion.x, layer.virtualRegion.y, va);
-		
-		for(int i = 0; i < 4; ++i)
+		GeometryHelper.boxVerticesAsTriangleStrip(0, 0, layer.virtualRegion.x,
+				layer.virtualRegion.y, va);
+
+		for (int i = 0; i < 4; ++i)
 			va.addColour(0.0f, 0.0f, 0.0f, 0.4f);
 		drawVertexArray(va);
 
 		va.freeBuffers();
-		
-		if(renderText)
+
+		if (renderText)
 			// XXX: Maybe this is working by chance? :P
-			drawText("Game paused", layer.virtualRegion.x / 2 - 10, layer.virtualRegion.y + 40f, 1.0f, 1.0f, 1.0f, 1.0f);
-		
+			drawText("Game paused", layer.virtualRegion.x / 2 - 10,
+					layer.virtualRegion.y + 40f, 1.0f, 1.0f, 1.0f, 1.0f);
+
 		resetTransformation();
 	}
 
