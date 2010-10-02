@@ -70,6 +70,8 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+
+		onNewScreenContext();
 	}
 
 	protected void prepareScreen() {

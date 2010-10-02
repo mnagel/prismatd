@@ -44,6 +44,13 @@ public abstract class PortableGraphicsEngine {
 				.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
 	}
 
+	public void onNewScreenContext() {
+		// Make sure that the VertexArrays are cleared on a screen context
+		// reset.  Otherwise, any preloaded texture wouldn't be reloaded again.
+		worldVertices = null;
+		menuVertices = null;
+	}
+
 	public abstract Texture allocateTexture();
 
 	public abstract void prepareTransformationForLayer(Layer layer);
