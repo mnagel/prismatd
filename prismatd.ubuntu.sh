@@ -11,7 +11,7 @@ if [ -e $PRISMATD ]
 then
   echo "prismatd jar seems to be installed... continue"
 else
-  echo "prismatd seems to not be installed\nbuild it somehow..."
+  echo -e "prismatd seems to not be installed\nbuild it somehow..."
   exit 3
 fi
 
@@ -20,7 +20,7 @@ if [ -e $JOGL ]
 then
   echo "jogl seems to be installed... continue"
 else
-  echo "jogl seems to not be installed\nrun something like 'sudo apt-get install libjogl-java' to install it"
+  echo -e "jogl seems to not be installed\nrun something like 'sudo apt-get install libjogl-java' to install it"
   exit 1
 fi
 
@@ -29,10 +29,10 @@ if [ -e $GLUEGEN ]
 then
   echo "gluegen seems to be installed... continue"
 else
-  echo "gluegen seems to not be installed\nrun something like 'sudo apt-get install libjogl-java' to install it"
+  echo -e "gluegen seems to not be installed\nrun something like 'sudo apt-get install libjogl-java' to install it"
   exit 2
 fi
 
 # run it
-java -classpath $PRISMATD:$JOGL:$GLUEGEN $MAINCLASS
+java -classpath $PRISMATD:$JOGL:$GLUEGEN $MAINCLASS "$@"
 
