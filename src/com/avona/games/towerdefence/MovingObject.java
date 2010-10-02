@@ -10,7 +10,7 @@ public abstract class MovingObject extends LocationObject {
 
 	public MovingObject(final MovingObject other) {
 		super(other);
-		if (other.location != null)
+		if (other.velocity != null)
 			velocity = other.velocity.copy();
 	}
 }
