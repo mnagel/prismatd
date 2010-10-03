@@ -19,12 +19,14 @@ public class InputMangler implements KeyListener, MouseListener,
 	private PortableMainLoop ml;
 	private InputActor actor;
 
-	public InputMangler(GraphicsEngine ge, PortableMainLoop mainLoop,
+	public InputMangler(PortableMainLoop mainLoop,
 			InputActor actor) {
-		this.ge = ge;
 		this.ml = mainLoop;
 		this.actor = actor;
-
+	}
+	
+	public void setupListeners(final GraphicsEngine ge) {
+		this.ge = ge;
 		ge.frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
