@@ -3,6 +3,7 @@
 bin/
 html/
 web/
+build/
 
 .zim/
 .ditz-config
