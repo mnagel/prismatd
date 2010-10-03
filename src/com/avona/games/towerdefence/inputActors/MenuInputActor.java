@@ -28,7 +28,7 @@ public class MenuInputActor extends EmptyInputActor {
 		case 0:
 		case 1:
 		case 2:
-			game.selectedBuildTowerIndex = btn;
+			game.selectedBuildTower = game.level.listBuildableTowers()[btn];
 			break;
 		default:
 			game.startWave();
