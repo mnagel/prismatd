@@ -22,7 +22,7 @@ public final class Util {
 		return x + 1;
 	}
 
-	public static String Exception2String(Exception e) {
+	public static String exception2String(Exception e) {
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		return sw.toString();

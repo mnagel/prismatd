@@ -51,7 +51,7 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 				loadGame(args[0]);
 			} catch (Exception e) {
 				Util.log("loading failed...\nStacktrace:");
-				Util.log(Util.Exception2String(e));
+				Util.log(Util.exception2String(e));
 				JOptionPane.showMessageDialog(null, "loading failed, see terminal for details");
 				System.exit(1);
 			}
@@ -125,7 +125,7 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 			Util.log("game was saved to " + SAVEGAME);
 		} catch (IOException e) {
 			Util.log("saving failed...\nStacktrace:");
-			Util.log(Util.Exception2String(e));
+			Util.log(Util.exception2String(e));
 		}
 	}
 }
