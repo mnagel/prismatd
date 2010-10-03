@@ -4,16 +4,19 @@ Creation-Date: 2010-09-22T15:11:44.932026
 
 ====== CreateWebsite ======
 
+===== Manually =====
 to create the website from within zim do
 * File -> Export...
 
 settings
-• Complete Notebook
-• HTML, default
+* Complete Notebook
+* HTML, default
 
 export to
 * ./doc/web
 
 index page
-• -leave blank-
+* -leave blank-
 
+===== Makefile =====
+there is a makefile to do this at ./doc/Makefile

@@ -4,8 +4,8 @@ Creation-Date: 2010-09-16T14:21:22.504180
 
 ====== BugTracker ======
 
-* Bugs are tracked with "ditz"
-* Download it at at http://ditz.rubyforge.org/ or install package from your distribution
+* bugs are tracked with "ditz"
+* download it at at http://ditz.rubyforge.org/ or install package from your distribution
 
 * data is stored in ./issues/
 

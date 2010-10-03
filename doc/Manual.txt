@@ -1,0 +1,33 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2010-10-02T23:34:38.962278
+
+====== Manual ======
+
+===== Downloading =====
+see [[DownLoads]]
+
+===== Installing / Launching =====
+see [[StartingPrismaTD]]
+
+===== Objective =====
+...stop thing before...
+...build towers...
+
+===== About Colors =====
+...how it works...
+
+===== GUI Elements =====
+...list of GUI Elements... Ingame Menu
+
+===== Menu =====
+...out-of-play-menu...
+
+===== Controls =====
+...list of keys for desktop/android...
+
+===== List of Towers =====
+...describe Towers and Effects here...
+
+===== List of Enemies =====
+...describe Enemies and Skills here...

@@ -1,0 +1,22 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2010-10-02T23:48:17.369927
+
+====== Building ======
+
+===== Dependencies =====
+(In Debian Packages...)
+
+* libjogl-java
+
+sudo apt-get install libjogl-java
+
+===== Desktop Version =====
+**generell**
+"Play in Eclipse"
+
+**JAR**
+in Eclipse: Rechtsklick auf jardesc-Datei und dann "build jar"
+
+===== Android =====
+"Play in Eclipse"

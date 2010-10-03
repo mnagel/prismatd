@@ -8,8 +8,8 @@ Creation-Date: 2010-09-24T20:50:04.623495
 * das ganze Spiel inkl. Konzepten, Prinzpien, Grafiken, ... soll zum Titel "Prisma TD" passen
 
 passend:
-• Prisma, Farbe, Licht, Strahl
-• einfache geometrische Elemente: Linie, Dreieck, Quadrat, Polygon, Kreis, Stern, Pfeil
+* Prisma, Farbe, Licht, Strahl
+* einfache geometrische Elemente: Linie, Dreieck, Quadrat, Polygon, Kreis, Stern, Pfeil
 
 betroffen:
 * GUI / Grafiken
@@ -18,9 +18,7 @@ betroffen:
 * Doku
 * Code
 
-
 ===== Umsetzung des Konzepts =====
-
 
 ==== Gegner <<< FIXME: umbennenen (Irrlichter?) ====
 bislang
@@ -29,7 +27,7 @@ ein Hitpoint-Stand
 angedacht
 drei Werte: Rot/Grün/Blau
 
-ein Gegner stirbt, sobald er entweder kein Rot/Grün/Blau meh "übrig hat" oder komplett Rot/Grün/Blau angemalt ist
+ein Gegner stirbt, sobald er entweder kein Rot/Grün/Blau mehr "übrig hat" oder komplett Rot/Grün/Blau angemalt ist
 bei einfachen Gegnern ist das ein oder-oder-oder, bei mittleren ein 2-aus-3 und bei schweren kann es ein und-und-und sein
 
 Gegner können verschieden vorkoloriert starten und sind dann unterschiedlich zu knacken

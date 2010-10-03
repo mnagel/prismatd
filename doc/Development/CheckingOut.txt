@@ -18,7 +18,6 @@ Info on the Repository to use see here: [[DownLoads]]
 * Code (irgendwie) auschecken / beschaffen
 * in Eclipse: Import Project -> General -> Existing Project into Workspace und dann den Top-Level-Ordner
 * ggf. Referenz auf hinzufuegen (jeweils unter [[/usr/share/java]])
-	* vecmath.har
 	* jogl.jar
 	* gluegen-rt.jar
 * in Eclipse: "Play" druecken

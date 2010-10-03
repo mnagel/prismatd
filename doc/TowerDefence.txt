@@ -4,7 +4,7 @@ Creation-Date: 2010-09-22T14:42:11.101831
 
 ====== TowerDefence ======
 
-Welcome to TowerDefence!
+**Welcome to TowerDefence!**
 
 TowerDefence is a Java+OpenGL Tower Defence Game.
 It runs and is tested on:
@@ -15,10 +15,11 @@ It might somehow be possible to get it running on:
 * Windows
 * Mac OS X
 
-
 ===== SiteMap =====
 * Downloads can be found at [[DownLoads]]
 * Screenshots are at [[ScreenShots]]
+* help on starting the game is in [[StartingPrismaTD]]
+* the [[Manual]] explains how to play...
 * for a roadmap see [[RoadMap]]
 * Bugs, Feature Requests and other Issues are tracked at [[BugTracker]]
-* fot Information on Development see [[Development]]
+* for Information on Development see [[Development]]

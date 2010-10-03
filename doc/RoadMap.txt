@@ -17,7 +17,7 @@ spätere Sachen auch auf [[RoadMap:RoadMapLater]]
 [ ] (optional: (asynchrones Abspielen von Soundeffekten))
 	[ ] wave/mp3 o.ä.
 	[ ] 8-bit-Synthesizer-Stil
-[ ] Laden von Grafiken als Textur
+[*] Laden von Grafiken als Textur
 
 ==== Android ====
 [*] Surface (o.Ä.) erstellen, auf der performante 2D und/oder 3D Grafik ausgegeben werden kann
@@ -30,7 +30,7 @@ spätere Sachen auch auf [[RoadMap:RoadMapLater]]
 [ ] (optional: (asynchrones Abspielen von Soundeffekten))
 	[ ] wave/mp3 o.ä.
 	[ ] 8-bit-Synthesizer-Stil
-[ ] Laden von Grafiken als Textur
+[*] Laden von Grafiken als Textur
 
 ==== Windows ====
 [x] Platzhalter
@@ -40,7 +40,7 @@ spätere Sachen auch auf [[RoadMap:RoadMapLater]]
 [*] Units
 
 ===== Game-Engine-Stub =====
-[ ] Prototyp einer Engine, die allen Status hält und ihn aktualisiert
+[*] Prototyp einer Engine, die allen Status hält und ihn aktualisiert
 	[*] Status pro Ding
 		[*] Location :: v2d
 		[*] Size (Radius) :: v2d
@@ -78,6 +78,7 @@ spätere Sachen auch auf [[RoadMap:RoadMapLater]]
 	[ ] Check gegen Units Artikel
 [*] Frames per Second
 [ ] Ingame-Ausgabe von Debug o.Ä. Meldungen
+[ ] GFX-Updates per Second (Rechenzeit-Prozent)
 
 ===== erste Design-Entscheidungen =====
 [*] Screen-Aufteilung der GUI klären -- nicht technisch sondern Usability-mäßig
@@ -134,7 +135,7 @@ spätere Sachen auch auf [[RoadMap:RoadMapLater]]
 ===== Theming =====
 [*] Umstellen auf Prisma TD
 	[ ] im Spiel / der GUI
-	[ ] in der Doku
+	[ ] in der Doku, im Wiki
 	[ ] im Code
 	[ ] im Programm/JAR-Namen
 [*] einführen der drei Schadensklassen
@@ -143,6 +144,8 @@ spätere Sachen auch auf [[RoadMap:RoadMapLater]]
 [ ] [[Development:Concept]] weiterentwickeln
 [ ] [[Development:Concept]] allgemein+verbindlich absegnen
 [ ] [[Development:Concept]] umsetzen soweit mit "Alpha" markiert
+[ ] Namen fuer Editionen (oder wie die Unterscheidung) **Android und Desktop?** AWT?
+[ ] Ingame-Sammelbegriff fuer Tuerme (Prisms?) und Gegner (Shades?) praegen
 
 ===== Menü =====
 [ ] erste sinnvolle Version des Menüs implementieren
@@ -165,6 +168,7 @@ spätere Sachen auch auf [[RoadMap:RoadMapLater]]
 [ ] Source / Binary - Download für Linux
 	[ ] (optional: (Package))
 [ ] APK für Android
+[ ] Build per Skript (ohne Eclipse // oder zumindest ohne grafisches Rumgeklicke) ermoeglichen
 [ ] Installations-Anleitung
 [ ] externe How-To-Play-Anleitung mit Bildern schreiben
 [ ] Dokumentation nachziehen / sortieren
