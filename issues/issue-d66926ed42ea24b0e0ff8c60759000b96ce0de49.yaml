@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: clicking back arrow -> "continue playing" does not work
+desc: ... crashes with null pointer exception
+type: :bugfix
+component: android
+release: 
+reporter: Michael Nagel <m.nagel@devzero.de>
+status: :unstarted
+disposition: 
+creation_time: 2010-10-03 15:56:03.325157 Z
+references: []
+
+id: d66926ed42ea24b0e0ff8c60759000b96ce0de49
+log_events: 
+- - 2010-10-03 15:56:04.609096 Z
+  - Michael Nagel <m.nagel@devzero.de>
+  - created
+  - ""
