@@ -1,0 +1,24 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2010-10-03T17:58:11.055124
+
+====== Levels ======
+
+===== 010 Hello World =====
+* explain objective (stop enemies from escaping by building towers)
+* tell a nice/sad background story
+* only one kind of purely colored enemies and one kind of towers
+
+===== 020 About Colors =====
+* explain colors
+* two purely colored enemies and two matching kinds of towers
+
+===== 030 Mixing Colors =====
+* explain mixed colors (e.g. purple)
+* one mixed colored enemy and two matching kinds of towers
+
+===== 040 Summary =====
+* R+G+B towers, Purple+Green enemy
+
+===== 10X Freestyle =====
+* some fun levels using all implemented features
