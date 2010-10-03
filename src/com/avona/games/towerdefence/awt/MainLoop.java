@@ -78,15 +78,6 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		animator = new FPSAnimator(graphicsEngine.canvas, EXPECTED_FPS);
 		animator.setRunAsFastAsPossible(false);
 		animator.start();
-
-		try {
-			final FileOutputStream fos = new FileOutputStream("savegame");
-			final ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(game);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	private void loadGame(final String filename) throws FileNotFoundException,
