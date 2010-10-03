@@ -100,18 +100,20 @@ public class Game implements Serializable {
 	}
 
 	public void addTowerAt(V2 location) {
+		// TODO While we have no true tower selection, pick a new tower by
+		// random.
+		final Tower[] availableTowers = level.listBuildableTowers();
+		final int val = selectedBuildTowerIndex; // rand.nextInt(availableTowers.length);
+		selectedBuildTower = availableTowers[val];
+		
 		Tower newTower = selectedBuildTower.copy();
 		newTower.location = new V2(location);
 		money -= newTower.price;
 		towers.add(newTower);
 		eventListener.onBuildTower(newTower);
-
-		// TODO While we have no true tower selection, pick a new tower by
-		// random.
-		final Tower[] availableTowers = level.listBuildableTowers();
-		final int val = rand.nextInt(availableTowers.length);
-		selectedBuildTower = availableTowers[val];
 	}
+	
+	public int selectedBuildTowerIndex = 0;
 
 	static Random rand = new Random();
 

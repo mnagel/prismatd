@@ -26,8 +26,8 @@ public class _010_Hello_World extends Level {
 				.add(new GrantInterestPerWave(game, 0.10f));
 
 		buildableTowers = new Tower[] {
-				new EmeraldPrismaTower(game.timedCodeManager, 1),
 				new RubyPrismaTower(game.timedCodeManager, 1),
+				new EmeraldPrismaTower(game.timedCodeManager, 1),
 				new SapphirePrismaTower(game.timedCodeManager, 1) };
 	}
 
