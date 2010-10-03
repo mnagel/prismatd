@@ -10,9 +10,11 @@ import java.io.ObjectOutputStream;
 
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
+import javax.swing.JOptionPane;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.PortableMainLoop;
+import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
@@ -45,15 +47,11 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		} else {
 			try {
 				loadGame(args[0]);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				Util.log("loading failed...\nStacktrace:");
+				Util.log(Util.Exception2String(e));
+				JOptionPane.showMessageDialog(null, "loading failed, see terminal for details");
+				System.exit(1);
 			}
 		}
 	}
@@ -78,13 +76,13 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 			final ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(game);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Util.log("saving failed...\nStacktrace:");
+			Util.log(Util.Exception2String(e));
 		}
 	}
 
 	private void loadGame(final String filename) throws FileNotFoundException,
-			IOException, ClassNotFoundException {
+	IOException, ClassNotFoundException {
 		final InputStream is = new FileInputStream(filename);
 		final ObjectInputStream ois = new ObjectInputStream(is);
 

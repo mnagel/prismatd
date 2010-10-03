@@ -1,5 +1,8 @@
 package com.avona.games.towerdefence;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 public final class Util {
 	public static void log(String s) {
 		System.out.println(s);
@@ -17,5 +20,11 @@ public final class Util {
 		x = x | (x >> 8);
 		x = x | (x >> 16);
 		return x + 1;
+	}
+
+	public static String Exception2String(Exception e) {
+		StringWriter sw = new StringWriter();
+		e.printStackTrace(new PrintWriter(sw));
+		return sw.toString();
 	}
 }
