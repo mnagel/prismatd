@@ -24,49 +24,27 @@ public class LayeredInputActor implements InputActor {
 		this.layerHerder = layerHerder;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.avona.games.towerdefence.InputActor#pressedEscapeKey()
-	 */
+	@Override
 	public void pressedEscapeKey() {
 		ml.exit();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.avona.games.towerdefence.InputActor#onPause()
-	 */
+	@Override
 	public void onPause() {
 		ml.pauseGame();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.avona.games.towerdefence.InputActor#onResume()
-	 */
+	@Override
 	public void onResume() {
 		ml.unpauseGame();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.avona.games.towerdefence.InputActor#pressedSpaceKey()
-	 */
+	@Override
 	public void pressedSpaceKey() {
 		ml.toggleGamePause();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.avona.games.towerdefence.InputActor#pressedMouseBtn1At(com.avona.
-	 * games.towerdefence.V2)
-	 */
+	@Override
 	public void mouseBtn1DownAt(V2 location) {
 		final Layer layer = layerHerder.findLayerWithinPoint(location);
 		currentLayerSawMouseBtn1Down = true;
@@ -94,13 +72,7 @@ public class LayeredInputActor implements InputActor {
 		inputActor.mouseBtn1UpAt(location);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.avona.games.towerdefence.InputActor#pressedMouseBtn2At(com.avona.
-	 * games.towerdefence.V2)
-	 */
+	@Override
 	public void mouseBtn2DownAt(V2 location) {
 		final Layer layer = layerHerder.findLayerWithinPoint(location);
 		currentLayerSawMouseBtn2Down = true;
@@ -135,11 +107,7 @@ public class LayeredInputActor implements InputActor {
 		inputActor.mouseEntered();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.avona.games.towerdefence.InputActor#mouseEntered()
-	 */
+	@Override
 	public void mouseEntered() {
 		mouse.onScreen = true;
 		currentLayerSawMouseBtn1Down = false;
@@ -160,11 +128,7 @@ public class LayeredInputActor implements InputActor {
 		inputActor.mouseExited();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.avona.games.towerdefence.InputActor#mouseExited()
-	 */
+	@Override
 	public void mouseExited() {
 		mouse.onScreen = false;
 
@@ -172,13 +136,7 @@ public class LayeredInputActor implements InputActor {
 		lastLayer = null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.avona.games.towerdefence.InputActor#mouseMovedTo(com.avona.games.
-	 * towerdefence.V2)
-	 */
+	@Override
 	public void mouseMovedTo(V2 location) {
 		mouse.location = location;
 
@@ -193,13 +151,7 @@ public class LayeredInputActor implements InputActor {
 		inputActor.mouseMovedTo(location);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.avona.games.towerdefence.InputActor#mouseDraggedTo(com.avona.games
-	 * .towerdefence.V2)
-	 */
+	@Override
 	public void mouseDraggedTo(V2 location) {
 		mouse.location = location;
 
