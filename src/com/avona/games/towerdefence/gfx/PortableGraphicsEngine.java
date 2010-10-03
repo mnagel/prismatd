@@ -156,6 +156,7 @@ public abstract class PortableGraphicsEngine {
 			for (VertexArray va : levelVertices) {
 				va.freeBuffers();
 			}
+			levelVertices = null;
 		}
 	}
 
@@ -199,6 +200,7 @@ public abstract class PortableGraphicsEngine {
 			for (VertexArray va : menuVertices) {
 				va.freeBuffers();
 			}
+			menuVertices = null;
 		}
 	}
 

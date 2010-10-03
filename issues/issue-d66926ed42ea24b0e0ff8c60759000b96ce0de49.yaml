@@ -5,8 +5,8 @@ type: :bugfix
 component: android
 release: 
 reporter: Michael Nagel <m.nagel@devzero.de>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2010-10-03 15:56:03.325157 Z
 references: []
 
@@ -16,3 +16,7 @@ log_events:
   - Michael Nagel <m.nagel@devzero.de>
   - created
   - ""
+- - 2010-10-03 22:54:14.575073 Z
+  - Fabian Knittel <fabian.knittel@avona.com>
+  - closed with disposition fixed
+  - Fixed regression from 53c317268 by properly nulling the array pointers.
