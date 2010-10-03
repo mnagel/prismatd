@@ -22,7 +22,7 @@ public class Game implements Serializable {
 	public List<Tower> towers = new LinkedList<Tower>();
 	public List<Particle> particles = new LinkedList<Particle>();
 
-	public TimeTrack gameTime;
+	public TimeTrack gameTime = new TimeTrack();
 	public TimedCodeManager timedCodeManager;
 
 	public EventListener eventListener;
@@ -76,9 +76,7 @@ public class Game implements Serializable {
 	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(
 			this);
 
-	public Game(TimeTrack gameTime, TimedCodeManager timedCodeManager,
-			EventListener eventListener) {
-		this.gameTime = gameTime;
+	public Game(TimedCodeManager timedCodeManager, EventListener eventListener) {
 		this.timedCodeManager = timedCodeManager;
 		this.eventListener = eventListener;
 

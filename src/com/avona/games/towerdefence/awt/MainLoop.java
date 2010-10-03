@@ -56,6 +56,12 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 				System.exit(1);
 			}
 		}
+		
+		// XXX: Maybe it would be cleaner to keep a reference to 
+		// non-portable GraphicsEngine instead.  OTOH it does not feel
+		// too wrong to cast it here as we know its type anyway.
+		assert(ge instanceof GraphicsEngine);
+		input.setupListeners((GraphicsEngine)ge);
 	}
 
 	private void initNewGame() {
@@ -67,7 +73,7 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		graphicsEngine.canvas.addGLEventListener(this);
 
 		setupInputActors();
-		input = new InputMangler(graphicsEngine, this, inputActor);
+		input = new InputMangler(this, inputActor);
 
 		animator = new FPSAnimator(graphicsEngine.canvas, EXPECTED_FPS);
 		animator.setRunAsFastAsPossible(false);
