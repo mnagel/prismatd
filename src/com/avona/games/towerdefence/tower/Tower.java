@@ -32,7 +32,7 @@ public abstract class Tower extends LocationObject {
 		timer = new RechargeTimer(timedCodeManager, 0.3f);
 		range = 75 + 2 * (level - 1);
 		price = 10 + 2 * (level - 1);
-		radius = 16;
+		radius = 8;
 	}
 
 	public Tower(final Tower t) {

@@ -296,7 +296,7 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	public void renderTower(final Tower t) {
-		final float width = t.radius;
+		final float radius = t.radius;
 		final V2 location = t.location;
 
 		RGB gfxcol = t.strength.normalized();
@@ -308,8 +308,8 @@ public abstract class PortableGraphicsEngine {
 
 		va.reserveBuffers();
 
-		GeometryHelper.boxVerticesAsTriangleStrip(location.x - width / 2,
-				location.y - width / 2, width, width, va);
+		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius,
+				location.y - radius, radius * 2, radius * 2, va);
 
 		// Top right
 		va.addColour(gfxcol.R * 1.0f, gfxcol.G * 0.9f, gfxcol.B * 0.9f, 1.0f);
