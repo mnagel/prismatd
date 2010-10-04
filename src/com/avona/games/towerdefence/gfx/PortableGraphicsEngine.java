@@ -220,7 +220,7 @@ public abstract class PortableGraphicsEngine {
 
 		RGB gfxcol = e.life.normalized();
 
-		final float width = 12;
+		final float radius = e.radius;
 		final V2 location = e.location;
 
 		final VertexArray va = new VertexArray();
@@ -230,8 +230,8 @@ public abstract class PortableGraphicsEngine {
 
 		va.reserveBuffers();
 
-		GeometryHelper.boxVerticesAsTriangleStrip(location.x - width / 2,
-				location.y - width / 2, width, width, va);
+		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius,
+				location.y - radius, radius * 2, radius * 2, va);
 
 		// Top right
 		va.addColour(gfxcol.R * 1.0f, gfxcol.G * 0.9f, gfxcol.B * 0.9f, 1.0f);
