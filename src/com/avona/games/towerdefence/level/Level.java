@@ -1,10 +1,11 @@
 package com.avona.games.towerdefence.level;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.Wave;
+import com.avona.games.towerdefence.WaveEnemyConfig;
 import com.avona.games.towerdefence.WaveSender;
 import com.avona.games.towerdefence.WaveTracker;
 import com.avona.games.towerdefence.tower.Tower;
@@ -17,30 +18,50 @@ public abstract class Level implements Serializable, WaveSender {
 	public final static float ORIGIN_Y = 0;
 	public final static float HEIGHT = 480;
 
-	protected Game game;
-
 	public String gameBackgroundName;
 	public String menuBackgroundName;
 
-	public float WAYPOINT_WIDTH = 4.0f;
+	public final float WAYPOINT_WIDTH = 4.0f;
 
-	public final ArrayList<V2> waypoints = new ArrayList<V2>();
+	public final V2[] waypoints;
+	public final Tower[] buildableTowers; 
+	private final WaveEnemyConfig[][] enemyWaves;
 
 	public WaveTracker waveTracker = new WaveTracker(this);
 
+	protected Game game;
+
 	public Level(final Game game) {
 		this.game = game;
+		this.waypoints = loadWaypoints();
+		this.enemyWaves = loadEnemyWaves();
+		this.buildableTowers = loadBuildableTowers();
 	}
 
-	protected void addWaypoint(final int x, final int y) {
-		waypoints.add(new V2(x, y));
+	@Override
+	public Wave sendWave(final int wave) {
+		if (wave < enemyWaves.length) {
+			return new Wave(game, this, game.timedCodeManager, enemyWaves[wave]);
+		} else {
+			onFinishedLastWave();
+			return null;
+		}
+	}
+	protected void onFinishedLastWave() {
+		// TODO inform listeners about "Level ended" event.
 	}
 
 	/**
-	 * gets called on construction -- needs to add waypoints to the list of
-	 * waypoints
+	 * @return The amount of money the player starts with.
 	 */
-	public abstract void initWaypoints();
+	protected abstract V2[] loadWaypoints();
+
+	protected abstract WaveEnemyConfig[][] loadEnemyWaves();
+
+	/**
+	 * @return A list of towers that can be built in this level.
+	 */
+	protected abstract Tower[] loadBuildableTowers();
 
 	/**
 	 * @return The amount of money the player starts with.
@@ -51,9 +72,4 @@ public abstract class Level implements Serializable, WaveSender {
 	 * @return The number of lives the player starts with.
 	 */
 	public abstract int getStartLives();
-
-	/**
-	 * @return A list of towers that can be built in this level.
-	 */
-	public abstract Tower[] listBuildableTowers();
 }

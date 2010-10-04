@@ -1,7 +1,7 @@
 package com.avona.games.towerdefence.level;
 
 import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.Wave;
+import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.WaveEnemyConfig;
 import com.avona.games.towerdefence.enemy.LimeLizardEnemy;
 import com.avona.games.towerdefence.enemy.VioletViperEnemy;
@@ -15,19 +15,12 @@ public class _020_About_Colors extends Level {
 
 	private static final long serialVersionUID = -2476503319147078452L;
 
-	private Tower[] buildableTowers;
-
 	public _020_About_Colors(final Game game) {
 		super(game);
 		gameBackgroundName = "back_l";
 		menuBackgroundName = "back_r";
 		waveTracker.waveBegunListeners
 				.add(new GrantInterestPerWave(game, 0.10f));
-
-		buildableTowers = new Tower[] {
-				new EmeraldPrismaTower(game.timedCodeManager, 1),
-				new RubyPrismaTower(game.timedCodeManager, 1),
-				new SapphirePrismaTower(game.timedCodeManager, 1) };
 	}
 
 	@Override
@@ -40,54 +33,36 @@ public class _020_About_Colors extends Level {
 		return 100;
 	}
 
-	@Override
-	public void initWaypoints() {
-		addWaypoint(500, 300);
-		addWaypoint(500, 350);
-		addWaypoint(30, 350);
-		addWaypoint(30, 200);
-		addWaypoint(300, 200);
-		addWaypoint(300, 0);
-		addWaypoint(30, 480);
-		addWaypoint(30, 400);
-		addWaypoint(600, 400);
-		addWaypoint(600, 300);
+	protected V2[] loadWaypoints() {
+		return new V2[] { new V2(500, 300), new V2(500, 350), new V2(30, 350),
+				new V2(30, 200), new V2(300, 200), new V2(300, 0),
+				new V2(30, 480), new V2(30, 400), new V2(600, 400),
+				new V2(600, 300) };
 	}
 
 	@Override
-	public Tower[] listBuildableTowers() {
-		return buildableTowers;
+	protected Tower[] loadBuildableTowers() {
+		return new Tower[] { new EmeraldPrismaTower(game.timedCodeManager, 1),
+				new RubyPrismaTower(game.timedCodeManager, 1),
+				new SapphirePrismaTower(game.timedCodeManager, 1) };
 	}
 
 	@Override
-	public Wave sendWave(int wave) {
+	protected WaveEnemyConfig[][] loadEnemyWaves() {
 		final float delay = 0.4f;
 		final int level = 2;
-		return new Wave(game, this, game.timedCodeManager,
-				new WaveEnemyConfig[] {
-						new WaveEnemyConfig(new LimeLizardEnemy(this, level),
-								delay),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, level),
-								delay),
-						new WaveEnemyConfig(new VioletViperEnemy(this, level),
-								delay),
-						new WaveEnemyConfig(new VioletViperEnemy(this, level),
-								delay),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, level),
-								delay),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, level),
-								delay),
-						new WaveEnemyConfig(new VioletViperEnemy(this, level),
-								delay),
-						new WaveEnemyConfig(new VioletViperEnemy(this, level),
-								delay),
-						new WaveEnemyConfig(new VioletViperEnemy(this, level),
-								delay),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, level),
-								delay),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, level),
-								delay),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, level),
-								delay) });
+		return new WaveEnemyConfig[][] { new WaveEnemyConfig[] {
+				new WaveEnemyConfig(new LimeLizardEnemy(this, level), delay),
+				new WaveEnemyConfig(new LimeLizardEnemy(this, level), delay),
+				new WaveEnemyConfig(new VioletViperEnemy(this, level), delay),
+				new WaveEnemyConfig(new VioletViperEnemy(this, level), delay),
+				new WaveEnemyConfig(new LimeLizardEnemy(this, level), delay),
+				new WaveEnemyConfig(new LimeLizardEnemy(this, level), delay),
+				new WaveEnemyConfig(new VioletViperEnemy(this, level), delay),
+				new WaveEnemyConfig(new VioletViperEnemy(this, level), delay),
+				new WaveEnemyConfig(new VioletViperEnemy(this, level), delay),
+				new WaveEnemyConfig(new LimeLizardEnemy(this, level), delay),
+				new WaveEnemyConfig(new LimeLizardEnemy(this, level), delay),
+				new WaveEnemyConfig(new LimeLizardEnemy(this, level), delay) } };
 	}
 }

@@ -59,10 +59,9 @@ public class Game implements Serializable {
 	public void loadLevel(Level l) {
 		this.level = l;
 
-		level.initWaypoints();
 		lives = level.getStartLives();
 		money = level.getStartMoney();
-		selectedBuildTower = level.listBuildableTowers()[0];
+		selectedBuildTower = level.buildableTowers[0];
 	}
 
 	/**
@@ -189,7 +188,7 @@ public class Game implements Serializable {
 				continue;
 			}
 
-			final V2 w = level.waypoints.get(e.waypointId);
+			final V2 w = level.waypoints[e.waypointId];
 			if (Collision.movingCircleCollidedWithCircle(e.location,
 					e.velocity, e.radius, w, V2.ZERO, 1, dt)) {
 				e.setWPID(e.waypointId + 1);

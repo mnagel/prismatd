@@ -53,9 +53,9 @@ public abstract class Enemy extends MovingObject {
 	public abstract Enemy copy();
 
 	public void setWPID(int i) {
-		if (waypointId + 1 < level.waypoints.size()) {
+		if (waypointId + 1 < level.waypoints.length) {
 			waypointId = i;
-			target = level.waypoints.get(waypointId);
+			target = level.waypoints[waypointId];
 			velocity.setDirection(location, target);
 		} else {
 			escape();
