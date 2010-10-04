@@ -22,12 +22,11 @@ public abstract class PortableMainLoop implements Serializable {
 	public Mouse mouse = new Mouse();
 	public LayerHerder layerHerder = new LayerHerder();
 	public EventDistributor eventListener = new EventDistributor();
-	protected TimeTrack graphicsTime = new TimeTrack();
-	protected TimedCodeManager timedCodeManager = new TimedCodeManager();
+	protected TimeTrack wallTime = new TimeTrack();
 	private float gameTicks = 0;
-	
+
 	public PortableMainLoop() {
-		game = new Game(timedCodeManager, eventListener);
+		game = new Game(eventListener);
 
 		Layer gameLayer = new Layer();
 		gameLayer.virtualRegion.x = Level.WIDTH;
@@ -57,35 +56,33 @@ public abstract class PortableMainLoop implements Serializable {
 
 	public void performLoop() {
 		final double wallClock = getWallClock();
-		graphicsTime.update(wallClock);
-		game.gameTime.update(wallClock);
-		timedCodeManager.update(game.gameTime.tick);
+		wallTime.update(wallClock);
 
 		// Updating of inputs is done asynchronously.
 		// Update the world with a fixed rate.
-		gameTicks += game.gameTime.tick;
+		gameTicks += wallTime.tick;
 		while (gameTicks >= FIXED_TICK) {
 			game.updateWorld(FIXED_TICK);
 			gameTicks -= FIXED_TICK;
 		}
 
 		// Show the world.
-		ge.render(game.gameTime.tick, graphicsTime.tick);
+		ge.render(wallTime.tick);
 	}
 
 	public void pauseGame() {
-		game.gameTime.stopClock();
+		game.pause();
 	}
 
 	public void unpauseGame() {
-		game.gameTime.startClock();
+		game.unpause();
 	}
 
 	public void toggleGamePause() {
-		if (game.gameTime.isRunning()) {
-			pauseGame();
-		} else {
+		if (game.isPaused()) {
 			unpauseGame();
+		} else {
+			pauseGame();
 		}
 	}
 

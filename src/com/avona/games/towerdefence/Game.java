@@ -23,7 +23,7 @@ public class Game implements Serializable {
 	public List<Particle> particles = new LinkedList<Particle>();
 
 	public TimeTrack gameTime = new TimeTrack();
-	public TimedCodeManager timedCodeManager;
+	public TimedCodeManager timedCodeManager = new TimedCodeManager();
 
 	public EventListener eventListener;
 
@@ -59,10 +59,9 @@ public class Game implements Serializable {
 	public void loadLevel(Level l) {
 		this.level = l;
 
-		level.initWaypoints();
 		lives = level.getStartLives();
 		money = level.getStartMoney();
-		selectedBuildTower = level.listBuildableTowers()[0];
+		selectedBuildTower = level.buildableTowers[0];
 	}
 
 	/**
@@ -76,8 +75,7 @@ public class Game implements Serializable {
 	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(
 			this);
 
-	public Game(TimedCodeManager timedCodeManager, EventListener eventListener) {
-		this.timedCodeManager = timedCodeManager;
+	public Game(EventListener eventListener) {
 		this.eventListener = eventListener;
 
 		/*
@@ -94,7 +92,9 @@ public class Game implements Serializable {
 	}
 
 	public boolean canBuildTowerAt(V2 location) {
-		return money >= selectedBuildTower.price;
+		return selectedBuildTower != null
+				&& money >= selectedBuildTower.price
+				&& getTowerWithinRadius(location, selectedBuildTower.radius) == null;
 	}
 
 	public void addTowerAt(V2 location) {
@@ -104,7 +104,7 @@ public class Game implements Serializable {
 		towers.add(newTower);
 		eventListener.onBuildTower(newTower);
 	}
-	
+
 	static Random rand = new Random();
 
 	public void onEnemySpawned(Enemy e) {
@@ -113,26 +113,44 @@ public class Game implements Serializable {
 		enemies.add(e);
 	}
 
-	public Tower closestTowerWithinRadius(V2 location, float range) {
-		return (Tower) closestStationaryWithinRadius(towers, location, range);
+	public Tower getTowerWithinRadius(V2 location, float range) {
+		return (Tower) getLocationWithinRadius(towers, location, range);
 	}
 
-	public Enemy closestEnemyWithinRadius(V2 location, float range) {
-		return (Enemy) closestStationaryWithinRadius(enemies, location, range);
+	public Enemy getEnemyWithinRadius(V2 location, float range) {
+		return (Enemy) getLocationWithinRadius(enemies, location, range);
 	}
 
 	@SuppressWarnings("unchecked")
-	// does not seem to be cast/type/...-able
-	public static Object closestStationaryWithinRadius(final List objects,
+	public static Object getLocationWithinRadius(final List objects,
 			final V2 location, final float range) {
-		for (final Object o : objects) {
-			if (((LocationObject) o).collidesWith(location, range))
-				return o;
+		final List<LocationObject> locationObjects = (List<LocationObject>) objects;
+		for (final LocationObject lo : locationObjects) {
+			if (lo.collidesWith(location, range))
+				return lo;
 		}
 		return null;
 	}
 
+	public void pause() {
+		gameTime.stopClock();
+	}
+
+	public void unpause() {
+		gameTime.startClock();
+	}
+
+	public boolean isPaused() {
+		return !gameTime.isRunning();
+	}
+
 	public void updateWorld(final float dt) {
+		if (isPaused())
+			return;
+
+		gameTime.updateTick(dt);
+		timedCodeManager.update(gameTime.tick);
+
 		/**
 		 * Step all objects first. This will cause them to move.
 		 */
@@ -189,7 +207,7 @@ public class Game implements Serializable {
 				continue;
 			}
 
-			final V2 w = level.waypoints.get(e.waypointId);
+			final V2 w = level.waypoints[e.waypointId];
 			if (Collision.movingCircleCollidedWithCircle(e.location,
 					e.velocity, e.radius, w, V2.ZERO, 1, dt)) {
 				e.setWPID(e.waypointId + 1);

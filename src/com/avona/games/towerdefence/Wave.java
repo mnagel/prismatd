@@ -28,7 +28,7 @@ public class Wave extends TimedCode {
 	}
 
 	private void spawnEnemy() {
-		final V2 location = level.waypoints.get(0).copy();
+		final V2 location = level.waypoints[0].copy();
 		WaveEnemyConfig we = enemies[curEnemy];
 		Enemy e = we.enemy.copy();
 		e.setInitialLocation(location);

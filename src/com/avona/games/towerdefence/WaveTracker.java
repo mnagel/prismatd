@@ -38,10 +38,11 @@ public class WaveTracker implements Serializable {
 
 		// Generate new wave
 		currentWave = sender.sendWave(waveNum);
-
-		// trigger events
-		for (WaveListener l : waveBegunListeners) {
-			l.onWave(waveNum);
+		if (currentWave != null) {
+			// trigger events
+			for (WaveListener l : waveBegunListeners) {
+				l.onWave(waveNum);
+			}
 		}
 	}
 

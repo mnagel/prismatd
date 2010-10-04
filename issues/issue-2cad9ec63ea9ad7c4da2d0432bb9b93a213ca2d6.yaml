@@ -7,8 +7,8 @@ type: :bugfix
 component: core
 release: 
 reporter: Philipp Kern <phil@philkern.de>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2010-10-03 19:37:09.259139 Z
 references: []
 
@@ -18,3 +18,7 @@ log_events:
   - Philipp Kern <phil@philkern.de>
   - created
   - ""
+- - 2010-10-04 12:05:52.145712 Z
+  - Fabian Knittel <fabian.knittel@avona.com>
+  - closed with disposition fixed
+  - Move timedCodeManager into game so that it gets restored.

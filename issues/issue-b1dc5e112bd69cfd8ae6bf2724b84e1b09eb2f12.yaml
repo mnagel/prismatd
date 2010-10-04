@@ -7,8 +7,8 @@ type: :bugfix
 component: core
 release: 
 reporter: Fabian Knittel <fabian.knittel@avona.com>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2010-09-21 15:19:59.986611 Z
 references: []
 
@@ -22,3 +22,7 @@ log_events:
   - Fabian Knittel <fk@localhost>
   - edited title
   - ""
+- - 2010-10-04 08:06:14.188718 Z
+  - Fabian Knittel <fabian.knittel@avona.com>
+  - closed with disposition fixed
+  - Towers now use their radius correctly

@@ -24,8 +24,8 @@ public abstract class PortableGraphicsEngine {
 	public Layer menuLayer;
 	public Layer gameLayer;
 
-	protected TimeTrack graphicsTime;
-	protected TickRater graphicsTickRater;
+	protected TimeTrack graphicsTime = new TimeTrack();
+	protected TickRater graphicsTickRater = new TickRater(graphicsTime);
 	protected Game game;
 	protected Mouse mouse;
 
@@ -33,11 +33,9 @@ public abstract class PortableGraphicsEngine {
 	protected VertexArray[] menuVertices;
 
 	public PortableGraphicsEngine(Game game, Mouse mouse,
-			LayerHerder layerHerder, TimeTrack graphicsTime) {
+			LayerHerder layerHerder) {
 		this.game = game;
 		this.mouse = mouse;
-		this.graphicsTime = graphicsTime;
-		this.graphicsTickRater = new TickRater(graphicsTime);
 
 		gameLayer = layerHerder
 				.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
@@ -68,7 +66,8 @@ public abstract class PortableGraphicsEngine {
 
 	public abstract V2 getTextBounds(final String text);
 
-	public void render(final float gameDelta, final float graphicsDelta) {
+	public void render(final float dt) {
+		graphicsTime.updateTick(dt);
 		graphicsTickRater.updateTickRate();
 
 		prepareScreen();
@@ -220,7 +219,7 @@ public abstract class PortableGraphicsEngine {
 
 		RGB gfxcol = e.life.normalized();
 
-		final float width = 12;
+		final float radius = e.radius;
 		final V2 location = e.location;
 
 		final VertexArray va = new VertexArray();
@@ -230,8 +229,8 @@ public abstract class PortableGraphicsEngine {
 
 		va.reserveBuffers();
 
-		GeometryHelper.boxVerticesAsTriangleStrip(location.x - width / 2,
-				location.y - width / 2, width, width, va);
+		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius,
+				location.y - radius, radius * 2, radius * 2, va);
 
 		// Top right
 		va.addColour(gfxcol.R * 1.0f, gfxcol.G * 0.9f, gfxcol.B * 0.9f, 1.0f);
@@ -296,7 +295,7 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	public void renderTower(final Tower t) {
-		final float width = t.radius;
+		final float radius = t.radius;
 		final V2 location = t.location;
 
 		RGB gfxcol = t.strength.normalized();
@@ -308,8 +307,8 @@ public abstract class PortableGraphicsEngine {
 
 		va.reserveBuffers();
 
-		GeometryHelper.boxVerticesAsTriangleStrip(location.x - width / 2,
-				location.y - width / 2, width, width, va);
+		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius,
+				location.y - radius, radius * 2, radius * 2, va);
 
 		// Top right
 		va.addColour(gfxcol.R * 1.0f, gfxcol.G * 0.9f, gfxcol.B * 0.9f, 1.0f);

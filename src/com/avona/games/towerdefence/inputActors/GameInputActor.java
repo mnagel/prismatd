@@ -28,11 +28,8 @@ public class GameInputActor extends EmptyInputActor {
 			return;
 		game.draggingTower = false;
 
-		Tower t = game.closestTowerWithinRadius(location, mouse.radius);
-		if (t == null) {
-			if (game.canBuildTowerAt(location)) {
-				game.addTowerAt(location);
-			}
+		if (game.canBuildTowerAt(location)) {
+			game.addTowerAt(location);
 		}
 		checkMouseOverTower(location);
 	}
@@ -48,12 +45,12 @@ public class GameInputActor extends EmptyInputActor {
 	}
 
 	public void checkMouseOverTower(V2 location) {
-		final Tower t = game.closestTowerWithinRadius(location, mouse.radius);
+		final Tower t = game.getTowerWithinRadius(location, mouse.radius);
 		if (t != null) {
 			game.selectedObject = t;
 			return;
 		}
-		final Enemy e = game.closestEnemyWithinRadius(location, mouse.radius);
+		final Enemy e = game.getEnemyWithinRadius(location, mouse.radius);
 		game.selectedObject = e;
 	}
 
