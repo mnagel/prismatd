@@ -19,7 +19,7 @@ public class MainLoop extends PortableMainLoop {
 				context.getResources()));
 
 		final GraphicsEngine graphicsEngine = new GraphicsEngine(game, mouse,
-				layerHerder, graphicsTime);
+				layerHerder);
 		ge = graphicsEngine;
 
 		setupInputActors();

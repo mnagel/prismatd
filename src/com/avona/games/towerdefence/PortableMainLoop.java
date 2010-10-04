@@ -22,8 +22,7 @@ public abstract class PortableMainLoop implements Serializable {
 	public Mouse mouse = new Mouse();
 	public LayerHerder layerHerder = new LayerHerder();
 	public EventDistributor eventListener = new EventDistributor();
-	protected TimeTrack graphicsTime = new TimeTrack();
-	protected TimeTrack fullGameTime = new TimeTrack();
+	protected TimeTrack wallTime = new TimeTrack();
 	private float gameTicks = 0;
 
 	public PortableMainLoop() {
@@ -57,36 +56,33 @@ public abstract class PortableMainLoop implements Serializable {
 
 	public void performLoop() {
 		final double wallClock = getWallClock();
-		fullGameTime.update(wallClock);
-		graphicsTime.update(wallClock);
+		wallTime.update(wallClock);
 
 		// Updating of inputs is done asynchronously.
 		// Update the world with a fixed rate.
-		gameTicks += fullGameTime.tick;
+		gameTicks += wallTime.tick;
 		while (gameTicks >= FIXED_TICK) {
 			game.updateWorld(FIXED_TICK);
 			gameTicks -= FIXED_TICK;
 		}
 
 		// Show the world.
-		ge.render(game.gameTime.tick, graphicsTime.tick);
+		ge.render(wallTime.tick);
 	}
 
 	public void pauseGame() {
-		fullGameTime.stopClock();
 		game.pause();
 	}
 
 	public void unpauseGame() {
-		fullGameTime.startClock();
 		game.unpause();
 	}
 
 	public void toggleGamePause() {
-		if (fullGameTime.isRunning()) {
-			pauseGame();
-		} else {
+		if (game.isPaused()) {
 			unpauseGame();
+		} else {
+			pauseGame();
 		}
 	}
 

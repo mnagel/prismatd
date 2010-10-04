@@ -24,8 +24,8 @@ public abstract class PortableGraphicsEngine {
 	public Layer menuLayer;
 	public Layer gameLayer;
 
-	protected TimeTrack graphicsTime;
-	protected TickRater graphicsTickRater;
+	protected TimeTrack graphicsTime = new TimeTrack();
+	protected TickRater graphicsTickRater = new TickRater(graphicsTime);
 	protected Game game;
 	protected Mouse mouse;
 
@@ -33,11 +33,9 @@ public abstract class PortableGraphicsEngine {
 	protected VertexArray[] menuVertices;
 
 	public PortableGraphicsEngine(Game game, Mouse mouse,
-			LayerHerder layerHerder, TimeTrack graphicsTime) {
+			LayerHerder layerHerder) {
 		this.game = game;
 		this.mouse = mouse;
-		this.graphicsTime = graphicsTime;
-		this.graphicsTickRater = new TickRater(graphicsTime);
 
 		gameLayer = layerHerder
 				.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
@@ -68,7 +66,8 @@ public abstract class PortableGraphicsEngine {
 
 	public abstract V2 getTextBounds(final String text);
 
-	public void render(final float gameDelta, final float graphicsDelta) {
+	public void render(final float dt) {
+		graphicsTime.updateTick(dt);
 		graphicsTickRater.updateTickRate();
 
 		prepareScreen();
