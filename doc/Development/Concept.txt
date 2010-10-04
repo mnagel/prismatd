@@ -18,9 +18,21 @@ betroffen:
 * Doku
 * Code
 
+===== Story =====
+You are Jack Strange.
+Teenagers with Laserpointers want to wake your cute baby kittens.
+You hired Dr Ivan Drahozkyr to help.
+He developed "Prismas" to stop the Laser Beams. His mailbox says aliens abducted him.
+Now it is up to you to place the "Prismas" wisely -- so your kittens may sleep.
+
+BULLSHIT! DEFEND THE BASE AT ALL COSTS!
+
+Drahozkyr und die baby kittens als easteregg verwenden:
+* Game Over = the kittens have woken...
+
 ===== Umsetzung des Konzepts =====
 
-==== Gegner <<< FIXME: umbennenen (Irrlichter?) ====
+==== Gegner: Pixels ====
 bislang
 ein Hitpoint-Stand
 
@@ -38,7 +50,7 @@ LATER: es gibt unterschiedliche Gegner (erkennbar an der Form (Quadrat, Kreis, D
 
 Für Alpha: verschieden vorkolorierte Gegner mit 1-aus-3
 
-==== Türme / Geschosse <<< FIXME: umbenennen (Laser?) ====
+==== Türme: Prismas ====
 bislang
 Gegner verursachen Schaden (ziehen Hitpoints ab)
 
@@ -53,16 +65,8 @@ Türme können XP sammeln (weitere Währung / weiterer Freiheitsgrad, daher vert
 
 Für Alpha: 1 Geschoss-Art, verschiedene Farben, keine Levels
 
-==== Geld <<< FIXME: umbenennen (Farbe?) ====
-bislang
-es gibt Geld
+==== Geld: Dollars ($) ====
+Türme kosten eine bestimmte Menge Dollars
+Monster geben eine bestimmte Menge Dollars
 
-angedacht
-es gibt drei verschiedene Arten von Geld/Farben
 
-Türme kosten pro Farbe einen bestimmten Betrag, Monster geben pro Farbe einen bestimmten Betrag
-
-Für Alpha: Drei Sorten Geld
-
-===== ToDo =====
-[ ] Hintergrund-Geschichte, warum die Gegner dort hin wollen und warum man sie wie stoppen muss, und was sonst passiert (nie-wieder-bunt (Bildschirm schwarz/weiss))
