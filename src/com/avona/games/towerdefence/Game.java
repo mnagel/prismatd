@@ -111,21 +111,21 @@ public class Game implements Serializable {
 		enemies.add(e);
 	}
 
-	public Tower closestTowerWithinRadius(V2 location, float range) {
-		return (Tower) closestStationaryWithinRadius(towers, location, range);
+	public Tower getTowerWithinRadius(V2 location, float range) {
+		return (Tower) getLocationWithinRadius(towers, location, range);
 	}
 
-	public Enemy closestEnemyWithinRadius(V2 location, float range) {
-		return (Enemy) closestStationaryWithinRadius(enemies, location, range);
+	public Enemy getEnemyWithinRadius(V2 location, float range) {
+		return (Enemy) getLocationWithinRadius(enemies, location, range);
 	}
 
 	@SuppressWarnings("unchecked")
-	// does not seem to be cast/type/...-able
-	public static Object closestStationaryWithinRadius(final List objects,
+	public static Object getLocationWithinRadius(final List objects,
 			final V2 location, final float range) {
-		for (final Object o : objects) {
-			if (((LocationObject) o).collidesWith(location, range))
-				return o;
+		final List<LocationObject> locationObjects = (List<LocationObject>) objects;
+		for (final LocationObject lo : locationObjects) {
+			if (lo.collidesWith(location, range))
+				return lo;
 		}
 		return null;
 	}
