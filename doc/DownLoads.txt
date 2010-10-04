@@ -4,16 +4,16 @@ Creation-Date: 2010-09-22T14:53:03.932406
 
 ====== DownLoads ======
 
+===== Direct Downloads =====
 FIXME
-
-here should be links for downloading
 * APK
 * JAR
 * DEB?
 * SRC
 
-here should be link for checking out git
-* git
+===== Source Code from git Repository =====
+* git clone git://devzero.de/towerdefence
 
-here should be link to android market
+===== Android Market =====
+FIXME
 * market

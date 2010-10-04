@@ -168,7 +168,7 @@ spätere Sachen auch auf [[RoadMap:RoadMapLater]]
 [ ] Source / Binary - Download für Linux
 	[ ] (optional: (Package))
 [ ] APK für Android
-[ ] Build per Skript (ohne Eclipse // oder zumindest ohne grafisches Rumgeklicke) ermoeglichen
+[*] Build per Skript (ohne Eclipse // oder zumindest ohne grafisches Rumgeklicke) ermoeglichen
 [ ] Installations-Anleitung
 [ ] externe How-To-Play-Anleitung mit Bildern schreiben
 [ ] Dokumentation nachziehen / sortieren
