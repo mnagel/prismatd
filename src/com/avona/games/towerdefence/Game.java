@@ -23,7 +23,7 @@ public class Game implements Serializable {
 	public List<Particle> particles = new LinkedList<Particle>();
 
 	public TimeTrack gameTime = new TimeTrack();
-	public TimedCodeManager timedCodeManager;
+	public TimedCodeManager timedCodeManager = new TimedCodeManager();
 
 	public EventListener eventListener;
 
@@ -75,8 +75,7 @@ public class Game implements Serializable {
 	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(
 			this);
 
-	public Game(TimedCodeManager timedCodeManager, EventListener eventListener) {
-		this.timedCodeManager = timedCodeManager;
+	public Game(EventListener eventListener) {
 		this.eventListener = eventListener;
 
 		/*
@@ -103,7 +102,7 @@ public class Game implements Serializable {
 		towers.add(newTower);
 		eventListener.onBuildTower(newTower);
 	}
-	
+
 	static Random rand = new Random();
 
 	public void onEnemySpawned(Enemy e) {
@@ -131,7 +130,25 @@ public class Game implements Serializable {
 		return null;
 	}
 
+	public void pause() {
+		gameTime.stopClock();
+	}
+
+	public void unpause() {
+		gameTime.startClock();
+	}
+
+	public boolean isPaused() {
+		return !gameTime.isRunning();
+	}
+
 	public void updateWorld(final float dt) {
+		if (isPaused())
+			return;
+
+		gameTime.updateTick(dt);
+		timedCodeManager.update(gameTime.tick);
+
 		/**
 		 * Step all objects first. This will cause them to move.
 		 */
