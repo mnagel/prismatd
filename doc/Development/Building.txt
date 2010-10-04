@@ -7,9 +7,12 @@ Creation-Date: 2010-10-02T23:48:17.369927
 ===== Dependencies =====
 (In Debian Packages...)
 
+• default-jdk
 * libjogl-java
+* ant
+* junit4
 
-sudo apt-get install libjogl-java
+sudo apt-get install libjogl-java default-jdk ant junit4
 
 ===== Desktop Version =====
 **generell**
@@ -17,6 +20,15 @@ sudo apt-get install libjogl-java
 
 **JAR**
 in Eclipse: Rechtsklick auf jardesc-Datei und dann "build jar"
+
+**ant Build**
+for building only:
+ant clean-build
+in the towerdefence directory
+
+for building and running:
+ant
+in the towerdefence directory
 
 ===== Android =====
 "Play in Eclipse"
