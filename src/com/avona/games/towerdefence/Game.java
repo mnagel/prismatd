@@ -92,7 +92,9 @@ public class Game implements Serializable {
 	}
 
 	public boolean canBuildTowerAt(V2 location) {
-		return money >= selectedBuildTower.price;
+		return selectedBuildTower != null
+				&& money >= selectedBuildTower.price
+				&& getTowerWithinRadius(location, selectedBuildTower.radius) == null;
 	}
 
 	public void addTowerAt(V2 location) {
