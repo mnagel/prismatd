@@ -43,12 +43,9 @@ public abstract class Level implements Serializable, WaveSender {
 		if (wave < enemyWaves.length) {
 			return new Wave(game, this, game.timedCodeManager, enemyWaves[wave]);
 		} else {
-			onFinishedLastWave();
+			game.eventListener.onLevelCompleted(this);
 			return null;
 		}
-	}
-	protected void onFinishedLastWave() {
-		// TODO inform listeners about "Level ended" event.
 	}
 
 	/**
