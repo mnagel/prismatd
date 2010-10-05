@@ -4,6 +4,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.os.Vibrator;
 
+import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.PortableMainLoop;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 
@@ -14,6 +15,9 @@ public class MainLoop extends PortableMainLoop {
 
 	public MainLoop(Context context, Vibrator vibrator) {
 		super();
+
+		game = new Game(eventListener);
+		initWithGame();
 
 		ResourceResolverRegistry.setInstance(new AndroidResourceResolver(
 				context.getResources()));

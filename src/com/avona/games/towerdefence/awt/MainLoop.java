@@ -36,20 +36,13 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		System.exit(0);
 	}
 
-//	public MainLoop() {
-//		super();
-//
-//		initNewGame();
-//	}
-
 	public MainLoop(String[] args) {
 		super();
 		// TODO use proper option parser
-
+		
 		if (args.length == 0) {
-			initNewGame();
-		} 
-		else {
+			game = new Game(eventListener);
+		} else {
 			try {
 				loadGame(args[0]);
 			} 
@@ -61,14 +54,13 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 			}
 		}
 
-		// XXX: Maybe it would be cleaner to keep a reference to 
-		// non-portable GraphicsEngine instead.  OTOH it does not feel
-		// too wrong to cast it here as we know its type anyway.
-		assert(ge instanceof GraphicsEngine);
-		input.setupListeners((GraphicsEngine)ge);
+		initWithGame();
 	}
 
-	private void initNewGame() {
+	@Override
+	protected void initWithGame() {
+		super.initWithGame();
+
 		ResourceResolverRegistry.setInstance(new FileResourceResolver("gfx"));
 
 		GraphicsEngine graphicsEngine = new GraphicsEngine(game, mouse,
@@ -82,6 +74,8 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		animator = new FPSAnimator(graphicsEngine.canvas, EXPECTED_FPS);
 		animator.setRunAsFastAsPossible(false);
 		animator.start();
+
+		input.setupListeners(graphicsEngine);
 	}
 
 	private void loadGame(final String filename) throws FileNotFoundException,
@@ -91,8 +85,6 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 
 		// Otherwise the parent class would've set up game...
 		game = (Game) ois.readObject();
-		// ...thus we can call initNewGame now.
-		initNewGame();
 	}
 
 	public static void main(String[] args) {

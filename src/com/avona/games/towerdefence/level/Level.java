@@ -3,6 +3,7 @@ package com.avona.games.towerdefence.level;
 import java.io.Serializable;
 
 import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.Wave;
 import com.avona.games.towerdefence.WaveEnemyConfig;
@@ -24,10 +25,11 @@ public abstract class Level implements Serializable, WaveSender {
 	public final float WAYPOINT_WIDTH = 4.0f;
 
 	public final V2[] waypoints;
-	public final Tower[] buildableTowers; 
+	public final Tower[] buildableTowers;
 	private final WaveEnemyConfig[][] enemyWaves;
 
 	public WaveTracker waveTracker = new WaveTracker(this);
+	public boolean completed = false;
 
 	protected Game game;
 
@@ -39,13 +41,19 @@ public abstract class Level implements Serializable, WaveSender {
 	}
 
 	@Override
-	public Wave sendWave(final int wave) {
-		if (wave < enemyWaves.length) {
-			return new Wave(game, this, game.timedCodeManager, enemyWaves[wave]);
-		} else {
-			game.eventListener.onLevelCompleted(this);
+	public Wave sendWave(final int waveNum) {
+		if (waveNum >= enemyWaves.length)
 			return null;
-		}
+
+		return new Wave(waveNum, game, this, game.timedCodeManager,
+				enemyWaves[waveNum]);
+	}
+
+	@Override
+	public void onAllWavesCompleted() {
+		Util.log("All waves completed -> level completed");
+		completed = true;
+		game.eventListener.onLevelCompleted(this);
 	}
 
 	/**
