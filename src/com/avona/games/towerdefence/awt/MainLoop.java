@@ -56,14 +56,8 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 				System.exit(1);
 			}
 		}
-		
-		initWithGame();
 
-		// XXX: Maybe it would be cleaner to keep a reference to 
-		// non-portable GraphicsEngine instead.  OTOH it does not feel
-		// too wrong to cast it here as we know its type anyway.
-		assert(ge instanceof GraphicsEngine);
-		input.setupListeners((GraphicsEngine)ge);
+		initWithGame();
 	}
 
 	@Override
@@ -83,6 +77,8 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		animator = new FPSAnimator(graphicsEngine.canvas, EXPECTED_FPS);
 		animator.setRunAsFastAsPossible(false);
 		animator.start();
+
+		input.setupListeners(graphicsEngine);
 	}
 
 	private void loadGame(final String filename) throws FileNotFoundException,
