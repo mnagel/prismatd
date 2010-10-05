@@ -5,22 +5,24 @@ import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.WaveEnemyConfig;
 import com.avona.games.towerdefence.enemy.LimeLizardEnemy;
 import com.avona.games.towerdefence.enemy.RedRaptorEnemy;
+import com.avona.games.towerdefence.enemy.VioletViperEnemy;
 import com.avona.games.towerdefence.tower.EmeraldPrismaTower;
 import com.avona.games.towerdefence.tower.RubyPrismaTower;
+import com.avona.games.towerdefence.tower.SapphirePrismaTower;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.waveListeners.GrantInterestPerWave;
 
-public class _020_About_Colors extends Level {
+public class _030_Mixing_Colors extends Level {
 
-	private static final long serialVersionUID = -2476503319147078452L;
+	private static final long serialVersionUID = -2376503319147078452L;
 
-	public _020_About_Colors(final Game game) {
+	public _030_Mixing_Colors(final Game game) {
 		super(game);
 
 		gameBackgroundName = "tutorial-l";
-		menuBackgroundName = "tutorial-r2";
+		menuBackgroundName = "tutorial-r3";
 		waveTracker.waveBegunListeners
-		.add(new GrantInterestPerWave(game, 0.10f));
+				.add(new GrantInterestPerWave(game, 0.10f));
 	}
 
 	@Override
@@ -46,7 +48,8 @@ public class _020_About_Colors extends Level {
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[] { 
 				new RubyPrismaTower(game.timedCodeManager, 1),
-				new EmeraldPrismaTower(game.timedCodeManager, 1)
+				new EmeraldPrismaTower(game.timedCodeManager, 1),
+				new SapphirePrismaTower(game.timedCodeManager, 1) 
 		};
 	}
 
@@ -54,31 +57,40 @@ public class _020_About_Colors extends Level {
 	protected WaveEnemyConfig[][] loadEnemyWaves() {
 		return new WaveEnemyConfig[][] {
 				new WaveEnemyConfig[] {
+						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
+				},
+				new WaveEnemyConfig[] {
+						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 				},
 				new WaveEnemyConfig[] {
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
 				},
 				new WaveEnemyConfig[] {
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
-				}
+				},
 		};
 	}
 
 	@Override
 	public String getLevelName() {
-		return "About Color";
+		return "Mixing Colors";
 	}
 }
