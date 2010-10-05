@@ -26,7 +26,7 @@ public class MenuInputActor extends EmptyInputActor {
 		case 2:
 			game.selectedBuildTower = game.level.buildableTowers[btn];
 			break;
-		default:
+		default: // FIXME code dupe to GameInputRightClick...
 			if (game.level.completed) {
 				game.loadNextLevel();
 			}
