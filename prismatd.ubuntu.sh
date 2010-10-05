@@ -1,6 +1,6 @@
 #! /bin/bash
 
-PRISMATD="towerdefence.jar"
+PRISMATD="build/jar/PrismaTD.jar"
 JOGL="/usr/share/java/jogl.jar"
 GLUEGEN="/usr/share/java/gluegen-rt.jar"
 
@@ -11,7 +11,7 @@ if [ -e $PRISMATD ]
 then
   echo "prismatd jar seems to be installed... continue"
 else
-  echo -e "prismatd seems to not be installed\nbuild it somehow..."
+  echo -e "prismatd seems to not be installed\nbuild it by running ./prismatd-build.ubuntu.sh"
   exit 3
 fi
 
