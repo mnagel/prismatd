@@ -13,4 +13,9 @@ public interface WaveSender {
 	 * Gets called to inform the wave sender, that all waves have completed.
 	 */
 	void onAllWavesCompleted();
+
+	/**
+	 * @return The number of waves in total.
+	 */
+	int getNumWaves();
 }

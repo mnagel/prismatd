@@ -59,6 +59,11 @@ public abstract class Level implements Serializable, WaveSender {
 		game.eventListener.onLevelCompleted(this);
 	}
 
+	@Override
+	public int getNumWaves() {
+		return enemyWaves.length;
+	}
+
 	/**
 	 * @return The amount of money the player starts with.
 	 */
