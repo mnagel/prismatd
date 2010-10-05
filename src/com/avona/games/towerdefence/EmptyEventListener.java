@@ -18,4 +18,8 @@ public class EmptyEventListener implements EventListener {
 	@Override
 	public void onGameCompleted(Game g) {
 	}
+
+	@Override
+	public void onGameOver(Game g) {
+	}
 }

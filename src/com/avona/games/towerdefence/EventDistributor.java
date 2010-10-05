@@ -28,4 +28,10 @@ public class EventDistributor implements EventListener {
 		for (EventListener l : listeners)
 			l.onGameCompleted(g);
 	}
+
+	@Override
+	public void onGameOver(Game g) {
+		for (EventListener l : listeners)
+			l.onGameOver(g);
+	}
 }

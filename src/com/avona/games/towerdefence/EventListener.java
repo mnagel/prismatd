@@ -12,4 +12,6 @@ public interface EventListener extends Serializable {
 	public void onLevelCompleted(Level l);
 
 	public void onGameCompleted(Game g);
+
+	public void onGameOver(Game g);
 }

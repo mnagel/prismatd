@@ -36,21 +36,6 @@ public class Game implements Serializable {
 	public int killed = 0;
 	public int lives;
 
-	public void looseLife() {
-		if (lives <= 0) {
-			return;
-		}
-		--lives;
-		if (lives == 0) {
-			gameOver();
-		}
-	}
-
-	public void gameOver() {
-		// FIXME add some game over logic here...
-		Util.log("you should die now...");
-	}
-
 	public int money;
 
 	/**
@@ -100,6 +85,22 @@ public class Game implements Serializable {
 		} else {
 			eventListener.onGameCompleted(this);
 		}
+	}
+
+	public void looseLife() {
+		if (lives <= 0) {
+			return;
+		}
+		--lives;
+		if (isGameOver()) {
+			// FIXME add some game over logic here...
+			Util.log("you should die now...");
+			eventListener.onGameOver(this);
+		}
+	}
+
+	public boolean isGameOver() {
+		return lives == 0;
 	}
 
 	public void startWave() {
