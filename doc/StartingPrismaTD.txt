@@ -19,3 +19,10 @@ OR
 ===== From within Eclipse =====
 * just press the "Run" button
 
+
+====== Command Line Options ======
+./prismatd.ubuntu.sh **--leveleditor**
+start in level editor mode
+
+./prismatd.ubuntu.sh **savegamename**
+load from savegame
