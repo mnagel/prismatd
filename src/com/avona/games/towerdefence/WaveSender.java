@@ -8,4 +8,9 @@ public interface WaveSender {
 	 * @return The Wave object tracking the progress of the new wave.
 	 */
 	Wave sendWave(int waveLevel);
+
+	/**
+	 * Gets called to inform the wave sender, that all waves have completed.
+	 */
+	void onAllWavesCompleted();
 }

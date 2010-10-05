@@ -22,4 +22,10 @@ public class EventDistributor implements EventListener {
 		for (EventListener l : listeners)
 			l.onLevelCompleted(level);
 	}
+
+	@Override
+	public void onGameCompleted(Game g) {
+		for (EventListener l : listeners)
+			l.onGameCompleted(g);
+	}
 }

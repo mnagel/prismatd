@@ -1,6 +1,7 @@
 package com.avona.games.towerdefence.waveListeners;
 
 import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.Wave;
 
 public class GrantInterestPerWave implements WaveListener {
 	private static final long serialVersionUID = 1L;
@@ -14,8 +15,8 @@ public class GrantInterestPerWave implements WaveListener {
 	}
 
 	@Override
-	public void onWave(int level) {
-		if (level == 1)
+	public void onWave(Wave wave) {
+		if (wave.waveNum == 1)
 			return;
 		game.money += game.money * interestRate;
 	}

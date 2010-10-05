@@ -26,7 +26,12 @@ public class MenuInputActor extends EmptyInputActor {
 			game.selectedBuildTower = game.level.buildableTowers[btn];
 			break;
 		default:
-			game.startWave();
+			if (game.level.completed) {
+				game.loadNextLevel();
+			}
+			if (!game.level.completed) {
+				game.startWave();
+			}
 			break;
 		}
 	}

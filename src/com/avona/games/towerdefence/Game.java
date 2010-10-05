@@ -27,6 +27,8 @@ public class Game implements Serializable {
 
 	public EventListener eventListener;
 
+	public Level[] levels;
+	public int curLevelIdx;
 	public Level level;
 
 	public int killed = 0;
@@ -56,14 +58,6 @@ public class Game implements Serializable {
 
 	public boolean draggingTower = false;
 
-	public void loadLevel(Level l) {
-		this.level = l;
-
-		lives = level.getStartLives();
-		money = level.getStartMoney();
-		selectedBuildTower = level.buildableTowers[0];
-	}
-
 	/**
 	 * Currently selected, existing tower. We will typically show the properties
 	 * of that tower.
@@ -78,13 +72,31 @@ public class Game implements Serializable {
 	public Game(EventListener eventListener) {
 		this.eventListener = eventListener;
 
-		/*
-		 * TODO We need some sort of fixed list of levels and a current level -> next level approach.
-		 * TODO Levels need to be completed / finished / done at some point, so that the next level can be selected.
-		 */
-		Level[] levels = new Level[] { new _010_Hello_World(this),
+		levels = new Level[] { new _010_Hello_World(this),
 				new _020_About_Colors(this) };
-		loadLevel(levels[0]);
+		loadLevel(0);
+	}
+
+	public void loadLevel(int levelIdx) {
+		curLevelIdx = levelIdx;
+		level = levels[curLevelIdx];
+
+		towers.clear();
+		lives = level.getStartLives();
+		money = level.getStartMoney();
+		selectedBuildTower = level.buildableTowers[0];
+	}
+	
+	public boolean isLastLevel() {
+		return curLevelIdx + 1 == levels.length;
+	}
+
+	public void loadNextLevel() {
+		if (!isLastLevel()) {
+			loadLevel(curLevelIdx + 1);
+		} else {
+			eventListener.onGameCompleted(this);
+		}
 	}
 
 	public void startWave() {
