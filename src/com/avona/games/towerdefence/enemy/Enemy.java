@@ -83,7 +83,7 @@ public abstract class Enemy extends MovingObject {
 		}
 	}
 
-	public void die() {
+	private void die() {
 		for (EnemyEventListener l : eventListeners) {
 			l.onDeathEvent(this);
 		}

@@ -29,5 +29,6 @@ public interface InputActor {
 	public void mouseDraggedTo(V2 location);
 
 	public void pressedPauseKey();
-
+	
+	public void pressedOtherKey(char keyCode);
 }

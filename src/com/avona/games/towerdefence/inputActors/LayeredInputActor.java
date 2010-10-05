@@ -182,4 +182,11 @@ public class LayeredInputActor implements InputActor {
 		System.out.println("toggleGamePause");
 		ml.toggleGamePause();
 	}
+
+	@Override
+	public void pressedOtherKey(char keyCode) {
+		if (keyCode == 'k') {
+			ml.game.killAllEnemies();
+		}
+	}
 }

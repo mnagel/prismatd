@@ -55,4 +55,9 @@ public class EmptyInputActor implements InputActor {
 	@Override
 	public void pressedSpaceKey() {
 	}
+
+	@Override
+	public void pressedOtherKey(char keyCode) {
+		
+	}
 }
