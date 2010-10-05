@@ -19,8 +19,8 @@ public class _101_Space extends Level {
 		super(game);
 
 		// TODO enforce setting these two names
-		gameBackgroundName = "space-l";
-		menuBackgroundName = "space-r";
+		gameBackgroundName = "space_l";
+		menuBackgroundName = "space_r";
 		waveTracker.waveBegunListeners
 				.add(new GrantInterestPerWave(game, 0.10f));
 	}

@@ -17,8 +17,8 @@ public class _020_About_Colors extends Level {
 	public _020_About_Colors(final Game game) {
 		super(game);
 
-		gameBackgroundName = "tutorial-l";
-		menuBackgroundName = "tutorial-r2";
+		gameBackgroundName = "tutorial_l";
+		menuBackgroundName = "tutorial_r2";
 		waveTracker.waveBegunListeners
 		.add(new GrantInterestPerWave(game, 0.10f));
 	}
