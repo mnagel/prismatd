@@ -44,9 +44,11 @@ public class _100_Grass extends Level {
 
 	@Override
 	protected Tower[] loadBuildableTowers() {
-		return new Tower[] { new RubyPrismaTower(game.timedCodeManager, 1),
+		return new Tower[] { 
+				new RubyPrismaTower(game.timedCodeManager, 1),
 				new EmeraldPrismaTower(game.timedCodeManager, 1),
-				new SapphirePrismaTower(game.timedCodeManager, 1) };
+				new SapphirePrismaTower(game.timedCodeManager, 1) 
+				};
 	}
 
 	@Override

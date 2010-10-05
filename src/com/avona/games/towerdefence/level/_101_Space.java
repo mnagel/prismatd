@@ -52,9 +52,11 @@ public class _101_Space extends Level {
 
 	@Override
 	protected Tower[] loadBuildableTowers() {
-		return new Tower[] { new RubyPrismaTower(game.timedCodeManager, 1),
+		return new Tower[] { 
+				new RubyPrismaTower(game.timedCodeManager, 1),
 				new EmeraldPrismaTower(game.timedCodeManager, 1),
-				new SapphirePrismaTower(game.timedCodeManager, 1) };
+				new SapphirePrismaTower(game.timedCodeManager, 1) 
+				};
 	}
 
 	@Override
