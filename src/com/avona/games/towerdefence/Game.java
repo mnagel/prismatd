@@ -109,7 +109,11 @@ public class Game implements Serializable {
 	}
 
 	public void startWave() {
-		level.waveTracker.startNextWave();
+		if (level.completed) {
+			loadNextLevel();
+		} else {
+			level.waveTracker.startNextWave();
+		}
 	}
 	
 	// this method is for debugging purposes only

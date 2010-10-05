@@ -36,13 +36,7 @@ public class GameInputActor extends EmptyInputActor {
 
 	@Override
 	public void mouseBtn2DownAt(V2 location) {
-			// FIXME code dupe to MenuActorMouseDown...
-			if (game.level.completed) {
-				game.loadNextLevel();
-			}
-			if (!game.level.completed) {
-				game.startWave();
-			}
+		game.startWave();
 	}
 
 	@Override
