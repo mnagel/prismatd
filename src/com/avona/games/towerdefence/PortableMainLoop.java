@@ -25,9 +25,7 @@ public abstract class PortableMainLoop implements Serializable {
 	protected TimeTrack wallTime = new TimeTrack();
 	private float gameTicks = 0;
 
-	public PortableMainLoop() {
-		game = new Game(eventListener);
-
+	protected void initWithGame() {
 		Layer gameLayer = new Layer();
 		gameLayer.virtualRegion.x = Level.WIDTH;
 		gameLayer.virtualRegion.y = Level.HEIGHT;

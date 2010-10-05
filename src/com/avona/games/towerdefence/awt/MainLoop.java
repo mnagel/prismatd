@@ -38,14 +38,14 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 	public MainLoop() {
 		super();
 
-		initNewGame();
+		initWithGame();
 	}
 
 	public MainLoop(String[] args) {
 		super();
-
+		
 		if (args.length == 0) {
-			initNewGame();
+			game = new Game(eventListener);
 		} else {
 			try {
 				loadGame(args[0]);
@@ -57,6 +57,8 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 			}
 		}
 		
+		initWithGame();
+
 		// XXX: Maybe it would be cleaner to keep a reference to 
 		// non-portable GraphicsEngine instead.  OTOH it does not feel
 		// too wrong to cast it here as we know its type anyway.
@@ -64,7 +66,10 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		input.setupListeners((GraphicsEngine)ge);
 	}
 
-	private void initNewGame() {
+	@Override
+	protected void initWithGame() {
+		super.initWithGame();
+
 		ResourceResolverRegistry.setInstance(new FileResourceResolver("gfx"));
 
 		GraphicsEngine graphicsEngine = new GraphicsEngine(game, mouse,
@@ -87,8 +92,6 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 
 		// Otherwise the parent class would've set up game...
 		game = (Game) ois.readObject();
-		// ...thus we can call initNewGame now.
-		initNewGame();
 	}
 
 	public static void main(String[] args) {
