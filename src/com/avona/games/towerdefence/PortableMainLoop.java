@@ -41,12 +41,12 @@ public abstract class PortableMainLoop implements Serializable {
 	}
 
 	public void setupInputActors() {
-		
+
 		GameInputActor gameInputActor = new GameInputActor(game, mouse);
 		if (Debug.mapEditor) {
 			gameInputActor = new LevelEditorInputActor(game, mouse);
 		}
-		
+
 		inputActor = new LayeredInputActor(this, mouse, layerHerder);
 		inputActor.inputLayerMap.put(layerHerder
 				.findLayerByName(GAME_LAYER_NAME), gameInputActor);

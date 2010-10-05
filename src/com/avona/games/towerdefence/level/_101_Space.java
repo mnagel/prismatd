@@ -36,27 +36,18 @@ public class _101_Space extends Level {
 
 	@Override
 	protected V2[] loadWaypoints() {
-		return new V2[] { 
-				new V2(238.f, 480.f), 
-				new V2(238.f, 384.f), 
-				new V2(592.f, 384.f), 
-				new V2(592.f, 132.f), 
-				new V2(476.f, 132.f), 
-				new V2(476.f, 290.f), 
-				new V2( 94.f, 290.f), 
-				new V2( 94.f, 132.f), 
-				new V2(405.f, 131.f), 
-				new V2(405.f,   0.f)
-		};
+		return new V2[] { new V2(238.f, 480.f), new V2(238.f, 384.f),
+				new V2(592.f, 384.f), new V2(592.f, 132.f),
+				new V2(476.f, 132.f), new V2(476.f, 290.f),
+				new V2(94.f, 290.f), new V2(94.f, 132.f), new V2(405.f, 131.f),
+				new V2(405.f, 0.f) };
 	}
 
 	@Override
 	protected Tower[] loadBuildableTowers() {
-		return new Tower[] { 
-				new RubyPrismaTower(game.timedCodeManager, 1),
+		return new Tower[] { new RubyPrismaTower(game.timedCodeManager, 1),
 				new EmeraldPrismaTower(game.timedCodeManager, 1),
-				new SapphirePrismaTower(game.timedCodeManager, 1) 
-				};
+				new SapphirePrismaTower(game.timedCodeManager, 1) };
 	}
 
 	@Override

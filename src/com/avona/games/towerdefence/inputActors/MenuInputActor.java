@@ -16,9 +16,10 @@ public class MenuInputActor extends EmptyInputActor {
 		final int height = 480; // FIXME get this from somewhere
 		final int buttonCount = 4;
 		location.y = height - location.y;
-		final int btn = (int)(Math.floor(buttonCount * location.y / height));
-		// Util.log("menu clicked at: " + location.toString() + " that is btn#" + btn);
-		
+		final int btn = (int) (Math.floor(buttonCount * location.y / height));
+		// Util.log("menu clicked at: " + location.toString() + " that is btn#"
+		// + btn);
+
 		switch (btn) {
 		case 0:
 		case 1:

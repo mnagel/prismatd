@@ -39,17 +39,17 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 	public MainLoop(String[] args) {
 		super();
 		// TODO use proper option parser
-		
+
 		if (args.length == 0) {
 			game = new Game(eventListener);
 		} else {
 			try {
 				loadGame(args[0]);
-			} 
-			catch (Exception e) {
+			} catch (Exception e) {
 				Util.log("loading failed...\nStacktrace:");
 				Util.log(Util.exception2String(e));
-				JOptionPane.showMessageDialog(null, "loading failed, see terminal for details");
+				JOptionPane.showMessageDialog(null,
+						"loading failed, see terminal for details");
 				System.exit(1);
 			}
 		}
@@ -79,7 +79,7 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 	}
 
 	private void loadGame(final String filename) throws FileNotFoundException,
-	IOException, ClassNotFoundException {
+			IOException, ClassNotFoundException {
 		final InputStream is = new FileInputStream(filename);
 		final ObjectInputStream ois = new ObjectInputStream(is);
 
@@ -89,15 +89,15 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 
 	public static void main(String[] args) {
 		String[] arg2 = args;
-		
+
 		if (args.length > 0 && args[0].indexOf("--leveleditor") == 0) {
 			Util.log("enabling map editor");
 			Debug.mapEditor = true;
-			
+
 			arg2 = new String[args.length - 1];
 			System.arraycopy(args, 1, arg2, 0, arg2.length);
 		}
-		
+
 		new MainLoop(arg2);
 	}
 

@@ -6,7 +6,7 @@ public class TickRater {
 	public float tickRate = INITIAL_TICKRATE;
 
 	public TimeTrack time;
-	
+
 	private boolean hadInitialZeroTick = false;
 
 	public TickRater(TimeTrack time) {
@@ -22,8 +22,7 @@ public class TickRater {
 		if (time.tick < 0.00001f) {
 			if (this.hadInitialZeroTick) {
 				Util.log("ingame zero tick: " + time.tick);
-			}
-			else {
+			} else {
 				this.hadInitialZeroTick = true;
 			}
 			return;

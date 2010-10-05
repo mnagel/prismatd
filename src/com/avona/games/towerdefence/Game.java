@@ -89,7 +89,7 @@ public class Game implements Serializable {
 		money = level.getStartMoney();
 		selectedBuildTower = level.buildableTowers[0];
 	}
-	
+
 	public boolean isLastLevel() {
 		return curLevelIdx + 1 == levels.length;
 	}

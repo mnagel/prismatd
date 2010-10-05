@@ -22,7 +22,8 @@ public abstract class Enemy extends MovingObject {
 	public RGB life;
 	public RGB maxLife;
 
-	public Enemy(Level level, int levelNum, int worth, RGB maxLife, int speed, float radius) {
+	public Enemy(Level level, int levelNum, int worth, RGB maxLife, int speed,
+			float radius) {
 		super();
 		this.level = level;
 		this.levelNum = levelNum;

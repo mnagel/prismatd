@@ -29,11 +29,11 @@ public class WaveTracker implements Serializable {
 	public boolean hasWaveEnded() {
 		return currentWave != null && currentWave.isFullyDeployed();
 	}
-	
+
 	public boolean haveAllWavesBeenDeployed() {
 		return waveNum > -1 && currentWave == null;
 	}
-	
+
 	public boolean hasPendingWaves() {
 		return pendingWaves.size() > 0;
 	}
@@ -74,10 +74,10 @@ public class WaveTracker implements Serializable {
 		for (WaveListener l : waveCompletedListeners) {
 			l.onWave(w);
 		}
-		
+
 		checkAllWavesCompleted();
 	}
-	
+
 	private void checkAllWavesCompleted() {
 		Util.log("Checking completion ...");
 		if (haveAllWavesBeenDeployed()) {
