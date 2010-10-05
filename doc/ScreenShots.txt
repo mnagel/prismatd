@@ -5,6 +5,9 @@ Creation-Date: 2010-09-09T11:33:57.460888
 ====== ScreenShots ======
 
 ===== Desktop Java =====
+2010-10-05
+{{../screenshots/screenshot-desktop-2010-10-05.png}}
+
 2010-10-01
 {{../screenshots/screenshot-desktop-2010-10-01.png}}
 
