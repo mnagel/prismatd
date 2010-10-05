@@ -24,6 +24,8 @@ in Eclipse: Rechtsklick auf jardesc-Datei und dann "build jar"
 **ant Build**
 for building only:
 ant clean-build
+OR
+./prismatd-build.ubuntu.sh
 in the towerdefence directory
 
 for building and running:
