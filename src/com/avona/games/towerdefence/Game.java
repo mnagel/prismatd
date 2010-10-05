@@ -12,6 +12,8 @@ import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameSta
 import com.avona.games.towerdefence.level.Level;
 import com.avona.games.towerdefence.level._010_Hello_World;
 import com.avona.games.towerdefence.level._020_About_Colors;
+import com.avona.games.towerdefence.level._100_Grass;
+import com.avona.games.towerdefence.level._101_Space;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.Tower;
 
@@ -73,7 +75,8 @@ public class Game implements Serializable {
 		this.eventListener = eventListener;
 
 		levels = new Level[] { new _010_Hello_World(this),
-				new _020_About_Colors(this) };
+				new _020_About_Colors(this), new _100_Grass(this),
+				new _101_Space(this) };
 		loadLevel(0);
 	}
 
