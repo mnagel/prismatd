@@ -141,4 +141,9 @@ public class _010_Hello_World extends Level {
 						new WaveEnemyConfig(new VioletViperEnemy(this, 4),
 								0.35f) } };
 	}
+
+	@Override
+	public String getLevelName() {
+		return "Hello World";
+	}
 }

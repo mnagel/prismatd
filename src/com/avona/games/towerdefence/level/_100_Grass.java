@@ -141,4 +141,9 @@ public class _100_Grass extends Level {
 						new WaveEnemyConfig(new VioletViperEnemy(this, 4),
 								0.35f) } };
 	}
+	
+	@Override
+	public String getLevelName() {
+		return "Grass";
+	}
 }

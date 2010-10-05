@@ -18,6 +18,7 @@ public class _101_Space extends Level {
 	public _101_Space(final Game game) {
 		super(game);
 
+		// TODO enforce setting these two names
 		gameBackgroundName = "space-l";
 		menuBackgroundName = "space-r";
 		waveTracker.waveBegunListeners
@@ -141,5 +142,10 @@ public class _101_Space extends Level {
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 4), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 4),
 								0.35f) } };
+	}
+	
+	@Override
+	public String getLevelName() {
+		return "Space";
 	}
 }

@@ -65,4 +65,9 @@ public class _020_About_Colors extends Level {
 				new WaveEnemyConfig(new LimeLizardEnemy(this, level), delay),
 				new WaveEnemyConfig(new LimeLizardEnemy(this, level), delay) } };
 	}
+	
+	@Override
+	public String getLevelName() {
+		return "About Colors";
+	}
 }
