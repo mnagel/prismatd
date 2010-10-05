@@ -21,7 +21,7 @@ public abstract class Level implements Serializable, WaveSender {
 
 	public String gameBackgroundName;
 	public String menuBackgroundName;
-	
+
 	public String levelName;
 
 	public final float WAYPOINT_WIDTH = 4.0f;
@@ -71,6 +71,8 @@ public abstract class Level implements Serializable, WaveSender {
 	 */
 	protected abstract Tower[] loadBuildableTowers();
 
+	protected abstract String getLevelName();
+
 	/**
 	 * @return The amount of money the player starts with.
 	 */
@@ -80,6 +82,4 @@ public abstract class Level implements Serializable, WaveSender {
 	 * @return The number of lives the player starts with.
 	 */
 	public abstract int getStartLives();
-	
-	public abstract String getLevelName();
 }
