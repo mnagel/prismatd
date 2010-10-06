@@ -64,7 +64,7 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		ResourceResolverRegistry.setInstance(new FileResourceResolver("gfx"));
 
 		GraphicsEngine graphicsEngine = new GraphicsEngine(game, mouse,
-				layerHerder);
+				layerHerder, this);
 		ge = graphicsEngine;
 		graphicsEngine.canvas.addGLEventListener(this);
 

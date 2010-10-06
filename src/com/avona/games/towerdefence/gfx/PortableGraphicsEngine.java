@@ -11,7 +11,6 @@ import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.WaveTracker;
 import com.avona.games.towerdefence.enemy.Enemy;
-import com.avona.games.towerdefence.level.Level;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.Tower;
 
@@ -29,20 +28,22 @@ public abstract class PortableGraphicsEngine {
 	protected TickRater graphicsTickRater = new TickRater(graphicsTime);
 	protected Game game;
 	protected Mouse mouse;
-	protected Level lastLevel;
+	protected PortableMainLoop ml;
 
 	protected VertexArray[] levelVertices;
 	protected VertexArray[] menuVertices;
 
 	public PortableGraphicsEngine(Game game, Mouse mouse,
-			LayerHerder layerHerder) {
+			LayerHerder layerHerder, PortableMainLoop ml) {
 		this.game = game;
 		this.mouse = mouse;
+		this.ml = ml;
 
 		gameLayer = layerHerder
 				.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
 		menuLayer = layerHerder
 				.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
+		ml.eventListener.listeners.add(new ReloadOnLevelSwitch(this));
 	}
 
 	public void onNewScreenContext() {
@@ -71,13 +72,6 @@ public abstract class PortableGraphicsEngine {
 	public void render(final float dt) {
 		graphicsTime.updateTick(dt);
 		graphicsTickRater.updateTickRate();
-
-		if (game.level != lastLevel) {
-			// FIXME Move level graphics loading from pull to push.
-			freeLevelVertices();
-			freeMenuVertices();
-			lastLevel = game.level;
-		}
 
 		prepareScreen();
 

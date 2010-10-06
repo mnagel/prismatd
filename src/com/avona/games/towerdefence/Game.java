@@ -78,6 +78,8 @@ public class Game implements Serializable {
 		lives = level.getStartLives();
 		money = level.getStartMoney();
 		selectedBuildTower = level.buildableTowers[0];
+
+		eventListener.onLevelSwitched(level);
 	}
 
 	public boolean isLastLevel() {

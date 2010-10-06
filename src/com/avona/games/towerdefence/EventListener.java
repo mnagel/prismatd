@@ -9,7 +9,9 @@ public interface EventListener extends Serializable {
 
 	public void onBuildTower(Tower t);
 
-	public void onLevelCompleted(Level l);
+	public void onLevelSwitched(Level level);
+
+	public void onLevelCompleted(Level level);
 
 	public void onGameCompleted(Game g);
 

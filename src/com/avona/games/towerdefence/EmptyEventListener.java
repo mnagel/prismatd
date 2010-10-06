@@ -22,4 +22,8 @@ public class EmptyEventListener implements EventListener {
 	@Override
 	public void onGameOver(Game g) {
 	}
+
+	@Override
+	public void onLevelSwitched(Level level) {
+	}
 }

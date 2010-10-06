@@ -34,4 +34,10 @@ public class EventDistributor implements EventListener {
 		for (EventListener l : listeners)
 			l.onGameOver(g);
 	}
+
+	@Override
+	public void onLevelSwitched(Level level) {
+		for (EventListener l : listeners)
+			l.onLevelSwitched(level);
+	}
 }
