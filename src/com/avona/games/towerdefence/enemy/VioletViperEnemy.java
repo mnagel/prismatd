@@ -9,7 +9,7 @@ public class VioletViperEnemy extends Enemy {
 
 	public VioletViperEnemy(Level level, int levelNum) {
 		super(level, levelNum, 3 + (levelNum - 1), new RGB(50 * levelNum + 10,
-				0, 50 * levelNum + 10), 80 + 3 * (levelNum - 1), 6);
+				0, 50 * levelNum + 10), 80 + 3 * (levelNum - 1), 12);
 	}
 
 	public VioletViperEnemy(VioletViperEnemy other) {

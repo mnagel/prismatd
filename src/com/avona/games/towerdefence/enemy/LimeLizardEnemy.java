@@ -8,7 +8,7 @@ public class LimeLizardEnemy extends Enemy {
 
 	public LimeLizardEnemy(Level level, int levelNum) {
 		super(level, levelNum, 3 + (levelNum - 1), new RGB(0,
-				50 * levelNum + 10, 0), 80 + 3 * (levelNum - 1), 6);
+				50 * levelNum + 10, 0), 80 + 3 * (levelNum - 1), 12);
 	}
 
 	public LimeLizardEnemy(LimeLizardEnemy other) {
