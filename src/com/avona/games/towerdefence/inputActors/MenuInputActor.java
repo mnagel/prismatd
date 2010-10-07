@@ -1,21 +1,24 @@
 package com.avona.games.towerdefence.inputActors;
 
 import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.V2;
 
 public class MenuInputActor extends EmptyInputActor {
 	private Game game;
+	private Layer layer;
 
-	public MenuInputActor(Game game) {
+	public MenuInputActor(final Game game, final Layer layer) {
 		this.game = game;
+		this.layer = layer;
 	}
 
 	@Override
-	public void mouseBtn1DownAt(V2 location) {
-		final int height = 480; // FIXME get this from somewhere
+	public void mouseBtn1DownAt(final V2 location) {
+		final float height = layer.region.y;
+		final float fromTop = height - location.y;
 		final int buttonCount = 4;
-		location.y = height - location.y;
-		final int btn = (int) (Math.floor(buttonCount * location.y / height));
+		final int btn = (int) (Math.floor(buttonCount * fromTop / height));
 
 		switch (btn) {
 		case 0:
