@@ -9,8 +9,8 @@ type: :bugfix
 component: core
 release: 
 reporter: Philipp Kern <phil@philkern.de>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2010-10-03 19:42:03.967098 Z
 references: []
 
@@ -20,3 +20,7 @@ log_events:
   - Philipp Kern <phil@philkern.de>
   - created
   - ""
+- - 2010-10-07 21:00:48.620881 Z
+  - Fabian Knittel <fabian.knittel@avona.com>
+  - closed with disposition fixed
+  - Check for !game.isPaused() in various places to fix this.

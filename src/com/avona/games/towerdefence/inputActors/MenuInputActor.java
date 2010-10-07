@@ -24,12 +24,13 @@ public class MenuInputActor extends EmptyInputActor {
 		case 0:
 		case 1:
 		case 2:
-			if (btn < game.level.buildableTowers.length) {
+			if (!game.isPaused() && btn < game.level.buildableTowers.length) {
 				game.selectedBuildTower = game.level.buildableTowers[btn];
 			}
 			break;
 		default:
-			game.startWave();
+			if (!game.isPaused())
+				game.startWave();
 			break;
 		}
 	}
