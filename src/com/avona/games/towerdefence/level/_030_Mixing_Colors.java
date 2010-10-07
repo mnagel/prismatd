@@ -21,6 +21,7 @@ public class _030_Mixing_Colors extends Level {
 
 		gameBackgroundName = "tutorial_l";
 		menuBackgroundName = "tutorial_r3";
+		overlayBackgroundName = "tutorial_x3";
 		waveTracker.waveBegunListeners
 				.add(new GrantInterestPerWave(game, 0.10f));
 	}

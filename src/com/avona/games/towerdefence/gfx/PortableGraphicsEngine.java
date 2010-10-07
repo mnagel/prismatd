@@ -32,6 +32,7 @@ public abstract class PortableGraphicsEngine {
 
 	protected VertexArray[] levelVertices;
 	protected VertexArray[] menuVertices;
+	protected VertexArray[] overlayVertices;
 
 	public PortableGraphicsEngine(Game game, Mouse mouse,
 			LayerHerder layerHerder, PortableMainLoop ml) {
@@ -51,6 +52,7 @@ public abstract class PortableGraphicsEngine {
 		// reset. Otherwise, any preloaded texture wouldn't be reloaded again.
 		freeLevelVertices();
 		freeMenuVertices();
+		freeOverlayVertices();
 	}
 
 	public abstract Texture allocateTexture();
@@ -103,6 +105,10 @@ public abstract class PortableGraphicsEngine {
 
 		prepareTransformationForLayer(menuLayer);
 		renderMenu();
+		resetTransformation();
+		
+		prepareTransformationForLayer(gameLayer);
+		renderOverlay();
 		resetTransformation();
 
 		if (!game.gameTime.isRunning()) {
@@ -212,6 +218,58 @@ public abstract class PortableGraphicsEngine {
 		}
 
 		for (VertexArray va : menuVertices) {
+			drawVertexArray(va);
+		}
+	}
+	
+	protected void buildOverlay() {
+		freeOverlayVertices();
+		overlayVertices = new VertexArray[1];
+
+		VertexArray va = new VertexArray();
+		va.hasTexture = true;
+		va.numCoords = 4;
+		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+
+		va.reserveBuffers();
+
+		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f,
+				gameLayer.virtualRegion.x, gameLayer.virtualRegion.y, va);
+
+		va.texture = allocateTexture();
+		va.texture.loadImage(game.level.overlayBackgroundName);
+
+		GeometryHelper.boxTextureAsTriangleStrip(va);
+
+		drawVertexArray(va);
+		overlayVertices[0] = va;
+	}
+
+	protected void freeOverlayVertices() {
+		if (overlayVertices != null) {
+			// In case we're recreating the world, allow re-using of the
+			// buffers.
+			for (VertexArray va : overlayVertices) {
+				va.freeBuffers();
+			}
+			overlayVertices = null;
+		}
+	}
+
+	protected void renderOverlay() {
+		if (!game.level.showoverlay) {
+			return;
+		}
+//		Util.log("render overlay");
+//		Util.log("off" + overlayLayer.offset);
+//		Util.log("reg" + overlayLayer.region);
+//		Util.log("vreg" + overlayLayer.virtualRegion);
+		
+		if (overlayVertices == null) {
+			buildOverlay();
+		}
+
+		for (VertexArray va : overlayVertices) {
 			drawVertexArray(va);
 		}
 	}

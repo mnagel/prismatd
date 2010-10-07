@@ -19,6 +19,7 @@ public class _020_About_Colors extends Level {
 
 		gameBackgroundName = "tutorial_l";
 		menuBackgroundName = "tutorial_r2";
+		overlayBackgroundName = "tutorial_x2";
 		waveTracker.waveBegunListeners
 		.add(new GrantInterestPerWave(game, 0.10f));
 	}

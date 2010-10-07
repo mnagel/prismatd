@@ -17,6 +17,7 @@ public class _010_Hello_World extends Level {
 
 		gameBackgroundName = "tutorial_l";
 		menuBackgroundName = "tutorial_r1";
+		overlayBackgroundName = "tutorial_x1";
 		waveTracker.waveBegunListeners
 		.add(new GrantInterestPerWave(game, 0.10f));
 	}

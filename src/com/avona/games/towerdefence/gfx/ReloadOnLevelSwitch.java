@@ -17,5 +17,6 @@ public class ReloadOnLevelSwitch extends EmptyEventListener {
 	public void onLevelSwitched(Level level) {
 		ge.freeLevelVertices();
 		ge.freeMenuVertices();
+		ge.freeOverlayVertices();
 	}
 }

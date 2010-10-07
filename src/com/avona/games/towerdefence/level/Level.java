@@ -21,6 +21,9 @@ public abstract class Level implements Serializable, WaveSender {
 
 	public String gameBackgroundName;
 	public String menuBackgroundName;
+	public String overlayBackgroundName = "icon";
+	
+	public boolean showoverlay = true;
 
 	public String levelName;
 

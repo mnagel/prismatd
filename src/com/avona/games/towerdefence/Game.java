@@ -139,6 +139,12 @@ public class Game implements Serializable {
 	}
 
 	public void addTowerAt(V2 location) {
+		// FIXME place this somewhere sensible
+		if (level.showoverlay == true) {
+			level.showoverlay = false;
+			return;
+		}
+		
 		Tower newTower = selectedBuildTower.copy();
 		newTower.location = new V2(location);
 		money -= newTower.price;
