@@ -2,15 +2,18 @@ package com.avona.games.towerdefence.inputActors;
 
 import com.avona.games.towerdefence.V2;
 
+/**
+ * This interface contains all input events that might occur. To be as portable
+ * as possible, the events should be as input type agnostic as possible and not
+ * describe keys and buttons but instead describe the intended purpose.
+ */
 public interface InputActor {
 
-	public void pressedEscapeKey();
+	public void pause();
 
-	public void onPause();
+	public void resume();
 
-	public void onResume();
-
-	public void pressedSpaceKey();
+	public void togglePause();
 
 	public void mouseBtn1DownAt(V2 location);
 
@@ -28,7 +31,11 @@ public interface InputActor {
 
 	public void mouseDraggedTo(V2 location);
 
-	public void pressedPauseKey();
-	
+	public void pressedMenuKey();
+
+	/**
+	 * Used as debugging key for debugging purposes.
+	 * @param keyCode
+	 */
 	public void pressedOtherKey(char keyCode);
 }

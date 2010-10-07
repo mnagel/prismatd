@@ -83,6 +83,16 @@ public abstract class Enemy extends MovingObject {
 		}
 	}
 
+	/**
+	 * Remove all/any life from the enemy.
+	 */
+	public void kill() {
+		life.R = 0;
+		life.G = 0;
+		life.B = 0;
+		die();
+	}
+
 	private void die() {
 		for (EnemyEventListener l : eventListeners) {
 			l.onDeathEvent(this);

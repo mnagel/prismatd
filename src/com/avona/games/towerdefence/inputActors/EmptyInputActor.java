@@ -37,27 +37,22 @@ public class EmptyInputActor implements InputActor {
 	}
 
 	@Override
-	public void onPause() {
+	public void pause() {
 	}
 
 	@Override
-	public void onResume() {
+	public void resume() {
 	}
 
 	@Override
-	public void pressedEscapeKey() {
+	public void pressedMenuKey() {
 	}
 
 	@Override
-	public void pressedPauseKey() {
-	}
-
-	@Override
-	public void pressedSpaceKey() {
+	public void togglePause() {
 	}
 
 	@Override
 	public void pressedOtherKey(char keyCode) {
-		
 	}
 }

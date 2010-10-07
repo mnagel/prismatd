@@ -117,23 +117,19 @@ public class Game implements Serializable {
 			level.waveTracker.startNextWave();
 		}
 	}
-	
-	// this method is for debugging purposes only
+
+	/**
+	 * This method is for debugging purposes only.
+	 */
 	public void killAllEnemies() {
-		final RGB dmg = new RGB(1e10f, 1e10f, 1e10f);
-		Iterator<Enemy> eiter = enemies.iterator();
-		while (eiter.hasNext()) {
-			final Enemy e = eiter.next();
-			e.inflictDamage(dmg);
-//			if (e.isDead()) {
-//				eiter.remove();
-//				continue;
-//			}
+		for (final Enemy e : enemies) {
+			e.kill();
 		}
 	}
 
 	public boolean canBuildTowerAt(V2 location) {
-		return selectedBuildTower != null
+		return !isPaused()
+				&& selectedBuildTower != null
 				&& money >= selectedBuildTower.price
 				&& getTowerWithinRadius(location, selectedBuildTower.radius) == null;
 	}

@@ -50,8 +50,9 @@ public abstract class PortableMainLoop implements Serializable {
 		inputActor = new LayeredInputActor(this, mouse, layerHerder);
 		inputActor.inputLayerMap.put(layerHerder
 				.findLayerByName(GAME_LAYER_NAME), gameInputActor);
-		inputActor.inputLayerMap.put(layerHerder
-				.findLayerByName(MENU_LAYER_NAME), new MenuInputActor(game));
+		final Layer menuLayer = layerHerder.findLayerByName(MENU_LAYER_NAME);
+		inputActor.inputLayerMap.put(menuLayer, new MenuInputActor(game,
+				menuLayer));
 	}
 
 	public static double getWallClock() {
