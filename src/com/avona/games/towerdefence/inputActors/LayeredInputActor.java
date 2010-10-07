@@ -25,23 +25,18 @@ public class LayeredInputActor implements InputActor {
 	}
 
 	@Override
-	public void pressedEscapeKey() {
+	public void pressedMenuKey() {
 		ml.exit();
 	}
 
 	@Override
-	public void onPause() {
+	public void pause() {
 		ml.pauseGame();
 	}
 
 	@Override
-	public void onResume() {
+	public void resume() {
 		ml.unpauseGame();
-	}
-
-	@Override
-	public void pressedSpaceKey() {
-		ml.toggleGamePause();
 	}
 
 	@Override
@@ -178,8 +173,7 @@ public class LayeredInputActor implements InputActor {
 	}
 
 	@Override
-	public void pressedPauseKey() {
-		System.out.println("toggleGamePause");
+	public void togglePause() {
 		ml.toggleGamePause();
 	}
 

@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
 		if (paused)
 			return;
 
-		ml.inputActor.onPause();
+		ml.inputActor.pause();
 		ml.surfaceView.onPause();
 		wl.release();
 
@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
 		if (!paused)
 			return;
 
-		ml.inputActor.onResume();
+		ml.inputActor.resume();
 		ml.surfaceView.onResume();
 		wl.acquire();
 

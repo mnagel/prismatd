@@ -52,13 +52,10 @@ public class InputMangler implements KeyListener, MouseListener,
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_ESCAPE: 
-			actor.pressedEscapeKey();
-			break;
-		case KeyEvent.VK_SPACE:
-			actor.pressedSpaceKey();
+			actor.pressedMenuKey();
 			break;
 		case KeyEvent.VK_P:
-			actor.pressedPauseKey();
+			actor.togglePause();
 			break;
 		case KeyEvent.VK_0:
 			ml.serialize();
