@@ -136,25 +136,30 @@ public abstract class PortableGraphicsEngine {
 				+ (s.y * 0.5f), 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
-	protected void createLevel() {
-		freeLevelVertices();
-		levelVertices = new VertexArray[1];
-
+	protected VertexArray createSimpleTextureBox(final float x, final float y,
+			final float width, final float height, final String textureName) {
 		VertexArray va = new VertexArray();
 		va.hasTexture = true;
 		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
 
 		va.reserveBuffers();
-		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f,
-				gameLayer.virtualRegion.x, gameLayer.virtualRegion.y, va);
+		GeometryHelper.boxVerticesAsTriangleStrip(x, y, width, height, va);
 
 		va.texture = allocateTexture();
-		va.texture.loadImage(game.level.gameBackgroundName);
+		va.texture.loadImage(textureName);
 
 		GeometryHelper.boxTextureAsTriangleStrip(va);
+		return va;
+	}
 
-		levelVertices[0] = va;
+	protected void createLevel() {
+		freeLevelVertices();
+		levelVertices = new VertexArray[1];
+
+		levelVertices[0] = createSimpleTextureBox(0.0f, 0.0f,
+				gameLayer.virtualRegion.x, gameLayer.virtualRegion.y,
+				game.level.gameBackgroundName);
 	}
 
 	protected void freeLevelVertices() {
@@ -182,17 +187,9 @@ public abstract class PortableGraphicsEngine {
 		freeMenuVertices();
 		menuVertices = new VertexArray[1];
 
-		VertexArray va = new VertexArray();
-		va.hasTexture = true;
-		va.numCoords = 4;
-		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
-		va.reserveBuffers();
-		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f,
-				menuLayer.virtualRegion.x, menuLayer.virtualRegion.y, va);
-		va.texture = allocateTexture();
-		va.texture.loadImage(game.level.menuBackgroundName);
-		GeometryHelper.boxTextureAsTriangleStrip(va);
-		menuVertices[0] = va;
+		menuVertices[0] = createSimpleTextureBox(0.0f, 0.0f,
+				menuLayer.virtualRegion.x, menuLayer.virtualRegion.y,
+				game.level.menuBackgroundName);;
 	}
 
 	protected void freeMenuVertices() {
@@ -215,22 +212,14 @@ public abstract class PortableGraphicsEngine {
 			drawVertexArray(va);
 		}
 	}
-	
+
 	protected void buildOverlay() {
 		freeOverlayVertices();
 		overlayVertices = new VertexArray[1];
 
-		VertexArray va = new VertexArray();
-		va.hasTexture = true;
-		va.numCoords = 4;
-		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
-		va.reserveBuffers();
-		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f,
-				gameLayer.virtualRegion.x, gameLayer.virtualRegion.y, va);
-		va.texture = allocateTexture();
-		va.texture.loadImage(game.level.overlayBackgroundName);
-		GeometryHelper.boxTextureAsTriangleStrip(va);
-		overlayVertices[0] = va;
+		overlayVertices[0] = createSimpleTextureBox(0.0f, 0.0f,
+				gameLayer.virtualRegion.x, gameLayer.virtualRegion.y,
+				game.level.overlayBackgroundName);
 	}
 
 	protected void freeOverlayVertices() {
