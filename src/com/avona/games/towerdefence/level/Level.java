@@ -23,7 +23,7 @@ public abstract class Level implements Serializable, WaveSender {
 	public String menuBackgroundName;
 	public String overlayBackgroundName;
 
-	public boolean showoverlay = true;
+	public boolean showOverlay = true;
 
 	public String levelName;
 

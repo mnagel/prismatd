@@ -257,7 +257,7 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	protected void renderOverlay() {
-		if (!game.level.showoverlay) {
+		if (!game.level.showOverlay) {
 			return;
 		}
 //		Util.log("render overlay");

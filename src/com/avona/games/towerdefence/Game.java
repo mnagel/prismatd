@@ -136,8 +136,8 @@ public class Game implements Serializable {
 
 	public void addTowerAt(V2 location) {
 		// FIXME place this somewhere sensible
-		if (level.showoverlay == true) {
-			level.showoverlay = false;
+		if (level.showOverlay == true) {
+			level.showOverlay = false;
 			return;
 		}
 		
