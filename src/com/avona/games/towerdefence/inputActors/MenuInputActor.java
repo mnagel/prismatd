@@ -14,9 +14,9 @@ public class MenuInputActor extends EmptyInputActor {
 	}
 
 	@Override
-	public void mouseBtn1DownAt(final V2 location) {
-		final float height = layer.region.y;
-		final float fromTop = height - location.y;
+	public void mouseBtn1DownAt(final V2 virtualLocation) {
+		final float height = layer.virtualRegion.y;
+		final float fromTop = height - virtualLocation.y;
 		final int buttonCount = 4;
 		final int btn = (int) (Math.floor(buttonCount * fromTop / height));
 
