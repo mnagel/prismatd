@@ -101,14 +101,14 @@ public abstract class PortableGraphicsEngine {
 			final Tower t = game.selectedBuildTower;
 			drawCircle(l.x, l.y, t.range, 1.0f, 1.0f, 1.0f, 1.0f);
 		}
+
+		if (game.level.showOverlay) {
+			renderOverlay();
+		}
 		resetTransformation();
 
 		prepareTransformationForLayer(menuLayer);
 		renderMenu();
-		resetTransformation();
-		
-		prepareTransformationForLayer(gameLayer);
-		renderOverlay();
 		resetTransformation();
 
 		if (!game.gameTime.isRunning()) {
@@ -245,10 +245,6 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	protected void renderOverlay() {
-		if (!game.level.showOverlay) {
-			return;
-		}
-		
 		if (overlayVertices == null) {
 			buildOverlay();
 		}
