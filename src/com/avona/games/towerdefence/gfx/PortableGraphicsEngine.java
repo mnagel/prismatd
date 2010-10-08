@@ -186,18 +186,12 @@ public abstract class PortableGraphicsEngine {
 		va.hasTexture = true;
 		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
-
 		va.reserveBuffers();
-
 		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f,
 				menuLayer.virtualRegion.x, menuLayer.virtualRegion.y, va);
-
 		va.texture = allocateTexture();
 		va.texture.loadImage(game.level.menuBackgroundName);
-
 		GeometryHelper.boxTextureAsTriangleStrip(va);
-
-		drawVertexArray(va);
 		menuVertices[0] = va;
 	}
 
@@ -230,18 +224,12 @@ public abstract class PortableGraphicsEngine {
 		va.hasTexture = true;
 		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
-
 		va.reserveBuffers();
-
 		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f,
 				gameLayer.virtualRegion.x, gameLayer.virtualRegion.y, va);
-
 		va.texture = allocateTexture();
 		va.texture.loadImage(game.level.overlayBackgroundName);
-
 		GeometryHelper.boxTextureAsTriangleStrip(va);
-
-		drawVertexArray(va);
 		overlayVertices[0] = va;
 	}
 
@@ -260,10 +248,6 @@ public abstract class PortableGraphicsEngine {
 		if (!game.level.showOverlay) {
 			return;
 		}
-//		Util.log("render overlay");
-//		Util.log("off" + overlayLayer.offset);
-//		Util.log("reg" + overlayLayer.region);
-//		Util.log("vreg" + overlayLayer.virtualRegion);
 		
 		if (overlayVertices == null) {
 			buildOverlay();
