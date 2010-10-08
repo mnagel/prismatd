@@ -505,5 +505,6 @@ public abstract class PortableGraphicsEngine {
 		drawCircle(x, y, radius, colR, colG, colB, colA, segments, va);
 
 		drawVertexArray(va);
+		va.freeBuffers();
 	}
 }
