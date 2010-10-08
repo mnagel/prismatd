@@ -32,7 +32,7 @@ public class RubyPrismaTower extends Tower {
 	}
 
 	@Override
-	public Tower copy() {
+	public Tower clone() {
 		return new RubyPrismaTower(this);
 	}
 

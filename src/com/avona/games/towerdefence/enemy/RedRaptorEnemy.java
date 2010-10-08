@@ -16,7 +16,7 @@ public class RedRaptorEnemy extends Enemy {
 	}
 
 	@Override
-	public Enemy copy() {
+	public Enemy clone() {
 		return new RedRaptorEnemy(this);
 	}
 }

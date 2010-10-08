@@ -32,7 +32,7 @@ public class SapphirePrismaTower extends Tower {
 	}
 
 	@Override
-	public Tower copy() {
+	public Tower clone() {
 		return new SapphirePrismaTower(this);
 	}
 

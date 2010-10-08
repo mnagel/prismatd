@@ -31,7 +31,7 @@ public abstract class Enemy extends MovingObject {
 		this.maxLife = maxLife;
 		this.velocity.setLength(speed);
 		this.radius = radius;
-		life = maxLife.copy();
+		life = maxLife.clone();
 	}
 
 	public Enemy(Enemy other) {
@@ -47,11 +47,12 @@ public abstract class Enemy extends MovingObject {
 	}
 
 	public void setInitialLocation(V2 location) {
-		this.location = location.copy();
+		this.location = location.clone();
 		setWPID(1);
 	}
 
-	public abstract Enemy copy();
+	@Override
+	public abstract Enemy clone();
 
 	public void setWPID(int i) {
 		if (waypointId + 1 < level.waypoints.length) {

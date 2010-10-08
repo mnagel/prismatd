@@ -17,7 +17,7 @@ public abstract class LocationObject implements Serializable {
 
 	protected LocationObject(final LocationObject o) {
 		if (o.location != null)
-			location = o.location.copy();
+			location = o.location.clone();
 		radius = o.radius;
 	}
 

@@ -141,7 +141,7 @@ public class Game implements Serializable {
 			return;
 		}
 		
-		Tower newTower = selectedBuildTower.copy();
+		Tower newTower = selectedBuildTower.clone();
 		newTower.location = new V2(location);
 		money -= newTower.price;
 		towers.add(newTower);

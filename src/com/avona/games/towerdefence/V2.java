@@ -36,7 +36,8 @@ public final class V2 implements Serializable {
 		this.setLength(length);
 	}
 
-	public V2 copy() {
+	@Override
+	public V2 clone() {
 		return new V2(this);
 	}
 

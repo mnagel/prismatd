@@ -16,7 +16,7 @@ public class LimeLizardEnemy extends Enemy {
 	}
 
 	@Override
-	public Enemy copy() {
+	public Enemy clone() {
 		return new LimeLizardEnemy(this);
 	}
 }
