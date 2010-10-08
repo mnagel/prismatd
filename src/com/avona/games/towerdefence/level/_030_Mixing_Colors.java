@@ -19,9 +19,6 @@ public class _030_Mixing_Colors extends Level {
 	public _030_Mixing_Colors(final Game game) {
 		super(game);
 
-		gameBackgroundName = "tutorial_l";
-		menuBackgroundName = "tutorial_r3";
-		overlayBackgroundName = "tutorial_x3";
 		waveTracker.waveBegunListeners
 				.add(new GrantInterestPerWave(game, 0.10f));
 	}
@@ -93,5 +90,20 @@ public class _030_Mixing_Colors extends Level {
 	@Override
 	public String getLevelName() {
 		return "Mixing Colors";
+	}
+
+	@Override
+	protected String getGameBackgroundName() {
+		return "tutorial_l";
+	}
+
+	@Override
+	protected String getMenuBackgroundName() {
+		return "tutorial_r3";
+	}
+
+	@Override
+	protected String getOverlayBackgroundName() {
+		return "tutorial_x3";
 	}
 }

@@ -18,8 +18,6 @@ public class _100_Grass extends Level {
 	public _100_Grass(final Game game) {
 		super(game);
 
-		gameBackgroundName = "back_l";
-		menuBackgroundName = "back_r";
 		waveTracker.waveBegunListeners
 				.add(new GrantInterestPerWave(game, 0.10f));
 	}
@@ -145,5 +143,20 @@ public class _100_Grass extends Level {
 	@Override
 	public String getLevelName() {
 		return "Grass";
+	}
+
+	@Override
+	protected String getGameBackgroundName() {
+		return "back_l";
+	}
+
+	@Override
+	protected String getMenuBackgroundName() {
+		return "back_r";
+	}
+
+	@Override
+	protected String getOverlayBackgroundName() {
+		return "icon";
 	}
 }

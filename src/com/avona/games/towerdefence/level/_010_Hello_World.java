@@ -15,9 +15,6 @@ public class _010_Hello_World extends Level {
 	public _010_Hello_World(final Game game) {
 		super(game);
 
-		gameBackgroundName = "tutorial_l";
-		menuBackgroundName = "tutorial_r1";
-		overlayBackgroundName = "tutorial_x1";
 		waveTracker.waveBegunListeners
 		.add(new GrantInterestPerWave(game, 0.10f));
 	}
@@ -64,5 +61,20 @@ public class _010_Hello_World extends Level {
 	@Override
 	public String getLevelName() {
 		return "Hello World";
+	}
+
+	@Override
+	protected String getGameBackgroundName() {
+		return "tutorial_l";
+	}
+
+	@Override
+	protected String getMenuBackgroundName() {
+		return "tutorial_r1";
+	}
+
+	@Override
+	protected String getOverlayBackgroundName() {
+		return "tutorial_x1";
 	}
 }

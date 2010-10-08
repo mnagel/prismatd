@@ -17,9 +17,6 @@ public class _020_About_Colors extends Level {
 	public _020_About_Colors(final Game game) {
 		super(game);
 
-		gameBackgroundName = "tutorial_l";
-		menuBackgroundName = "tutorial_r2";
-		overlayBackgroundName = "tutorial_x2";
 		waveTracker.waveBegunListeners
 		.add(new GrantInterestPerWave(game, 0.10f));
 	}
@@ -81,5 +78,20 @@ public class _020_About_Colors extends Level {
 	@Override
 	public String getLevelName() {
 		return "About Color";
+	}
+
+	@Override
+	protected String getGameBackgroundName() {
+		return "tutorial_l";
+	}
+
+	@Override
+	protected String getMenuBackgroundName() {
+		return "tutorial_r2";
+	}
+
+	@Override
+	protected String getOverlayBackgroundName() {
+		return "tutorial_x2";
 	}
 }

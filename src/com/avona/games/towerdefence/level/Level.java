@@ -21,8 +21,8 @@ public abstract class Level implements Serializable, WaveSender {
 
 	public String gameBackgroundName;
 	public String menuBackgroundName;
-	public String overlayBackgroundName = "icon";
-	
+	public String overlayBackgroundName;
+
 	public boolean showoverlay = true;
 
 	public String levelName;
@@ -40,6 +40,9 @@ public abstract class Level implements Serializable, WaveSender {
 
 	public Level(final Game game) {
 		this.game = game;
+		this.gameBackgroundName = getGameBackgroundName();
+		this.menuBackgroundName = getMenuBackgroundName();
+		this.overlayBackgroundName = getOverlayBackgroundName();
 		this.levelName = getLevelName();
 		this.waypoints = loadWaypoints();
 		this.enemyWaves = loadEnemyWaves();
@@ -80,6 +83,12 @@ public abstract class Level implements Serializable, WaveSender {
 	protected abstract Tower[] loadBuildableTowers();
 
 	protected abstract String getLevelName();
+
+	protected abstract String getGameBackgroundName();
+
+	protected abstract String getMenuBackgroundName();
+
+	protected abstract String getOverlayBackgroundName();
 
 	/**
 	 * @return The amount of money the player starts with.
