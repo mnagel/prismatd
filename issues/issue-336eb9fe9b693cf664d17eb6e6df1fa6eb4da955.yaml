@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: tutorial levels look to similar
+desc: one might think towers get deleted instead of new level loaded
+type: :feature
+component: usability
+release: 
+reporter: Michael Nagel <m.nagel@devzero.de>
+status: :unstarted
+disposition: 
+creation_time: 2010-10-09 13:43:46.565221 Z
+references: []
+
+id: 336eb9fe9b693cf664d17eb6e6df1fa6eb4da955
+log_events: 
+- - 2010-10-09 13:43:48.541138 Z
+  - Michael Nagel <m.nagel@devzero.de>
+  - created
+  - ""

@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: design better "no mission briefing" overlay
+desc: current one is strange
+type: :bugfix
+component: usability
+release: 
+reporter: Michael Nagel <m.nagel@devzero.de>
+status: :unstarted
+disposition: 
+creation_time: 2010-10-09 13:47:49.218122 Z
+references: []
+
+id: c69b3c26b267528fca07404501abf3b35ea8f00e
+log_events: 
+- - 2010-10-09 13:47:51.145185 Z
+  - Michael Nagel <m.nagel@devzero.de>
+  - created
+  - ""

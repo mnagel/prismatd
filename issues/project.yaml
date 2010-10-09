@@ -10,5 +10,7 @@ components:
   name: awt
 - !ditz.rubyforge.org,2008-03-06/component 
   name: android
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: usability
 releases: []
 
