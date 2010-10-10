@@ -157,6 +157,6 @@ public class _100_Grass extends Level {
 
 	@Override
 	protected String getOverlayBackgroundName() {
-		return "icon";
+		return "no_briefing";
 	}
 }

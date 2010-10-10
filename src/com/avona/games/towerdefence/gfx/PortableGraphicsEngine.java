@@ -70,6 +70,8 @@ public abstract class PortableGraphicsEngine {
 			final float colB, final float colA);
 
 	public abstract V2 getTextBounds(final String text);
+	
+	public abstract int userSelectsAString(String title, String message, String[] strings);
 
 	public void render(final float dt) {
 		graphicsTime.updateTick(dt);

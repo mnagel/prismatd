@@ -194,4 +194,10 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 
 		return texture;
 	}
+
+	@Override
+	public int userSelectsAString(String title, String message, String[] strings) {
+		Util.log("called unimplemented method userSelectsAString on android...");
+		return -1;
+	}
 }

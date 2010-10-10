@@ -158,6 +158,6 @@ public class _101_Space extends Level {
 
 	@Override
 	protected String getOverlayBackgroundName() {
-		return "icon";
+		return "no_briefing";
 	}
 }

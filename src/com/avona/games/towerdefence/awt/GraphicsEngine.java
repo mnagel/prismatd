@@ -13,6 +13,7 @@ import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
+import javax.swing.JOptionPane;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Layer;
@@ -221,5 +222,18 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 		gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
 
 		return texture;
+	}
+
+	@Override
+	public int userSelectsAString(String title, String message, String[] strings) {
+		int x = JOptionPane.showOptionDialog(
+				null,
+				message,
+				title,
+				0,
+				0, null, strings, null);
+
+		if (x == JOptionPane.CLOSED_OPTION) x = -1;
+		return x;
 	}
 }
