@@ -6,7 +6,7 @@ echo "does not necessarily link all needed files"
 echo ""
 
 shopt -s extglob
-for i in *[lrx]*([0-9]).png icon.png
+for i in *[lrx]*([0-9]).png icon.png no_briefing.png
 do
 # put links in the android res directory
 ln -s ./../../../gfx/$i ./../android/res/drawable/$i
