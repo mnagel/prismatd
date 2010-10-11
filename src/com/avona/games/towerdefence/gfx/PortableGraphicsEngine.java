@@ -14,18 +14,17 @@ import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.Tower;
 
-public abstract class PortableGraphicsEngine {
+public class PortableGraphicsEngine implements DisplayEventListener {
 
 	public static final int DEFAULT_HEIGHT = 480;
 	public static final int DEFAULT_WIDTH = 675;
-
-	public V2 size = new V2();
 
 	public Layer menuLayer;
 	public Layer gameLayer;
 
 	protected TimeTrack graphicsTime = new TimeTrack();
 	protected TickRater graphicsTickRater = new TickRater(graphicsTime);
+	private Display display;
 	protected Game game;
 	protected Mouse mouse;
 	protected PortableMainLoop ml;
@@ -34,8 +33,9 @@ public abstract class PortableGraphicsEngine {
 	protected VertexArray[] menuVertices;
 	protected VertexArray[] overlayVertices;
 
-	public PortableGraphicsEngine(Game game, Mouse mouse,
+	public PortableGraphicsEngine(Display display, Game game, Mouse mouse,
 			LayerHerder layerHerder, PortableMainLoop ml) {
+		this.display = display;
 		this.game = game;
 		this.mouse = mouse;
 		this.ml = ml;
@@ -47,6 +47,7 @@ public abstract class PortableGraphicsEngine {
 		ml.eventListener.listeners.add(new ReloadOnLevelSwitch(this));
 	}
 
+	@Override
 	public void onNewScreenContext() {
 		// Make sure that the VertexArrays are cleared on a screen context
 		// reset. Otherwise, any preloaded texture wouldn't be reloaded again.
@@ -55,29 +56,13 @@ public abstract class PortableGraphicsEngine {
 		freeOverlayVertices();
 	}
 
-	public abstract Texture allocateTexture();
-
-	public abstract void prepareTransformationForLayer(Layer layer);
-
-	public abstract void resetTransformation();
-
-	protected abstract void prepareScreen();
-
-	protected abstract void drawVertexArray(final VertexArray array);
-
-	public abstract void drawText(final String text, final double x,
-			final double y, final float colR, final float colG,
-			final float colB, final float colA);
-
-	public abstract V2 getTextBounds(final String text);
-
 	public void render(final float dt) {
 		graphicsTime.updateTick(dt);
 		graphicsTickRater.updateTickRate();
 
-		prepareScreen();
+		display.prepareScreen();
 
-		prepareTransformationForLayer(gameLayer);
+		display.prepareTransformationForLayer(gameLayer);
 		renderLevel();
 
 		for (Enemy e : game.enemies) {
@@ -105,11 +90,11 @@ public abstract class PortableGraphicsEngine {
 		if (game.level.showOverlay) {
 			renderOverlay();
 		}
-		resetTransformation();
+		display.resetTransformation();
 
-		prepareTransformationForLayer(menuLayer);
+		display.prepareTransformationForLayer(menuLayer);
 		renderMenu();
-		resetTransformation();
+		display.resetTransformation();
 
 		if (!game.gameTime.isRunning()) {
 			renderPauseOverlay();
@@ -120,6 +105,7 @@ public abstract class PortableGraphicsEngine {
 	}
 
 	private void renderPauseOverlay() {
+		final V2 size = display.getSize();
 		final VertexArray va = new VertexArray();
 		va.hasColour = true;
 		va.numCoords = 4;
@@ -127,12 +113,12 @@ public abstract class PortableGraphicsEngine {
 		va.reserveBuffers();
 		GeometryHelper.boxVerticesAsTriangleStrip(0, 0, size.x, size.y, va);
 		GeometryHelper.boxColoursAsTriangleStrip(0.0f, 0.0f, 0.0f, 0.4f, va);
-		drawVertexArray(va);
+		display.drawVertexArray(va);
 		va.freeBuffers();
 
 		final String pauseText = "Game paused";
-		final V2 s = getTextBounds(pauseText);
-		drawText(pauseText, (size.x * 0.5f) - (s.x * 0.5f), (size.y * 0.5f)
+		final V2 s = display.getTextBounds(pauseText);
+		display.drawText(pauseText, (size.x * 0.5f) - (s.x * 0.5f), (size.y * 0.5f)
 				+ (s.y * 0.5f), 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
@@ -146,7 +132,7 @@ public abstract class PortableGraphicsEngine {
 		va.reserveBuffers();
 		GeometryHelper.boxVerticesAsTriangleStrip(x, y, width, height, va);
 
-		va.texture = allocateTexture();
+		va.texture = display.allocateTexture();
 		va.texture.loadImage(textureName);
 
 		GeometryHelper.boxTextureAsTriangleStrip(va);
@@ -179,7 +165,7 @@ public abstract class PortableGraphicsEngine {
 		}
 
 		for (VertexArray va : levelVertices) {
-			drawVertexArray(va);
+			display.drawVertexArray(va);
 		}
 	}
 
@@ -209,7 +195,7 @@ public abstract class PortableGraphicsEngine {
 		}
 
 		for (VertexArray va : menuVertices) {
-			drawVertexArray(va);
+			display.drawVertexArray(va);
 		}
 	}
 
@@ -239,7 +225,7 @@ public abstract class PortableGraphicsEngine {
 		}
 
 		for (VertexArray va : overlayVertices) {
-			drawVertexArray(va);
+			display.drawVertexArray(va);
 		}
 	}
 
@@ -271,7 +257,7 @@ public abstract class PortableGraphicsEngine {
 		// Bottom left
 		va.addColour(gfxcol.R * 0.9f, gfxcol.G * 1.0f, gfxcol.B * 1.0f, 1.0f);
 
-		drawVertexArray(va);
+		display.drawVertexArray(va);
 
 		va.freeBuffers();
 	}
@@ -302,7 +288,7 @@ public abstract class PortableGraphicsEngine {
 				"%s%s%d killed | %d lives | $%d | level %d | %s | fps %.2f",
 				towerString, waveString, game.killed, game.lives, game.money,
 				game.curLevelIdx + 1, game.level.levelName, graphicsTickRater.tickRate);
-		final V2 bounds = getTextBounds(fpsString);
+		final V2 bounds = display.getTextBounds(fpsString);
 		final float width = bounds.x + 4;
 		final float height = bounds.y + 2;
 
@@ -317,11 +303,11 @@ public abstract class PortableGraphicsEngine {
 				.boxVerticesAsTriangleStrip(0.0f, 0.0f, width, height, va);
 		GeometryHelper.boxColoursAsTriangleStrip(0.0f, 0.0f, 0.0f, 0.2f, va);
 
-		drawVertexArray(va);
+		display.drawVertexArray(va);
 
 		va.freeBuffers();
 
-		drawText(fpsString, 2, 4, 1.0f, 1.0f, 1.0f, 1.0f);
+		display.drawText(fpsString, 2, 4, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	public void renderTower(final Tower t) {
@@ -349,7 +335,7 @@ public abstract class PortableGraphicsEngine {
 		// Bottom left
 		va.addColour(gfxcol.R * 0.9f, gfxcol.G * 1.0f, gfxcol.B * 1.0f, 1.0f);
 
-		drawVertexArray(va);
+		display.drawVertexArray(va);
 
 		va.freeBuffers();
 	}
@@ -383,7 +369,7 @@ public abstract class PortableGraphicsEngine {
 		// Bottom left
 		va.addColour(gfxcol.R * 0.9f, gfxcol.G * 1.0f, gfxcol.B * 1.0f, 1.0f);
 
-		drawVertexArray(va);
+		display.drawVertexArray(va);
 
 		va.freeBuffers();
 	}
@@ -397,7 +383,10 @@ public abstract class PortableGraphicsEngine {
 		drawFilledCircle(p.x, p.y, mouse.radius, 1.0f, 1.0f, 1.0f, col);
 	}
 
-	protected void onReshapeScreen() {
+	@Override
+	public void onReshapeScreen() {
+		final V2 size = display.getSize();
+
 		final float gameFieldPercentage = gameLayer.virtualRegion.x
 				/ (gameLayer.virtualRegion.x + menuLayer.virtualRegion.x);
 
@@ -468,7 +457,7 @@ public abstract class PortableGraphicsEngine {
 
 		drawCircle(x, y, radius, colR, colG, colB, colA, segments, va);
 
-		drawVertexArray(va);
+		display.drawVertexArray(va);
 		va.freeBuffers();
 	}
 
@@ -489,7 +478,7 @@ public abstract class PortableGraphicsEngine {
 
 		drawCircle(x, y, radius, colR, colG, colB, colA, segments, va);
 
-		drawVertexArray(va);
+		display.drawVertexArray(va);
 		va.freeBuffers();
 	}
 }

@@ -6,6 +6,7 @@ import android.os.Vibrator;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.PortableMainLoop;
+import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 
 public class MainLoop extends PortableMainLoop {
@@ -22,16 +23,16 @@ public class MainLoop extends PortableMainLoop {
 		ResourceResolverRegistry.setInstance(new AndroidResourceResolver(
 				context.getResources()));
 
-		final GraphicsEngine graphicsEngine = new GraphicsEngine(game, mouse,
-				layerHerder, this);
-		ge = graphicsEngine;
+		final AndroidDisplay display = new AndroidDisplay(displayEventListener);
+		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder, this);
+		displayEventListener.add(ge);
 
 		setupInputActors();
 
 		eventListener.listeners.add(new AndroidEventListener(vibrator));
 
-		surfaceView = new InputForwardingGLSurfaceView(context, inputActor, ge);
-		surfaceView.setRenderer(new GameRenderProxy(this, graphicsEngine));
+		surfaceView = new InputForwardingGLSurfaceView(context, inputActor, display);
+		surfaceView.setRenderer(new GameRenderProxy(this, display));
 	}
 
 	@Override

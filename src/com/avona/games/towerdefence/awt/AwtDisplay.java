@@ -5,21 +5,17 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.nio.FloatBuffer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
-import javax.media.opengl.glu.GLU;
 
-import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Layer;
-import com.avona.games.towerdefence.LayerHerder;
-import com.avona.games.towerdefence.Mouse;
-import com.avona.games.towerdefence.PortableMainLoop;
 import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.gfx.Display;
+import com.avona.games.towerdefence.gfx.DisplayEventListener;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.gfx.VertexArray;
@@ -30,25 +26,18 @@ import com.sun.opengl.util.j2d.TextRenderer;
  * will iterate over all in-game objects and call (possibly overloaded) class
  * methods to perform the GL calls. It will not touch any in-game state, though.
  */
-public class GraphicsEngine extends PortableGraphicsEngine implements
-		GLEventListener {
+public class AwtDisplay implements Display, GLEventListener {
 	public Frame frame;
 	public GLCanvas canvas;
-	public GL gl;
-	GLU glu;
-	TextRenderer renderer;
+	private GL gl;
+	private TextRenderer renderer;
+	private V2 size = new V2();
+	private DisplayEventListener eventListener;
 
-	public FloatBuffer squareVertexBuffer;
-	public FloatBuffer squareColorBuffer;
-
-	public GraphicsEngine(Game game, Mouse mouse, LayerHerder layerHerder,
-			PortableMainLoop ml) {
-		super(game, mouse, layerHerder, ml);
-
+	public AwtDisplay(DisplayEventListener eventListener) {
+		this.eventListener = eventListener; 
 		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 12),
 				true, true);
-		glu = new GLU();
-
 		setupGlCanvas();
 		setupFrame();
 	}
@@ -74,7 +63,7 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 						new java.awt.Point(0, 0), "NOCURSOR"));
 		frame.setVisible(true);
 	}
-
+	
 	@Override
 	public V2 getTextBounds(final String text) {
 		Rectangle2D bounds = renderer.getBounds(text);
@@ -108,7 +97,7 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 		gl.glEnable(GL.GL_BLEND);
 		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
-		onNewScreenContext();
+		eventListener.onNewScreenContext();
 	}
 
 	@Override
@@ -123,11 +112,11 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
 
-		onReshapeScreen();
+		eventListener.onReshapeScreen();
 	}
 
 	@Override
-	protected void prepareScreen() {
+	public void prepareScreen() {
 		// Paint background, clearing previous drawings.
 		gl.glColor3d(0.0, 0.0, 0.0);
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
@@ -147,7 +136,7 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 	}
 
 	@Override
-	protected void drawVertexArray(final VertexArray array) {
+	public void drawVertexArray(final VertexArray array) {
 		assert array.coordBuffer != null;
 		gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
 		array.coordBuffer.position(0);
@@ -221,5 +210,10 @@ public class GraphicsEngine extends PortableGraphicsEngine implements
 		gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
 
 		return texture;
+	}
+
+	@Override
+	public V2 getSize() {
+		return size;
 	}
 }

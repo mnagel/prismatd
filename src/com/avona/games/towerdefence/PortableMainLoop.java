@@ -2,6 +2,7 @@ package com.avona.games.towerdefence;
 
 import java.io.Serializable;
 
+import com.avona.games.towerdefence.gfx.DisplayEventDistributor;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.inputActors.GameInputActor;
 import com.avona.games.towerdefence.inputActors.LayeredInputActor;
@@ -23,6 +24,7 @@ public abstract class PortableMainLoop implements Serializable {
 	public Mouse mouse = new Mouse();
 	public LayerHerder layerHerder = new LayerHerder();
 	public EventDistributor eventListener = new EventDistributor();
+	public DisplayEventDistributor displayEventListener = new DisplayEventDistributor();
 	protected TimeTrack wallTime = new TimeTrack();
 	private float gameTicks = 0;
 

@@ -10,12 +10,11 @@ import java.awt.event.WindowEvent;
 
 import com.avona.games.towerdefence.PortableMainLoop;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.inputActors.InputActor;
 
 public class InputMangler implements KeyListener, MouseListener,
 		MouseMotionListener {
-	private PortableGraphicsEngine ge;
+	private AwtDisplay display;
 	private PortableMainLoop ml;
 	private InputActor actor;
 
@@ -24,25 +23,26 @@ public class InputMangler implements KeyListener, MouseListener,
 		this.actor = actor;
 	}
 
-	public void setupListeners(final GraphicsEngine ge) {
-		this.ge = ge;
-		ge.frame.addWindowListener(new WindowAdapter() {
+	public void setupListeners(final AwtDisplay display) {
+		this.display = display;
+
+		display.frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				ml.exit();
 			}
 		});
 
-		ge.canvas.addKeyListener(this);
-		ge.canvas.addMouseListener(this);
-		ge.canvas.addMouseMotionListener(this);
+		display.canvas.addKeyListener(this);
+		display.canvas.addMouseListener(this);
+		display.canvas.addMouseMotionListener(this);
 	}
 
 	protected V2 eventLocation(MouseEvent e) {
 		V2 location = new V2();
 		final float xf = e.getX();
 		final float yf = e.getY();
-		final V2 canvasSize = ge.size;
+		final V2 canvasSize = display.getSize();
 
 		location.x = xf;
 		location.y = canvasSize.y - yf;

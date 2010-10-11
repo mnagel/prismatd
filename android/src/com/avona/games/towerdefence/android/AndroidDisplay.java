@@ -7,31 +7,27 @@ import android.graphics.Paint;
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
 
-import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Layer;
-import com.avona.games.towerdefence.LayerHerder;
-import com.avona.games.towerdefence.Mouse;
-import com.avona.games.towerdefence.PortableMainLoop;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
+import com.avona.games.towerdefence.gfx.Display;
+import com.avona.games.towerdefence.gfx.DisplayEventListener;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.gfx.VertexArray;
 import com.example.google.LabelMaker;
 
 /**
- * The GraphicsEngine object currently incorporates all drawing operations. It
- * will iterate over all in-game objects and call (possibly overloaded) class
- * methods to perform the GL calls. It will not touch any in-game state, though.
+ * This class provides all basic drawing primitives for the Android platform.
  */
-public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
+public class AndroidDisplay implements Display, Renderer {
 	private GL10 gl;
 	private Paint labelPaint;
 	private LabelMaker labels;
+	private V2 size;
+	private DisplayEventListener eventListener;
 
-	public GraphicsEngine(Game game, Mouse mouse, LayerHerder layerHerder,
-			PortableMainLoop ml) {
-		super(game, mouse, layerHerder, ml);
+	public AndroidDisplay(DisplayEventListener eventListener) {
+		this.eventListener = eventListener;
 
 		labelPaint = new Paint();
 		labelPaint.setTextSize(16);
@@ -61,7 +57,7 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 				.roundUpPower2(64));
 		labels.initialize(gl);
 
-		onReshapeScreen();
+		eventListener.onReshapeScreen();
 	}
 
 	@Override
@@ -71,10 +67,10 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
-		onNewScreenContext();
+		eventListener.onNewScreenContext();
 	}
 
-	protected void prepareScreen() {
+	public void prepareScreen() {
 		// Paint background, clearing previous drawings.
 		gl.glColor4f(0.0f, 0.0f, 0.0f, 0.0f);
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
@@ -115,7 +111,7 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 	}
 
 	@Override
-	protected void drawVertexArray(final VertexArray array) {
+	public void drawVertexArray(final VertexArray array) {
 		assert array.coordBuffer != null;
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		array.coordBuffer.position(0);
@@ -193,5 +189,10 @@ public class GraphicsEngine extends PortableGraphicsEngine implements Renderer {
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
 
 		return texture;
+	}
+
+	@Override
+	public V2 getSize() {
+		return size;
 	}
 }

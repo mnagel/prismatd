@@ -16,6 +16,7 @@ import com.avona.games.towerdefence.Debug;
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.PortableMainLoop;
 import com.avona.games.towerdefence.Util;
+import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.FPSAnimator;
@@ -63,19 +64,19 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 
 		ResourceResolverRegistry.setInstance(new FileResourceResolver("gfx"));
 
-		GraphicsEngine graphicsEngine = new GraphicsEngine(game, mouse,
-				layerHerder, this);
-		ge = graphicsEngine;
-		graphicsEngine.canvas.addGLEventListener(this);
+		AwtDisplay display = new AwtDisplay(displayEventListener);
+		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder, this);
+		displayEventListener.add(ge);
+		display.canvas.addGLEventListener(this);
 
 		setupInputActors();
 		input = new InputMangler(this, inputActor);
 
-		animator = new FPSAnimator(graphicsEngine.canvas, EXPECTED_FPS);
+		animator = new FPSAnimator(display.canvas, EXPECTED_FPS);
 		animator.setRunAsFastAsPossible(false);
 		animator.start();
 
-		input.setupListeners(graphicsEngine);
+		input.setupListeners(display);
 	}
 
 	private void loadGame(final String filename) throws FileNotFoundException,
