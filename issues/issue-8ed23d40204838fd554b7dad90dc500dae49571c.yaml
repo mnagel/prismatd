@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add gui to upgrade towers
+desc: ... so they only shoot towards matching pixels
+type: :feature
+component: usability
+release: 
+reporter: Michael Nagel <m.nagel@devzero.de>
+status: :unstarted
+disposition: 
+creation_time: 2010-10-09 13:46:53.637233 Z
+references: []
+
+id: 8ed23d40204838fd554b7dad90dc500dae49571c
+log_events: 
+- - 2010-10-09 13:46:55.025223 Z
+  - Michael Nagel <m.nagel@devzero.de>
+  - created
+  - ""

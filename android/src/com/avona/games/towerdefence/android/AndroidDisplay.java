@@ -195,4 +195,10 @@ public class AndroidDisplay implements Display, Renderer {
 	public V2 getSize() {
 		return size;
 	}
+
+	@Override
+	public int userSelectsAString(String title, String message, String[] strings) {
+		Util.log("called unimplemented method userSelectsAString on android...");
+		return -1;
+	}
 }

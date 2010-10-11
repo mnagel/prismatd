@@ -77,6 +77,7 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		animator.start();
 
 		input.setupListeners(display);
+		this.display = display;
 	}
 
 	private void loadGame(final String filename) throws FileNotFoundException,

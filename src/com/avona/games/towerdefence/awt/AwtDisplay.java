@@ -11,6 +11,7 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
+import javax.swing.JOptionPane;
 
 import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.V2;
@@ -215,5 +216,18 @@ public class AwtDisplay implements Display, GLEventListener {
 	@Override
 	public V2 getSize() {
 		return size;
+	}
+
+	@Override
+	public int userSelectsAString(String title, String message, String[] strings) {
+		int x = JOptionPane.showOptionDialog(
+				null,
+				message,
+				title,
+				0,
+				0, null, strings, null);
+
+		if (x == JOptionPane.CLOSED_OPTION) x = -1;
+		return x;
 	}
 }

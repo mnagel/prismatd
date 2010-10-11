@@ -2,6 +2,7 @@ package com.avona.games.towerdefence;
 
 import java.io.Serializable;
 
+import com.avona.games.towerdefence.gfx.Display;
 import com.avona.games.towerdefence.gfx.DisplayEventDistributor;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.inputActors.GameInputActor;
@@ -19,6 +20,7 @@ public abstract class PortableMainLoop implements Serializable {
 	public static final String MENU_LAYER_NAME = "menu";
 
 	public Game game;
+	public Display display;
 	public PortableGraphicsEngine ge;
 	public LayeredInputActor inputActor;
 	public Mouse mouse = new Mouse();

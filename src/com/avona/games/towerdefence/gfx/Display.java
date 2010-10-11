@@ -25,4 +25,6 @@ public interface Display {
 			final float colB, final float colA);
 
 	public V2 getTextBounds(final String text);
+
+	public int userSelectsAString(String title, String message, String[] strings);
 }

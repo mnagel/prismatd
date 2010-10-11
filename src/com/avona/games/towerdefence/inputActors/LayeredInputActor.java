@@ -6,6 +6,7 @@ import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.LayerHerder;
 import com.avona.games.towerdefence.Mouse;
 import com.avona.games.towerdefence.PortableMainLoop;
+import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
 
 public class LayeredInputActor implements InputActor {
@@ -181,6 +182,13 @@ public class LayeredInputActor implements InputActor {
 	public void pressedOtherKey(char keyCode) {
 		if (keyCode == 'k') {
 			ml.game.killAllEnemies();
+		}
+		if (keyCode == 'l') {
+			String[] levels = Util.mapLevelNames(ml.game.levels);
+			int what = ml.display.userSelectsAString("Load Level", "Please select a Level to load:", levels);
+			if (what >= 0) {
+				ml.game.loadLevel(what);
+			}
 		}
 	}
 }
