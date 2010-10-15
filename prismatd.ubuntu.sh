@@ -4,6 +4,8 @@ PRISMATD="build/jar/PrismaTD.jar"
 JOGL="/usr/share/java/jogl.jar"
 GLUEGEN="/usr/share/java/gluegen-rt.jar"
 
+LIBRARY="/usr/lib/jni/"
+
 MAINCLASS="com.avona.games.towerdefence.awt.MainLoop"
 
 # check if prismatd jar is installed
@@ -33,6 +35,5 @@ else
   exit 2
 fi
 
-# run it
-java -classpath $PRISMATD:$JOGL:$GLUEGEN $MAINCLASS "$@"
-
+# run it -- sun java (on debian squeeze) fails badly without library path
+java -Djava.library.path=$LIBRARY -classpath $PRISMATD:$JOGL:$GLUEGEN $MAINCLASS "$@"

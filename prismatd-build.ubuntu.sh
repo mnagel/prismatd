@@ -10,7 +10,7 @@ JUNIT="junit4"
 INSTALLMSG="sudo apt-get install $JDK $JOGL $ANT $JUNIT"
 
 # check if jdk is installed
-if  dpkg -l $JDK 2>/dev/null | grep -q "^ii"
+if which javac >/dev/null
 then
   echo "jdk seems to be installed... continue"
 else
