@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: preview tower to be build
+desc: to see range, ...
+type: :feature
+component: gfx
+release: 
+reporter: Michael Nagel <m.nagel@devzero.de>
+status: :unstarted
+disposition: 
+creation_time: 2011-01-23 21:18:28.648774 Z
+references: []
+
+id: e2e677bf2449100a86f1e449d857ca1426dd6956
+log_events: 
+- - 2011-01-23 21:18:29.721707 Z
+  - Michael Nagel <m.nagel@devzero.de>
+  - created
+  - ""
