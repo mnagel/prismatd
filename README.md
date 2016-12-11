@@ -33,12 +33,13 @@ Use Android Studio to build and run.
 
 # Further Information
 
-The files in ./doc/ are plain text files but are best viewed with zim-wiki.
+The files in `./doc/` are plain text files but are best viewed with zim-wiki.
 All available information on how to build, run, modify, ... is located there.
 
 # Screenshots
+![PrismaTD Screenshot](/doc/screenshots/screenshot-desktop-2010-10-05.png?raw=true)
 
-...can be found in ./doc/screenshots/
+More screenshots can be found in `./doc/screenshots/`.
 
 # License
 
