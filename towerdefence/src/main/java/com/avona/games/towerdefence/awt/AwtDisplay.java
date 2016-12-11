@@ -6,11 +6,13 @@ import java.awt.Frame;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLCanvas;
-import javax.media.opengl.GLCapabilities;
-import javax.media.opengl.GLEventListener;
+import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLEventListener;
+import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.awt.GLCanvas;
+
 import javax.swing.JOptionPane;
 
 import com.avona.games.towerdefence.Layer;
@@ -20,7 +22,10 @@ import com.avona.games.towerdefence.gfx.DisplayEventListener;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.gfx.VertexArray;
-import com.sun.opengl.util.j2d.TextRenderer;
+import com.jogamp.opengl.util.awt.TextRenderer;
+
+
+import static com.jogamp.opengl.GL2.*;
 
 /**
  * The GraphicsEngine object currently incorporates all drawing operations. It
@@ -30,7 +35,7 @@ import com.sun.opengl.util.j2d.TextRenderer;
 public class AwtDisplay implements Display, GLEventListener {
 	public Frame frame;
 	public GLCanvas canvas;
-	private GL gl;
+	private GL2 gl;
 	private TextRenderer renderer;
 	private V2 size = new V2();
 	private DisplayEventListener eventListener;
@@ -44,7 +49,7 @@ public class AwtDisplay implements Display, GLEventListener {
 	}
 
 	private void setupGlCanvas() {
-		GLCapabilities capabilities = new GLCapabilities();
+		GLCapabilities capabilities = new GLCapabilities(GLProfile.getDefault());
 		capabilities.setDoubleBuffered(true);
 
 		canvas = new GLCanvas(capabilities);
@@ -85,20 +90,27 @@ public class AwtDisplay implements Display, GLEventListener {
 	public void display(GLAutoDrawable drawable) {
 	}
 
+	/*
 	@Override
 	public void displayChanged(GLAutoDrawable arg0, boolean arg1, boolean arg2) {
 		// Not implemented by JOGL.
 	}
+	*/
 
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		// We have a fresh GL context, retrieve reference.
-		gl = canvas.getGL();
+		gl = (GL2)canvas.getGL();
 
-		gl.glEnable(GL.GL_BLEND);
-		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+		gl.glEnable(GL_BLEND);
+		gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		eventListener.onNewScreenContext();
+	}
+
+	@Override
+	public void dispose(GLAutoDrawable drawable) {
+		throw new RuntimeException("added for jogl2. unneeded(?).");
 	}
 
 	@Override
@@ -107,10 +119,10 @@ public class AwtDisplay implements Display, GLEventListener {
 		size = new V2(width, height);
 
 		gl.glViewport(0, 0, (int) size.x, (int) size.y);
-		gl.glMatrixMode(GL.GL_PROJECTION);
+		gl.glMatrixMode(GL_PROJECTION);
 		gl.glLoadIdentity();
 		gl.glOrtho(0, width, 0, height, -1, 1);
-		gl.glMatrixMode(GL.GL_MODELVIEW);
+		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity();
 
 		eventListener.onReshapeScreen();
@@ -120,7 +132,7 @@ public class AwtDisplay implements Display, GLEventListener {
 	public void prepareScreen() {
 		// Paint background, clearing previous drawings.
 		gl.glColor3d(0.0, 0.0, 0.0);
-		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	@Override
@@ -139,47 +151,47 @@ public class AwtDisplay implements Display, GLEventListener {
 	@Override
 	public void drawVertexArray(final VertexArray array) {
 		assert array.coordBuffer != null;
-		gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
+		gl.glEnableClientState(GL_VERTEX_ARRAY);
 		array.coordBuffer.position(0);
-		gl.glVertexPointer(2, GL.GL_FLOAT, 0, array.coordBuffer);
+		gl.glVertexPointer(2, GL_FLOAT, 0, array.coordBuffer);
 		if (array.hasColour) {
 			assert array.colourBuffer != null;
-			gl.glEnableClientState(GL.GL_COLOR_ARRAY);
+			gl.glEnableClientState(GL_COLOR_ARRAY);
 			array.colourBuffer.position(0);
-			gl.glColorPointer(4, GL.GL_FLOAT, 0, array.colourBuffer);
+			gl.glColorPointer(4, GL_FLOAT, 0, array.colourBuffer);
 		}
 		if (array.hasTexture) {
 			assert array.textureBuffer != null;
 			assert array.texture != null;
 			array.textureBuffer.position(0);
-			gl.glEnable(GL.GL_TEXTURE_2D);
-			gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY);
-			gl.glBindTexture(GL.GL_TEXTURE_2D, array.texture.textureId);
-			gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, array.textureBuffer);
+			gl.glEnable(GL_TEXTURE_2D);
+			gl.glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			gl.glBindTexture(GL_TEXTURE_2D, array.texture.textureId);
+			gl.glTexCoordPointer(2, GL_FLOAT, 0, array.textureBuffer);
 		}
 
 		if (array.mode == VertexArray.Mode.TRIANGLE_FAN) {
-			gl.glDrawArrays(GL.GL_TRIANGLE_FAN, 0, array.numCoords);
+			gl.glDrawArrays(GL_TRIANGLE_FAN, 0, array.numCoords);
 		} else if (array.mode == VertexArray.Mode.TRIANGLE_STRIP) {
-			gl.glDrawArrays(GL.GL_TRIANGLE_STRIP, 0, array.numCoords);
+			gl.glDrawArrays(GL_TRIANGLE_STRIP, 0, array.numCoords);
 		} else if (array.mode == VertexArray.Mode.TRIANGLES) {
 			assert array.indexBuffer != null;
 			array.indexBuffer.position(0);
-			gl.glDrawElements(GL.GL_TRIANGLES, array.numIndexes,
-					GL.GL_UNSIGNED_SHORT, array.indexBuffer);
+			gl.glDrawElements(GL_TRIANGLES, array.numIndexes,
+					GL_UNSIGNED_SHORT, array.indexBuffer);
 		} else if (array.mode == VertexArray.Mode.LINE_STRIP) {
-			gl.glDrawArrays(GL.GL_LINE_STRIP, 0, array.numCoords);
+			gl.glDrawArrays(GL_LINE_STRIP, 0, array.numCoords);
 		}
 
 		if (array.hasTexture) {
-			gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
-			gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY);
-			gl.glDisable(GL.GL_TEXTURE_2D);
+			gl.glBindTexture(GL_TEXTURE_2D, 0);
+			gl.glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			gl.glDisable(GL_TEXTURE_2D);
 		}
 		if (array.hasColour) {
-			gl.glDisableClientState(GL.GL_COLOR_ARRAY);
+			gl.glDisableClientState(GL_COLOR_ARRAY);
 		}
-		gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
+		gl.glDisableClientState(GL_VERTEX_ARRAY);
 	}
 
 	@Override
@@ -193,22 +205,22 @@ public class AwtDisplay implements Display, GLEventListener {
 		texture.textureId = textures[0];
 
 		assert gl.glGetError() == 0;
-		gl.glBindTexture(GL.GL_TEXTURE_2D, texture.textureId);
+		gl.glBindTexture(GL_TEXTURE_2D, texture.textureId);
 
-		gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER,
-				GL.GL_NEAREST);
-		gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER,
-				GL.GL_LINEAR);
+		gl.glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+				GL_NEAREST);
+		gl.glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+				GL_LINEAR);
 
-		gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S,
-				GL.GL_CLAMP_TO_EDGE);
-		gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T,
-				GL.GL_CLAMP_TO_EDGE);
+		gl.glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
+				GL_CLAMP_TO_EDGE);
+		gl.glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
+				GL_CLAMP_TO_EDGE);
 
-		gl.glTexEnvf(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, GL.GL_REPLACE);
+		gl.glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 		assert gl.glGetError() == 0;
-		gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
+		gl.glBindTexture(GL_TEXTURE_2D, 0);
 
 		return texture;
 	}

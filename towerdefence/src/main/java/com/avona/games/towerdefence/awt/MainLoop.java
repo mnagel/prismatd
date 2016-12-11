@@ -1,5 +1,17 @@
 package com.avona.games.towerdefence.awt;
 
+import com.avona.games.towerdefence.Debug;
+import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.PortableMainLoop;
+import com.avona.games.towerdefence.Util;
+import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
+import com.avona.games.towerdefence.res.ResourceResolverRegistry;
+import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLEventListener;
+import com.jogamp.opengl.util.AnimatorBase;
+import com.jogamp.opengl.util.FPSAnimator;
+
+import javax.swing.JOptionPane;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -7,19 +19,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLEventListener;
-import javax.swing.JOptionPane;
-
-import com.avona.games.towerdefence.Debug;
-import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.PortableMainLoop;
-import com.avona.games.towerdefence.Util;
-import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
-import com.avona.games.towerdefence.res.ResourceResolverRegistry;
-import com.sun.opengl.util.Animator;
-import com.sun.opengl.util.FPSAnimator;
 
 public class MainLoop extends PortableMainLoop implements GLEventListener {
 	private static final String SAVEGAME = "savegame";
@@ -29,7 +28,7 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 	final private int EXPECTED_FPS = 30;
 
 	public InputMangler input;
-	private Animator animator;
+	private AnimatorBase animator;
 
 	@Override
 	public void exit() {
@@ -73,7 +72,7 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		input = new InputMangler(this, inputActor);
 
 		animator = new FPSAnimator(display.canvas, EXPECTED_FPS);
-		animator.setRunAsFastAsPossible(false);
+		//animator.setRunAsFastAsPossible(false);
 		animator.start();
 
 		input.setupListeners(display);
@@ -108,14 +107,21 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		performLoop();
 	}
 
+	/*
 	@Override
 	public void displayChanged(GLAutoDrawable arg0, boolean arg1, boolean arg2) {
 		// Unused.
 	}
+	*/
 
 	@Override
 	public void init(GLAutoDrawable arg0) {
 		// Unused.
+	}
+
+	@Override
+	public void dispose(GLAutoDrawable drawable) {
+		throw new RuntimeException("added for jogl2. unneeded(?).");
 	}
 
 	@Override

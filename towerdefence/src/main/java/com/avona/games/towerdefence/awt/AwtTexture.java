@@ -6,7 +6,7 @@ import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 
 import javax.imageio.ImageIO;
-import javax.media.opengl.GL;
+import com.jogamp.opengl.GL;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.IOException;
