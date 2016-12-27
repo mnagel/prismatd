@@ -1,8 +1,8 @@
 #! /bin/bash
 
 PRISMATD="build/jar/PrismaTD.jar"
-JOGL="/usr/share/java/jogl.jar"
-GLUEGEN="/usr/share/java/gluegen-rt.jar"
+JOGL="/usr/share/java/jogl2.jar"
+GLUEGEN="/usr/share/java/gluegen2-rt.jar"
 
 LIBRARY="/usr/lib/jni/"
 
