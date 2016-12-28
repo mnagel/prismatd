@@ -437,8 +437,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			va.addColour(cols);
 		}
 		// Close the circle.
-		va.addCoord(x + (Math.cos(angleStep) * radius), y
-				+ (Math.sin(angleStep) * radius));
+		va.addCoord(x + (Math.cos(0) * radius), y + (Math.sin(0) * radius));
 		va.addColour(cols);
 	}
 
