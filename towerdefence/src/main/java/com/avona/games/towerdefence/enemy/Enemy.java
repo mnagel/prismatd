@@ -1,13 +1,13 @@
 package com.avona.games.towerdefence.enemy;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.avona.games.towerdefence.MovingObject;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyEventListener;
 import com.avona.games.towerdefence.level.Level;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public abstract class Enemy extends MovingObject {
 	private static final long serialVersionUID = 1L;
@@ -54,9 +54,12 @@ public abstract class Enemy extends MovingObject {
 	@Override
 	public abstract Enemy clone();
 
-	public void setWPID(int i) {
-		if (waypointId + 1 < level.waypoints.length) {
-			waypointId = i;
+    public void setWPID(int waypointId) {
+        this.waypointId = waypointId;
+        // move exactly onto current waypoint. prevents unwanted diagonal movement.
+        // TODO: do not teleport here, but account for the distance between current location and waypoint
+        location = level.waypoints[waypointId - 1].clone();
+        if (waypointId + 1 < level.waypoints.length) {
 			target = level.waypoints[waypointId];
 			velocity.setDirection(location, target);
 		} else {
