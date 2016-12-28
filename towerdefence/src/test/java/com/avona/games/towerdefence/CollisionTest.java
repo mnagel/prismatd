@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.test;
+package com.avona.games.towerdefence;
 
 import static org.junit.Assert.*;
 
@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.avona.games.towerdefence.Collision;
 import com.avona.games.towerdefence.V2;
 
-public class CollisionUnitTest {
+public class CollisionTest {
 
 	@Test
 	public void testCircleCollidesWithCircle() {
