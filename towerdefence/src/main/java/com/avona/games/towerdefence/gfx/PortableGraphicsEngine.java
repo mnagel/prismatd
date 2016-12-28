@@ -423,59 +423,50 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		menuLayer.offset.x = gameLayer.offset.x + gameLayer.region.x;
 	}
 
-	public void drawCircle(final float x, final float y, final float radius,
+	public VertexArray createCircleVa(final float x, final float y, final float radius,
 			final float colR, final float colG, final float colB,
-			final float colA, final int segments, VertexArray va) {
+			final float colA, final int segments) {
+
+		VertexArray va = new VertexArray();
+		va.hasColour = true;
+		va.numCoords = segments+1;
+		va.reserveBuffers();
 
 		final double angleStep = 2 * Math.PI / segments;
 		final float[] cols = new float[] { colR, colG, colB, colA };
 
 		for (int i = 0; i < segments; ++i) {
 			final double angle = i * angleStep;
-			va.addCoord(x + (Math.cos(angle) * radius), y
-					+ (Math.sin(angle) * radius));
+			va.addCoord(x + (Math.cos(angle) * radius), y + (Math.sin(angle) * radius));
 			va.addColour(cols);
 		}
 		// Close the circle.
 		va.addCoord(x + (Math.cos(0) * radius), y + (Math.sin(0) * radius));
 		va.addColour(cols);
+
+		return va;
 	}
 
 	public void drawCircle(final float x, final float y, final float radius,
-			final float colR, final float colG, final float colB,
-			final float colA) {
+						   final float colR, final float colG, final float colB, final float colA) {
 
 		final int segments = 100;
-
-		VertexArray va = new VertexArray();
-		va.hasColour = true;
-		va.numCoords = 101;
+		VertexArray va = createCircleVa(x, y, radius, colR, colG, colB, colA, segments);
 		va.mode = VertexArray.Mode.LINE_STRIP;
-
-		va.reserveBuffers();
-
-		drawCircle(x, y, radius, colR, colG, colB, colA, segments, va);
 
 		display.drawVertexArray(va);
 		va.freeBuffers();
 	}
 
-	public void drawFilledCircle(final float x, final float y,
-			final float radius, final float colR, final float colG,
-			final float colB, final float colA) {
+	public void drawFilledCircle(final float x, final float y, final float radius,
+								 final float colR, final float colG, final float colB, final float colA) {
 
 		final int segments = 100;
-
-		VertexArray va = new VertexArray();
-		va.hasColour = true;
-		va.numCoords = 101;
+		VertexArray va = createCircleVa(x, y, radius, colR, colG, colB, colA, segments);
 		va.mode = VertexArray.Mode.TRIANGLE_FAN;
 
-		va.reserveBuffers();
 		va.addCoord(x, y);
 		va.addColour(colR, colG, colB, colA);
-
-		drawCircle(x, y, radius, colR, colG, colB, colA, segments, va);
 
 		display.drawVertexArray(va);
 		va.freeBuffers();
