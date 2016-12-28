@@ -24,6 +24,10 @@ public interface Display {
 			final double y, final float colR, final float colG,
 			final float colB, final float colA);
 
+	public void drawText(final Layer layer, final String text, final double x,
+			final double y, final float colR, final float colG,
+			final float colB, final float colA);
+
 	public V2 getTextBounds(final String text);
 
 	public int userSelectsAString(String title, String message, String[] strings);

@@ -1,15 +1,6 @@
 package com.avona.games.towerdefence.gfx;
 
-import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.Layer;
-import com.avona.games.towerdefence.LayerHerder;
-import com.avona.games.towerdefence.Mouse;
-import com.avona.games.towerdefence.PortableMainLoop;
-import com.avona.games.towerdefence.RGB;
-import com.avona.games.towerdefence.TickRater;
-import com.avona.games.towerdefence.TimeTrack;
-import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.WaveTracker;
+import com.avona.games.towerdefence.*;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.Tower;
@@ -74,6 +65,9 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		for (Particle p : game.particles) {
 			renderParticle(p);
 		}
+		for (Transient t : game.transients) {
+			renderTransient(t, gameLayer);
+		}
 		if (game.selectedObject != null) {
 			if (game.selectedObject instanceof Tower) {
 				final Tower t = (Tower) game.selectedObject;
@@ -102,6 +96,12 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		renderStats();
 		renderMouse();
+	}
+
+	private void renderTransient(final Transient t, Layer layer) {
+		if (t.isDead())
+			return;
+		t.draw(display, layer);
 	}
 
 	private void renderPauseOverlay() {

@@ -24,6 +24,7 @@ public class Game implements Serializable {
 	public List<Enemy> enemies = new LinkedList<Enemy>();
 	public List<Tower> towers = new LinkedList<Tower>();
 	public List<Particle> particles = new LinkedList<Particle>();
+	public List<Transient> transients = new LinkedList<Transient>();
 
 	public TimeTrack gameTime = new TimeTrack();
 	public TimedCodeManager timedCodeManager = new TimedCodeManager();
@@ -144,6 +145,13 @@ public class Game implements Serializable {
 		Tower newTower = selectedBuildTower.clone();
 		newTower.location = new V2(location);
 		money -= newTower.price;
+		transients.add(new TransientText(
+				String.format("-$%d", newTower.price),
+				1.5f,
+				location,
+				new RGB(1.0f, 1.0f, 1.0f),
+				1.0f));
+
 		towers.add(newTower);
 		eventListener.onBuildTower(newTower);
 	}
@@ -201,6 +209,9 @@ public class Game implements Serializable {
 			e.step(dt);
 		}
 		for (Tower t : towers) {
+			t.step(dt);
+		}
+		for (Transient t : transients) {
 			t.step(dt);
 		}
 

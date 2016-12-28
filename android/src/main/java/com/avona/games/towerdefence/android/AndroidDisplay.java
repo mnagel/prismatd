@@ -88,6 +88,14 @@ public class AndroidDisplay implements Display, Renderer {
 		labels.endDrawing(gl);
 	}
 
+	@Override
+	public void drawText(Layer layer, final String text, final double x, final double y,
+			final float colR, final float colG, final float colB,
+			final float colA) {
+		final V2 pos = layer.convertToPhysical(new V2((float)x, (float)y));
+		drawText(text, pos.x, pos.y, colR, colG, colB, colA);
+	}
+
 	public V2 getTextBounds(final String text) {
 		final int ascent = (int) Math.ceil(-labelPaint.ascent());
 		final int descent = (int) Math.ceil(labelPaint.descent());
