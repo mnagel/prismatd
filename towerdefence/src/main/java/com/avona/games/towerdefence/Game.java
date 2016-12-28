@@ -111,9 +111,11 @@ public class Game implements Serializable {
 		return lives == 0;
 	}
 
-	public void startWave() {
+	public void pressForwardButton() {
 		if (level.completed) {
 			loadNextLevel();
+		} else if (level.showOverlay) {
+			level.showOverlay = false;
 		} else {
 			level.waveTracker.startNextWave();
 		}

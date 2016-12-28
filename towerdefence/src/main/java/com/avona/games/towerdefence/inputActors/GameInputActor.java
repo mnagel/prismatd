@@ -36,7 +36,7 @@ public class GameInputActor extends EmptyInputActor {
 
 	@Override
 	public void mouseBtn2DownAt(V2 location) {
-		game.startWave();
+		game.pressForwardButton();
 	}
 
 	@Override

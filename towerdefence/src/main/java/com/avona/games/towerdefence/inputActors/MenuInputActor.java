@@ -29,8 +29,7 @@ public class MenuInputActor extends EmptyInputActor {
 			}
 			break;
 		default:
-			if (!game.isPaused())
-				game.startWave();
+				game.pressForwardButton();
 			break;
 		}
 	}
