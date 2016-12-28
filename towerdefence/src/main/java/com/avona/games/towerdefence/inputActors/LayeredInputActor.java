@@ -183,6 +183,9 @@ public class LayeredInputActor implements InputActor {
 		if (keyCode == 'k') {
 			ml.game.killAllEnemies();
 		}
+		if (keyCode == 'd') {
+			ml.game.logDebugInfo();
+		}
 		if (keyCode == 'l') {
 			String[] levels = Util.mapLevelNames(ml.game.levels);
 			int what = ml.display.userSelectsAString("Load Level", "Please select a Level to load:", levels);

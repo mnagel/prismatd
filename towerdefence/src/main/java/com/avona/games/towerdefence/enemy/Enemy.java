@@ -106,4 +106,14 @@ public abstract class Enemy extends MovingObject {
 			l.onEscapeEvent(this);
 		}
 	}
+
+	public String toString() {
+		String s = String.format("%s at %s with %s/%s",
+				this.getClass().getSimpleName(),
+				this.location.toString(2),
+				this.life,
+				this.maxLife
+		);
+		return s;
+	}
 }

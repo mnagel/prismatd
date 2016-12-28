@@ -40,4 +40,8 @@ public final class RGB implements Serializable {
 		float f = 1.0f / (R + G + B);
 		return new RGB(R * f, G * f, B * f);
 	}
+
+	public String toString() {
+		return String.format("(%.0f,%.0f,%.0f)", R, G, B);
+	}
 }

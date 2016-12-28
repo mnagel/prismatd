@@ -45,6 +45,11 @@ public final class V2 implements Serializable {
 		return String.format("V2<%f|%f>", x, y);
 	}
 
+	public String toString(int prec) {
+		String f = "V2<%." + prec + "f|%." + prec + "f>";
+		return String.format(f, x, y);
+	}
+
 	public void add(final V2 v) {
 		x += v.x;
 		y += v.y;

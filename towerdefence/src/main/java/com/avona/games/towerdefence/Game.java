@@ -261,4 +261,13 @@ public class Game implements Serializable {
 			}
 		}
 	}
+
+	public void logDebugInfo() {
+		StringBuilder sb = new StringBuilder();
+		for (Enemy e: enemies) {
+			sb.append(e.toString()).append("\n");
+		}
+
+		Util.log(sb.toString());
+	}
 }
