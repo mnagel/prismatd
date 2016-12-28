@@ -87,6 +87,14 @@ public class AwtDisplay implements Display, GLEventListener {
 	}
 
 	@Override
+	public void drawText(Layer layer, final String text, final double x, final double y,
+			final float colR, final float colG, final float colB,
+			final float colA) {
+		final V2 pos = layer.convertToPhysical(new V2((float)x, (float)y));
+		drawText(text, pos.x, pos.y, colR, colG, colB, colA);
+	}
+
+	@Override
 	public void display(GLAutoDrawable drawable) {
 	}
 

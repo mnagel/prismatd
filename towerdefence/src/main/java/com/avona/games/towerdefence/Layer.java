@@ -46,4 +46,10 @@ public class Layer {
 				* (virtualRegion.x / region.x), (realPosition.y - offset.y)
 				* (virtualRegion.y / region.y));
 	}
+
+	public V2 convertToPhysical(V2 virtualPosition) {
+		return new V2((virtualPosition.x + offset.x)
+				/ virtualRegion.x * region.x, (virtualPosition.y + offset.y)
+				/ virtualRegion.y * region.y);
+	}
 }
