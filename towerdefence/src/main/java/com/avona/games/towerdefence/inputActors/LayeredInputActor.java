@@ -180,6 +180,10 @@ public class LayeredInputActor implements InputActor {
 
 	@Override
 	public void pressedOtherKey(char keyCode) {
+		if (keyCode == ' ') {
+			ml.game.level.showOverlay = false;
+			ml.game.startWave();
+		}
 		if (keyCode == 'k') {
 			ml.game.killAllEnemies();
 		}
