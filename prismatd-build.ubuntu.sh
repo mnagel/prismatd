@@ -3,7 +3,7 @@
 ANTTASK="clean-build"
 
 JDK="default-jdk"
-JOGL="libjogl-java"
+JOGL="libjogl2-java"
 ANT="ant"
 JUNIT="junit4"
 

@@ -1,5 +1,5 @@
 <project name="PrismaTD" basedir="." default="main">
-	<property name="src.dir" value="src"/>
+	<property name="src.dir" value="towerdefence"/>
 	<property name="build.dir" value="build"/>
 	<property name="classes.dir" value="${build.dir}/classes"/>
 	<property name="jar.dir" value="${build.dir}/jar"/>
@@ -7,8 +7,8 @@
 	<property name="main-class" value="com.avona.games.towerdefence.awt.MainLoop"/>
 
 	<path id="classpath">
-		<path location="/usr/share/java/jogl.jar"/>
-		<path location="/usr/share/java/gluegen-rt.jar"/>
+		<path location="/usr/share/java/jogl2.jar"/>
+		<path location="/usr/share/java/gluegen2-rt.jar"/>
 		<path location="/usr/share/java/junit4.jar"/>
 		<fileset dir="${lib.dir}" includes="**/*.jar" erroronmissingdir="false"/>
 	</path>
