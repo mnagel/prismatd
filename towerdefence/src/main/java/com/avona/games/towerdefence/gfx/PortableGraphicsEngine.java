@@ -5,6 +5,8 @@ import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.Tower;
 
+import java.util.Locale;
+
 public class PortableGraphicsEngine implements DisplayEventListener {
 
 	public static final int DEFAULT_HEIGHT = 480;
@@ -175,7 +177,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		menuVertices[0] = createSimpleTextureBox(0.0f, 0.0f,
 				menuLayer.virtualRegion.x, menuLayer.virtualRegion.y,
-				game.level.menuBackgroundName);;
+				game.level.menuBackgroundName);
 	}
 
 	protected void freeMenuVertices() {
@@ -267,11 +269,12 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		if (game.selectedObject != null) {
 			if (game.selectedObject instanceof Tower) {
 				final Tower t = (Tower) game.selectedObject;
-				towerString = String.format("Tower Lev%d | ", t.level);
+				towerString = String.format(Locale.US, "Tower Lev%d | ", t.level);
 			} else if (game.selectedObject instanceof Enemy) {
 				final Enemy e = (Enemy) game.selectedObject;
 				towerString = String
 						.format(
+								Locale.US,
 								"enemy lvl %d, health R%.0f G%.0f B%.0f  /  R%.0f G%.0f B%.0f | ",
 								e.levelNum, e.life.R, e.life.G, e.life.B,
 								e.maxLife.R, e.maxLife.G, e.maxLife.B);
@@ -281,10 +284,11 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		if (game.level != null) {
 			final WaveTracker wt = game.level.waveTracker;
 			if (wt.hasWaveStarted() || wt.hasWaveEnded()) {
-				waveString = String.format("Wave %d | ", wt.currentWaveNum());
+				waveString = String.format(Locale.US, "Wave %d | ", wt.currentWaveNum());
 			}
 		}
 		final String fpsString = String.format(
+				Locale.US,
 				"%s%s%d killed | %d lives | $%d | level %d | %s | fps %.2f",
 				towerString, waveString, game.killed, game.lives, game.money,
 				game.curLevelIdx + 1, game.level.levelName, graphicsTickRater.tickRate);
