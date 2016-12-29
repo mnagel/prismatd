@@ -47,6 +47,13 @@ public abstract class Level implements Serializable, WaveSender {
 		this.waypoints = loadWaypoints();
 		this.enemyWaves = loadEnemyWaves();
 		this.buildableTowers = loadBuildableTowers();
+
+		// very sad to have this here, but loadBuildableTowers() is user-defined per level :(
+		for (int i = 0; i < buildableTowers.length; i++) {
+			V2 menuPos = new V2(1, i);
+			Tower t = game.level.buildableTowers[i];
+			t.location = menuPos;
+		}
 	}
 
 	@Override

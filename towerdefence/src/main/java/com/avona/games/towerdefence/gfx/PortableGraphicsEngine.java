@@ -1,6 +1,16 @@
 package com.avona.games.towerdefence.gfx;
 
-import com.avona.games.towerdefence.*;
+import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.Layer;
+import com.avona.games.towerdefence.LayerHerder;
+import com.avona.games.towerdefence.Mouse;
+import com.avona.games.towerdefence.PortableMainLoop;
+import com.avona.games.towerdefence.RGB;
+import com.avona.games.towerdefence.TickRater;
+import com.avona.games.towerdefence.TimeTrack;
+import com.avona.games.towerdefence.Transient;
+import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.WaveTracker;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.Tower;
@@ -62,7 +72,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			renderEnemy(e);
 		}
 		for (Tower t : game.towers) {
-			renderTower(t);
+			renderTower(t, null);
 		}
 		for (Particle p : game.particles) {
 			renderParticle(p);
@@ -199,6 +209,15 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		for (VertexArray va : menuVertices) {
 			display.drawVertexArray(va);
 		}
+
+		for (int i = 0; i < game.level.buildableTowers.length; i++) {
+			Tower t = game.level.buildableTowers[i];
+			float buttonCount = 4;
+			V2 location = new V2(
+					menuLayer.virtualRegion.x * 0.5f,
+					menuLayer.virtualRegion.y * (1.0f - (i + 0.5f) / buttonCount));
+			renderTower(t, location);
+		}
 	}
 
 	protected void buildOverlay() {
@@ -314,9 +333,9 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		display.drawText(fpsString, 2, 4, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
-	public void renderTower(final Tower t) {
+	public void renderTower(final Tower t, V2 overrideLocation) {
 		final float radius = t.radius;
-		final V2 location = t.location;
+		final V2 location = overrideLocation != null ? overrideLocation : t.location;
 
 		RGB gfxcol = t.strength.normalized();
 
