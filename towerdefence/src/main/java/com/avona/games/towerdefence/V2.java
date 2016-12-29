@@ -1,6 +1,7 @@
 package com.avona.games.towerdefence;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 public final class V2 implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -28,7 +29,7 @@ public final class V2 implements Serializable {
 	 * 
 	 * @param direction
 	 *            Direction of the vector.
-	 * @param speed
+	 * @param length
 	 *            Length of the vector.
 	 */
 	public V2(final V2 direction, final float length) {
@@ -42,7 +43,7 @@ public final class V2 implements Serializable {
 	}
 
 	public String toString() {
-		return String.format("V2<%f|%f>", x, y);
+		return String.format(Locale.US, "V2<%f|%f>", x, y);
 	}
 
 	public String toString(int prec) {
