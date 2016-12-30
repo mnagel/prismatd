@@ -180,6 +180,7 @@ public class LayeredInputActor implements InputActor {
 
 	@Override
 	public void pressedOtherKey(char keyCode) {
+		// SPACE <<< yeah, search function works now
 		if (keyCode == ' ') {
 			ml.game.pressForwardButton();
 		}
