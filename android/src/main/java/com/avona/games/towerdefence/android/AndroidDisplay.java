@@ -33,7 +33,6 @@ public class AndroidDisplay implements Display, Renderer {
 		labelPaint = new Paint();
 		labelPaint.setTextSize(16);
 		labelPaint.setAntiAlias(true);
-		labelPaint.setARGB(0xff, 0x00, 0x00, 0x00);
 	}
 
 	@Override
@@ -92,6 +91,7 @@ public class AndroidDisplay implements Display, Renderer {
 		}
 
 		labels.beginAdding(gl);
+		labelPaint.setARGB((int)(alpha*255), (int)(color.R*255), (int)(color.G*255), (int)(color.B * 255));
 		final int l = labels.add(gl, text, labelPaint);
 		labels.endAdding(gl);
 
