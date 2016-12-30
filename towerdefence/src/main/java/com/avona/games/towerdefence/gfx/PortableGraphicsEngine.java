@@ -22,26 +22,24 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	public static final int DEFAULT_HEIGHT = 480;
 	public static final int DEFAULT_WIDTH = 675;
 
-	public Layer menuLayer;
-	public Layer gameLayer;
+	private Layer menuLayer;
+	private Layer gameLayer;
 
-	protected TimeTrack graphicsTime = new TimeTrack();
-	protected TickRater graphicsTickRater = new TickRater(graphicsTime);
+	private TimeTrack graphicsTime = new TimeTrack();
+	private TickRater graphicsTickRater = new TickRater(graphicsTime);
 	private Display display;
-	protected Game game;
-	protected Mouse mouse;
-	protected PortableMainLoop ml;
+	private Game game;
+	private Mouse mouse;
 
-	protected VertexArray[] levelVertices;
-	protected VertexArray[] menuVertices;
-	protected VertexArray[] overlayVertices;
+	private VertexArray[] levelVertices;
+	private VertexArray[] menuVertices;
+	private VertexArray[] overlayVertices;
 
 	public PortableGraphicsEngine(Display display, Game game, Mouse mouse,
 			LayerHerder layerHerder, PortableMainLoop ml) {
 		this.display = display;
 		this.game = game;
 		this.mouse = mouse;
-		this.ml = ml;
 
 		gameLayer = layerHerder
 				.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
@@ -134,8 +132,8 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 				+ (s.y * 0.5f), 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
-	protected VertexArray createSimpleTextureBox(final float x, final float y,
-			final float width, final float height, final String textureName) {
+	private VertexArray createSimpleTextureBox(final float x, final float y,
+											   final float width, final float height, final String textureName) {
 		VertexArray va = new VertexArray();
 		va.hasTexture = true;
 		va.numCoords = 4;
@@ -151,7 +149,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		return va;
 	}
 
-	protected void createLevel() {
+	private void createLevel() {
 		freeLevelVertices();
 		levelVertices = new VertexArray[1];
 
@@ -160,7 +158,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 				game.level.gameBackgroundName);
 	}
 
-	protected void freeLevelVertices() {
+	void freeLevelVertices() {
 		if (levelVertices != null) {
 			// In case we're recreating the world, allow re-using of the
 			// buffers.
@@ -171,7 +169,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 	}
 
-	protected void renderLevel() {
+	private void renderLevel() {
 		if (levelVertices == null) {
 			createLevel();
 		}
@@ -181,7 +179,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 	}
 
-	protected void buildMenu() {
+	private void buildMenu() {
 		freeMenuVertices();
 		menuVertices = new VertexArray[1];
 
@@ -190,7 +188,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 				game.level.menuBackgroundName);
 	}
 
-	protected void freeMenuVertices() {
+	void freeMenuVertices() {
 		if (menuVertices != null) {
 			// In case we're recreating the world, allow re-using of the
 			// buffers.
@@ -201,7 +199,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 	}
 
-	protected void renderMenu() {
+	private void renderMenu() {
 		if (menuVertices == null) {
 			buildMenu();
 		}
@@ -220,7 +218,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 	}
 
-	protected void buildOverlay() {
+	private void buildOverlay() {
 		freeOverlayVertices();
 		overlayVertices = new VertexArray[1];
 
@@ -229,7 +227,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 				game.level.overlayBackgroundName);
 	}
 
-	protected void freeOverlayVertices() {
+	void freeOverlayVertices() {
 		if (overlayVertices != null) {
 			// In case we're recreating the world, allow re-using of the
 			// buffers.
@@ -240,7 +238,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 	}
 
-	protected void renderOverlay() {
+	private void renderOverlay() {
 		if (overlayVertices == null) {
 			buildOverlay();
 		}
@@ -250,7 +248,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 	}
 
-	public void renderEnemy(final Enemy e) {
+	private void renderEnemy(final Enemy e) {
 		if (e.isDead())
 			return;
 
@@ -284,7 +282,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		va.freeBuffers();
 	}
 
-	public void renderStats() {
+	private void renderStats() {
 		String towerString = "";
 		if (game.selectedObject != null) {
 			if (game.selectedObject instanceof Tower) {
@@ -310,8 +308,15 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		final String fpsString = String.format(
 				Locale.US,
 				"%s%s%d killed | %d lives | $%d | level %d | %s | fps %.2f",
-				towerString, waveString, game.killed, game.lives, game.money,
-				game.curLevelIdx + 1, game.level.levelName, graphicsTickRater.tickRate);
+				towerString,
+				waveString,
+				game.killed,
+				game.lives,
+				game.money,
+				game.curLevelIdx + 1,
+				game.level.levelName,
+				graphicsTickRater.tickRate
+		);
 		final V2 bounds = display.getTextBounds(fpsString);
 		final float width = bounds.x + 4;
 		final float height = bounds.y + 2;
@@ -334,7 +339,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		display.drawText(fpsString, 2, 4, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
-	public void renderTower(final Tower t, V2 overrideLocation) {
+	private void renderTower(final Tower t, V2 overrideLocation) {
 		final float radius = t.radius;
 		final V2 location = overrideLocation != null ? overrideLocation : t.location;
 
@@ -364,13 +369,14 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		va.freeBuffers();
 	}
 
-	public void renderParticle(final Particle p) {
+	private void renderParticle(final Particle p) {
 		if (p.isDead())
 			return;
 
 		RGB gfxcol = p.strength.normalized();
 
 		final float width = 10;
+		final float height = 10;
 		final V2 location = p.location;
 
 		VertexArray va = new VertexArray();
@@ -381,8 +387,13 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		va.reserveBuffers();
 
-		GeometryHelper.boxVerticesAsTriangleStrip(location.x - width / 2,
-				location.y - width / 2, width, width, va);
+		GeometryHelper.boxVerticesAsTriangleStrip(
+				location.x - width / 2,
+				location.y - height / 2,
+				width,
+				height,
+				va
+		);
 
 		// Top right
 		va.addColour(gfxcol.R * 1.0f, gfxcol.G * 0.9f, gfxcol.B * 0.9f, 1.0f);
@@ -398,7 +409,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		va.freeBuffers();
 	}
 
-	public void renderMouse() {
+	private void renderMouse() {
 		if (!mouse.onScreen)
 			return;
 		final V2 p = mouse.location;
@@ -447,9 +458,9 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		menuLayer.offset.x = gameLayer.offset.x + gameLayer.region.x;
 	}
 
-	public VertexArray createCircleVa(final float x, final float y, final float radius,
-			final float colR, final float colG, final float colB,
-			final float colA, final int segments) {
+	private VertexArray createCircleVa(final float x, final float y, final float radius,
+									   final float colR, final float colG, final float colB,
+									   final float colA, final int segments) {
 
 		VertexArray va = new VertexArray();
 		va.hasColour = true;
@@ -471,8 +482,8 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		return va;
 	}
 
-	public void drawCircle(final float x, final float y, final float radius,
-						   final float colR, final float colG, final float colB, final float colA) {
+	private void drawCircle(final float x, final float y, final float radius,
+							final float colR, final float colG, final float colB, final float colA) {
 
 		final int segments = 100;
 		VertexArray va = createCircleVa(x, y, radius, colR, colG, colB, colA, segments);
@@ -482,8 +493,8 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		va.freeBuffers();
 	}
 
-	public void drawFilledCircle(final float x, final float y, final float radius,
-								 final float colR, final float colG, final float colB, final float colA) {
+	private void drawFilledCircle(final float x, final float y, final float radius,
+								  final float colR, final float colG, final float colB, final float colA) {
 
 		final int segments = 100;
 		VertexArray va = createCircleVa(x, y, radius, colR, colG, colB, colA, segments);
