@@ -8,6 +8,7 @@ import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
 
 import com.avona.games.towerdefence.Layer;
+import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.gfx.Display;
