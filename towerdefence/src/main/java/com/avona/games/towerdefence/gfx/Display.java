@@ -1,6 +1,7 @@
 package com.avona.games.towerdefence.gfx;
 
 import com.avona.games.towerdefence.Layer;
+import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
 
 /**
@@ -27,6 +28,8 @@ public interface Display {
 	public void drawText(final Layer layer, final String text, final double x,
 			final double y, final float colR, final float colG,
 			final float colB, final float colA);
+
+	public void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha);
 
 	public V2 getTextBounds(final String text);
 

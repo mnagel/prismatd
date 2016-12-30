@@ -6,6 +6,7 @@ import java.awt.Frame;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import com.avona.games.towerdefence.RGB;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
@@ -92,6 +93,17 @@ public class AwtDisplay implements Display, GLEventListener {
 			final float colA) {
 		final V2 pos = layer.convertToPhysical(new V2((float)x, (float)y));
 		drawText(text, pos.x, pos.y, colR, colG, colB, colA);
+	}
+
+	@Override
+	public void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha) {
+		V2 loc = layer.convertToPhysical(location);
+		if (centered) {
+			final V2 textBounds = getTextBounds(text);
+			loc.x -= textBounds.x / 2;
+			loc.y -= textBounds.y / 2;
+		}
+		drawText(text, loc.x, loc.y, color.R, color.G, color.B, alpha);
 	}
 
 	@Override

@@ -23,6 +23,8 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	public static final int DEFAULT_HEIGHT = 480;
 	public static final int DEFAULT_WIDTH = 675;
 
+	private static final String SEND_NEXT_WAVE_TEXT = "Send next wave";
+
 	private Layer menuLayer;
 	private Layer gameLayer;
 
@@ -228,6 +230,10 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			renderEnemy(e);
 
 		}
+
+		display.drawText(menuLayer, SEND_NEXT_WAVE_TEXT, true,
+				new V2(menuLayer.virtualRegion.x / 2, menuLayer.virtualRegion.y / 2.0f / buttonCount),
+				new RGB(1.0f, 1.0f, 1.0f), 1.0f);
 		display.resetTransformation();
 	}
 
