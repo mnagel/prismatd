@@ -15,6 +15,7 @@ import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.Tower;
 
+import java.util.Collection;
 import java.util.Locale;
 
 public class PortableGraphicsEngine implements DisplayEventListener {
@@ -180,12 +181,9 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	}
 
 	private void buildMenu() {
+		// deprecated -- do not use a background file any more
 		freeMenuVertices();
-		menuVertices = new VertexArray[1];
-
-		menuVertices[0] = createSimpleTextureBox(0.0f, 0.0f,
-				menuLayer.virtualRegion.x, menuLayer.virtualRegion.y,
-				game.level.menuBackgroundName);
+		menuVertices = new VertexArray[0];
 	}
 
 	void freeMenuVertices() {
@@ -215,6 +213,21 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 					menuLayer.virtualRegion.x * 0.5f,
 					menuLayer.virtualRegion.y * (1.0f - (i + 0.5f) / buttonCount));
 			renderTower(t, location);
+		}
+
+		int wavenr = game.level.waveTracker.currentWaveNum();
+		Collection<Enemy> es = game.level.getEnemyPreview(wavenr+1);
+		int i = 0;
+		float buttonCount = 4;
+		for (Enemy e: es) {
+			i++;
+			V2 location = new V2(
+					i * menuLayer.virtualRegion.x / 4,
+					menuLayer.virtualRegion.y / (2.0f* buttonCount)
+			);
+			e.location = location;
+			renderEnemy(e);
+
 		}
 	}
 

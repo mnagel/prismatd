@@ -3,6 +3,7 @@ package com.avona.games.towerdefence.level;
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.Wave;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
@@ -10,6 +11,9 @@ import com.avona.games.towerdefence.wave.WaveSender;
 import com.avona.games.towerdefence.wave.WaveTracker;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 
 public abstract class Level implements Serializable, WaveSender {
 	public final static float ORIGIN_X = 0;
@@ -68,6 +72,18 @@ public abstract class Level implements Serializable, WaveSender {
 	@Override
 	public int getNumWaves() {
 		return enemyWaves.length;
+	}
+
+	public Collection<Enemy> getEnemyPreview(int waveId) { // TODO: move to wave class once possible
+		if (waveId >= getNumWaves()) {
+			return new ArrayList<>();
+		}
+
+		LinkedHashMap<String, Enemy> col = new LinkedHashMap<>(); // keep insertion order
+		for (WaveEnemyConfig we: this.enemyWaves[waveId]) {
+			col.put(we.enemy.getClass().getSimpleName(), we.enemy);
+		}
+		return col.values();
 	}
 
 	/**
