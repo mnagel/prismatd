@@ -41,15 +41,15 @@ public class Layer {
 	 *            Screen coordinate to be converted.
 	 * @return Layer relative coordinate.
 	 */
-	public V2 convertToVirtual(V2 realPosition) {
+	public V2 convertToVirtual(final V2 realPosition) {
 		return new V2((realPosition.x - offset.x)
 				* (virtualRegion.x / region.x), (realPosition.y - offset.y)
 				* (virtualRegion.y / region.y));
 	}
 
-	public V2 convertToPhysical(V2 virtualPosition) {
-		return new V2((virtualPosition.x + offset.x)
-				/ virtualRegion.x * region.x, (virtualPosition.y + offset.y)
-				/ virtualRegion.y * region.y);
+	public V2 convertToPhysical(final V2 virtualPosition) {
+		return new V2(
+				virtualPosition.x / virtualRegion.x * region.x + offset.x,
+				virtualPosition.y / virtualRegion.y * region.y + offset.y);
 	}
 }
