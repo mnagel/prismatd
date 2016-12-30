@@ -94,6 +94,19 @@ final public class VertexArray {
 		coordBuffer.put(p.y);
 	}
 
+	// rotate the whole VertexArray.
+	// algorithm and memory management are ***VERY*** bad
+	// do it better soon ;)
+	public void rotate(final V2 o, final float degrees) {
+		for (int i = 0; i < numCoords; i++) {
+			V2 unpack = new V2(coordBuffer.get(2*i), coordBuffer.get(2*i+1));
+			unpack.rotate(o, degrees);
+			coordBuffer.put(2*i, unpack.x);
+			coordBuffer.put(2*i+1, unpack.y);
+		}
+
+	}
+
 	public void addTextureCoord(final float tx, final float ty) {
 		textureBuffer.put(tx);
 		textureBuffer.put(ty);

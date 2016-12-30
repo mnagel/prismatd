@@ -277,6 +277,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		va.addColour(gfxcol.R * 0.6f, gfxcol.G * 0.8f, gfxcol.B * 0.8f, 1.0f);
 		// Bottom left
 		va.addColour(gfxcol.R * 0.9f, gfxcol.G * 1.0f, gfxcol.B * 1.0f, 1.0f);
+		va.rotate(location, 45);
 
 		display.drawVertexArray(va);
 

@@ -158,4 +158,13 @@ public final class V2 implements Serializable {
 		this.y = to.y - from.y;
 		this.setLength(l);
 	}
+
+	public V2 rotate(final V2 origin, final float degrees) {
+		float radians = degrees  * (float)Math.PI/180;
+		float xx = (float) (Math.cos(radians) * (this.x - origin.x) - Math.sin(radians) * (this.y-origin.y) + origin.x);
+		float yy = (float) (Math.sin(radians) * (this.x - origin.x) + Math.cos(radians) * (this.y-origin.y) + origin.y);
+		this.x = xx;
+		this.y = yy;
+		return this;
+	}
 }
