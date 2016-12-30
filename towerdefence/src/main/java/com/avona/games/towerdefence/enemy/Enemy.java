@@ -59,7 +59,7 @@ public abstract class Enemy extends MovingObject {
         // move exactly onto current waypoint. prevents unwanted diagonal movement.
         // TODO: do not teleport here, but account for the distance between current location and waypoint
         location = level.waypoints[waypointId - 1].clone();
-        if (waypointId + 1 < level.waypoints.length) {
+        if (waypointId < level.waypoints.length) {
 			target = level.waypoints[waypointId];
 			velocity.setDirection(location, target);
 		} else {
