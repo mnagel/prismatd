@@ -76,26 +76,30 @@ public class AndroidDisplay implements Display, Renderer {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 	}
 
-	public void drawText(final String text, final double x, final double y,
-			final float colR, final float colG, final float colB,
-			final float colA) {
+	@Override
+	public void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha) {
+		V2 loc;
+		if (layer != null) {
+			loc = layer.convertToPhysical(location);
+		} else {
+			loc = location.clone();
+		}
+		if (centered) {
+			final V2 textBounds = getTextBounds(text);
+			loc.x -= textBounds.x / 2;
+			loc.y -= textBounds.y / 2;
+		}
+
 		labels.beginAdding(gl);
 		final int l = labels.add(gl, text, labelPaint);
 		labels.endAdding(gl);
 
 		labels.beginDrawing(gl);
-		labels.draw(gl, (int) x, (int) y, l);
+		labels.draw(gl, (int) loc.x, (int) loc.y, l);
 		labels.endDrawing(gl);
 	}
 
 	@Override
-	public void drawText(Layer layer, final String text, final double x, final double y,
-			final float colR, final float colG, final float colB,
-			final float colA) {
-		final V2 pos = layer.convertToPhysical(new V2((float)x, (float)y));
-		drawText(text, pos.x, pos.y, colR, colG, colB, colA);
-	}
-
 	public V2 getTextBounds(final String text) {
 		final int ascent = (int) Math.ceil(-labelPaint.ascent());
 		final int descent = (int) Math.ceil(labelPaint.descent());

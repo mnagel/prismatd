@@ -78,32 +78,23 @@ public class AwtDisplay implements Display, GLEventListener {
 	}
 
 	@Override
-	public void drawText(final String text, final double x, final double y,
-			final float colR, final float colG, final float colB,
-			final float colA) {
-		renderer.beginRendering((int) size.x, (int) size.y);
-		renderer.setColor(colR, colG, colB, colA);
-		renderer.draw(text, (int) x, (int) y);
-		renderer.endRendering();
-	}
-
-	@Override
-	public void drawText(Layer layer, final String text, final double x, final double y,
-			final float colR, final float colG, final float colB,
-			final float colA) {
-		final V2 pos = layer.convertToPhysical(new V2((float)x, (float)y));
-		drawText(text, pos.x, pos.y, colR, colG, colB, colA);
-	}
-
-	@Override
 	public void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha) {
-		V2 loc = layer.convertToPhysical(location);
+		V2 loc;
+		if (layer != null) {
+			loc = layer.convertToPhysical(location);
+		} else {
+			loc = location.clone();
+		}
 		if (centered) {
 			final V2 textBounds = getTextBounds(text);
 			loc.x -= textBounds.x / 2;
 			loc.y -= textBounds.y / 2;
 		}
-		drawText(text, loc.x, loc.y, color.R, color.G, color.B, alpha);
+
+		renderer.beginRendering((int) size.x, (int) size.y);
+		renderer.setColor(color.R, color.G, color.B, alpha);
+		renderer.draw(text, (int) loc.x, (int) loc.y);
+		renderer.endRendering();
 	}
 
 	@Override

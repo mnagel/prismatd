@@ -127,10 +127,9 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		display.drawVertexArray(va);
 		va.freeBuffers();
 
-		final String pauseText = "Game paused";
-		final V2 s = display.getTextBounds(pauseText);
-		display.drawText(pauseText, (size.x * 0.5f) - (s.x * 0.5f), (size.y * 0.5f)
-				+ (s.y * 0.5f), 1.0f, 1.0f, 1.0f, 1.0f);
+		display.drawText(null, "Game paused", true,
+				new V2(size.x * 0.5f, size.y * 0.5f),
+				new RGB(1.0f, 1.0f, 1.0f), 1.0f);
 	}
 
 	private VertexArray createSimpleTextureBox(final float x, final float y,
@@ -355,7 +354,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		va.freeBuffers();
 
-		display.drawText(fpsString, 2, 4, 1.0f, 1.0f, 1.0f, 1.0f);
+		display.drawText(null, fpsString, false, new V2(2.0f, 4.0f), new RGB(1.0f, 1.0f, 1.0f), 1.0f);
 	}
 
 	private void renderTower(final Tower t, V2 overrideLocation, Layer layer) {
@@ -389,8 +388,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		if (overrideLocation != null) {
 			final String label = String.format("$%d", t.price);
-			final V2 textBounds = display.getTextBounds(label);
-			display.drawText(layer, label, location.x - textBounds.x / 2, location.y - textBounds.y / 2, 1.0f, 1.0f, 1.0f, 1.0f);
+			display.drawText(layer, label, true,location, RGB.WHITE, 1.0f);
 		}
 	}
 

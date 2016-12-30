@@ -29,7 +29,6 @@ public class TransientText implements Transient {
 
     @Override
     public void draw(Display d, Layer layer) {
-        final V2 textBounds = d.getTextBounds(text);
-        d.drawText(layer, text, location.x - textBounds.x / 2, location.y - textBounds.y / 2, color.R, color.G, color.B, alpha);
+        d.drawText(layer, text, true, location, color, alpha);
     }
 }

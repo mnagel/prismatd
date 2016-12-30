@@ -21,14 +21,6 @@ public interface Display {
 
 	public void drawVertexArray(final VertexArray array);
 
-	public void drawText(final String text, final double x,
-			final double y, final float colR, final float colG,
-			final float colB, final float colA);
-
-	public void drawText(final Layer layer, final String text, final double x,
-			final double y, final float colR, final float colG,
-			final float colB, final float colA);
-
 	public void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha);
 
 	public V2 getTextBounds(final String text);
