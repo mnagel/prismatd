@@ -1,8 +1,8 @@
-package com.avona.games.towerdefence;
-
-import java.io.Serializable;
+package com.avona.games.towerdefence.wave;
 
 import com.avona.games.towerdefence.enemy.Enemy;
+
+import java.io.Serializable;
 
 public class WaveEnemyConfig implements Serializable {
 

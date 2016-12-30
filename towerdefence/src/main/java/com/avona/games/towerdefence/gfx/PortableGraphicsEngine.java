@@ -10,7 +10,7 @@ import com.avona.games.towerdefence.TickRater;
 import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.Transient;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.WaveTracker;
+import com.avona.games.towerdefence.wave.WaveTracker;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.Tower;

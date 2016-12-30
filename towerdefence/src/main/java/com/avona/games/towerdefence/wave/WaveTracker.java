@@ -1,10 +1,11 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.wave;
+
+import com.avona.games.towerdefence.Util;
+import com.avona.games.towerdefence.wave.waveListeners.WaveListener;
 
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.avona.games.towerdefence.waveListeners.WaveListener;
 
 public class WaveTracker implements Serializable {
 
@@ -13,6 +14,13 @@ public class WaveTracker implements Serializable {
 	public List<WaveListener> waveFullyDeployedListeners = new LinkedList<WaveListener>();
 	public List<WaveListener> waveCompletedListeners = new LinkedList<WaveListener>();
 	public List<WaveListener> waveBegunListeners = new LinkedList<WaveListener>();
+	private int waveNum = -1;
+	/**
+	 * Currently running wave.
+	 */
+	private Wave currentWave;
+	private WaveSender sender;
+	private List<Wave> pendingWaves = new LinkedList<Wave>();
 
 	public WaveTracker(final WaveSender sender) {
 		this.sender = sender;
@@ -91,15 +99,4 @@ public class WaveTracker implements Serializable {
 			}
 		}
 	}
-
-	private int waveNum = -1;
-
-	/**
-	 * Currently running wave.
-	 */
-	private Wave currentWave;
-
-	private WaveSender sender;
-
-	private List<Wave> pendingWaves = new LinkedList<Wave>();
 }

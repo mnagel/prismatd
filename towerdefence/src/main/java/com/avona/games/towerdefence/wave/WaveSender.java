@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.wave;
 
 public interface WaveSender {
 	/**

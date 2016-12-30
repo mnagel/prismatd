@@ -2,13 +2,13 @@ package com.avona.games.towerdefence.level;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.WaveEnemyConfig;
 import com.avona.games.towerdefence.enemy.LimeLizardEnemy;
 import com.avona.games.towerdefence.enemy.RedRaptorEnemy;
 import com.avona.games.towerdefence.tower.EmeraldPrismaTower;
 import com.avona.games.towerdefence.tower.RubyPrismaTower;
 import com.avona.games.towerdefence.tower.Tower;
-import com.avona.games.towerdefence.waveListeners.GrantInterestPerWave;
+import com.avona.games.towerdefence.wave.WaveEnemyConfig;
+import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 public class _020_About_Colors extends Level {
 

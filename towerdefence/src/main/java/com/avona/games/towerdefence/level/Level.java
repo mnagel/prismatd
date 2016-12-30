@@ -1,38 +1,31 @@
 package com.avona.games.towerdefence.level;
 
-import java.io.Serializable;
-
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.Wave;
-import com.avona.games.towerdefence.WaveEnemyConfig;
-import com.avona.games.towerdefence.WaveSender;
-import com.avona.games.towerdefence.WaveTracker;
 import com.avona.games.towerdefence.tower.Tower;
+import com.avona.games.towerdefence.wave.Wave;
+import com.avona.games.towerdefence.wave.WaveEnemyConfig;
+import com.avona.games.towerdefence.wave.WaveSender;
+import com.avona.games.towerdefence.wave.WaveTracker;
+
+import java.io.Serializable;
 
 public abstract class Level implements Serializable, WaveSender {
-	private static final long serialVersionUID = 1L;
-
 	public final static float ORIGIN_X = 0;
 	public final static float WIDTH = 675;
 	public final static float ORIGIN_Y = 0;
 	public final static float HEIGHT = 480;
-
-	public String gameBackgroundName;
-	public String menuBackgroundName;
-	public String overlayBackgroundName;
-
-	public boolean showOverlay = true;
-
-	public String levelName;
-
+	private static final long serialVersionUID = 1L;
 	public final float WAYPOINT_WIDTH = 4.0f;
-
 	public final V2[] waypoints;
 	public final Tower[] buildableTowers;
 	private final WaveEnemyConfig[][] enemyWaves;
-
+	public String gameBackgroundName;
+	public String menuBackgroundName;
+	public String overlayBackgroundName;
+	public boolean showOverlay = true;
+	public String levelName;
 	public WaveTracker waveTracker = new WaveTracker(this);
 	public boolean completed = false;
 
