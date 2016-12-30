@@ -71,7 +71,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			renderEnemy(e);
 		}
 		for (Tower t : game.towers) {
-			renderTower(t, null);
+			renderTower(t, null, gameLayer);
 		}
 		for (Particle p : game.particles) {
 			renderParticle(p);
@@ -97,9 +97,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 		display.resetTransformation();
 
-		display.prepareTransformationForLayer(menuLayer);
 		renderMenu();
-		display.resetTransformation();
 
 		if (!game.gameTime.isRunning()) {
 			renderPauseOverlay();
@@ -198,6 +196,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	}
 
 	private void renderMenu() {
+		display.prepareTransformationForLayer(menuLayer);
 		if (menuVertices == null) {
 			buildMenu();
 		}
@@ -212,7 +211,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			V2 location = new V2(
 					menuLayer.virtualRegion.x * 0.5f,
 					menuLayer.virtualRegion.y * (1.0f - (i + 0.5f) / buttonCount));
-			renderTower(t, location);
+			renderTower(t, location, menuLayer);
 		}
 
 		int wavenr = game.level.waveTracker.currentWaveNum();
@@ -229,6 +228,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			renderEnemy(e);
 
 		}
+		display.resetTransformation();
 	}
 
 	private void buildOverlay() {
@@ -352,7 +352,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		display.drawText(fpsString, 2, 4, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
-	private void renderTower(final Tower t, V2 overrideLocation) {
+	private void renderTower(final Tower t, V2 overrideLocation, Layer layer) {
 		final float radius = t.radius;
 		final V2 location = overrideLocation != null ? overrideLocation : t.location;
 
@@ -380,6 +380,12 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		display.drawVertexArray(va);
 
 		va.freeBuffers();
+
+		if (overrideLocation != null) {
+			final String label = String.format("$%d", t.price);
+			final V2 textBounds = display.getTextBounds(label);
+			display.drawText(layer, label, location.x - textBounds.x / 2, location.y - textBounds.y / 2, 1.0f, 1.0f, 1.0f, 1.0f);
+		}
 	}
 
 	private void renderParticle(final Particle p) {
