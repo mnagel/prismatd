@@ -41,6 +41,7 @@ public class WaveTracker implements Serializable {
 
 	public void startNextWave() {
 		if (currentWave != null && !currentWave.isFullyDeployed()) {
+			Util.log("Cannot deploy multiple waves concurrently!");
 			return; // one wave deployment at a time
 		}
 
@@ -56,6 +57,7 @@ public class WaveTracker implements Serializable {
 				l.onWave(currentWave);
 			}
 		} else {
+			Util.log("No more waves to deploy!");
 			checkAllWavesCompleted();
 		}
 	}
