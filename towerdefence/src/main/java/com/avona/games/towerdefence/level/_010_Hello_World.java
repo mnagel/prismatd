@@ -65,7 +65,7 @@ public class _010_Hello_World extends Level {
 
 	@Override
 	protected String getGameBackgroundName() {
-		return "tutorial_l";
+		return "space_l";
 	}
 
 	@Override

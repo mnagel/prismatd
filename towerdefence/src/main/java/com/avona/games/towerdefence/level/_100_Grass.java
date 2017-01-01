@@ -147,7 +147,7 @@ public class _100_Grass extends Level {
 
 	@Override
 	protected String getGameBackgroundName() {
-		return "back_l";
+		return "space_l";
 	}
 
 	@Override

@@ -94,7 +94,7 @@ public class _030_Mixing_Colors extends Level {
 
 	@Override
 	protected String getGameBackgroundName() {
-		return "tutorial_l";
+		return "space_l";
 	}
 
 	@Override
