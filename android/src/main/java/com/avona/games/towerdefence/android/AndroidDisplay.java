@@ -3,6 +3,7 @@ package com.avona.games.towerdefence.android;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import android.content.Context;
 import android.graphics.Paint;
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
@@ -27,11 +28,14 @@ public class AndroidDisplay implements Display, Renderer {
 	private V2 size;
 	private DisplayEventListener eventListener;
 
-	public AndroidDisplay(DisplayEventListener eventListener) {
+	public AndroidDisplay(Context context, DisplayEventListener eventListener) {
 		this.eventListener = eventListener;
 
+		// Galaxy S has a DPI of roughly xhdpi (2.0). Let's take it as the reference metric.
+		int textSize = (int)(context.getResources().getDisplayMetrics().density / 2.0 * 16);
+
 		labelPaint = new Paint();
-		labelPaint.setTextSize(16);
+		labelPaint.setTextSize(textSize);
 		labelPaint.setAntiAlias(true);
 	}
 

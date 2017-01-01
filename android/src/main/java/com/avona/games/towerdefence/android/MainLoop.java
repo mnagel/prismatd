@@ -23,7 +23,7 @@ public class MainLoop extends PortableMainLoop {
 		ResourceResolverRegistry.setInstance(new AndroidResourceResolver(
 				context.getResources()));
 
-		final AndroidDisplay display = new AndroidDisplay(displayEventListener);
+		final AndroidDisplay display = new AndroidDisplay(context, displayEventListener);
 		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder, this);
 		displayEventListener.add(ge);
 
