@@ -1,22 +1,20 @@
 package com.avona.games.towerdefence;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameStats;
 import com.avona.games.towerdefence.level.Level;
-import com.avona.games.towerdefence.level._010_Hello_World;
-import com.avona.games.towerdefence.level._020_About_Colors;
-import com.avona.games.towerdefence.level._030_Mixing_Colors;
-import com.avona.games.towerdefence.level._100_Grass;
-import com.avona.games.towerdefence.level._101_Space;
+import com.avona.games.towerdefence.level.LevelList;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.Tower;
+
+import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -58,17 +56,24 @@ public class Game implements Serializable {
 	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(
 			this);
 
-	public Game(EventListener eventListener) {
+	// TODO startLevel is evil
+	public Game(EventListener eventListener, int startLevel) {
 		this.eventListener = eventListener;
+		this.levels = new Level[LevelList.levels.length];
 
-		levels = new Level[] {
-				new _010_Hello_World(this),
-				new _020_About_Colors(this), 
-				new _030_Mixing_Colors(this), 
-				new _100_Grass(this),
-				new _101_Space(this)
-		};
-		loadLevel(0);
+		for (int i = 0; i < this.levels.length; i++) {
+			Class<Level> klass =  LevelList.levels[i];
+
+			try {
+				Constructor<Level> ctor = klass.getConstructor(Game.class);
+				Level lvl = ctor.newInstance(new Object[] { this });
+				this.levels[i] = lvl;
+			} catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+				Util.log("died horribly in level list hackery");
+			}
+		}
+
+		loadLevel(startLevel);
 	}
 
 	public void loadLevel(int levelIdx) {

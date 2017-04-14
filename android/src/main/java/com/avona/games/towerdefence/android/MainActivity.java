@@ -1,6 +1,7 @@
 package com.avona.games.towerdefence.android;
 
 import com.avona.games.towerdefence.Util;
+import com.avona.games.towerdefence.level.LevelList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,8 +34,20 @@ public class MainActivity extends Activity {
 			// TODO: Restore.
 			Util.log("restoring instance");
 		}
-		ml = new MainLoop(this, vibrator);
-		setContentView(ml.surfaceView);
+
+		String[] levels = Util.mapLevelNames(LevelList.levels);
+
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Pick a color");
+		builder.setItems(levels, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Util.log("startlevel: " + which);
+				ml = new MainLoop(MainActivity.this, vibrator, which);
+				setContentView(ml.surfaceView);
+			}
+		});
+		builder.show();
 	}
 
 	@Override
@@ -63,7 +76,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void resume() {
-		if (!paused)
+		if (ml == null || !paused)
 			return;
 
 		ml.inputActor.resume();
