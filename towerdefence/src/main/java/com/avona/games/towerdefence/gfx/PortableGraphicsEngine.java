@@ -207,9 +207,17 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	}
 
 	private void buildMenu() {
-		// deprecated -- do not use a background file any more
 		freeMenuVertices();
-		menuVertices = new VertexArray[0];
+		menuVertices = new VertexArray[1];
+
+		final VertexArray va = new VertexArray();
+		menuVertices[0] = va;
+		va.hasColour = true;
+		va.numCoords = 4;
+		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+		va.reserveBuffers();
+		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f, menuLayer.virtualRegion.x, menuLayer.virtualRegion.y, va);
+		GeometryHelper.boxColoursAsTriangleStrip(0.2f, 0.2f, 0.2f, 0.4f, va);
 	}
 
 	void freeMenuVertices() {
