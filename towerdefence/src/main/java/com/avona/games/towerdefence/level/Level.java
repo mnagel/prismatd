@@ -88,6 +88,16 @@ public abstract class Level implements Serializable, WaveSender {
 		}
 	}
 
+	public GridCell getCellAt(V2 location) {
+		int x = (int)Math.floor(location.x / GridCell.width);
+		int y = (int)Math.floor(location.y / GridCell.heigth);
+		if (x >= 0 && x < gridCellCountX && y >= 0 && y < gridCellCountY) {
+			return gridCells2d[x][y];
+		} else {
+			return null;
+		}
+	}
+
 	public Level(final Game game) {
 		String l = this.getLevelDefinitionString();
 		this.parseLevelDefinition(l);

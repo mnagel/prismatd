@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
 		String[] levels = Util.mapLevelNames(LevelList.levels);
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Pick a color");
+		builder.setTitle("Select Map");
 		builder.setItems(levels, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {

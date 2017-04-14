@@ -3,6 +3,8 @@ package com.avona.games.towerdefence;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameStats;
+import com.avona.games.towerdefence.level.CellState;
+import com.avona.games.towerdefence.level.GridCell;
 import com.avona.games.towerdefence.level.Level;
 import com.avona.games.towerdefence.level.LevelList;
 import com.avona.games.towerdefence.particle.Particle;
@@ -135,14 +137,14 @@ public class Game implements Serializable {
 		}
 	}
 
-	public boolean canBuildTowerAt(V2 location) {
+	public boolean canBuildTowerAt(GridCell where) {
 		return !isPaused()
 				&& selectedBuildTower != null
 				&& money >= selectedBuildTower.getPrice()
-				&& getTowerWithinRadius(location, selectedBuildTower.radius) == null;
+				&& where.state == CellState.FREE;
 	}
 
-	public void addTowerAt(V2 location) {
+	public void addTowerAt(GridCell where) {
 		// FIXME place this somewhere sensible
 		if (level.showOverlay == true) {
 			level.showOverlay = false;
@@ -150,15 +152,16 @@ public class Game implements Serializable {
 		}
 		
 		Tower newTower = selectedBuildTower.clone();
-		newTower.location = new V2(location);
+		newTower.location = new V2(where.center);
 		money -= newTower.getPrice();
 		addTransient(new TransientText(
 				String.format("-$%d", newTower.getPrice()),
 				1.5f,
-				location,
+				where.center,
 				new RGB(1.0f, 1.0f, 1.0f),
 				1.0f));
 
+		where.state = CellState.TOWER;
 		towers.add(newTower);
 		eventListener.onBuildTower(newTower);
 	}

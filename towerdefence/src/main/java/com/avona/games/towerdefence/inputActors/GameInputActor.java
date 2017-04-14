@@ -28,8 +28,8 @@ public class GameInputActor extends EmptyInputActor {
 			return;
 		game.draggingTower = false;
 
-		if (game.canBuildTowerAt(location)) {
-			game.addTowerAt(location);
+		if (game.canBuildTowerAt(game.level.getCellAt(location))) {
+			game.addTowerAt(game.level.getCellAt(location));
 		}
 		checkMouseOverTower(location);
 	}
