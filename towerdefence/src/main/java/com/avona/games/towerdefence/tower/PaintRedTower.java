@@ -25,6 +25,8 @@ public class PaintRedTower extends Tower {
         this.particleMask = other.particleMask;
     }
 
+    public String getName() { return "Paint Red Tower"; }
+
     protected EnemySelectionPolicy getPolicyForLevel(int level) {
         if (level > 1) {
             return new NearestEnemyWithColourPolicy(false, true, false);

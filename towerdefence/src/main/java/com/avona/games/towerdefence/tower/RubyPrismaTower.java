@@ -23,6 +23,8 @@ public class RubyPrismaTower extends Tower {
 		super(other);
 	}
 
+	public String getName() { return "Ruby Prisma"; }
+
 	protected EnemySelectionPolicy getPolicyForLevel(int level) {
 		if (level > 1) {
 			return new NearestEnemyWithColourPolicy(true, false, false);

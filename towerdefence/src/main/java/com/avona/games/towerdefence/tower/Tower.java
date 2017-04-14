@@ -47,6 +47,8 @@ public abstract class Tower extends LocationObject {
 		color = t.color;
 	}
 
+	abstract public String getName();
+
 	@Override
 	public abstract Tower clone();
 
