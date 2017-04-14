@@ -295,8 +295,11 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			return;
 
 		RGB gfxcol = e.life.normalized();
+		final float life = e.life.length() / e.maxLife.length();
 
-		final float radius = e.radius;
+		// Scale the enemy based on the remaining life to a minimum
+		// of 25% of its original radius if it's almost dead.
+		final float radius = e.radius * (life * 0.75f + 0.25f);
 		final V2 location = e.location;
 
 		final VertexArray va = new VertexArray();
@@ -385,7 +388,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		final float radius = t.radius;
 		final V2 location = overrideLocation != null ? overrideLocation : t.location;
 
-		RGB gfxcol = t.strength.normalized();
+		RGB gfxcol = t.color.normalized();
 
 		VertexArray va = new VertexArray();
 		va.hasColour = true;

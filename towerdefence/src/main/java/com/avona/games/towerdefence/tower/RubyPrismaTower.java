@@ -15,16 +15,15 @@ public class RubyPrismaTower extends Tower {
 
 	public RubyPrismaTower(final TimedCodeManager timedCodeManager,
 			final int level) {
-		super(timedCodeManager, getPolicyForLevel(level),
-				new NearestEnemyCollidorPolicy(), level);
-		strength = new RGB(level * 10 + 10, 0, 0);
+		super(timedCodeManager, new NearestEnemyCollidorPolicy(), level);
+		color = new RGB(level * 10 + 10, 0, 0);
 	}
 
 	public RubyPrismaTower(final RubyPrismaTower other) {
 		super(other);
 	}
 
-	private static EnemySelectionPolicy getPolicyForLevel(int level) {
+	protected EnemySelectionPolicy getPolicyForLevel(int level) {
 		if (level > 1) {
 			return new NearestEnemyWithColourPolicy(true, false, false);
 		}
