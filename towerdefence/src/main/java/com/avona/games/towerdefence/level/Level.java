@@ -74,7 +74,7 @@ public abstract class Level implements Serializable, WaveSender {
 					gridCells2d[x][y].state = CellState.WAY;
 				}
 
-				if(c >= '0' && c <= '9') {
+				if((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f')) {
 					wp.put((int)c, gridCells2d[x][y]);
 				}
 			}
