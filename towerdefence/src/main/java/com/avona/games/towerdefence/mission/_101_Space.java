@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.level;
+package com.avona.games.towerdefence.mission;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.enemy.LimeLizardEnemy;
@@ -10,11 +10,11 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
-public class _100_Grass extends Level {
+public class _101_Space extends Mission {
 
-	private static final long serialVersionUID = -3454126790549945539L;
+	private static final long serialVersionUID = 7889543946996644326L;
 
-	public _100_Grass(final Game game) {
+	public _101_Space(final Game game) {
 		super(game);
 
 		waveTracker.waveBegunListeners
@@ -32,7 +32,7 @@ public class _100_Grass extends Level {
 	}
 
 	@Override
-	protected String getLevelDefinitionString() {
+	protected String getMissionDefinitionString() {
 		String l = "";
 		//////0123456789012345
 		l += "......0.........\n"; // 0
@@ -152,8 +152,8 @@ public class _100_Grass extends Level {
 	}
 	
 	@Override
-	public String getLevelName() {
-		return "Grass";
+	public String getMissionName() {
+		return "Space";
 	}
 
 	@Override
@@ -163,7 +163,7 @@ public class _100_Grass extends Level {
 
 	@Override
 	protected String getMenuBackgroundName() {
-		return "back_r";
+		return "space_r";
 	}
 
 	@Override

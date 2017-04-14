@@ -7,9 +7,9 @@ import com.avona.games.towerdefence.gfx.DisplayEventDistributor;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.inputActors.GameInputActor;
 import com.avona.games.towerdefence.inputActors.LayeredInputActor;
-import com.avona.games.towerdefence.inputActors.LevelEditorInputActor;
+import com.avona.games.towerdefence.inputActors.MissionEditorInputActor;
 import com.avona.games.towerdefence.inputActors.MenuInputActor;
-import com.avona.games.towerdefence.level.Level;
+import com.avona.games.towerdefence.mission.Mission;
 
 public abstract class PortableMainLoop implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -32,8 +32,8 @@ public abstract class PortableMainLoop implements Serializable {
 
 	protected void initWithGame() {
 		Layer gameLayer = new Layer();
-		gameLayer.virtualRegion.x = Level.WIDTH;
-		gameLayer.virtualRegion.y = Level.HEIGHT;
+		gameLayer.virtualRegion.x = Mission.WIDTH;
+		gameLayer.virtualRegion.y = Mission.HEIGHT;
 		gameLayer.name = GAME_LAYER_NAME;
 		layerHerder.addLayer(gameLayer);
 
@@ -48,7 +48,7 @@ public abstract class PortableMainLoop implements Serializable {
 
 		GameInputActor gameInputActor = new GameInputActor(game, mouse);
 		if (Debug.mapEditor) {
-			gameInputActor = new LevelEditorInputActor(game, mouse);
+			gameInputActor = new MissionEditorInputActor(game, mouse);
 		}
 
 		inputActor = new LayeredInputActor(this, mouse, layerHerder);

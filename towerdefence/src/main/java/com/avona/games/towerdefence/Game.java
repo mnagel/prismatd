@@ -3,10 +3,10 @@ package com.avona.games.towerdefence;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameStats;
-import com.avona.games.towerdefence.level.CellState;
-import com.avona.games.towerdefence.level.GridCell;
-import com.avona.games.towerdefence.level.Level;
-import com.avona.games.towerdefence.level.LevelList;
+import com.avona.games.towerdefence.mission.CellState;
+import com.avona.games.towerdefence.mission.GridCell;
+import com.avona.games.towerdefence.mission.Mission;
+import com.avona.games.towerdefence.mission.MissionList;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.Tower;
 
@@ -31,9 +31,9 @@ public class Game implements Serializable {
 
 	public EventListener eventListener;
 
-	public Level[] levels;
-	public int curLevelIdx;
-	public Level level;
+	public Mission[] missions;
+	public int curMissionIdx;
+	public Mission mission;
 
 	public int killed = 0;
 	public int lives;
@@ -58,45 +58,45 @@ public class Game implements Serializable {
 	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(
 			this);
 
-	// TODO startLevel is evil
-	public Game(EventListener eventListener, int startLevel) {
+	// TODO startMission is evil
+	public Game(EventListener eventListener, int startMission) {
 		this.eventListener = eventListener;
-		this.levels = new Level[LevelList.levels.length];
+		this.missions = new Mission[MissionList.availableMissions.length];
 
-		for (int i = 0; i < this.levels.length; i++) {
-			Class<Level> klass =  LevelList.levels[i];
+		for (int i = 0; i < this.missions.length; i++) {
+			Class<Mission> klass =  MissionList.availableMissions[i];
 
 			try {
-				Constructor<Level> ctor = klass.getConstructor(Game.class);
-				Level lvl = ctor.newInstance(new Object[] { this });
-				this.levels[i] = lvl;
+				Constructor<Mission> ctor = klass.getConstructor(Game.class);
+				Mission lvl = ctor.newInstance(new Object[] { this });
+				this.missions[i] = lvl;
 			} catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-				Util.log("died horribly in level list hackery");
+				Util.log("died horribly in mission list hackery");
 			}
 		}
 
-		loadLevel(startLevel);
+		loadMission(startMission);
 	}
 
-	public void loadLevel(int levelIdx) {
-		curLevelIdx = levelIdx;
-		level = levels[curLevelIdx];
+	public void loadMission(int missionIdx) {
+		curMissionIdx = missionIdx;
+		mission = missions[curMissionIdx];
 
 		towers.clear();
-		lives = level.getStartLives();
-		money = level.getStartMoney();
-		selectedBuildTower = level.buildableTowers[0];
+		lives = mission.getStartLives();
+		money = mission.getStartMoney();
+		selectedBuildTower = mission.buildableTowers[0];
 
-		eventListener.onLevelSwitched(level);
+		eventListener.onMissionSwitched(mission);
 	}
 
-	public boolean isLastLevel() {
-		return curLevelIdx + 1 == levels.length;
+	public boolean isLastMission() {
+		return curMissionIdx + 1 == missions.length;
 	}
 
-	public void loadNextLevel() {
-		if (!isLastLevel()) {
-			loadLevel(curLevelIdx + 1);
+	public void loadNextMission() {
+		if (!isLastMission()) {
+			loadMission(curMissionIdx + 1);
 		} else {
 			eventListener.onGameCompleted(this);
 		}
@@ -119,12 +119,12 @@ public class Game implements Serializable {
 	}
 
 	public void pressForwardButton() {
-		if (level.completed) {
-			loadNextLevel();
-		} else if (level.showOverlay) {
-			level.showOverlay = false;
+		if (mission.completed) {
+			loadNextMission();
+		} else if (mission.showOverlay) {
+			mission.showOverlay = false;
 		} else {
-			level.waveTracker.startNextWave();
+			mission.waveTracker.startNextWave();
 		}
 	}
 
@@ -146,8 +146,8 @@ public class Game implements Serializable {
 
 	public void addTowerAt(GridCell where) {
 		// FIXME place this somewhere sensible
-		if (level.showOverlay == true) {
-			level.showOverlay = false;
+		if (mission.showOverlay == true) {
+			mission.showOverlay = false;
 			return;
 		}
 		
@@ -285,7 +285,7 @@ public class Game implements Serializable {
 				continue;
 			}
 
-			final V2 w = level.waypoints[e.waypointId].center;
+			final V2 w = mission.waypoints[e.waypointId].center;
 			if (Collision.movingCircleCollidedWithCircle(e.location,
 					e.velocity, e.radius, w, V2.ZERO, 1, dt)) {
 				e.setWPID(e.waypointId + 1);

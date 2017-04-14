@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.level;
+package com.avona.games.towerdefence.mission;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.enemy.RedRaptorEnemy;
@@ -7,7 +7,7 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
-public class _010_Hello_World extends Level {
+public class _010_Hello_World extends Mission {
 
 	private static final long serialVersionUID = -2476503319147078452L;
 
@@ -29,7 +29,7 @@ public class _010_Hello_World extends Level {
 	}
 
 	@Override
-	protected String getLevelDefinitionString() {
+	protected String getMissionDefinitionString() {
 		String l = "";
 		//////0123456789012345
 		l += "......0.........\n"; // 0
@@ -69,7 +69,7 @@ public class _010_Hello_World extends Level {
 	}
 
 	@Override
-	public String getLevelName() {
+	public String getMissionName() {
 		return "Hello World";
 	}
 

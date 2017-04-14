@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence;
 
-import com.avona.games.towerdefence.level.Level;
+import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.tower.Tower;
 
 public class EmptyEventListener implements EventListener {
@@ -12,7 +12,7 @@ public class EmptyEventListener implements EventListener {
 	}
 
 	@Override
-	public void onLevelCompleted(Level l) {
+	public void onMissionCompleted(Mission l) {
 	}
 
 	@Override
@@ -24,6 +24,6 @@ public class EmptyEventListener implements EventListener {
 	}
 
 	@Override
-	public void onLevelSwitched(Level level) {
+	public void onMissionSwitched(Mission mission) {
 	}
 }

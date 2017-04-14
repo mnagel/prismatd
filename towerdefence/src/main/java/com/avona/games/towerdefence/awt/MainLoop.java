@@ -5,7 +5,7 @@ import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.PortableMainLoop;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
-import com.avona.games.towerdefence.level.LevelList;
+import com.avona.games.towerdefence.mission.MissionList;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
@@ -37,12 +37,12 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		System.exit(0);
 	}
 
-	public MainLoop(String[] args, int startLevel) {
+	public MainLoop(String[] args, int startMission) {
 		super();
 		// TODO use proper option parser
 
 		if (args.length == 0) {
-			game = new Game(eventListener, startLevel);
+			game = new Game(eventListener, startMission);
 		} else {
 			try {
 				loadGame(args[0]);
@@ -105,7 +105,7 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 	public static void main(String[] args) {
 		String[] arg2 = args;
 
-		if (args.length > 0 && args[0].indexOf("--leveleditor") == 0) {
+		if (args.length > 0 && args[0].indexOf("--missioneditor") == 0) {
 			Util.log("enabling map editor");
 			Debug.mapEditor = true;
 
@@ -113,10 +113,10 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 			System.arraycopy(args, 1, arg2, 0, arg2.length);
 		}
 
-		String[] levels = Util.mapLevelNames(LevelList.levels);
-		int startLevel = userSelectsAString("Load Level", "Please select a Level to load:", levels);
+		String[] missions = Util.mapMissionNames(MissionList.availableMissions);
+		int startMission = userSelectsAString("Load Mission", "Please select a Mission to load:", missions);
 
-		new MainLoop(arg2, startLevel);
+		new MainLoop(arg2, startMission);
 	}
 
 	@Override

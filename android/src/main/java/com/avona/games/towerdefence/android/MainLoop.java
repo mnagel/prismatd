@@ -14,12 +14,12 @@ public class MainLoop extends PortableMainLoop {
 
 	public GLSurfaceView surfaceView;
 
-	// TODO startLevel is evil
-	public MainLoop(Context context, Vibrator vibrator, int startLevel) {
+	// TODO startMission is evil
+	public MainLoop(Context context, Vibrator vibrator, int startMission) {
 		super();
 
-		// TODO startLevel is evil
-		game = new Game(eventListener, startLevel);
+		// TODO startMission is evil
+		game = new Game(eventListener, startMission);
 		initWithGame();
 
 		ResourceResolverRegistry.setInstance(new AndroidResourceResolver(

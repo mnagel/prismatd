@@ -4,7 +4,7 @@ import com.avona.games.towerdefence.MovingObject;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyEventListener;
-import com.avona.games.towerdefence.level.Level;
+import com.avona.games.towerdefence.mission.Mission;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class Enemy extends MovingObject {
 	private static final long serialVersionUID = 1L;
 
-	public Level level;
+	public Mission mission;
 	public int levelNum;
 	public int waypointId = 1;
 	public boolean escaped = false;
@@ -22,10 +22,10 @@ public abstract class Enemy extends MovingObject {
 	public RGB life;
 	public RGB maxLife;
 
-	public Enemy(Level level, int levelNum, int worth, RGB maxLife, int speed,
-			float radius) {
+	public Enemy(Mission mission, int levelNum, int worth, RGB maxLife, int speed,
+				 float radius) {
 		super();
-		this.level = level;
+		this.mission = mission;
 		this.levelNum = levelNum;
 		this.worth = worth;
 		this.maxLife = maxLife;
@@ -36,7 +36,7 @@ public abstract class Enemy extends MovingObject {
 
 	public Enemy(Enemy other) {
 		super(other);
-		level = other.level;
+		mission = other.mission;
 		levelNum = other.levelNum;
 		waypointId = other.waypointId;
 		escaped = other.escaped;
@@ -58,9 +58,9 @@ public abstract class Enemy extends MovingObject {
         this.waypointId = waypointId;
         // move exactly onto current waypoint. prevents unwanted diagonal movement.
         // TODO: do not teleport here, but account for the distance between current location and waypoint
-        location = level.waypoints[waypointId - 1].center.clone();
-        if (waypointId < level.waypoints.length) {
-			target = level.waypoints[waypointId].center;
+        location = mission.waypoints[waypointId - 1].center.clone();
+        if (waypointId < mission.waypoints.length) {
+			target = mission.waypoints[waypointId].center;
 			velocity.setDirection(location, target);
 		} else {
 			escape();

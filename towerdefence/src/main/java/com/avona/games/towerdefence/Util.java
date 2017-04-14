@@ -3,7 +3,7 @@ package com.avona.games.towerdefence;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import com.avona.games.towerdefence.level.Level;
+import com.avona.games.towerdefence.mission.Mission;
 
 public final class Util {
 	public static void log(String s) {
@@ -31,10 +31,10 @@ public final class Util {
 	}
 	
 	// FIXME get some support for functional mapping from somewhere
-	public static String[] mapLevelNames(Class<Level>[] levels) {
-		String[] res = new String[levels.length];
-		for (int i = 0; i < levels.length; i++) {
-			res[i] = levels[i].getSimpleName();
+	public static String[] mapMissionNames(Class<Mission>[] missions) {
+		String[] res = new String[missions.length];
+		for (int i = 0; i < missions.length; i++) {
+			res[i] = missions[i].getSimpleName();
 		}
 		return res;
 	}

@@ -3,7 +3,7 @@ package com.avona.games.towerdefence;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.avona.games.towerdefence.level.Level;
+import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.tower.Tower;
 
 public class EventDistributor implements EventListener {
@@ -18,9 +18,9 @@ public class EventDistributor implements EventListener {
 	}
 
 	@Override
-	public void onLevelCompleted(Level level) {
+	public void onMissionCompleted(Mission mission) {
 		for (EventListener l : listeners)
-			l.onLevelCompleted(level);
+			l.onMissionCompleted(mission);
 	}
 
 	@Override
@@ -36,8 +36,8 @@ public class EventDistributor implements EventListener {
 	}
 
 	@Override
-	public void onLevelSwitched(Level level) {
+	public void onMissionSwitched(Mission mission) {
 		for (EventListener l : listeners)
-			l.onLevelSwitched(level);
+			l.onMissionSwitched(mission);
 	}
 }

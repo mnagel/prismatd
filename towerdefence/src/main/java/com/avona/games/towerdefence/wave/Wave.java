@@ -6,7 +6,7 @@ import com.avona.games.towerdefence.TimedCodeManager;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyEventListener;
-import com.avona.games.towerdefence.level.Level;
+import com.avona.games.towerdefence.mission.Mission;
 
 public class Wave extends TimedCode implements EnemyEventListener {
     private static final long serialVersionUID = 1L;
@@ -14,18 +14,18 @@ public class Wave extends TimedCode implements EnemyEventListener {
     public int waveNum;
 
     private boolean fullyDeployed = false;
-    private Level level;
+    private Mission mission;
     private Game game;
     private TimedCodeManager timedCodeManager;
     private int curEnemy = 0;
     private WaveEnemyConfig[] enemies;
     private int activeEnemies = 0;
 
-    public Wave(int waveNum, Game game, Level level,
+    public Wave(int waveNum, Game game, Mission mission,
                 TimedCodeManager timedCodeManager, WaveEnemyConfig[] enemies) {
         this.waveNum = waveNum;
         this.game = game;
-        this.level = level;
+        this.mission = mission;
         this.timedCodeManager = timedCodeManager;
         this.enemies = enemies;
 
@@ -37,7 +37,7 @@ public class Wave extends TimedCode implements EnemyEventListener {
     }
 
     private void spawnEnemy() {
-        final V2 location = level.waypoints[0].center.clone();
+        final V2 location = mission.waypoints[0].center.clone();
         WaveEnemyConfig we = enemies[curEnemy];
         Enemy e = we.enemy.clone();
         e.eventListeners.add(this);
@@ -54,7 +54,7 @@ public class Wave extends TimedCode implements EnemyEventListener {
             spawnEnemy();
         } else {
             fullyDeployed = true;
-            level.waveTracker.onWaveFullyDeployed(this);
+            mission.waveTracker.onWaveFullyDeployed(this);
         }
     }
 
@@ -64,7 +64,7 @@ public class Wave extends TimedCode implements EnemyEventListener {
         if (activeEnemies > 0)
             return;
 
-        level.waveTracker.onWaveCompleted(this);
+        mission.waveTracker.onWaveCompleted(this);
     }
 
     @Override

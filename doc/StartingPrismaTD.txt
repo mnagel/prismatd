@@ -22,7 +22,7 @@ OR
 
 ====== Command Line Options ======
 ./prismatd.ubuntu.sh **--leveleditor**
-start in level editor mode
+start in mission editor mode
 
 ./prismatd.ubuntu.sh **savegamename**
 load from savegame

@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.level;
+package com.avona.games.towerdefence.mission;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Util;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public abstract class Level implements Serializable, WaveSender {
+public abstract class Mission implements Serializable, WaveSender {
 	public final static float ORIGIN_X = 0;
 	public final static float WIDTH = 675;
 	public final static float ORIGIN_Y = 0;
@@ -32,7 +32,7 @@ public abstract class Level implements Serializable, WaveSender {
 	public String menuBackgroundName;
 	public String overlayBackgroundName;
 	public boolean showOverlay = true;
-	public String levelName;
+	public String missionName;
 	public WaveTracker waveTracker = new WaveTracker(this);
 	public boolean completed = false;
 	public GridCell[][] gridCells2d;
@@ -42,7 +42,7 @@ public abstract class Level implements Serializable, WaveSender {
 
 	protected Game game;
 
-	public void parseLevelDefinition(String levelDefinition) {
+	public void parseMissionDefinition(String missionDefinition) {
 		gridCellCountX = 16;
 		gridCellCountY = 12;
 		gridCells2d = new GridCell[gridCellCountX][gridCellCountY];
@@ -59,7 +59,7 @@ public abstract class Level implements Serializable, WaveSender {
 
 		int yy = -1;
 
-		for (String row: levelDefinition.split("\n")) {
+		for (String row: missionDefinition.split("\n")) {
 			yy++;
 			int xx = -1;
 			for (char c: row.toCharArray()) {
@@ -98,19 +98,19 @@ public abstract class Level implements Serializable, WaveSender {
 		}
 	}
 
-	public Level(final Game game) {
-		String l = this.getLevelDefinitionString();
-		this.parseLevelDefinition(l);
+	public Mission(final Game game) {
+		String l = this.getMissionDefinitionString();
+		this.parseMissionDefinition(l);
 
 		this.game = game;
 		this.gameBackgroundName = getGameBackgroundName();
 		this.menuBackgroundName = getMenuBackgroundName();
 		this.overlayBackgroundName = getOverlayBackgroundName();
-		this.levelName = getLevelName();
+		this.missionName = getMissionName();
 		this.enemyWaves = loadEnemyWaves();
 		this.buildableTowers = loadBuildableTowers();
 
-		// very sad to have this here, but loadBuildableTowers() is user-defined per level :(
+		// very sad to have this here, but loadBuildableTowers() is user-defined per mission :(
 		for (int i = 0; i < buildableTowers.length; i++) {
 			V2 menuPos = new V2(1, i);
 			Tower t = buildableTowers[i];
@@ -119,19 +119,19 @@ public abstract class Level implements Serializable, WaveSender {
 	}
 
 	@Override
-	public Wave sendWave(final int waveNum) {
-		if (waveNum >= enemyWaves.length)
+	public Wave sendWave(final int waveNumber) {
+		if (waveNumber >= enemyWaves.length)
 			return null;
 
-		return new Wave(waveNum, game, this, game.timedCodeManager,
-				enemyWaves[waveNum]);
+		return new Wave(waveNumber, game, this, game.timedCodeManager,
+				enemyWaves[waveNumber]);
 	}
 
 	@Override
 	public void onAllWavesCompleted() {
-		Util.log("All waves completed -> level completed");
+		Util.log("All waves completed -> mission completed");
 		completed = true;
-		game.eventListener.onLevelCompleted(this);
+		game.eventListener.onMissionCompleted(this);
 	}
 
 	@Override
@@ -151,16 +151,16 @@ public abstract class Level implements Serializable, WaveSender {
 		return col.values();
 	}
 
-	protected abstract String getLevelDefinitionString();
+	protected abstract String getMissionDefinitionString();
 
 	protected abstract WaveEnemyConfig[][] loadEnemyWaves();
 
 	/**
-	 * @return A list of towers that can be built in this level.
+	 * @return A list of towers that can be built in this mission.
 	 */
 	protected abstract Tower[] loadBuildableTowers();
 
-	protected abstract String getLevelName();
+	protected abstract String getMissionName();
 
 	protected abstract String getGameBackgroundName();
 

@@ -10,8 +10,8 @@ import com.avona.games.towerdefence.TickRater;
 import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.Transient;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.level.CellState;
-import com.avona.games.towerdefence.level.GridCell;
+import com.avona.games.towerdefence.mission.CellState;
+import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.wave.WaveTracker;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;
@@ -25,8 +25,8 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	public static final int DEFAULT_HEIGHT = 480;
 	public static final int DEFAULT_WIDTH = 675;
 
-	private static final String SEND_NEXT_WAVE_TEXT = "Send next wave";
-	private static final String LEVEL_UP_TEXT = "Level up tower";
+	private static final String SEND_NEXT_WAVE_TEXT = "Send next Wave";
+	private static final String LEVEL_UP_TEXT = "Level up Tower";
 
 	public static final int MENU_BUTTON_COUNT = 5;
 
@@ -39,7 +39,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	private Game game;
 	private Mouse mouse;
 
-	private VertexArray[] levelVertices;
+	private VertexArray[] missionVertices;
 	private VertexArray[] menuVertices;
 	private VertexArray[] overlayVertices;
 
@@ -53,14 +53,14 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 				.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
 		menuLayer = layerHerder
 				.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
-		ml.eventListener.listeners.add(new ReloadOnLevelSwitch(this));
+		ml.eventListener.listeners.add(new ReloadOnMissionSwitch(this));
 	}
 
 	@Override
 	public void onNewScreenContext() {
 		// Make sure that the VertexArrays are cleared on a screen context
 		// reset. Otherwise, any preloaded texture wouldn't be reloaded again.
-		freeLevelVertices();
+		freeMissionVertices();
 		freeMenuVertices();
 		freeOverlayVertices();
 	}
@@ -72,7 +72,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		display.prepareScreen();
 
 		display.prepareTransformationForLayer(gameLayer);
-		renderLevel();
+		renderMission();
 
 		for (Enemy e : game.enemies) {
 			renderEnemy(e);
@@ -99,7 +99,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			drawCircle(l.x, l.y, t.getRange(), 1.0f, 1.0f, 1.0f, 1.0f);
 		}
 
-		if (game.level.showOverlay) {
+		if (game.mission.showOverlay) {
 			renderOverlay();
 		}
 		display.resetTransformation();
@@ -154,14 +154,14 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		return va;
 	}
 
-	private void createLevel() {
-		freeLevelVertices();
-		levelVertices = new VertexArray[game.level.gridCells.length];
+	private void createMission() {
+		freeMissionVertices();
+		missionVertices = new VertexArray[game.mission.gridCells.length];
 
-		for (int i = 0; i < game.level.gridCells.length; i++) {
-			GridCell c = game.level.gridCells[i];
+		for (int i = 0; i < game.mission.gridCells.length; i++) {
+			GridCell c = game.mission.gridCells[i];
 			VertexArray va = new VertexArray();
-			levelVertices[i] = va;
+			missionVertices[i] = va;
 
 			va.mode = VertexArray.Mode.TRIANGLE_STRIP;
 			va.hasColour = true;
@@ -185,23 +185,23 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 	}
 
-	void freeLevelVertices() {
-		if (levelVertices != null) {
+	void freeMissionVertices() {
+		if (missionVertices != null) {
 			// In case we're recreating the world, allow re-using of the
 			// buffers.
-			for (VertexArray va : levelVertices) {
+			for (VertexArray va : missionVertices) {
 				va.freeBuffers();
 			}
-			levelVertices = null;
+			missionVertices = null;
 		}
 	}
 
-	private void renderLevel() {
-		if (levelVertices == null) {
-			createLevel();
+	private void renderMission() {
+		if (missionVertices == null) {
+			createMission();
 		}
 
-		for (VertexArray va : levelVertices) {
+		for (VertexArray va : missionVertices) {
 			display.drawVertexArray(va);
 		}
 	}
@@ -241,8 +241,8 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			display.drawVertexArray(va);
 		}
 
-		for (int i = 0; i < game.level.buildableTowers.length; i++) {
-			Tower t = game.level.buildableTowers[i];
+		for (int i = 0; i < game.mission.buildableTowers.length; i++) {
+			Tower t = game.mission.buildableTowers[i];
 
 			V2 location = new V2(
 					menuLayer.virtualRegion.x * 0.5f,
@@ -257,8 +257,8 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 					new RGB(1.0f, 1.0f, 1.0f), 1.0f);
 		}
 
-		int wavenr = game.level.waveTracker.currentWaveNum();
-		Collection<Enemy> es = game.level.getEnemyPreview(wavenr+1);
+		int wavenr = game.mission.waveTracker.currentWaveNum();
+		Collection<Enemy> es = game.mission.getEnemyPreview(wavenr+1);
 		int enemyCount = es.size();
 		int i = 0;
 		for (Enemy e: es) {
@@ -283,7 +283,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		overlayVertices[0] = createSimpleTextureBox(0.0f, 0.0f,
 				gameLayer.virtualRegion.x, gameLayer.virtualRegion.y,
-				game.level.overlayBackgroundName);
+				game.mission.overlayBackgroundName);
 	}
 
 	void freeOverlayVertices() {
@@ -361,22 +361,22 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			}
 		}
 		String waveString = "";
-		if (game.level != null) {
-			final WaveTracker wt = game.level.waveTracker;
+		if (game.mission != null) {
+			final WaveTracker wt = game.mission.waveTracker;
 			if (wt.hasWaveStarted() || wt.hasWaveEnded()) {
 				waveString = String.format(Locale.US, "Wave %d | ", wt.currentWaveNum());
 			}
 		}
 		final String fpsString = String.format(
 				Locale.US,
-				"%s%s%d killed | %d lives | $%d | level %d | %s | fps %.2f",
+				"%s%s%d killed | %d lives | $%d | mission %d | %s | fps %.2f",
 				towerString,
 				waveString,
 				game.killed,
 				game.lives,
 				game.money,
-				game.curLevelIdx + 1,
-				game.level.levelName,
+				game.curMissionIdx + 1,
+				game.mission.missionName,
 				graphicsTickRater.tickRate
 		);
 		final V2 bounds = display.getTextBounds(fpsString);

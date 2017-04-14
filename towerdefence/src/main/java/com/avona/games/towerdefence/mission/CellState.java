@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.level;
+package com.avona.games.towerdefence.mission;
 
 public enum CellState {
 	WAY,

@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.level;
+package com.avona.games.towerdefence.mission;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.enemy.LimeLizardEnemy;
@@ -9,7 +9,7 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
-public class _020_About_Colors extends Level {
+public class _020_About_Colors extends Mission {
 
 	private static final long serialVersionUID = -2476503319147078452L;
 
@@ -31,7 +31,7 @@ public class _020_About_Colors extends Level {
 	}
 
 	@Override
-	protected String getLevelDefinitionString() {
+	protected String getMissionDefinitionString() {
 		String l = "";
 		//////0123456789012345
 		l += ".0...........b..\n"; // 0
@@ -85,7 +85,7 @@ public class _020_About_Colors extends Level {
 	}
 
 	@Override
-	public String getLevelName() {
+	public String getMissionName() {
 		return "About Color";
 	}
 

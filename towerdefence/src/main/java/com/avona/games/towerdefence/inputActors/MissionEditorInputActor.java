@@ -5,9 +5,9 @@ import com.avona.games.towerdefence.Mouse;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
 
-public class LevelEditorInputActor extends GameInputActor {
+public class MissionEditorInputActor extends GameInputActor {
 
-	public LevelEditorInputActor(Game game, Mouse mouse) {
+	public MissionEditorInputActor(Game game, Mouse mouse) {
 		super(game, mouse);
 	}
 

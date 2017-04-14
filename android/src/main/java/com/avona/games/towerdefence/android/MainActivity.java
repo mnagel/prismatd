@@ -1,7 +1,7 @@
 package com.avona.games.towerdefence.android;
 
 import com.avona.games.towerdefence.Util;
-import com.avona.games.towerdefence.level.LevelList;
+import com.avona.games.towerdefence.mission.MissionList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -35,14 +35,14 @@ public class MainActivity extends Activity {
 			Util.log("restoring instance");
 		}
 
-		String[] levels = Util.mapLevelNames(LevelList.levels);
+		String[] missions = Util.mapMissionNames(MissionList.availableMissions);
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Select Map");
-		builder.setItems(levels, new DialogInterface.OnClickListener() {
+		builder.setTitle("Select Mission");
+		builder.setItems(missions, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Util.log("startlevel: " + which);
+				Util.log("Selected Mission: " + which);
 				ml = new MainLoop(MainActivity.this, vibrator, which);
 				setContentView(ml.surfaceView);
 			}
