@@ -15,16 +15,15 @@ public class SapphirePrismaTower extends Tower {
 
 	public SapphirePrismaTower(final TimedCodeManager timedCodeManager,
 			final int level) {
-		super(timedCodeManager, getPolicyForLevel(level),
-				new NearestEnemyCollidorPolicy(), level);
-		strength = new RGB(0, 0, level * 10 + 10);
+		super(timedCodeManager, new NearestEnemyCollidorPolicy(), level);
+		color = new RGB(0, 0, level * 10 + 10);
 	}
 
 	public SapphirePrismaTower(final SapphirePrismaTower other) {
 		super(other);
 	}
 
-	private static EnemySelectionPolicy getPolicyForLevel(int level) {
+	protected EnemySelectionPolicy getPolicyForLevel(int level) {
 		if (level > 1) {
 			return new NearestEnemyWithColourPolicy(false, false, true);
 		}

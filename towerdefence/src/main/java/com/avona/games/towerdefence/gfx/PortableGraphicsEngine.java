@@ -364,7 +364,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		final float radius = t.radius;
 		final V2 location = overrideLocation != null ? overrideLocation : t.location;
 
-		RGB gfxcol = t.strength.normalized();
+		RGB gfxcol = t.color.normalized();
 
 		VertexArray va = new VertexArray();
 		va.hasColour = true;

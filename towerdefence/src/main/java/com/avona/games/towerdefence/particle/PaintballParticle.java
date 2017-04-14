@@ -6,7 +6,7 @@ import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
 
 /**
- * PaintballParticle has a strength that it applies to the target enemy as attack damage.
+ * PaintballParticle has a color that it applies to the target enemy as attack damage.
  * It then measures how much damage it inflicted and redistributes the damage according
  * to mask back as colored health onto the target enemy. This can be used to convert
  * damage in one color as health in another, effectively repainting the enemy.
