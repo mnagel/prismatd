@@ -263,7 +263,7 @@ public class Game implements Serializable {
 				continue;
 			}
 
-			final V2 w = level.waypoints[e.waypointId];
+			final V2 w = level.waypoints[e.waypointId].center;
 			if (Collision.movingCircleCollidedWithCircle(e.location,
 					e.velocity, e.radius, w, V2.ZERO, 1, dt)) {
 				e.setWPID(e.waypointId + 1);

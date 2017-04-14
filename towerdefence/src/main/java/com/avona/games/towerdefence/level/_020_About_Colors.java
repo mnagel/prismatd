@@ -1,7 +1,6 @@
 package com.avona.games.towerdefence.level;
 
 import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.enemy.LimeLizardEnemy;
 import com.avona.games.towerdefence.enemy.RedRaptorEnemy;
 import com.avona.games.towerdefence.tower.EmeraldPrismaTower;
@@ -32,12 +31,23 @@ public class _020_About_Colors extends Level {
 	}
 
 	@Override
-	protected V2[] loadWaypoints() {
-		return new V2[] { new V2(238.f, 480.f), new V2(238.f, 384.f),
-				new V2(592.f, 384.f), new V2(592.f, 132.f),
-				new V2(476.f, 132.f), new V2(476.f, 290.f),
-				new V2(94.f, 290.f), new V2(94.f, 132.f), new V2(405.f, 131.f),
-				new V2(405.f, 0.f) };
+	protected String getLevelDefinitionString() {
+		String l = "";
+		//////0123456789012345
+		l += "......0.........\n"; // 0
+		l += "......x.........\n"; // 1
+		l += "......1xxxxxxx2.\n"; // 2
+		l += "..............x.\n"; // 3
+		l += "..6xxxxxxxxx5.x.\n"; // 4
+		l += "..x.........x.x.\n"; // 5
+		l += "..x.........x.x.\n"; // 6
+		l += "..x.........x.x.\n"; // 7
+		l += "..7xxxxxxx8.4x3.\n"; // 8
+		l += "..........x.....\n"; // 9
+		l += "..........x.....\n"; // 0
+		l += "..........9.....\n"; // 1
+
+		return l;
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package com.avona.games.towerdefence.level;
 
 import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.enemy.LimeLizardEnemy;
 import com.avona.games.towerdefence.enemy.VioletViperEnemy;
 import com.avona.games.towerdefence.tower.EmeraldPrismaTower;
@@ -33,11 +32,23 @@ public class _100_Grass extends Level {
 	}
 
 	@Override
-	protected V2[] loadWaypoints() {
-		return new V2[] { new V2(30, 480), new V2(30, 400), new V2(600, 400),
-				new V2(600, 300), new V2(500, 300), new V2(500, 350),
-				new V2(30, 350), new V2(30, 200), new V2(300, 200),
-				new V2(300, 0) };
+	protected String getLevelDefinitionString() {
+		String l = "";
+		//////0123456789012345
+		l += "......0.........\n"; // 0
+		l += "......x.........\n"; // 1
+		l += "......1xxxxxxx2.\n"; // 2
+		l += "..............x.\n"; // 3
+		l += "..6xxxxxxxxx5.x.\n"; // 4
+		l += "..x.........x.x.\n"; // 5
+		l += "..x.........x.x.\n"; // 6
+		l += "..x.........x.x.\n"; // 7
+		l += "..7xxxxxxx8.4x3.\n"; // 8
+		l += "..........x.....\n"; // 9
+		l += "..........x.....\n"; // 0
+		l += "..........9.....\n"; // 1
+
+		return l;
 	}
 
 	@Override

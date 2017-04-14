@@ -10,6 +10,8 @@ import com.avona.games.towerdefence.TickRater;
 import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.Transient;
 import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.level.CellState;
+import com.avona.games.towerdefence.level.GridCell;
 import com.avona.games.towerdefence.wave.WaveTracker;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;
@@ -154,11 +156,33 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 	private void createLevel() {
 		freeLevelVertices();
-		levelVertices = new VertexArray[1];
+		levelVertices = new VertexArray[game.level.gridCells.length];
 
-		levelVertices[0] = createSimpleTextureBox(0.0f, 0.0f,
-				gameLayer.virtualRegion.x, gameLayer.virtualRegion.y,
-				game.level.gameBackgroundName);
+		for (int i = 0; i < game.level.gridCells.length; i++) {
+			GridCell c = game.level.gridCells[i];
+			VertexArray va = new VertexArray();
+			levelVertices[i] = va;
+
+			va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+			va.hasColour = true;
+			va.numCoords = 4;
+			va.reserveBuffers();
+
+			GeometryHelper.boxVerticesAsTriangleStrip(
+					c.x * GridCell.width,
+					c.y * GridCell.heigth,
+					GridCell.width * 0.9f,
+					GridCell.heigth * 0.9f,
+					va
+			);
+
+			if (c.state == CellState.FREE) {
+				GeometryHelper.boxColoursAsTriangleStrip(0.2f, 0.2f, 0.2f, 0.4f, va);
+			} else if (c.state == CellState.WAY) {
+				GeometryHelper.boxColoursAsTriangleStrip(1.0f, 1.0f, 1.0f, 0.4f, va);
+			}
+
+		}
 	}
 
 	void freeLevelVertices() {
