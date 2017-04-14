@@ -35,8 +35,7 @@ public class MenuInputActor extends EmptyInputActor {
 		if (btn == PortableGraphicsEngine.MENU_BUTTON_COUNT - 2) {
 			if (game.selectedObject instanceof Tower) {
 				final Tower t = (Tower)game.selectedObject;
-				Util.log(String.format("LEVEL UP TOWER; old: %d", t.level));
-				t.setLevel(t.level + 1);
+				game.levelUpTower(t);
 			}
 		}
 

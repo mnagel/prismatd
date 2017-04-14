@@ -12,7 +12,7 @@ public class NearestEnemyPolicy implements EnemySelectionPolicy {
 	public Enemy findSuitableEnemy(Tower t, List<Enemy> enemies) {
 		Enemy bestEnemy = null;
 		float bestEnemyLocationSquaredDist = Float.MAX_VALUE;
-		final float squaredRange = t.range * t.range;
+		final float squaredRange = t.getRange() * t.getRange();
 
 		for (Enemy e : enemies) {
 			final float newEnemyLocationSquaredDist = t.location

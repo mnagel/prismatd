@@ -89,14 +89,14 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		if (game.selectedObject != null) {
 			if (game.selectedObject instanceof Tower) {
 				final Tower t = (Tower) game.selectedObject;
-				drawCircle(t.location.x, t.location.y, t.range, 1.0f, 1.0f,
+				drawCircle(t.location.x, t.location.y, t.getRange(), 1.0f, 1.0f,
 						1.0f, 1.0f);
 			}
 		}
 		if (game.draggingTower && game.selectedBuildTower != null) {
 			final V2 l = gameLayer.convertToVirtual(mouse.location);
 			final Tower t = game.selectedBuildTower;
-			drawCircle(l.x, l.y, t.range, 1.0f, 1.0f, 1.0f, 1.0f);
+			drawCircle(l.x, l.y, t.getRange(), 1.0f, 1.0f, 1.0f, 1.0f);
 		}
 
 		if (game.level.showOverlay) {
@@ -423,7 +423,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		va.freeBuffers();
 
 		if (overrideLocation != null) {
-			final String label = String.format("$%d", t.price);
+			final String label = String.format("$%d", t.getPrice());
 			display.drawText(layer, label, true,location, RGB.WHITE, 1.0f);
 		}
 	}

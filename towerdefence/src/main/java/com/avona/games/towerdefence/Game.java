@@ -133,7 +133,7 @@ public class Game implements Serializable {
 	public boolean canBuildTowerAt(V2 location) {
 		return !isPaused()
 				&& selectedBuildTower != null
-				&& money >= selectedBuildTower.price
+				&& money >= selectedBuildTower.getPrice()
 				&& getTowerWithinRadius(location, selectedBuildTower.radius) == null;
 	}
 
@@ -146,9 +146,9 @@ public class Game implements Serializable {
 		
 		Tower newTower = selectedBuildTower.clone();
 		newTower.location = new V2(location);
-		money -= newTower.price;
+		money -= newTower.getPrice();
 		transients.add(new TransientText(
-				String.format("-$%d", newTower.price),
+				String.format("-$%d", newTower.getPrice()),
 				1.5f,
 				location,
 				new RGB(1.0f, 1.0f, 1.0f),
@@ -156,6 +156,14 @@ public class Game implements Serializable {
 
 		towers.add(newTower);
 		eventListener.onBuildTower(newTower);
+	}
+
+	public void levelUpTower(Tower t) {
+		final int price = t.getLevelUpPrice();
+		if (money < price)
+			return;
+		money -= price;
+		t.setLevel(t.level + 1);
 	}
 
 	static Random rand = new Random();
