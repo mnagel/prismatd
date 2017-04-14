@@ -23,6 +23,8 @@ public class SapphirePrismaTower extends Tower {
 		super(other);
 	}
 
+	public String getName() { return "Sapphire Prisma"; }
+
 	protected EnemySelectionPolicy getPolicyForLevel(int level) {
 		if (level > 1) {
 			return new NearestEnemyWithColourPolicy(false, false, true);

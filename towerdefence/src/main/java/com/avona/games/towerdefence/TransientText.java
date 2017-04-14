@@ -18,6 +18,9 @@ public class TransientText implements Transient {
     }
 
     @Override
+    public V2 getLocation() { return location; }
+
+    @Override
     public void step(float dt) {
         this.lifetime -= dt;
     }

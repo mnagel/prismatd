@@ -18,8 +18,8 @@ public abstract class Tower extends LocationObject {
 	public ParticleCollidorPolicy enemyParticleCollidorPolicy;
 	public int level;
 	protected RechargeTimer timer;
-	public float range;
-	public int price;
+	protected float range;
+	protected int price;
 
 	// The color the tower will be drawn with.
 	public RGB color;
@@ -31,8 +31,6 @@ public abstract class Tower extends LocationObject {
 		this.enemyParticleCollidorPolicy = enemyParticleCollidorPolicy;
 		this.level = level;
 		timer = new RechargeTimer(timedCodeManager, 0.3f);
-		range = 75 + 2 * (level - 1);
-		price = 10 + 2 * (level - 1);
 		radius = 16;
 	}
 
@@ -45,6 +43,20 @@ public abstract class Tower extends LocationObject {
 		range = t.range;
 		price = t.price;
 		color = t.color;
+	}
+	
+    abstract public String getName();
+
+	public int getPrice() {
+        return 10 + 2 * (level - 1);
+    }
+
+    public int getRange() {
+        return 75 + 2 * (level - 1);
+    }
+
+    public int getLevelUpPrice() {
+		return 5 + 2 * (level - 1);
 	}
 
 	@Override

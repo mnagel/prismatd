@@ -3,7 +3,7 @@ package com.avona.games.towerdefence.level;
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.enemy.LimeLizardEnemy;
 import com.avona.games.towerdefence.enemy.RedRaptorEnemy;
-import com.avona.games.towerdefence.tower.EmeraldPrismaTower;
+import com.avona.games.towerdefence.tower.PaintRedTower;
 import com.avona.games.towerdefence.tower.RubyPrismaTower;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
@@ -34,27 +34,26 @@ public class _020_About_Colors extends Level {
 	protected String getLevelDefinitionString() {
 		String l = "";
 		//////0123456789012345
-		l += "......0.........\n"; // 0
-		l += "......x.........\n"; // 1
-		l += "......1xxxxxxx2.\n"; // 2
-		l += "..............x.\n"; // 3
-		l += "..6xxxxxxxxx5.x.\n"; // 4
-		l += "..x.........x.x.\n"; // 5
-		l += "..x.........x.x.\n"; // 6
-		l += "..x.........x.x.\n"; // 7
-		l += "..7xxxxxxx8.4x3.\n"; // 8
-		l += "..........x.....\n"; // 9
-		l += "..........x.....\n"; // 0
-		l += "..........9.....\n"; // 1
-
+		l += ".0...........b..\n"; // 0
+		l += ".x...........x..\n"; // 1
+		l += ".x.3xx4.7xx8.x..\n"; // 2
+		l += ".x.x..x.x..x.x..\n"; // 3
+		l += ".x.x..x.x..x.x..\n"; // 4
+		l += ".x.x..5x6..x.x..\n"; // 5
+		l += ".1x2.......9xa..\n"; // 6
+		l += "................\n"; // 7
+		l += "................\n"; // 8
+		l += ".....xxxxx......\n"; // 9
+		l += "................\n"; // 0
+		l += "................\n"; // 1
 		return l;
 	}
 
 	@Override
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[] { 
-				new RubyPrismaTower(game.timedCodeManager, 1),
-				new EmeraldPrismaTower(game.timedCodeManager, 1)
+				new RubyPrismaTower(game.timedCodeManager, 2),
+				new PaintRedTower(game.timedCodeManager, 2)
 		};
 	}
 

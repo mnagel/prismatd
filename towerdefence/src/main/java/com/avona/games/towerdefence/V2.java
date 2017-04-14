@@ -6,6 +6,25 @@ import java.util.Locale;
 public final class V2 implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		V2 v2 = (V2) o;
+
+		if (Float.compare(v2.x, x) != 0) return false;
+		return Float.compare(v2.y, y) == 0;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = (x != +0.0f ? Float.floatToIntBits(x) : 0);
+		result = 31 * result + (y != +0.0f ? Float.floatToIntBits(y) : 0);
+		return result;
+	}
+
 	public static final V2 ZERO = new V2();
 
 	public float x = 0.0f;

@@ -19,6 +19,8 @@ public class EmeraldPrismaTower extends Tower {
 		color = new RGB(0, level * 10 + 10, 0);
 	}
 
+	public String getName() { return "Emerald Prisma"; }
+
 	public EmeraldPrismaTower(final EmeraldPrismaTower other) {
 		super(other);
 	}
