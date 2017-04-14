@@ -35,6 +35,7 @@ public interface InputActor {
 
 	/**
 	 * Used as debugging key for debugging purposes.
+	 *
 	 * @param keyCode
 	 */
 	public void pressedOtherKey(char keyCode);

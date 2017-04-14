@@ -9,15 +9,9 @@ public class BufferCache {
 	private static int BUF_MIN_POWER = 4;
 	private static int BUF_MAX_POWER = 15;
 	private static int NUM_BUFFER_CLASSES = BUF_MAX_POWER - BUF_MIN_POWER + 1;
-
+	private static BufferCache bufferCacheInstance = new BufferCache();
 	@SuppressWarnings("unchecked")
 	private Queue<ByteBuffer>[] cacheClasses = new Queue[NUM_BUFFER_CLASSES];
-
-	private static BufferCache bufferCacheInstance = new BufferCache();
-
-	public static BufferCache getInstance() {
-		return bufferCacheInstance;
-	}
 
 	private BufferCache() {
 		for (int i = 0; i < cacheClasses.length; ++i) {
@@ -25,17 +19,21 @@ public class BufferCache {
 		}
 	}
 
+	public static BufferCache getInstance() {
+		return bufferCacheInstance;
+	}
+
 	/**
 	 * Find out into which power-of-2 class the value falls. We use this keep
 	 * buffers sorted
-	 * 
+	 *
 	 * @param x
 	 * @param rangeStart
 	 * @param rangeEnd
 	 * @return
 	 */
 	private static int findPower2Class(final int x, final int rangeStart,
-			final int rangeEnd) {
+									   final int rangeEnd) {
 		assert x >= 0;
 
 		for (int i = rangeStart; i < rangeEnd; ++i) {

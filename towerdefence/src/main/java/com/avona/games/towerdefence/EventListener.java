@@ -1,9 +1,9 @@
 package com.avona.games.towerdefence;
 
-import java.io.Serializable;
-
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.tower.Tower;
+
+import java.io.Serializable;
 
 public interface EventListener extends Serializable {
 

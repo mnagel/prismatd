@@ -54,38 +54,38 @@ public class _030_Mixing_Colors extends Mission {
 
 	@Override
 	protected Tower[] loadBuildableTowers() {
-		return new Tower[] { 
+		return new Tower[]{
 				new RubyPrismaTower(game.timedCodeManager, 1),
 				new EmeraldPrismaTower(game.timedCodeManager, 1),
-				new SapphirePrismaTower(game.timedCodeManager, 1) 
+				new SapphirePrismaTower(game.timedCodeManager, 1)
 		};
 	}
 
 	@Override
 	protected WaveEnemyConfig[][] loadEnemyWaves() {
-		return new WaveEnemyConfig[][] {
-				new WaveEnemyConfig[] {
+		return new WaveEnemyConfig[][]{
+				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 				},
-				new WaveEnemyConfig[] {
+				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 				},
-				new WaveEnemyConfig[] {
+				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
 				},
-				new WaveEnemyConfig[] {
+				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),

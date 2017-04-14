@@ -13,26 +13,26 @@ import com.avona.games.towerdefence.particleCollidors.ParticleColliderPolicy;
  */
 
 public class PaintballParticle extends Particle {
-    public RGB mask;
+	public RGB mask;
 
-    public PaintballParticle(V2 location, Enemy target, ParticleColliderPolicy collidorPolicy, int velocity, RGB strength, RGB mask) {
-        super(location, target, collidorPolicy, velocity, strength);
-        this.mask = mask;
-    }
+	public PaintballParticle(V2 location, Enemy target, ParticleColliderPolicy collidorPolicy, int velocity, RGB strength, RGB mask) {
+		super(location, target, collidorPolicy, velocity, strength);
+		this.mask = mask;
+	}
 
-    @Override
-    public void attack(Enemy e) {
-        if (isDead()) {
-            return;
-        }
+	@Override
+	public void attack(Enemy e) {
+		if (isDead()) {
+			return;
+		}
 
-        final RGB oldlife = e.life.clone();
-        final RGB newlife = oldlife.clone().subUpto(strength, 0.0f);
-        final float length = oldlife.length() - newlife.length();
-        final RGB damage = new RGB(-mask.R * length + strength.R, -mask.G * length + strength.G, -mask.B * length + strength.B);
+		final RGB oldlife = e.life.clone();
+		final RGB newlife = oldlife.clone().subUpto(strength, 0.0f);
+		final float length = oldlife.length() - newlife.length();
+		final RGB damage = new RGB(-mask.R * length + strength.R, -mask.G * length + strength.G, -mask.B * length + strength.B);
 
-        e.inflictDamage(damage);
+		e.inflictDamage(damage);
 
-        dead = true;
-    }
+		dead = true;
+	}
 }

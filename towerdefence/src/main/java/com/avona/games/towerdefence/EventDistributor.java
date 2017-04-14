@@ -1,10 +1,10 @@
 package com.avona.games.towerdefence;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.tower.Tower;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class EventDistributor implements EventListener {
 	private static final long serialVersionUID = 1L;

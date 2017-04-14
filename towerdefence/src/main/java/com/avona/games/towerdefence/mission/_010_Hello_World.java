@@ -15,7 +15,7 @@ public class _010_Hello_World extends Mission {
 		super(game);
 
 		waveTracker.waveBegunListeners
-		.add(new GrantInterestPerWave(game, 0.10f));
+				.add(new GrantInterestPerWave(game, 0.10f));
 	}
 
 	@Override
@@ -50,21 +50,21 @@ public class _010_Hello_World extends Mission {
 
 	@Override
 	protected Tower[] loadBuildableTowers() {
-		return new Tower[] { 
+		return new Tower[]{
 				new RubyPrismaTower(game.timedCodeManager, 1)
 		};
 	}
 
 	@Override
 	protected WaveEnemyConfig[][] loadEnemyWaves() {
-		return new WaveEnemyConfig[][] {
-				new WaveEnemyConfig[] {
+		return new WaveEnemyConfig[][]{
+				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
-				} 
+				}
 		};
 	}
 

@@ -1,32 +1,56 @@
 package com.avona.games.towerdefence.awt;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-
-import com.avona.games.towerdefence.RGB;
-import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.GLAutoDrawable;
-import com.jogamp.opengl.GLCapabilities;
-import com.jogamp.opengl.GLEventListener;
-import com.jogamp.opengl.GLProfile;
-import com.jogamp.opengl.awt.GLCanvas;
-
-import javax.swing.JOptionPane;
-
 import com.avona.games.towerdefence.Layer;
+import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.gfx.Display;
 import com.avona.games.towerdefence.gfx.DisplayEventListener;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.gfx.VertexArray;
+import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLEventListener;
+import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.awt.TextRenderer;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
-import static com.jogamp.opengl.GL2.*;
+import javax.swing.JOptionPane;
+
+import static com.jogamp.opengl.GL2.GL_BLEND;
+import static com.jogamp.opengl.GL2.GL_CLAMP_TO_EDGE;
+import static com.jogamp.opengl.GL2.GL_COLOR_ARRAY;
+import static com.jogamp.opengl.GL2.GL_COLOR_BUFFER_BIT;
+import static com.jogamp.opengl.GL2.GL_DEPTH_BUFFER_BIT;
+import static com.jogamp.opengl.GL2.GL_FLOAT;
+import static com.jogamp.opengl.GL2.GL_LINEAR;
+import static com.jogamp.opengl.GL2.GL_LINE_STRIP;
+import static com.jogamp.opengl.GL2.GL_MODELVIEW;
+import static com.jogamp.opengl.GL2.GL_NEAREST;
+import static com.jogamp.opengl.GL2.GL_ONE_MINUS_SRC_ALPHA;
+import static com.jogamp.opengl.GL2.GL_PROJECTION;
+import static com.jogamp.opengl.GL2.GL_REPLACE;
+import static com.jogamp.opengl.GL2.GL_SRC_ALPHA;
+import static com.jogamp.opengl.GL2.GL_TEXTURE_2D;
+import static com.jogamp.opengl.GL2.GL_TEXTURE_COORD_ARRAY;
+import static com.jogamp.opengl.GL2.GL_TEXTURE_ENV;
+import static com.jogamp.opengl.GL2.GL_TEXTURE_ENV_MODE;
+import static com.jogamp.opengl.GL2.GL_TEXTURE_MAG_FILTER;
+import static com.jogamp.opengl.GL2.GL_TEXTURE_MIN_FILTER;
+import static com.jogamp.opengl.GL2.GL_TEXTURE_WRAP_S;
+import static com.jogamp.opengl.GL2.GL_TEXTURE_WRAP_T;
+import static com.jogamp.opengl.GL2.GL_TRIANGLES;
+import static com.jogamp.opengl.GL2.GL_TRIANGLE_FAN;
+import static com.jogamp.opengl.GL2.GL_TRIANGLE_STRIP;
+import static com.jogamp.opengl.GL2.GL_UNSIGNED_SHORT;
+import static com.jogamp.opengl.GL2.GL_VERTEX_ARRAY;
 
 /**
  * The GraphicsEngine object currently incorporates all drawing operations. It
@@ -42,7 +66,7 @@ public class AwtDisplay implements Display, GLEventListener {
 	private DisplayEventListener eventListener;
 
 	public AwtDisplay(DisplayEventListener eventListener) {
-		this.eventListener = eventListener; 
+		this.eventListener = eventListener;
 		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 12),
 				true, true);
 		setupGlCanvas();
@@ -70,7 +94,7 @@ public class AwtDisplay implements Display, GLEventListener {
 						new java.awt.Point(0, 0), "NOCURSOR"));
 		frame.setVisible(true);
 	}
-	
+
 	@Override
 	public V2 getTextBounds(final String text) {
 		Rectangle2D bounds = renderer.getBounds(text);
@@ -111,7 +135,7 @@ public class AwtDisplay implements Display, GLEventListener {
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		// We have a fresh GL context, retrieve reference.
-		gl = (GL2)canvas.getGL();
+		gl = (GL2) canvas.getGL();
 
 		gl.glEnable(GL_BLEND);
 		gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -126,7 +150,7 @@ public class AwtDisplay implements Display, GLEventListener {
 
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
-			int height) {
+						int height) {
 		size = new V2(width, height);
 
 		gl.glViewport(0, 0, (int) size.x, (int) size.y);

@@ -14,7 +14,7 @@ public class RubyPrismaTower extends Tower {
 	private static final long serialVersionUID = 3932215952475151291L;
 
 	public RubyPrismaTower(final TimedCodeManager timedCodeManager,
-			final int level) {
+						   final int level) {
 		super(timedCodeManager, new NearestEnemyColliderPolicy(), level);
 		color = new RGB(level * 10 + 10, 0, 0);
 	}
@@ -23,7 +23,9 @@ public class RubyPrismaTower extends Tower {
 		super(other);
 	}
 
-	public String getName() { return "Ruby Prisma"; }
+	public String getName() {
+		return "Ruby Prisma";
+	}
 
 	protected EnemySelectionPolicy getPolicyForLevel(int level) {
 		if (level > 1) {

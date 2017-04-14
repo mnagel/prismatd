@@ -1,12 +1,9 @@
 package com.avona.games.towerdefence.android;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
 import android.content.Context;
 import android.graphics.Paint;
-import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
+import android.opengl.GLU;
 
 import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.RGB;
@@ -17,6 +14,9 @@ import com.avona.games.towerdefence.gfx.DisplayEventListener;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.gfx.VertexArray;
 import com.example.google.LabelMaker;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 /**
  * This class provides all basic drawing primitives for the Android platform.
@@ -32,7 +32,7 @@ public class AndroidDisplay implements Display, Renderer {
 		this.eventListener = eventListener;
 
 		// Galaxy S has a DPI of roughly xhdpi (2.0). Let's take it as the reference metric.
-		int textSize = (int)(context.getResources().getDisplayMetrics().density / 2.0 * 20);
+		int textSize = (int) (context.getResources().getDisplayMetrics().density / 2.0 * 20);
 
 		labelPaint = new Paint();
 		labelPaint.setTextSize(textSize);
@@ -95,7 +95,7 @@ public class AndroidDisplay implements Display, Renderer {
 		}
 
 		labels.beginAdding(gl);
-		labelPaint.setARGB((int)(alpha*255), (int)(color.R*255), (int)(color.G*255), (int)(color.B * 255));
+		labelPaint.setARGB((int) (alpha * 255), (int) (color.R * 255), (int) (color.G * 255), (int) (color.B * 255));
 		final int l = labels.add(gl, text, labelPaint);
 		labels.endAdding(gl);
 

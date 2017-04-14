@@ -1,7 +1,5 @@
 package com.avona.games.towerdefence.tower;
 
-import java.util.List;
-
 import com.avona.games.towerdefence.LocationObject;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.RechargeTimer;
@@ -11,18 +9,19 @@ import com.avona.games.towerdefence.enemySelection.EnemySelectionPolicy;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.particleCollidors.ParticleColliderPolicy;
 
+import java.util.List;
+
 public abstract class Tower extends LocationObject {
 	private static final long serialVersionUID = 1L;
 
 	public EnemySelectionPolicy enemySelectionPolicy;
 	public ParticleColliderPolicy enemyParticleColliderPolicy;
 	public int level;
+	// The color the tower will be drawn with.
+	public RGB color;
 	protected RechargeTimer timer;
 	protected float range;
 	protected int price;
-
-	// The color the tower will be drawn with.
-	public RGB color;
 
 	public Tower(TimedCodeManager timedCodeManager,
 				 ParticleColliderPolicy enemyParticleColliderPolicy, int level) {
@@ -45,17 +44,17 @@ public abstract class Tower extends LocationObject {
 		color = t.color;
 	}
 
-    abstract public String getName();
+	abstract public String getName();
 
 	public int getPrice() {
-        return 10 + 2 * (level - 1);
-    }
+		return 10 + 2 * (level - 1);
+	}
 
-    public int getRange() {
-        return 75 + 2 * (level - 1);
-    }
+	public int getRange() {
+		return 75 + 2 * (level - 1);
+	}
 
-    public int getLevelUpPrice() {
+	public int getLevelUpPrice() {
 		return 5 + 2 * (level - 1);
 	}
 

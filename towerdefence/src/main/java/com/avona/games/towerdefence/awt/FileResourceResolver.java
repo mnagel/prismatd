@@ -1,11 +1,11 @@
 package com.avona.games.towerdefence.awt;
 
+import com.avona.games.towerdefence.res.ResourceResolver;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
-import com.avona.games.towerdefence.res.ResourceResolver;
 
 public class FileResourceResolver implements ResourceResolver {
 	private String baseDir;

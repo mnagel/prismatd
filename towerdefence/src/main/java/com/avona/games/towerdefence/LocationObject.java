@@ -23,9 +23,8 @@ public abstract class LocationObject implements Serializable {
 
 	/**
 	 * Update all state of the object based on the changed in-game time.
-	 * 
-	 * @param dt
-	 *            the time delta since the last invocation of step (1.0 = 1s)
+	 *
+	 * @param dt the time delta since the last invocation of step (1.0 = 1s)
 	 */
 	public abstract void step(final float dt);
 

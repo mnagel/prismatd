@@ -10,12 +10,12 @@ import com.avona.games.towerdefence.TickRater;
 import com.avona.games.towerdefence.TimeTrack;
 import com.avona.games.towerdefence.Transient;
 import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.mission.CellState;
 import com.avona.games.towerdefence.mission.GridCell;
-import com.avona.games.towerdefence.wave.WaveTracker;
-import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.Tower;
+import com.avona.games.towerdefence.wave.WaveTracker;
 
 import java.util.Collection;
 import java.util.Locale;
@@ -24,12 +24,9 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 	public static final int DEFAULT_HEIGHT = 480;
 	public static final int DEFAULT_WIDTH = 675;
-
+	public static final int MENU_BUTTON_COUNT = 5;
 	private static final String SEND_NEXT_WAVE_TEXT = "Send next Wave";
 	private static final String LEVEL_UP_TEXT = "Level up Tower";
-
-	public static final int MENU_BUTTON_COUNT = 5;
-
 	private Layer menuLayer;
 	private Layer gameLayer;
 
@@ -44,7 +41,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	private VertexArray[] overlayVertices;
 
 	public PortableGraphicsEngine(Display display, Game game, Mouse mouse,
-			LayerHerder layerHerder, PortableMainLoop ml) {
+								  LayerHerder layerHerder, PortableMainLoop ml) {
 		this.display = display;
 		this.game = game;
 		this.mouse = mouse;
@@ -258,10 +255,10 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 
 		int wavenr = game.mission.waveTracker.currentWaveNum();
-		Collection<Enemy> es = game.mission.getEnemyPreview(wavenr+1);
+		Collection<Enemy> es = game.mission.getEnemyPreview(wavenr + 1);
 		int enemyCount = es.size();
 		int i = 0;
-		for (Enemy e: es) {
+		for (Enemy e : es) {
 			V2 location = new V2(
 					(i + 1) * menuLayer.virtualRegion.x / (enemyCount + 1),
 					menuLayer.virtualRegion.y / 2.0f / MENU_BUTTON_COUNT
@@ -432,7 +429,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		if (overrideLocation != null) {
 			final String label = String.format("$%d", t.getPrice());
-			display.drawText(layer, label, true,location, RGB.WHITE, 1.0f);
+			display.drawText(layer, label, true, location, RGB.WHITE, 1.0f);
 		}
 	}
 
@@ -531,11 +528,11 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		VertexArray va = new VertexArray();
 		va.hasColour = true;
-		va.numCoords = segments+1;
+		va.numCoords = segments + 1;
 		va.reserveBuffers();
 
 		final double angleStep = 2 * Math.PI / segments;
-		final float[] cols = new float[] { colR, colG, colB, colA };
+		final float[] cols = new float[]{colR, colG, colB, colA};
 
 		for (int i = 0; i < segments; ++i) {
 			final double angle = i * angleStep;

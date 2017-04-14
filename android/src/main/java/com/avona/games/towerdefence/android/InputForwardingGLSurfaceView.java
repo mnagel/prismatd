@@ -13,7 +13,7 @@ class InputForwardingGLSurfaceView extends GLSurfaceView {
 	private Display display;
 
 	public InputForwardingGLSurfaceView(Context context, InputActor inputActor,
-			Display display) {
+										Display display) {
 		super(context);
 		this.inputActor = inputActor;
 		this.display = display;

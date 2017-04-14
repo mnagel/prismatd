@@ -1,8 +1,8 @@
 package com.avona.games.towerdefence.gfx;
 
-import java.util.ArrayList;
-
 import com.avona.games.towerdefence.V2;
+
+import java.util.ArrayList;
 
 public class DynamicCoordsArray {
 	public ArrayList<V2> coords = new ArrayList<V2>();

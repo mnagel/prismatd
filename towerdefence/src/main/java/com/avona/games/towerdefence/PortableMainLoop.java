@@ -1,24 +1,21 @@
 package com.avona.games.towerdefence;
 
-import java.io.Serializable;
-
 import com.avona.games.towerdefence.gfx.Display;
 import com.avona.games.towerdefence.gfx.DisplayEventDistributor;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.inputActors.GameInputActor;
 import com.avona.games.towerdefence.inputActors.LayeredInputActor;
-import com.avona.games.towerdefence.inputActors.MissionEditorInputActor;
 import com.avona.games.towerdefence.inputActors.MenuInputActor;
+import com.avona.games.towerdefence.inputActors.MissionEditorInputActor;
 import com.avona.games.towerdefence.mission.Mission;
 
+import java.io.Serializable;
+
 public abstract class PortableMainLoop implements Serializable {
-	private static final long serialVersionUID = 1L;
-
-	private static final float FIXED_TICK = 0.04f;
-
 	public static final String GAME_LAYER_NAME = "game";
 	public static final String MENU_LAYER_NAME = "menu";
-
+	private static final long serialVersionUID = 1L;
+	private static final float FIXED_TICK = 0.04f;
 	public Game game;
 	public Display display;
 	public PortableGraphicsEngine ge;
@@ -29,6 +26,10 @@ public abstract class PortableMainLoop implements Serializable {
 	public DisplayEventDistributor displayEventListener = new DisplayEventDistributor();
 	protected TimeTrack wallTime = new TimeTrack();
 	private float gameTicks = 0;
+
+	public static double getWallClock() {
+		return System.nanoTime() * Math.pow(10, -9);
+	}
 
 	protected void initWithGame() {
 		Layer gameLayer = new Layer();
@@ -57,10 +58,6 @@ public abstract class PortableMainLoop implements Serializable {
 		final Layer menuLayer = layerHerder.findLayerByName(MENU_LAYER_NAME);
 		inputActor.inputLayerMap.put(menuLayer, new MenuInputActor(game,
 				menuLayer));
-	}
-
-	public static double getWallClock() {
-		return System.nanoTime() * Math.pow(10, -9);
 	}
 
 	public void performLoop() {

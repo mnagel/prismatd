@@ -14,15 +14,17 @@ public class EmeraldPrismaTower extends Tower {
 	private static final long serialVersionUID = 730930808330710179L;
 
 	public EmeraldPrismaTower(final TimedCodeManager timedCodeManager,
-			final int level) {
+							  final int level) {
 		super(timedCodeManager, new NearestEnemyColliderPolicy(), level);
 		color = new RGB(0, level * 10 + 10, 0);
 	}
 
-	public String getName() { return "Emerald Prisma"; }
-
 	public EmeraldPrismaTower(final EmeraldPrismaTower other) {
 		super(other);
+	}
+
+	public String getName() {
+		return "Emerald Prisma";
 	}
 
 	protected EnemySelectionPolicy getPolicyForLevel(int level) {

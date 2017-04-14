@@ -1,8 +1,5 @@
 package com.avona.games.towerdefence.particle;
 
-import java.util.List;
-import java.util.Random;
-
 import com.avona.games.towerdefence.Collision;
 import com.avona.games.towerdefence.MovingObject;
 import com.avona.games.towerdefence.RGB;
@@ -10,25 +7,22 @@ import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particleCollidors.ParticleColliderPolicy;
 
+import java.util.List;
+import java.util.Random;
+
 public class Particle extends MovingObject {
 	private static final long serialVersionUID = 1L;
-
+	public static Random r = new Random();
 	public Enemy target;
-
 	public RGB strength;
-
 	protected float range = 5;
 	protected double timeAlive = 4.0;
-
 	protected boolean dead = false;
 	protected double counter = 0.0;
-
 	private ParticleColliderPolicy collidorPolicy;
 
-	public static Random r = new Random();
-
 	public Particle(V2 location, Enemy target,
-                    ParticleColliderPolicy collidorPolicy, int velocity, RGB strength) {
+					ParticleColliderPolicy collidorPolicy, int velocity, RGB strength) {
 		this.location = location.clone();
 		this.target = target;
 		this.collidorPolicy = collidorPolicy;
@@ -50,9 +44,8 @@ public class Particle extends MovingObject {
 	/**
 	 * Attack the enemy using a static damage value. The particle destroys
 	 * itself after destroying an enemy. Further attack calls are then ignored.
-	 * 
-	 * @param e
-	 *            Enemy to attack
+	 *
+	 * @param e Enemy to attack
 	 */
 	public void attack(Enemy e) {
 		if (isDead()) {

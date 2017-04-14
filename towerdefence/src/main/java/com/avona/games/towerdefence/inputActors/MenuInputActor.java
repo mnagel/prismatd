@@ -33,7 +33,7 @@ public class MenuInputActor extends EmptyInputActor {
 
 		if (btn == PortableGraphicsEngine.MENU_BUTTON_COUNT - 2) {
 			if (game.selectedObject instanceof Tower) {
-				final Tower t = (Tower)game.selectedObject;
+				final Tower t = (Tower) game.selectedObject;
 				game.levelUpTower(t);
 			}
 		}

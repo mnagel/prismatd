@@ -12,7 +12,6 @@ import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.util.AnimatorBase;
 import com.jogamp.opengl.util.FPSAnimator;
 
-import javax.swing.JOptionPane;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -20,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import javax.swing.JOptionPane;
 
 public class MainLoop extends PortableMainLoop implements GLEventListener {
 	private static final String SAVEGAME = "savegame";
@@ -30,12 +31,6 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 
 	public InputMangler input;
 	private AnimatorBase animator;
-
-	@Override
-	public void exit() {
-		animator.stop();
-		System.exit(0);
-	}
 
 	public MainLoop(String[] args, int startMission) {
 		super();
@@ -56,37 +51,6 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		}
 
 		initWithGame();
-	}
-
-	@Override
-	protected void initWithGame() {
-		super.initWithGame();
-
-		ResourceResolverRegistry.setInstance(new FileResourceResolver("gfx"));
-
-		AwtDisplay display = new AwtDisplay(displayEventListener);
-		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder, this);
-		displayEventListener.add(ge);
-		display.canvas.addGLEventListener(this);
-
-		setupInputActors();
-		input = new InputMangler(this, inputActor);
-
-		animator = new FPSAnimator(display.canvas, EXPECTED_FPS);
-		//animator.setRunAsFastAsPossible(false);
-		animator.start();
-
-		input.setupListeners(display);
-		this.display = display;
-	}
-
-	private void loadGame(final String filename) throws FileNotFoundException,
-			IOException, ClassNotFoundException {
-		final InputStream is = new FileInputStream(filename);
-		final ObjectInputStream ois = new ObjectInputStream(is);
-
-		// Otherwise the parent class would've set up game...
-		game = (Game) ois.readObject();
 	}
 
 	// TODO code duplication
@@ -120,6 +84,43 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 	}
 
 	@Override
+	public void exit() {
+		animator.stop();
+		System.exit(0);
+	}
+
+	@Override
+	protected void initWithGame() {
+		super.initWithGame();
+
+		ResourceResolverRegistry.setInstance(new FileResourceResolver("gfx"));
+
+		AwtDisplay display = new AwtDisplay(displayEventListener);
+		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder, this);
+		displayEventListener.add(ge);
+		display.canvas.addGLEventListener(this);
+
+		setupInputActors();
+		input = new InputMangler(this, inputActor);
+
+		animator = new FPSAnimator(display.canvas, EXPECTED_FPS);
+		//animator.setRunAsFastAsPossible(false);
+		animator.start();
+
+		input.setupListeners(display);
+		this.display = display;
+	}
+
+	private void loadGame(final String filename) throws FileNotFoundException,
+			IOException, ClassNotFoundException {
+		final InputStream is = new FileInputStream(filename);
+		final ObjectInputStream ois = new ObjectInputStream(is);
+
+		// Otherwise the parent class would've set up game...
+		game = (Game) ois.readObject();
+	}
+
+	@Override
 	public void display(GLAutoDrawable arg0) {
 		performLoop();
 	}
@@ -143,7 +144,7 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 
 	@Override
 	public void reshape(GLAutoDrawable arg0, int arg1, int arg2, int arg3,
-			int arg4) {
+						int arg4) {
 		// Unused.
 	}
 

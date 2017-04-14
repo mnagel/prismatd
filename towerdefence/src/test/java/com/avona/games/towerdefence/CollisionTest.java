@@ -1,11 +1,9 @@
 package com.avona.games.towerdefence;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
-import com.avona.games.towerdefence.Collision;
-import com.avona.games.towerdefence.V2;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class CollisionTest {
 

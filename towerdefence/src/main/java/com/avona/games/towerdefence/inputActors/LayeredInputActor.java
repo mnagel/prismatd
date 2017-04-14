@@ -1,7 +1,5 @@
 package com.avona.games.towerdefence.inputActors;
 
-import java.util.HashMap;
-
 import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.LayerHerder;
 import com.avona.games.towerdefence.Mouse;
@@ -10,17 +8,19 @@ import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.mission.MissionList;
 
+import java.util.HashMap;
+
 public class LayeredInputActor implements InputActor {
+	public HashMap<Layer, InputActor> inputLayerMap = new HashMap<Layer, InputActor>();
 	private PortableMainLoop ml;
 	private Mouse mouse;
 	private LayerHerder layerHerder;
 	private Layer lastLayer = null;
 	private boolean currentLayerSawMouseBtn1Down = false;
 	private boolean currentLayerSawMouseBtn2Down = false;
-	public HashMap<Layer, InputActor> inputLayerMap = new HashMap<Layer, InputActor>();
 
 	public LayeredInputActor(PortableMainLoop mainLoop, Mouse mouse,
-			LayerHerder layerHerder) {
+							 LayerHerder layerHerder) {
 		this.ml = mainLoop;
 		this.mouse = mouse;
 		this.layerHerder = layerHerder;

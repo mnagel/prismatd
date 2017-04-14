@@ -20,39 +20,29 @@ import java.util.Random;
 
 public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	public List<Enemy> enemies = new LinkedList<Enemy>();
 	public List<Tower> towers = new LinkedList<Tower>();
 	public List<Particle> particles = new LinkedList<Particle>();
 	public List<Transient> transients = new LinkedList<Transient>();
-
 	public TimeTrack gameTime = new TimeTrack();
 	public TimedCodeManager timedCodeManager = new TimedCodeManager();
-
 	public EventListener eventListener;
-
 	public Mission[] missions;
 	public int curMissionIdx;
 	public Mission mission;
-
 	public int killed = 0;
 	public int lives;
-
 	public int money;
-
 	/**
 	 * Which type of tower to build - if any.
 	 */
 	public Tower selectedBuildTower = null;
-
 	public boolean draggingTower = false;
-
 	/**
 	 * Currently selected, existing tower. We will typically show the properties
 	 * of that tower.
 	 */
 	public LocationObject selectedObject = null;
-
 	private EnemyDeathGivesMoney enemyDeathGivesMoney = new EnemyDeathGivesMoney(
 			this);
 	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(
@@ -64,11 +54,11 @@ public class Game implements Serializable {
 		this.missions = new Mission[MissionList.availableMissions.length];
 
 		for (int i = 0; i < this.missions.length; i++) {
-			Class<Mission> klass =  MissionList.availableMissions[i];
+			Class<Mission> klass = MissionList.availableMissions[i];
 
 			try {
 				Constructor<Mission> ctor = klass.getConstructor(Game.class);
-				Mission lvl = ctor.newInstance(new Object[] { this });
+				Mission lvl = ctor.newInstance(new Object[]{this});
 				this.missions[i] = lvl;
 			} catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
 				Util.log("died horribly in mission list hackery");
@@ -76,6 +66,17 @@ public class Game implements Serializable {
 		}
 
 		loadMission(startMission);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Object getLocationWithinRadius(final List objects,
+												 final V2 location, final float range) {
+		final List<LocationObject> locationObjects = (List<LocationObject>) objects;
+		for (final LocationObject lo : locationObjects) {
+			if (lo.collidesWith(location, range))
+				return lo;
+		}
+		return null;
 	}
 
 	public void loadMission(int missionIdx) {
@@ -150,7 +151,7 @@ public class Game implements Serializable {
 			mission.showOverlay = false;
 			return;
 		}
-		
+
 		Tower newTower = selectedBuildTower.clone();
 		newTower.location = new V2(where.center);
 		money -= newTower.getPrice();
@@ -180,8 +181,6 @@ public class Game implements Serializable {
 				1.0f));
 	}
 
-	static Random rand = new Random();
-
 	public void onEnemySpawned(Enemy e) {
 		e.eventListeners.add(enemyDeathGivesMoney);
 		e.eventListeners.add(enemyDeathUpdatesGameStats);
@@ -194,17 +193,6 @@ public class Game implements Serializable {
 
 	public Enemy getEnemyWithinRadius(V2 location, float range) {
 		return (Enemy) getLocationWithinRadius(enemies, location, range);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static Object getLocationWithinRadius(final List objects,
-			final V2 location, final float range) {
-		final List<LocationObject> locationObjects = (List<LocationObject>) objects;
-		for (final LocationObject lo : locationObjects) {
-			if (lo.collidesWith(location, range))
-				return lo;
-		}
-		return null;
 	}
 
 	public void pause() {
@@ -299,7 +287,7 @@ public class Game implements Serializable {
 
 	public void logDebugInfo() {
 		StringBuilder sb = new StringBuilder();
-		for (Enemy e: enemies) {
+		for (Enemy e : enemies) {
 			sb.append(e.toString()).append("\n");
 		}
 
@@ -308,7 +296,7 @@ public class Game implements Serializable {
 
 	public void addTransient(Transient newT) {
 		Iterator<Transient> it = transients.iterator();
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			Transient t = it.next();
 			if (t.isDead()) {
 				it.remove();

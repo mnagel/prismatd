@@ -36,9 +36,8 @@ public class Layer {
 	/**
 	 * Convert screen coordinate to a coordinate that is relative to and scaled
 	 * for the layer.
-	 * 
-	 * @param realPosition
-	 *            Screen coordinate to be converted.
+	 *
+	 * @param realPosition Screen coordinate to be converted.
 	 * @return Layer relative coordinate.
 	 */
 	public V2 convertToVirtual(final V2 realPosition) {

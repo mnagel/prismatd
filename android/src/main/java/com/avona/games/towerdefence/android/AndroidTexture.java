@@ -1,9 +1,5 @@
 package com.avona.games.towerdefence.android;
 
-import java.io.InputStream;
-
-import javax.microedition.khronos.opengles.GL10;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
@@ -11,6 +7,10 @@ import android.opengl.GLUtils;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
+
+import java.io.InputStream;
+
+import javax.microedition.khronos.opengles.GL10;
 
 public class AndroidTexture extends Texture {
 	private GL10 gl;

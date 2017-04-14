@@ -53,15 +53,15 @@ public class _101_Space extends Mission {
 
 	@Override
 	protected Tower[] loadBuildableTowers() {
-		return new Tower[] { new RubyPrismaTower(game.timedCodeManager, 1),
+		return new Tower[]{new RubyPrismaTower(game.timedCodeManager, 1),
 				new EmeraldPrismaTower(game.timedCodeManager, 1),
-				new SapphirePrismaTower(game.timedCodeManager, 1) };
+				new SapphirePrismaTower(game.timedCodeManager, 1)};
 	}
 
 	@Override
 	protected WaveEnemyConfig[][] loadEnemyWaves() {
-		return new WaveEnemyConfig[][] {
-				new WaveEnemyConfig[] {
+		return new WaveEnemyConfig[][]{
+				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 1),
 								0.35f),
@@ -82,8 +82,8 @@ public class _101_Space extends Mission {
 								0.35f),
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 1),
-								0.35f) },
-				new WaveEnemyConfig[] {
+								0.35f)},
+				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 2), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 2),
 								0.35f),
@@ -104,8 +104,8 @@ public class _101_Space extends Mission {
 								0.35f),
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 2), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 2),
-								0.35f) },
-				new WaveEnemyConfig[] {
+								0.35f)},
+				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 3), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 3),
 								0.35f),
@@ -126,8 +126,8 @@ public class _101_Space extends Mission {
 								0.35f),
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 3), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 3),
-								0.35f) },
-				new WaveEnemyConfig[] {
+								0.35f)},
+				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 4), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 4),
 								0.35f),
@@ -148,9 +148,9 @@ public class _101_Space extends Mission {
 								0.35f),
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 4), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 4),
-								0.35f) } };
+								0.35f)}};
 	}
-	
+
 	@Override
 	public String getMissionName() {
 		return "Space";

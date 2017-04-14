@@ -4,15 +4,16 @@ import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.gfx.ImageColorFormat;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
-
-import javax.imageio.ImageIO;
 import com.jogamp.opengl.GL;
+
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
+import javax.imageio.ImageIO;
 
 public class AwtTexture extends Texture {
 	private GL gl;
@@ -23,7 +24,7 @@ public class AwtTexture extends Texture {
 
 	// TODO Use a native method instead of this.
 	protected ByteBuffer resizeAndCopyToBuffer(byte[] data,
-			final ImageColorFormat fmt) {
+											   final ImageColorFormat fmt) {
 		assert nativeHeight * nativeWidth * 4 == data.length;
 
 		width = Util.roundUpPower2(nativeWidth);

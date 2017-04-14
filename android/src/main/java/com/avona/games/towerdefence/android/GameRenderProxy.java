@@ -1,11 +1,11 @@
 package com.avona.games.towerdefence.android;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
 import android.opengl.GLSurfaceView.Renderer;
 
 import com.avona.games.towerdefence.PortableMainLoop;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 public class GameRenderProxy implements Renderer {
 	private PortableMainLoop ml;

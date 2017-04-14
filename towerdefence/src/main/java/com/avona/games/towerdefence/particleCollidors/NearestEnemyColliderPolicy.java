@@ -1,16 +1,16 @@
 package com.avona.games.towerdefence.particleCollidors;
 
-import java.util.List;
-
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;
 
+import java.util.List;
+
 public class NearestEnemyColliderPolicy implements ParticleColliderPolicy {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	public void collideParticleWithEnemies(final Particle p,
-			final List<Enemy> enemies, final float dt) {
+										   final List<Enemy> enemies, final float dt) {
 		for (Enemy e : enemies) {
 			if (e.isDead()) {
 				continue;

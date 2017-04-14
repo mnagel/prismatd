@@ -1,8 +1,5 @@
 package com.avona.games.towerdefence.android;
 
-import com.avona.games.towerdefence.Util;
-import com.avona.games.towerdefence.mission.MissionList;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,15 +7,20 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.os.Vibrator;
 import android.os.PowerManager.WakeLock;
+import android.os.Vibrator;
+
+import com.avona.games.towerdefence.Util;
+import com.avona.games.towerdefence.mission.MissionList;
 
 public class MainActivity extends Activity {
-	private MainLoop ml;
 	protected WakeLock wl;
 	boolean paused = true; // onResume will start us
+	private MainLoop ml;
 
-	/** Called when the activity is first created. */
+	/**
+	 * Called when the activity is first created.
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

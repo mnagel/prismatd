@@ -1,37 +1,28 @@
 package com.avona.games.towerdefence.gfx;
 
+import com.avona.games.towerdefence.V2;
+
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.FloatBuffer;
 
-import com.avona.games.towerdefence.V2;
-
 final public class VertexArray {
-	public enum Mode {
-		TRIANGLE_FAN, TRIANGLE_STRIP, TRIANGLES, LINE_STRIP
-	}
-
 	public final static int FLOAT_SIZE = 4;
 	public final static int CHAR_SIZE = 2;
-
 	public int numCoords;
-	private ByteBuffer coordByteBuffer;
 	public FloatBuffer coordBuffer;
-
-	private ByteBuffer colourByteBuffer;
 	public FloatBuffer colourBuffer;
 	public boolean hasColour;
-
-	private ByteBuffer textureByteBuffer;
 	public FloatBuffer textureBuffer;
 	public Texture texture;
 	public boolean hasTexture;
-
 	public int numIndexes;
 	public ByteBuffer indexByteBuffer;
 	public CharBuffer indexBuffer;
-
 	public Mode mode;
+	private ByteBuffer coordByteBuffer;
+	private ByteBuffer colourByteBuffer;
+	private ByteBuffer textureByteBuffer;
 
 	public void reserveBuffers() {
 		final BufferCache bc = BufferCache.getInstance();
@@ -99,10 +90,10 @@ final public class VertexArray {
 	// do it better soon ;)
 	public void rotate(final V2 o, final float degrees) {
 		for (int i = 0; i < numCoords; i++) {
-			V2 unpack = new V2(coordBuffer.get(2*i), coordBuffer.get(2*i+1));
+			V2 unpack = new V2(coordBuffer.get(2 * i), coordBuffer.get(2 * i + 1));
 			unpack.rotate(o, degrees);
-			coordBuffer.put(2*i, unpack.x);
-			coordBuffer.put(2*i+1, unpack.y);
+			coordBuffer.put(2 * i, unpack.x);
+			coordBuffer.put(2 * i + 1, unpack.y);
 		}
 
 	}
@@ -113,7 +104,7 @@ final public class VertexArray {
 	}
 
 	public void addColour(final float colR, final float colG, final float colB,
-			final float colA) {
+						  final float colA) {
 		colourBuffer.put(colR);
 		colourBuffer.put(colG);
 		colourBuffer.put(colB);
@@ -127,5 +118,9 @@ final public class VertexArray {
 
 	public void addIndex(final int idx) {
 		indexBuffer.put((char) idx);
+	}
+
+	public enum Mode {
+		TRIANGLE_FAN, TRIANGLE_STRIP, TRIANGLES, LINE_STRIP
 	}
 }

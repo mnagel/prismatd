@@ -13,12 +13,16 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class AudioEngine extends Thread {
 
-	private String filename;
-
 	private final int EXTERNAL_BUFFER_SIZE = 128 * 1024;
+	private String filename;
 
 	public AudioEngine(String wavfile) {
 		filename = wavfile;
+	}
+
+	public static void main(String[] args) {
+		new AudioEngine("/tmp/bla.wav").start();
+		new AudioEngine("/tmp/bla2.wav").start();
 	}
 
 	public void run() {
@@ -73,10 +77,5 @@ public class AudioEngine extends Thread {
 			auline.close();
 		}
 
-	}
-
-	public static void main(String[] args) {
-		new AudioEngine("/tmp/bla.wav").start();
-		new AudioEngine("/tmp/bla2.wav").start();
 	}
 }

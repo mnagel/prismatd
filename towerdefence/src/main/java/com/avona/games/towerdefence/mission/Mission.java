@@ -25,9 +25,9 @@ public abstract class Mission implements Serializable, WaveSender {
 	public final static float HEIGHT = 480;
 	private static final long serialVersionUID = 1L;
 	public final float WAYPOINT_WIDTH = 4.0f;
-	public GridCell[] waypoints;
 	public final Tower[] buildableTowers;
 	private final WaveEnemyConfig[][] enemyWaves;
+	public GridCell[] waypoints;
 	public String gameBackgroundName;
 	public String menuBackgroundName;
 	public String overlayBackgroundName;
@@ -41,62 +41,6 @@ public abstract class Mission implements Serializable, WaveSender {
 	public int gridCellCountY;
 
 	protected Game game;
-
-	public void parseMissionDefinition(String missionDefinition) {
-		gridCellCountX = 16;
-		gridCellCountY = 12;
-		gridCells2d = new GridCell[gridCellCountX][gridCellCountY];
-		gridCells = new GridCell[gridCellCountX * gridCellCountY];
-		for (int x = 0; x < gridCellCountX; x++) {
-			for (int y = 0; y < gridCellCountY; y++) {
-				GridCell c = new GridCell(x, y, new V2((x+0.5f)*GridCell.width, (y+0.5f)*GridCell.heigth), CellState.FREE);
-				gridCells2d[x][y] = c;
-				gridCells[x* gridCellCountY +y] = c;
-			}
-		}
-
-		HashMap<Integer, GridCell> wp = new HashMap<>();
-
-		int yy = -1;
-
-		for (String row: missionDefinition.split("\n")) {
-			yy++;
-			int xx = -1;
-			for (char c: row.toCharArray()) {
-				xx++;
-
-				int x = xx; // gridCellCountX - xx - 1;
-				int y = gridCellCountY - yy - 1;
-
-				if (c == '.') {
-					gridCells2d[x][y].state = CellState.FREE;
-				} else {
-					gridCells2d[x][y].state = CellState.WAY;
-				}
-
-				if((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f')) {
-					wp.put((int)c, gridCells2d[x][y]);
-				}
-			}
-		}
-
-		List<Integer> is = new ArrayList<>(wp.keySet());
-		Collections.sort(is);
-		this.waypoints = new GridCell[is.size()];
-		for (int i = 0; i < is.size(); i++) {
-			this.waypoints[i] = wp.get(is.get(i));
-		}
-	}
-
-	public GridCell getCellAt(V2 location) {
-		int x = (int)Math.floor(location.x / GridCell.width);
-		int y = (int)Math.floor(location.y / GridCell.heigth);
-		if (x >= 0 && x < gridCellCountX && y >= 0 && y < gridCellCountY) {
-			return gridCells2d[x][y];
-		} else {
-			return null;
-		}
-	}
 
 	public Mission(final Game game) {
 		String l = this.getMissionDefinitionString();
@@ -115,6 +59,62 @@ public abstract class Mission implements Serializable, WaveSender {
 			V2 menuPos = new V2(1, i);
 			Tower t = buildableTowers[i];
 			t.location = menuPos;
+		}
+	}
+
+	public void parseMissionDefinition(String missionDefinition) {
+		gridCellCountX = 16;
+		gridCellCountY = 12;
+		gridCells2d = new GridCell[gridCellCountX][gridCellCountY];
+		gridCells = new GridCell[gridCellCountX * gridCellCountY];
+		for (int x = 0; x < gridCellCountX; x++) {
+			for (int y = 0; y < gridCellCountY; y++) {
+				GridCell c = new GridCell(x, y, new V2((x + 0.5f) * GridCell.width, (y + 0.5f) * GridCell.heigth), CellState.FREE);
+				gridCells2d[x][y] = c;
+				gridCells[x * gridCellCountY + y] = c;
+			}
+		}
+
+		HashMap<Integer, GridCell> wp = new HashMap<>();
+
+		int yy = -1;
+
+		for (String row : missionDefinition.split("\n")) {
+			yy++;
+			int xx = -1;
+			for (char c : row.toCharArray()) {
+				xx++;
+
+				int x = xx; // gridCellCountX - xx - 1;
+				int y = gridCellCountY - yy - 1;
+
+				if (c == '.') {
+					gridCells2d[x][y].state = CellState.FREE;
+				} else {
+					gridCells2d[x][y].state = CellState.WAY;
+				}
+
+				if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f')) {
+					wp.put((int) c, gridCells2d[x][y]);
+				}
+			}
+		}
+
+		List<Integer> is = new ArrayList<>(wp.keySet());
+		Collections.sort(is);
+		this.waypoints = new GridCell[is.size()];
+		for (int i = 0; i < is.size(); i++) {
+			this.waypoints[i] = wp.get(is.get(i));
+		}
+	}
+
+	public GridCell getCellAt(V2 location) {
+		int x = (int) Math.floor(location.x / GridCell.width);
+		int y = (int) Math.floor(location.y / GridCell.heigth);
+		if (x >= 0 && x < gridCellCountX && y >= 0 && y < gridCellCountY) {
+			return gridCells2d[x][y];
+		} else {
+			return null;
 		}
 	}
 
@@ -145,7 +145,7 @@ public abstract class Mission implements Serializable, WaveSender {
 		}
 
 		LinkedHashMap<String, Enemy> col = new LinkedHashMap<>(); // keep insertion order
-		for (WaveEnemyConfig we: this.enemyWaves[waveId]) {
+		for (WaveEnemyConfig we : this.enemyWaves[waveId]) {
 			col.put(we.enemy.getClass().getSimpleName(), we.enemy);
 		}
 		return col.values();

@@ -27,13 +27,12 @@ public class TimeTrack implements Serializable {
 
 	/**
 	 * Progress time by specifying new wall clock.
-	 * 
+	 * <p>
 	 * You may alternatively also use updateTick(), but don't use both at the
 	 * same time.
-	 * 
+	 *
+	 * @param wallClock New wall clock time.
 	 * @see TimeTrack#updateTick(double)
-	 * @param wallClock
-	 *            New wall clock time.
 	 */
 	public void update(double wallClock) {
 		if (lastWallClock != 0)
@@ -43,12 +42,12 @@ public class TimeTrack implements Serializable {
 
 	/**
 	 * Progress time by specifying time delta.
-	 * 
+	 * <p>
 	 * You may alternatively also use update(), but don't use both at the same
 	 * time.
-	 * 
-	 * @see TimeTrack#update(double)
+	 *
 	 * @param wallTick
+	 * @see TimeTrack#update(double)
 	 */
 	public void updateTick(float wallTick) {
 		if (running) {

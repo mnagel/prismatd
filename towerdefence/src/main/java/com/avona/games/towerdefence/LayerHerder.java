@@ -26,9 +26,8 @@ public class LayerHerder {
 
 	/**
 	 * Determines which layer the specified screen point falls into.
-	 * 
-	 * @param point
-	 *            Screen position.
+	 *
+	 * @param point Screen position.
 	 * @return Returns the matching layer or DEFAULT_LAYER if none was found.
 	 */
 	public Layer findLayerWithinPoint(V2 point) {

@@ -21,7 +21,8 @@ public class TimedCodeManager implements Serializable {
 		clock += dt;
 
 		// Find code that timed out and execute it.
-		parse_again: do {
+		parse_again:
+		do {
 			modified = false;
 			Iterator<TimedCode> titer = timedCode.iterator();
 			while (titer.hasNext()) {
@@ -45,11 +46,9 @@ public class TimedCodeManager implements Serializable {
 	/**
 	 * startTime should not be set beforehand. when calling multiple times, use
 	 * in chronological order.
-	 * 
-	 * @param delay
-	 *            delay in seconds from now
-	 * @param newCode
-	 *            code to execute then.
+	 *
+	 * @param delay   delay in seconds from now
+	 * @param newCode code to execute then.
 	 */
 	public void addCode(final float delay, final TimedCode newCode) {
 		modified = true;

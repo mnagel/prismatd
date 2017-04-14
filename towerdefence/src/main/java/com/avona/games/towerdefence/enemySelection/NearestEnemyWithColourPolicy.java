@@ -1,10 +1,10 @@
 package com.avona.games.towerdefence.enemySelection;
 
-import java.util.List;
-
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.tower.Tower;
+
+import java.util.List;
 
 public class NearestEnemyWithColourPolicy implements EnemySelectionPolicy {
 	private static final long serialVersionUID = 1L;
@@ -14,7 +14,7 @@ public class NearestEnemyWithColourPolicy implements EnemySelectionPolicy {
 	private boolean withBlue;
 
 	public NearestEnemyWithColourPolicy(boolean withRed, boolean withGreen,
-			boolean withBlue) {
+										boolean withBlue) {
 		this.withRed = withRed;
 		this.withGreen = withGreen;
 		this.withBlue = withBlue;

@@ -8,7 +8,7 @@ import com.avona.games.towerdefence.V2;
  * This class provides all basic drawing primitives.
  */
 public interface Display {
-	
+
 	public V2 getSize();
 
 	public Texture allocateTexture();

@@ -2,7 +2,7 @@ package com.avona.games.towerdefence;
 
 public class Collision {
 	public static boolean circleCollidesWithCircle(final V2 location0,
-			final float radius0, final V2 location1, final float radius1) {
+												   final float radius0, final V2 location1, final float radius1) {
 		final float squaredDist = location0.squaredDist(location1);
 		final float totalRadius = radius0 + radius1;
 		final float squaredTotalRadius = totalRadius * totalRadius;
@@ -10,8 +10,8 @@ public class Collision {
 	}
 
 	public static boolean movingCircleCollidedWithCircle(final V2 location0,
-			final V2 velocity0, final float radius0, final V2 location1,
-			final V2 velocity1, final float radius1, final float dt) {
+														 final V2 velocity0, final float radius0, final V2 location1,
+														 final V2 velocity1, final float radius1, final float dt) {
 		V2 previousLocation0 = new V2(location0);
 		V2 scaledVelocity0 = new V2(velocity0);
 		scaledVelocity0.mult(dt);
@@ -27,8 +27,8 @@ public class Collision {
 	}
 
 	public static boolean movingCircleCollidesWithCircle(final V2 location0,
-			final V2 velocity0, final float radius0, final V2 location1,
-			final V2 velocity1, final float radius1, final float dt) {
+														 final V2 velocity0, final float radius0, final V2 location1,
+														 final V2 velocity1, final float radius1, final float dt) {
 		final float totalRadius = radius0 + radius1;
 		final float squaredTotalRadius = totalRadius * totalRadius;
 

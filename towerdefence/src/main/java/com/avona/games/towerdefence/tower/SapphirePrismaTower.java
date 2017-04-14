@@ -14,7 +14,7 @@ public class SapphirePrismaTower extends Tower {
 	private static final long serialVersionUID = -8299463941517744976L;
 
 	public SapphirePrismaTower(final TimedCodeManager timedCodeManager,
-			final int level) {
+							   final int level) {
 		super(timedCodeManager, new NearestEnemyColliderPolicy(), level);
 		color = new RGB(0, 0, level * 10 + 10);
 	}
@@ -23,7 +23,9 @@ public class SapphirePrismaTower extends Tower {
 		super(other);
 	}
 
-	public String getName() { return "Sapphire Prisma"; }
+	public String getName() {
+		return "Sapphire Prisma";
+	}
 
 	protected EnemySelectionPolicy getPolicyForLevel(int level) {
 		if (level > 1) {

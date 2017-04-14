@@ -1,9 +1,9 @@
 package com.avona.games.towerdefence;
 
+import com.avona.games.towerdefence.mission.Mission;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import com.avona.games.towerdefence.mission.Mission;
 
 public final class Util {
 	public static void log(String s) {
@@ -29,7 +29,7 @@ public final class Util {
 		e.printStackTrace(new PrintWriter(sw));
 		return sw.toString();
 	}
-	
+
 	// FIXME get some support for functional mapping from somewhere
 	public static String[] mapMissionNames(Class<Mission>[] missions) {
 		String[] res = new String[missions.length];
