@@ -31,10 +31,10 @@ public final class Util {
 	}
 	
 	// FIXME get some support for functional mapping from somewhere
-	public static String[] mapLevelNames(Level[] levels) {
+	public static String[] mapLevelNames(Class<Level>[] levels) {
 		String[] res = new String[levels.length];
 		for (int i = 0; i < levels.length; i++) {
-			res[i] = levels[i].levelName;
+			res[i] = levels[i].getSimpleName();
 		}
 		return res;
 	}

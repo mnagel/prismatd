@@ -5,6 +5,7 @@ import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.PortableMainLoop;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
+import com.avona.games.towerdefence.level.LevelList;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
@@ -36,12 +37,12 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		System.exit(0);
 	}
 
-	public MainLoop(String[] args) {
+	public MainLoop(String[] args, int startLevel) {
 		super();
 		// TODO use proper option parser
 
 		if (args.length == 0) {
-			game = new Game(eventListener);
+			game = new Game(eventListener, startLevel);
 		} else {
 			try {
 				loadGame(args[0]);
@@ -88,6 +89,19 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		game = (Game) ois.readObject();
 	}
 
+	// TODO code duplication
+	private static int userSelectsAString(String title, String message, String[] strings) {
+		int x = JOptionPane.showOptionDialog(
+				null,
+				message,
+				title,
+				0,
+				0, null, strings, null);
+
+		if (x == JOptionPane.CLOSED_OPTION) x = -1;
+		return x;
+	}
+
 	public static void main(String[] args) {
 		String[] arg2 = args;
 
@@ -99,7 +113,10 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 			System.arraycopy(args, 1, arg2, 0, arg2.length);
 		}
 
-		new MainLoop(arg2);
+		String[] levels = Util.mapLevelNames(LevelList.levels);
+		int startLevel = userSelectsAString("Load Level", "Please select a Level to load:", levels);
+
+		new MainLoop(arg2, startLevel);
 	}
 
 	@Override
