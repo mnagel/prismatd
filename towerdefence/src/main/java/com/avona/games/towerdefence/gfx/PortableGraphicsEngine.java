@@ -24,6 +24,9 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	public static final int DEFAULT_WIDTH = 675;
 
 	private static final String SEND_NEXT_WAVE_TEXT = "Send next wave";
+	private static final String LEVEL_UP_TEXT = "Level up tower";
+
+	public static final int MENU_BUTTON_COUNT = 5;
 
 	private Layer menuLayer;
 	private Layer gameLayer;
@@ -208,30 +211,36 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		for (int i = 0; i < game.level.buildableTowers.length; i++) {
 			Tower t = game.level.buildableTowers[i];
-			float buttonCount = 4;
+
 			V2 location = new V2(
 					menuLayer.virtualRegion.x * 0.5f,
-					menuLayer.virtualRegion.y * (1.0f - (i + 0.5f) / buttonCount));
+					menuLayer.virtualRegion.y * (1.0f - (i + 0.5f) / MENU_BUTTON_COUNT));
 			renderTower(t, location, menuLayer);
+		}
+
+		if (game.selectedObject instanceof Tower) {
+			display.drawText(menuLayer, LEVEL_UP_TEXT, true,
+					new V2(menuLayer.virtualRegion.x * 0.5f,
+							menuLayer.virtualRegion.y * (1.0f - (MENU_BUTTON_COUNT - 2 + 0.5f) / MENU_BUTTON_COUNT)),
+					new RGB(1.0f, 1.0f, 1.0f), 1.0f);
 		}
 
 		int wavenr = game.level.waveTracker.currentWaveNum();
 		Collection<Enemy> es = game.level.getEnemyPreview(wavenr+1);
+		int enemyCount = es.size();
 		int i = 0;
-		float buttonCount = 4;
 		for (Enemy e: es) {
-			i++;
 			V2 location = new V2(
-					i * menuLayer.virtualRegion.x / 4,
-					menuLayer.virtualRegion.y / (2.0f* buttonCount)
+					(i + 1) * menuLayer.virtualRegion.x / (enemyCount + 1),
+					menuLayer.virtualRegion.y / 2.0f / MENU_BUTTON_COUNT
 			);
 			e.location = location;
 			renderEnemy(e);
-
+			i++;
 		}
 
 		display.drawText(menuLayer, SEND_NEXT_WAVE_TEXT, true,
-				new V2(menuLayer.virtualRegion.x / 2, menuLayer.virtualRegion.y / 2.0f / buttonCount),
+				new V2(menuLayer.virtualRegion.x / 2, menuLayer.virtualRegion.y / 2.0f / MENU_BUTTON_COUNT),
 				new RGB(1.0f, 1.0f, 1.0f), 1.0f);
 		display.resetTransformation();
 	}
