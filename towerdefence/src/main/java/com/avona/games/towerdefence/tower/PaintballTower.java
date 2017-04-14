@@ -10,10 +10,6 @@ import com.avona.games.towerdefence.particle.PaintballParticle;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.particleCollidors.NearestEnemyCollidorPolicy;
 
-/**
- * Created by mna on 14.04.17.
- */
-
 public class PaintballTower extends Tower {
     public PaintballTower(final TimedCodeManager timedCodeManager,
                               final int level) {
@@ -41,6 +37,7 @@ public class PaintballTower extends Tower {
     @Override
     public Particle makeParticle(final Enemy e) {
         return new PaintballParticle(location, e, enemyParticleCollidorPolicy,
-                150 + 2 * (level - 1), new RGB(0, 500 * (level + 1), 0));
+                150 + 2 * (level - 1), new RGB(0, 500 * (level + 1), 0),
+                new RGB(1.0f, 0, 0));
     }
 }
