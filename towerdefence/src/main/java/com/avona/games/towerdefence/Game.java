@@ -147,7 +147,7 @@ public class Game implements Serializable {
 		Tower newTower = selectedBuildTower.clone();
 		newTower.location = new V2(location);
 		money -= newTower.getPrice();
-		transients.add(new TransientText(
+		addTransient(new TransientText(
 				String.format("-$%d", newTower.getPrice()),
 				1.5f,
 				location,
@@ -164,6 +164,12 @@ public class Game implements Serializable {
 			return;
 		money -= price;
 		t.setLevel(t.level + 1);
+		addTransient(new TransientText(
+				String.format("-$%d", price),
+				1.5f,
+				t.location,
+				new RGB(1.0f, 1.0f, 1.0f),
+				1.0f));
 	}
 
 	static Random rand = new Random();
@@ -290,5 +296,21 @@ public class Game implements Serializable {
 		}
 
 		Util.log(sb.toString());
+	}
+
+	public void addTransient(Transient newT) {
+		Iterator<Transient> it = transients.iterator();
+		while(it.hasNext()) {
+			Transient t = it.next();
+			if (t.isDead()) {
+				it.remove();
+				continue;
+			}
+			if (t.getLocation().equals(newT.getLocation())) {
+				it.remove();
+				continue;
+			}
+		}
+		transients.add(newT);
 	}
 }
