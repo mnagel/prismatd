@@ -13,7 +13,10 @@ import com.avona.games.towerdefence.wave.WaveTracker;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public abstract class Level implements Serializable, WaveSender {
 	public final static float ORIGIN_X = 0;
@@ -22,7 +25,7 @@ public abstract class Level implements Serializable, WaveSender {
 	public final static float HEIGHT = 480;
 	private static final long serialVersionUID = 1L;
 	public final float WAYPOINT_WIDTH = 4.0f;
-	public final V2[] waypoints;
+	public GridCell[] waypoints;
 	public final Tower[] buildableTowers;
 	private final WaveEnemyConfig[][] enemyWaves;
 	public String gameBackgroundName;
@@ -32,16 +35,68 @@ public abstract class Level implements Serializable, WaveSender {
 	public String levelName;
 	public WaveTracker waveTracker = new WaveTracker(this);
 	public boolean completed = false;
+	public GridCell[][] gridCells2d;
+	public GridCell[] gridCells;
+	public int gridCellCountX;
+	public int gridCellCountY;
 
 	protected Game game;
 
+	public void parseLevelDefinition(String levelDefinition) {
+		gridCellCountX = 16;
+		gridCellCountY = 12;
+		gridCells2d = new GridCell[gridCellCountX][gridCellCountY];
+		gridCells = new GridCell[gridCellCountX * gridCellCountY];
+		for (int x = 0; x < gridCellCountX; x++) {
+			for (int y = 0; y < gridCellCountY; y++) {
+				GridCell c = new GridCell(x, y, new V2((x+0.5f)*GridCell.width, (y+0.5f)*GridCell.heigth), CellState.FREE);
+				gridCells2d[x][y] = c;
+				gridCells[x* gridCellCountY +y] = c;
+			}
+		}
+
+		HashMap<Integer, GridCell> wp = new HashMap<>();
+
+		int yy = -1;
+
+		for (String row: levelDefinition.split("\n")) {
+			yy++;
+			int xx = -1;
+			for (char c: row.toCharArray()) {
+				xx++;
+
+				int x = xx; // gridCellCountX - xx - 1;
+				int y = gridCellCountY - yy - 1;
+
+				if (c == '.') {
+					gridCells2d[x][y].state = CellState.FREE;
+				} else {
+					gridCells2d[x][y].state = CellState.WAY;
+				}
+
+				if(c >= '0' && c <= '9') {
+					wp.put((int)c, gridCells2d[x][y]);
+				}
+			}
+		}
+
+		List<Integer> is = new ArrayList<>(wp.keySet());
+		Collections.sort(is);
+		this.waypoints = new GridCell[is.size()];
+		for (int i = 0; i < is.size(); i++) {
+			this.waypoints[i] = wp.get(is.get(i));
+		}
+	}
+
 	public Level(final Game game) {
+		String l = this.getLevelDefinitionString();
+		this.parseLevelDefinition(l);
+
 		this.game = game;
 		this.gameBackgroundName = getGameBackgroundName();
 		this.menuBackgroundName = getMenuBackgroundName();
 		this.overlayBackgroundName = getOverlayBackgroundName();
 		this.levelName = getLevelName();
-		this.waypoints = loadWaypoints();
 		this.enemyWaves = loadEnemyWaves();
 		this.buildableTowers = loadBuildableTowers();
 
@@ -86,10 +141,7 @@ public abstract class Level implements Serializable, WaveSender {
 		return col.values();
 	}
 
-	/**
-	 * @return The amount of money the player starts with.
-	 */
-	protected abstract V2[] loadWaypoints();
+	protected abstract String getLevelDefinitionString();
 
 	protected abstract WaveEnemyConfig[][] loadEnemyWaves();
 
