@@ -7,7 +7,7 @@ import com.avona.games.towerdefence.enemySelection.EnemySelectionPolicy;
 import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
 import com.avona.games.towerdefence.enemySelection.NearestEnemyWithColourPolicy;
 import com.avona.games.towerdefence.particle.Particle;
-import com.avona.games.towerdefence.particleCollidors.NearestEnemyCollidorPolicy;
+import com.avona.games.towerdefence.particleCollidors.NearestEnemyColliderPolicy;
 
 public class EmeraldPrismaTower extends Tower {
 
@@ -15,7 +15,7 @@ public class EmeraldPrismaTower extends Tower {
 
 	public EmeraldPrismaTower(final TimedCodeManager timedCodeManager,
 			final int level) {
-		super(timedCodeManager, new NearestEnemyCollidorPolicy(), level);
+		super(timedCodeManager, new NearestEnemyColliderPolicy(), level);
 		color = new RGB(0, level * 10 + 10, 0);
 	}
 
@@ -39,7 +39,7 @@ public class EmeraldPrismaTower extends Tower {
 
 	@Override
 	public Particle makeParticle(final Enemy e) {
-		return new Particle(location, e, enemyParticleCollidorPolicy,
+		return new Particle(location, e, enemyParticleColliderPolicy,
 				150 + 2 * (level - 1), new RGB(0, 10 + 2 * (level - 1), 0));
 	}
 }

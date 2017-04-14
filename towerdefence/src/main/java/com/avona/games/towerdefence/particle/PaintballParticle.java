@@ -3,7 +3,7 @@ package com.avona.games.towerdefence.particle;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
-import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
+import com.avona.games.towerdefence.particleCollidors.ParticleColliderPolicy;
 
 /**
  * PaintballParticle has a color that it applies to the target enemy as attack damage.
@@ -15,7 +15,7 @@ import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
 public class PaintballParticle extends Particle {
     public RGB mask;
 
-    public PaintballParticle(V2 location, Enemy target, ParticleCollidorPolicy collidorPolicy, int velocity, RGB strength, RGB mask) {
+    public PaintballParticle(V2 location, Enemy target, ParticleColliderPolicy collidorPolicy, int velocity, RGB strength, RGB mask) {
         super(location, target, collidorPolicy, velocity, strength);
         this.mask = mask;
     }

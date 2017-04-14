@@ -5,7 +5,7 @@ import java.util.List;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;
 
-public class OnlyTargetEnemyCollidorPolicy implements ParticleCollidorPolicy {
+public class OnlyTargetEnemyColliderPolicy implements ParticleColliderPolicy {
 	private static final long serialVersionUID = 1L;
 
 	@Override

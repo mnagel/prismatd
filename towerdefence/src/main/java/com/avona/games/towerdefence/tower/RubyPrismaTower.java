@@ -7,7 +7,7 @@ import com.avona.games.towerdefence.enemySelection.EnemySelectionPolicy;
 import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
 import com.avona.games.towerdefence.enemySelection.NearestEnemyWithColourPolicy;
 import com.avona.games.towerdefence.particle.Particle;
-import com.avona.games.towerdefence.particleCollidors.NearestEnemyCollidorPolicy;
+import com.avona.games.towerdefence.particleCollidors.NearestEnemyColliderPolicy;
 
 public class RubyPrismaTower extends Tower {
 
@@ -15,7 +15,7 @@ public class RubyPrismaTower extends Tower {
 
 	public RubyPrismaTower(final TimedCodeManager timedCodeManager,
 			final int level) {
-		super(timedCodeManager, new NearestEnemyCollidorPolicy(), level);
+		super(timedCodeManager, new NearestEnemyColliderPolicy(), level);
 		color = new RGB(level * 10 + 10, 0, 0);
 	}
 
@@ -39,7 +39,7 @@ public class RubyPrismaTower extends Tower {
 
 	@Override
 	public Particle makeParticle(Enemy e) {
-		return new Particle(location, e, enemyParticleCollidorPolicy,
+		return new Particle(location, e, enemyParticleColliderPolicy,
 				150 + 2 * (level - 1), new RGB(10 + 2 * (level - 1), 0, 0));
 	}
 }

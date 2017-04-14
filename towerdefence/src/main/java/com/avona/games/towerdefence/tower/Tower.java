@@ -9,13 +9,13 @@ import com.avona.games.towerdefence.TimedCodeManager;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemySelection.EnemySelectionPolicy;
 import com.avona.games.towerdefence.particle.Particle;
-import com.avona.games.towerdefence.particleCollidors.ParticleCollidorPolicy;
+import com.avona.games.towerdefence.particleCollidors.ParticleColliderPolicy;
 
 public abstract class Tower extends LocationObject {
 	private static final long serialVersionUID = 1L;
 
 	public EnemySelectionPolicy enemySelectionPolicy;
-	public ParticleCollidorPolicy enemyParticleCollidorPolicy;
+	public ParticleColliderPolicy enemyParticleColliderPolicy;
 	public int level;
 	protected RechargeTimer timer;
 	protected float range;
@@ -25,10 +25,10 @@ public abstract class Tower extends LocationObject {
 	public RGB color;
 
 	public Tower(TimedCodeManager timedCodeManager,
-			ParticleCollidorPolicy enemyParticleCollidorPolicy, int level) {
+				 ParticleColliderPolicy enemyParticleColliderPolicy, int level) {
 		super();
 		this.enemySelectionPolicy = getPolicyForLevel(level);
-		this.enemyParticleCollidorPolicy = enemyParticleCollidorPolicy;
+		this.enemyParticleColliderPolicy = enemyParticleColliderPolicy;
 		this.level = level;
 		timer = new RechargeTimer(timedCodeManager, 0.3f);
 		radius = 16;
@@ -37,14 +37,14 @@ public abstract class Tower extends LocationObject {
 	public Tower(final Tower t) {
 		super(t);
 		enemySelectionPolicy = t.enemySelectionPolicy;
-		enemyParticleCollidorPolicy = t.enemyParticleCollidorPolicy;
+		enemyParticleColliderPolicy = t.enemyParticleColliderPolicy;
 		level = t.level;
 		timer = t.timer.clone();
 		range = t.range;
 		price = t.price;
 		color = t.color;
 	}
-	
+
     abstract public String getName();
 
 	public int getPrice() {
