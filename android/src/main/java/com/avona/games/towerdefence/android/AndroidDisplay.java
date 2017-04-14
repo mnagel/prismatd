@@ -32,7 +32,7 @@ public class AndroidDisplay implements Display, Renderer {
 		this.eventListener = eventListener;
 
 		// Galaxy S has a DPI of roughly xhdpi (2.0). Let's take it as the reference metric.
-		int textSize = (int)(context.getResources().getDisplayMetrics().density / 2.0 * 16);
+		int textSize = (int)(context.getResources().getDisplayMetrics().density / 2.0 * 20);
 
 		labelPaint = new Paint();
 		labelPaint.setTextSize(textSize);
