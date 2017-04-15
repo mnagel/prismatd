@@ -20,6 +20,22 @@ public class NearestEnemyWithColourPolicy implements EnemySelectionPolicy {
 		this.withBlue = withBlue;
 	}
 
+	@Override
+	public String getName() {
+		StringBuilder b = new StringBuilder();
+		b.append("Nearest Enemy");
+		if (this.withRed) {
+			b.append(" Red");
+		}
+		if (this.withGreen) {
+			b.append(" Green");
+		}
+		if (this.withBlue) {
+			b.append(" Blue");
+		}
+		return b.toString();
+	}
+
 	final private boolean enemyHasOurColours(final Enemy e) {
 		final RGB l = e.life;
 		return (withRed && l.R > 0) || (withGreen && l.G > 0)

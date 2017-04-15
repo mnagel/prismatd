@@ -328,7 +328,8 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		if (game.selectedObject != null) {
 			if (game.selectedObject instanceof Tower) {
 				final Tower t = (Tower) game.selectedObject;
-				towerString = String.format(Locale.US, "%s Lev%d | ", t.getName(), t.level);
+				towerString = String.format(Locale.US, "%s Lev%d %s | ",
+						t.getName(), t.level, t.enemySelectionPolicy.getName());
 			} else if (game.selectedObject instanceof Enemy) {
 				final Enemy e = (Enemy) game.selectedObject;
 				towerString = String

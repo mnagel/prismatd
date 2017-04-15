@@ -8,6 +8,10 @@ import java.util.List;
 public class NearestEnemyPolicy implements EnemySelectionPolicy {
 	private static final long serialVersionUID = 1L;
 
+	public String getName() {
+		return "Nearest Enemy";
+	}
+
 	@Override
 	public Enemy findSuitableEnemy(Tower t, List<Enemy> enemies) {
 		Enemy bestEnemy = null;

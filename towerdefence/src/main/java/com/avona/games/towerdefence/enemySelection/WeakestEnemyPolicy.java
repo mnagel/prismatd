@@ -7,6 +7,11 @@ import java.util.List;
 
 public class WeakestEnemyPolicy implements EnemySelectionPolicy {
 	@Override
+	public String getName() {
+		return "Weakest Enemy";
+	}
+
+	@Override
 	public Enemy findSuitableEnemy(Tower tower, List<Enemy> enemies) {
 		Enemy bestEnemy = null;
 		float bestEnemyHealth = Float.MAX_VALUE;
