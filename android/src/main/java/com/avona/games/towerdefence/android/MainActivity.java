@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
 			Util.log("restoring instance");
 		}
 
-		String[] missions = Util.mapMissionNames(MissionList.availableMissions);
+		String[] missions = MissionList.getAvailableMissionNames();
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Select Mission");
