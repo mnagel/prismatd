@@ -4,7 +4,6 @@ import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.LayerHerder;
 import com.avona.games.towerdefence.Mouse;
 import com.avona.games.towerdefence.PortableMainLoop;
-import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.mission.MissionList;
 
@@ -192,7 +191,7 @@ public class LayeredInputActor implements InputActor {
 			ml.game.logDebugInfo();
 		}
 		if (keyCode == 'l') {
-			String[] missions = Util.mapMissionNames(MissionList.availableMissions);
+			String[] missions = MissionList.getAvailableMissionNames();
 			int what = ml.display.userSelectsAString("Load Mission", "Please select a Mission to load:", missions);
 			if (what >= 0) {
 				ml.game.loadMission(what);

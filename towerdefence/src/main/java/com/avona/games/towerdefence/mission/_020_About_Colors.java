@@ -9,6 +9,7 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
+@MissionName(value = "About Colors")
 public class _020_About_Colors extends Mission {
 
 	private static final long serialVersionUID = -2476503319147078452L;
@@ -82,11 +83,6 @@ public class _020_About_Colors extends Mission {
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
 				}
 		};
-	}
-
-	@Override
-	public String getMissionName() {
-		return "About Color";
 	}
 
 	@Override

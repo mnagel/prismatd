@@ -11,6 +11,7 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
+@MissionName(value = "Mixin Color")
 public class _030_Mixing_Colors extends Mission {
 
 	private static final long serialVersionUID = -2376503319147078452L;
@@ -95,11 +96,6 @@ public class _030_Mixing_Colors extends Mission {
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
 				},
 		};
-	}
-
-	@Override
-	public String getMissionName() {
-		return "Mixing Colors";
 	}
 
 	@Override

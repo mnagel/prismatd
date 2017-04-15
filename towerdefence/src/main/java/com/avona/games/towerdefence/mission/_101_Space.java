@@ -10,6 +10,7 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
+@MissionName(value = "Space")
 public class _101_Space extends Mission {
 
 	private static final long serialVersionUID = 7889543946996644326L;
@@ -149,11 +150,6 @@ public class _101_Space extends Mission {
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 4), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 4),
 								0.35f)}};
-	}
-
-	@Override
-	public String getMissionName() {
-		return "Space";
 	}
 
 	@Override

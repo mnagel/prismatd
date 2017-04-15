@@ -160,7 +160,9 @@ public abstract class Mission implements Serializable, WaveSender {
 	 */
 	protected abstract Tower[] loadBuildableTowers();
 
-	protected abstract String getMissionName();
+	protected String getMissionName() {
+		return this.getClass().getAnnotation(MissionName.class).value();
+	}
 
 	protected abstract String getGameBackgroundName();
 

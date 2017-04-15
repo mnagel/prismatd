@@ -10,6 +10,7 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
+@MissionName(value = "Grass")
 public class _100_Grass extends Mission {
 
 	private static final long serialVersionUID = -3454126790549945539L;
@@ -149,11 +150,6 @@ public class _100_Grass extends Mission {
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 4), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 4),
 								0.35f)}};
-	}
-
-	@Override
-	public String getMissionName() {
-		return "Grass";
 	}
 
 	@Override
