@@ -9,6 +9,7 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
+@SuppressWarnings("WeakerAccess")
 @MissionName(value = "About Colors")
 public class _020_About_Colors extends Mission {
 
@@ -51,6 +52,16 @@ public class _020_About_Colors extends Mission {
 	}
 
 	@Override
+	protected MissionStatementText[] getMissionStatementTexts() {
+		return new MissionStatementText[]{
+				new MissionStatementText(4, 0, "1. Pixels spawn here!"),
+				new MissionStatementText(4, 11, "2. Pixels escape here!"),
+				new MissionStatementText(4, 4, "3. Stop them by"),
+				new MissionStatementText(4, 5, "building Prismas here!"),
+		};
+	}
+
+	@Override
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
 				new RubyPrismaTower(game.timedCodeManager, 2),
@@ -83,20 +94,5 @@ public class _020_About_Colors extends Mission {
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
 				}
 		};
-	}
-
-	@Override
-	protected String getGameBackgroundName() {
-		return "space_l";
-	}
-
-	@Override
-	protected String getMenuBackgroundName() {
-		return "tutorial_r2";
-	}
-
-	@Override
-	protected String getOverlayBackgroundName() {
-		return "tutorial_x2";
 	}
 }

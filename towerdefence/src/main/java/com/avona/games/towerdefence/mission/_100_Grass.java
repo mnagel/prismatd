@@ -10,6 +10,7 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
+@SuppressWarnings("WeakerAccess")
 @MissionName(value = "Grass")
 public class _100_Grass extends Mission {
 
@@ -50,6 +51,16 @@ public class _100_Grass extends Mission {
 		l += "..........9.....\n"; // 1
 
 		return l;
+	}
+
+	@Override
+	protected MissionStatementText[] getMissionStatementTexts() {
+		return new MissionStatementText[]{
+				new MissionStatementText(4, 0, "1. Pixels spawn here!"),
+				new MissionStatementText(4, 11, "2. Pixels escape here!"),
+				new MissionStatementText(4, 4, "3. Stop them by"),
+				new MissionStatementText(4, 5, "building Prismas here!"),
+		};
 	}
 
 	@Override
@@ -150,20 +161,5 @@ public class _100_Grass extends Mission {
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 4), 0.35f),
 						new WaveEnemyConfig(new VioletViperEnemy(this, 4),
 								0.35f)}};
-	}
-
-	@Override
-	protected String getGameBackgroundName() {
-		return "space_l";
-	}
-
-	@Override
-	protected String getMenuBackgroundName() {
-		return "back_r";
-	}
-
-	@Override
-	protected String getOverlayBackgroundName() {
-		return "no_briefing";
 	}
 }

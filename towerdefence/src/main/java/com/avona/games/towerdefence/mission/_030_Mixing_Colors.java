@@ -11,6 +11,7 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
+@SuppressWarnings("WeakerAccess")
 @MissionName(value = "Mixin Color")
 public class _030_Mixing_Colors extends Mission {
 
@@ -51,6 +52,16 @@ public class _030_Mixing_Colors extends Mission {
 		l += "..........9.....\n"; // 1
 
 		return l;
+	}
+
+	@Override
+	protected MissionStatementText[] getMissionStatementTexts() {
+		return new MissionStatementText[]{
+				new MissionStatementText(4, 0, "1. Pixels spawn here!"),
+				new MissionStatementText(4, 11, "2. Pixels escape here!"),
+				new MissionStatementText(4, 4, "3. Stop them by"),
+				new MissionStatementText(4, 5, "building Prismas here!"),
+		};
 	}
 
 	@Override
@@ -96,20 +107,5 @@ public class _030_Mixing_Colors extends Mission {
 						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
 				},
 		};
-	}
-
-	@Override
-	protected String getGameBackgroundName() {
-		return "space_l";
-	}
-
-	@Override
-	protected String getMenuBackgroundName() {
-		return "tutorial_r3";
-	}
-
-	@Override
-	protected String getOverlayBackgroundName() {
-		return "tutorial_x3";
 	}
 }

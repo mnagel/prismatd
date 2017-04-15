@@ -28,11 +28,9 @@ public abstract class Mission implements Serializable, WaveSender {
 	public final Tower[] buildableTowers;
 	private final WaveEnemyConfig[][] enemyWaves;
 	public GridCell[] waypoints;
-	public String gameBackgroundName;
-	public String menuBackgroundName;
-	public String overlayBackgroundName;
 	public boolean showOverlay = true;
 	public String missionName;
+	public MissionStatementText[] missionStatementTexts;
 	public WaveTracker waveTracker = new WaveTracker(this);
 	public boolean completed = false;
 	public GridCell[][] gridCells2d;
@@ -47,9 +45,11 @@ public abstract class Mission implements Serializable, WaveSender {
 		this.parseMissionDefinition(l);
 
 		this.game = game;
-		this.gameBackgroundName = getGameBackgroundName();
-		this.menuBackgroundName = getMenuBackgroundName();
-		this.overlayBackgroundName = getOverlayBackgroundName();
+		this.missionStatementTexts = getMissionStatementTexts();
+		for (MissionStatementText t: this.missionStatementTexts) {
+			t.y = gridCellCountY - t.y - 1;
+		}
+
 		this.missionName = getMissionName();
 		this.enemyWaves = loadEnemyWaves();
 		this.buildableTowers = loadBuildableTowers();
@@ -164,11 +164,7 @@ public abstract class Mission implements Serializable, WaveSender {
 		return this.getClass().getAnnotation(MissionName.class).value();
 	}
 
-	protected abstract String getGameBackgroundName();
-
-	protected abstract String getMenuBackgroundName();
-
-	protected abstract String getOverlayBackgroundName();
+	protected abstract MissionStatementText[] getMissionStatementTexts();
 
 	/**
 	 * @return The amount of money the player starts with.

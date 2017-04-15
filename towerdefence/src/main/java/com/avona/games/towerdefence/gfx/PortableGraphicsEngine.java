@@ -13,6 +13,7 @@ import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.mission.CellState;
 import com.avona.games.towerdefence.mission.GridCell;
+import com.avona.games.towerdefence.mission.MissionStatementText;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveTracker;
@@ -38,7 +39,6 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 	private VertexArray[] missionVertices;
 	private VertexArray[] menuVertices;
-	private VertexArray[] overlayVertices;
 
 	public PortableGraphicsEngine(Display display, Game game, Mouse mouse,
 								  LayerHerder layerHerder, PortableMainLoop ml) {
@@ -59,7 +59,6 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		// reset. Otherwise, any preloaded texture wouldn't be reloaded again.
 		freeMissionVertices();
 		freeMenuVertices();
-		freeOverlayVertices();
 	}
 
 	public void render(final float dt) {
@@ -274,33 +273,16 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		display.resetTransformation();
 	}
 
-	private void buildOverlay() {
-		freeOverlayVertices();
-		overlayVertices = new VertexArray[1];
-
-		overlayVertices[0] = createSimpleTextureBox(0.0f, 0.0f,
-				gameLayer.virtualRegion.x, gameLayer.virtualRegion.y,
-				game.mission.overlayBackgroundName);
-	}
-
-	void freeOverlayVertices() {
-		if (overlayVertices != null) {
-			// In case we're recreating the world, allow re-using of the
-			// buffers.
-			for (VertexArray va : overlayVertices) {
-				va.freeBuffers();
-			}
-			overlayVertices = null;
-		}
-	}
-
 	private void renderOverlay() {
-		if (overlayVertices == null) {
-			buildOverlay();
-		}
-
-		for (VertexArray va : overlayVertices) {
-			display.drawVertexArray(va);
+		for (MissionStatementText t: game.mission.missionStatementTexts) {
+			display.drawText(
+					gameLayer,
+					t.text,
+					false,
+					game.mission.gridCells2d[t.x][t.y].center,
+					new RGB(1,1,1),
+					1
+					);
 		}
 	}
 

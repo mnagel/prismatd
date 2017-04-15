@@ -7,6 +7,7 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
+@SuppressWarnings("WeakerAccess")
 @MissionName(value = "Hello World")
 public class _010_Hello_World extends Mission {
 
@@ -33,20 +34,31 @@ public class _010_Hello_World extends Mission {
 	protected String getMissionDefinitionString() {
 		String l = "";
 		//////0123456789012345
-		l += "......0.........\n"; // 0
-		l += "......x.........\n"; // 1
-		l += "......1xxxxxxx2.\n"; // 2
-		l += "..............x.\n"; // 3
-		l += "..6xxxxxxxxx5.x.\n"; // 4
-		l += "..x.........x.x.\n"; // 5
-		l += "..x.........x.x.\n"; // 6
-		l += "..x.........x.x.\n"; // 7
-		l += "..7xxxxxxx8.4x3.\n"; // 8
-		l += "..........x.....\n"; // 9
-		l += "..........x.....\n"; // 0
-		l += "..........9.....\n"; // 1
+		l += "...1............\n"; // 0
+		l += "...x............\n"; // 1
+		l += "...x............\n"; // 2
+		l += "...x............\n"; // 3
+		l += "...x............\n"; // 4
+		l += "...x............\n"; // 5
+		l += "...x............\n"; // 6
+		l += "...x............\n"; // 7
+		l += "...x............\n"; // 8
+		l += "...x............\n"; // 9
+		l += "...x............\n"; // 0
+		l += "...2............\n"; // 1
 
 		return l;
+	}
+
+	@Override
+	protected MissionStatementText[] getMissionStatementTexts() {
+		return new MissionStatementText[]{
+				new MissionStatementText(4, 0, "1. Pixels spawn here!"),
+				new MissionStatementText(4, 11, "2. Pixels escape here!"),
+				new MissionStatementText(4, 4, "3. Stop them by building Prismas here!"),
+				new MissionStatementText(4, 5, "... and here ..."),
+				new MissionStatementText(4, 6, "... and here!"),
+		};
 	}
 
 	@Override
@@ -67,20 +79,5 @@ public class _010_Hello_World extends Mission {
 						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
 				}
 		};
-	}
-
-	@Override
-	protected String getGameBackgroundName() {
-		return "space_l";
-	}
-
-	@Override
-	protected String getMenuBackgroundName() {
-		return "tutorial_r1";
-	}
-
-	@Override
-	protected String getOverlayBackgroundName() {
-		return "tutorial_x1";
 	}
 }
