@@ -13,7 +13,7 @@ import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 @SuppressWarnings("WeakerAccess")
-@MissionName(value = "Tutorial: Mixin Color")
+@MissionName(value = "About Money")
 public class _040_About_Money extends Mission {
 
 	private static final long serialVersionUID = -2376503319147078452L;

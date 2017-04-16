@@ -45,7 +45,7 @@ public class Wave extends TimedCode implements EnemyEventListener {
 		++curEnemy;
 		++activeEnemies;
 		game.onEnemySpawned(e);
-		timedCodeManager.addCode(we.delay, this);
+		timedCodeManager.addCode(we.delayAfter, this);
 	}
 
 	@Override

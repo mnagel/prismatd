@@ -3,19 +3,20 @@ package com.avona.games.towerdefence.mission;
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.enemy.GreenEnemy;
 import com.avona.games.towerdefence.enemy.RedEnemy;
-import com.avona.games.towerdefence.tower.PaintRedTower;
+import com.avona.games.towerdefence.enemy.YellowEnemy;
+import com.avona.games.towerdefence.tower.GreenTower;
 import com.avona.games.towerdefence.tower.RedTower;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 @SuppressWarnings("WeakerAccess")
-@MissionName(value = "Paint it Red")
-public class _050_SpecialTower_PaintRed extends Mission {
+@MissionName(value = "More Colors")
+public class _031_More_Colors extends Mission {
 
 	private static final long serialVersionUID = -2376503319147078452L;
 
-	public _050_SpecialTower_PaintRed(final Game game) {
+	public _031_More_Colors(final Game game) {
 		super(game);
 
 		waveTracker.waveBegunListeners
@@ -55,7 +56,8 @@ public class _050_SpecialTower_PaintRed extends Mission {
 	@Override
 	protected MissionStatementText[] getMissionStatementTexts() {
 		return new MissionStatementText[]{
-				new MissionStatementText(8, 1, "Check out the Paint Red Tower..."),
+				new MissionStatementText(8, 1, "Yellow Pixels are FAST"),
+				new MissionStatementText(8, 2, "also, they are Red and Green"),
 				new MissionStatementText(8, 10, "Stop the Pixels from escaping!"),
 		};
 	}
@@ -64,7 +66,7 @@ public class _050_SpecialTower_PaintRed extends Mission {
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
 				new RedTower(game.timedCodeManager, 1),
-				new PaintRedTower(game.timedCodeManager, 1),
+				new GreenTower(game.timedCodeManager, 1)
 		};
 	}
 
@@ -73,22 +75,26 @@ public class _050_SpecialTower_PaintRed extends Mission {
 		return new WaveEnemyConfig[][]{
 				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
 				},
 				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
-				},
-				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 1.7f),
+
 						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 1.7f),
+
+						new WaveEnemyConfig(new YellowEnemy(this, 1), 0.0f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new YellowEnemy(this, 1), 0.0f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new YellowEnemy(this, 1), 0.0f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 1.0f),
 				},
 		};
 	}

@@ -8,7 +8,7 @@ import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 @SuppressWarnings("WeakerAccess")
-@MissionName(value = "Tutorial: Hello World")
+@MissionName(value = "Hello World")
 public class _010_Hello_World extends Mission {
 
 	private static final long serialVersionUID = -2476503319147078452L;
