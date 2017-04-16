@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: com.avona.games.towerdefence.awt.MainLoop
-Class-Path: jogl.jar gluegen-rt.jar
