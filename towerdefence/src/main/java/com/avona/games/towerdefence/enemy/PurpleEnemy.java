@@ -17,7 +17,8 @@ public class PurpleEnemy extends Enemy {
 						0,
 						50 * levelNum + 10
 				),
-				80 + 3 * (levelNum - 1), 12
+				80 + 3 * (levelNum - 1),
+				12
 		);
 	}
 

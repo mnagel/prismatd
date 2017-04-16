@@ -11,7 +11,7 @@ import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 @SuppressWarnings("WeakerAccess")
-@MissionName(value = "Tutorial: About Colors")
+@MissionName(value = "About Colors")
 public class _020_About_Colors extends Mission {
 
 	private static final long serialVersionUID = -2476503319147078452L;

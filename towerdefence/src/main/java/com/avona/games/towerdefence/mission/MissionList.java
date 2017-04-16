@@ -6,6 +6,7 @@ public final class MissionList {
 			_010_Hello_World.class,
 			_020_About_Colors.class,
 			_030_Mixing_Colors.class,
+			_031_More_Colors.class,
 			_040_About_Money.class,
 			_050_SpecialTower_PaintRed.class,
 			_100_Level.class,
@@ -15,7 +16,7 @@ public final class MissionList {
 		Class<Mission>[] missions = availableMissions;
 		String[] res = new String[missions.length];
 		for (int i = 0; i < missions.length; i++) {
-			res[i] = missions[i].getAnnotation(MissionName.class).value();
+			res[i] = Integer.toString(i+1) + ": " + missions[i].getAnnotation(MissionName.class).value();
 		}
 		return res;
 	}
