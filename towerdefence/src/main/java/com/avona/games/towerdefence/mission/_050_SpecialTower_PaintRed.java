@@ -1,23 +1,21 @@
 package com.avona.games.towerdefence.mission;
 
 import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.enemy.BlueEnemy;
 import com.avona.games.towerdefence.enemy.GreenEnemy;
-import com.avona.games.towerdefence.enemy.PurpleEnemy;
 import com.avona.games.towerdefence.enemy.RedEnemy;
-import com.avona.games.towerdefence.tower.BlueTower;
+import com.avona.games.towerdefence.tower.PaintRedTower;
 import com.avona.games.towerdefence.tower.RedTower;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 @SuppressWarnings("WeakerAccess")
-@MissionName(value = "Tutorial: Mixing Colors")
-public class _030_Mixing_Colors extends Mission {
+@MissionName(value = "Tutorial: Paint it Red")
+public class _050_SpecialTower_PaintRed extends Mission {
 
 	private static final long serialVersionUID = -2376503319147078452L;
 
-	public _030_Mixing_Colors(final Game game) {
+	public _050_SpecialTower_PaintRed(final Game game) {
 		super(game);
 
 		waveTracker.waveBegunListeners
@@ -57,12 +55,7 @@ public class _030_Mixing_Colors extends Mission {
 	@Override
 	protected MissionStatementText[] getMissionStatementTexts() {
 		return new MissionStatementText[]{
-				new MissionStatementText(8, 1, "Purple Pixels must be hit Red"),
-				new MissionStatementText(8, 2, "and"),
-				new MissionStatementText(8, 3, "Purple Pixels must be hit Blue"),
-				new MissionStatementText(8, 4, "because Purple = Red + Blue"),
-				new MissionStatementText(8, 6, "Hitting them Red makes them less Red = more Blue"),
-				new MissionStatementText(8, 7, "Hitting them Blue makes them less Blue = more Red"),
+				new MissionStatementText(8, 1, "Check out the Paint Red Tower..."),
 				new MissionStatementText(8, 10, "Stop the Pixels from escaping!"),
 		};
 	}
@@ -71,7 +64,7 @@ public class _030_Mixing_Colors extends Mission {
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
 				new RedTower(game.timedCodeManager, 1),
-				new BlueTower(game.timedCodeManager, 1)
+				new PaintRedTower(game.timedCodeManager, 1),
 		};
 	}
 
@@ -80,28 +73,22 @@ public class _030_Mixing_Colors extends Mission {
 		return new WaveEnemyConfig[][]{
 				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
 				},
 				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.7f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.7f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.7f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
 				},
 				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
-				},
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f), // MUHAHA cannot be killed ... take that 100% gamers!
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
 				},
 		};
 	}

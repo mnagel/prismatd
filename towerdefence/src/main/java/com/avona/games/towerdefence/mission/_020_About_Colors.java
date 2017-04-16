@@ -1,16 +1,17 @@
 package com.avona.games.towerdefence.mission;
 
 import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.enemy.LimeLizardEnemy;
-import com.avona.games.towerdefence.enemy.RedRaptorEnemy;
+import com.avona.games.towerdefence.enemy.BlueEnemy;
+import com.avona.games.towerdefence.enemy.RedEnemy;
+import com.avona.games.towerdefence.tower.BlueTower;
 import com.avona.games.towerdefence.tower.PaintRedTower;
-import com.avona.games.towerdefence.tower.RubyPrismaTower;
+import com.avona.games.towerdefence.tower.RedTower;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 @SuppressWarnings("WeakerAccess")
-@MissionName(value = "About Colors")
+@MissionName(value = "Tutorial: About Colors")
 public class _020_About_Colors extends Mission {
 
 	private static final long serialVersionUID = -2476503319147078452L;
@@ -29,43 +30,42 @@ public class _020_About_Colors extends Mission {
 
 	@Override
 	public int getStartMoney() {
-		return 100;
+		return 1000;
 	}
 
 	@Override
 	protected String getMissionDefinitionString() {
 		String l = "";
 		//////0123456789012345
-		l += ".0...........b..\n"; // 0
-		l += ".x...........x..\n"; // 1
-		l += ".x.3xx4.7xx8.x..\n"; // 2
-		l += ".x.x..x.x..x.x..\n"; // 3
-		l += ".x.x..x.x..x.x..\n"; // 4
-		l += ".x.x..5x6..x.x..\n"; // 5
-		l += ".1x2.......9xa..\n"; // 6
-		l += "................\n"; // 7
-		l += "................\n"; // 8
-		l += ".....xxxxx......\n"; // 9
-		l += "................\n"; // 0
-		l += "................\n"; // 1
+		l += "...1............\n"; // 0
+		l += "...x............\n"; // 1
+		l += "...x............\n"; // 2
+		l += "...x............\n"; // 3
+		l += "...x............\n"; // 4
+		l += "...x............\n"; // 5
+		l += "...x............\n"; // 6
+		l += "...x............\n"; // 7
+		l += "...x............\n"; // 8
+		l += "...x............\n"; // 9
+		l += "...x............\n"; // 0
+		l += "...2............\n"; // 1
 		return l;
 	}
 
 	@Override
 	protected MissionStatementText[] getMissionStatementTexts() {
 		return new MissionStatementText[]{
-				new MissionStatementText(4, 0, "1. Pixels spawn here!"),
-				new MissionStatementText(4, 11, "2. Pixels escape here!"),
-				new MissionStatementText(4, 4, "3. Stop them by"),
-				new MissionStatementText(4, 5, "building Prismas here!"),
+				new MissionStatementText(9, 1, "Red Prismas hit Red Pixels"),
+				new MissionStatementText(9, 3, "Blue Prismas hit Blue Pixels"),
+				new MissionStatementText(4, 10, "Stop the Pixels from escaping!"),
 		};
 	}
 
 	@Override
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
-				new RubyPrismaTower(game.timedCodeManager, 2),
-				new PaintRedTower(game.timedCodeManager, 2)
+				new RedTower(game.timedCodeManager, 2),
+				new BlueTower(game.timedCodeManager, 2)
 		};
 	}
 
@@ -73,25 +73,22 @@ public class _020_About_Colors extends Mission {
 	protected WaveEnemyConfig[][] loadEnemyWaves() {
 		return new WaveEnemyConfig[][]{
 				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
 				},
 				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
 				},
 				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedRaptorEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new LimeLizardEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
 				}
 		};
 	}

@@ -6,8 +6,9 @@ public final class MissionList {
 			_010_Hello_World.class,
 			_020_About_Colors.class,
 			_030_Mixing_Colors.class,
-			_100_Grass.class,
-			_101_Space.class
+			_040_About_Money.class,
+			_050_SpecialTower_PaintRed.class,
+			_100_Level.class,
 	};
 
 	public static String[] getAvailableMissionNames() {
