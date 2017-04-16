@@ -3,14 +3,22 @@ package com.avona.games.towerdefence;
 public abstract class MovingObject extends LocationObject {
 	private static final long serialVersionUID = 1L;
 
-	public V2 velocity = new V2(1.0f, 1.0f);
+	private V2 velocity = new V2(1.0f, 1.0f);
 
 	public MovingObject() {
 	}
 
 	public MovingObject(final MovingObject other) {
 		super(other);
-		if (other.velocity != null)
-			velocity = other.velocity.clone();
+		if (other.getVelocity() != null)
+			setVelocity(other.getVelocity().clone());
+	}
+
+	public V2 getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(final V2 velocity) {
+		this.velocity = velocity;
 	}
 }

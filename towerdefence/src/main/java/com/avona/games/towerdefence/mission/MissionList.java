@@ -8,6 +8,7 @@ public final class MissionList {
 			_030_Mixing_Colors.class,
 			_040_About_Money.class,
 			_050_SpecialTower_PaintRed.class,
+			_060_SpecialTower_SlowDown.class,
 			_100_Level.class,
 	};
 

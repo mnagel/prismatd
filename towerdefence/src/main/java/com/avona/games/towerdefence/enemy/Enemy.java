@@ -29,7 +29,7 @@ public abstract class Enemy extends MovingObject {
 		this.levelNum = levelNum;
 		this.worth = worth;
 		this.maxLife = maxLife;
-		this.velocity.setLength(speed);
+		this.getVelocity().setLength(speed);
 		this.radius = radius;
 		life = maxLife.clone();
 	}
@@ -61,7 +61,7 @@ public abstract class Enemy extends MovingObject {
 		location = mission.waypoints[waypointId - 1].center.clone();
 		if (waypointId < mission.waypoints.length) {
 			target = mission.waypoints[waypointId].center;
-			velocity.setDirection(location, target);
+			getVelocity().setDirection(location, target);
 		} else {
 			escape();
 		}
@@ -72,7 +72,7 @@ public abstract class Enemy extends MovingObject {
 		if (isDead())
 			return;
 
-		location.addWeighted(velocity, dt);
+		location.addWeighted(getVelocity(), dt);
 	}
 
 	public boolean isDead() {

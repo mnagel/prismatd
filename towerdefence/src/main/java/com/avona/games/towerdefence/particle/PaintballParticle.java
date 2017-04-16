@@ -15,8 +15,8 @@ import com.avona.games.towerdefence.particleCollidors.ParticleColliderPolicy;
 public class PaintballParticle extends Particle {
 	public RGB mask;
 
-	public PaintballParticle(V2 location, Enemy target, ParticleColliderPolicy collidorPolicy, int velocity, RGB strength, RGB mask) {
-		super(location, target, collidorPolicy, velocity, strength);
+	public PaintballParticle(V2 location, Enemy target, ParticleColliderPolicy colliderPolicy, int velocity, RGB strength, RGB mask) {
+		super(location, target, colliderPolicy, velocity, strength);
 		this.mask = mask;
 	}
 
@@ -26,9 +26,9 @@ public class PaintballParticle extends Particle {
 			return;
 		}
 
-		final RGB oldlife = e.life.clone();
-		final RGB newlife = oldlife.clone().subUpto(strength, 0.0f);
-		final float length = oldlife.length() - newlife.length();
+		final RGB oldLife = e.life.clone();
+		final RGB newLife = oldLife.clone().subUpto(strength, 0.0f);
+		final float length = oldLife.length() - newLife.length();
 		final RGB damage = new RGB(-mask.R * length + strength.R, -mask.G * length + strength.G, -mask.B * length + strength.B);
 
 		e.inflictDamage(damage);

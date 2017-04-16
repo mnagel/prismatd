@@ -28,17 +28,17 @@ public class Particle extends MovingObject {
 		this.collidorPolicy = collidorPolicy;
 		this.strength = strength;
 
-		this.velocity.setLength(velocity);
+		this.getVelocity().setLength(velocity);
 		recalculateTargetVector();
 	}
 
 	public void recalculateTargetVector() {
-		velocity.setDirection(location, target.location);
+		getVelocity().setDirection(location, target.location);
 	}
 
 	public boolean collidedWith(Enemy e, final float dt) {
-		return Collision.movingCircleCollidesWithCircle(location, velocity,
-				range, e.location, e.velocity, e.radius, dt);
+		return Collision.movingCircleCollidesWithCircle(location, getVelocity(),
+				range, e.location, e.getVelocity(), e.radius, dt);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class Particle extends MovingObject {
 			return;
 
 		recalculateTargetVector();
-		location.addWeighted(velocity, dt);
+		location.addWeighted(getVelocity(), dt);
 	}
 
 	public void collideWithEnemies(final List<Enemy> enemies, final float dt) {

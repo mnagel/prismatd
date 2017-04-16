@@ -16,7 +16,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -267,7 +266,7 @@ public class Game implements Serializable {
 
 			final V2 w = mission.waypoints[e.waypointId].center;
 			if (Collision.movingCircleCollidedWithCircle(e.location,
-					e.velocity, e.radius, w, V2.ZERO, 1, dt)) {
+					e.getVelocity(), e.radius, w, V2.ZERO, 1, dt)) {
 				e.setWPID(e.waypointId + 1);
 				if (e.escaped) {
 					eiter.remove();
