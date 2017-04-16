@@ -16,7 +16,6 @@ import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.mission.MissionStatementText;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.tower.Tower;
-import com.avona.games.towerdefence.wave.WaveTracker;
 
 import java.util.Collection;
 import java.util.Locale;
@@ -74,7 +73,15 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			renderEnemy(e);
 		}
 		for (Tower t : game.towers) {
-			renderTower(t, null, gameLayer);
+			// pulsate selected tower
+			if (t == game.selectedObject) {
+				float origSize = t.radius;
+				t.radius = origSize * (1.0f + 0.2f * (float) Math.abs(Math.sin(4 * graphicsTime.clock)));
+				renderTower(t, null, gameLayer);
+				t.radius = origSize;
+			} else {
+				renderTower(t, null, gameLayer);
+			}
 		}
 		for (Particle p : game.particles) {
 			renderParticle(p);
@@ -128,23 +135,6 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		display.drawText(null, "Game paused", true,
 				new V2(size.x * 0.5f, size.y * 0.5f),
 				new RGB(1.0f, 1.0f, 1.0f), 1.0f);
-	}
-
-	private VertexArray createSimpleTextureBox(final float x, final float y,
-											   final float width, final float height, final String textureName) {
-		VertexArray va = new VertexArray();
-		va.hasTexture = true;
-		va.numCoords = 4;
-		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
-
-		va.reserveBuffers();
-		GeometryHelper.boxVerticesAsTriangleStrip(x, y, width, height, va);
-
-		va.texture = display.allocateTexture();
-		va.texture.loadImage(textureName);
-
-		GeometryHelper.boxTextureAsTriangleStrip(va);
-		return va;
 	}
 
 	private void createMission() {
@@ -240,7 +230,16 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			V2 location = new V2(
 					menuLayer.virtualRegion.x * 0.5f,
 					menuLayer.virtualRegion.y * (1.0f - (i + 0.5f) / MENU_BUTTON_COUNT));
-			renderTower(t, location, menuLayer);
+
+			if (t == game.selectedBuildTower) {
+				// pulsate selected tower
+				float origSize = t.radius;
+				t.radius = origSize * (1.0f + 0.2f * (float) Math.abs(Math.sin(4 * graphicsTime.clock)));
+				renderTower(t, location, menuLayer);
+				t.radius = origSize;
+			} else {
+				renderTower(t, location, menuLayer);
+			}
 		}
 
 		if (game.selectedObject instanceof Tower) {
@@ -255,11 +254,10 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		int enemyCount = es.size();
 		int i = 0;
 		for (Enemy e : es) {
-			V2 location = new V2(
+			e.location = new V2(
 					(i + 1) * menuLayer.virtualRegion.x / (enemyCount + 1),
 					menuLayer.virtualRegion.y / 2.0f / MENU_BUTTON_COUNT
 			);
-			e.location = location;
 			renderEnemy(e);
 			i++;
 		}
@@ -409,7 +407,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		va.freeBuffers();
 
 		if (overrideLocation != null) {
-			final String label = String.format("$%d", t.getPrice());
+			final String label = String.format(Locale.US, "$%d", t.getPrice());
 			display.drawText(layer, label, true, location, RGB.WHITE, 1.0f);
 		}
 	}
@@ -458,8 +456,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		if (!mouse.onScreen)
 			return;
 		final V2 p = mouse.location;
-		final float col = 0.5f + 0.3f * (float) Math.abs(Math
-				.sin(4 * graphicsTime.clock));
+		final float col = 0.5f + 0.3f * (float) Math.abs(Math.sin(4 * graphicsTime.clock));
 		drawFilledCircle(p.x, p.y, mouse.radius, 1.0f, 1.0f, 1.0f, col);
 	}
 

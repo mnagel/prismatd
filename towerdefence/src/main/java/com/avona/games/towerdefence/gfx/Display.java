@@ -9,21 +9,21 @@ import com.avona.games.towerdefence.V2;
  */
 public interface Display {
 
-	public V2 getSize();
+	V2 getSize();
 
-	public Texture allocateTexture();
+	Texture allocateTexture();
 
-	public void prepareTransformationForLayer(Layer layer);
+	void prepareTransformationForLayer(Layer layer);
 
-	public void resetTransformation();
+	void resetTransformation();
 
-	public void prepareScreen();
+	void prepareScreen();
 
-	public void drawVertexArray(final VertexArray array);
+	void drawVertexArray(final VertexArray array);
 
-	public void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha);
+	void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha);
 
-	public V2 getTextBounds(final String text);
+	V2 getTextBounds(final String text);
 
-	public int userSelectsAString(String title, String message, String[] strings);
+	int userSelectsAString(String title, String message, String[] strings);
 }
