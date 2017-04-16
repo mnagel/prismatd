@@ -28,7 +28,6 @@ public abstract class Mission implements Serializable, WaveSender {
 	public final Tower[] buildableTowers;
 	private final WaveEnemyConfig[][] enemyWaves;
 	public GridCell[] waypoints;
-	public boolean showOverlay = true;
 	public String missionName;
 	public MissionStatementText[] missionStatementTexts;
 	public WaveTracker waveTracker = new WaveTracker(this);

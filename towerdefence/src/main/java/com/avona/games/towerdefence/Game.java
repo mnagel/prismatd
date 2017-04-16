@@ -122,8 +122,6 @@ public class Game implements Serializable {
 	public void pressForwardButton() {
 		if (mission.completed) {
 			loadNextMission();
-		} else if (mission.showOverlay) {
-			mission.showOverlay = false;
 		} else {
 			mission.waveTracker.startNextWave();
 		}
@@ -146,12 +144,6 @@ public class Game implements Serializable {
 	}
 
 	public void addTowerAt(GridCell where) {
-		// FIXME place this somewhere sensible
-		if (mission.showOverlay == true) {
-			mission.showOverlay = false;
-			return;
-		}
-
 		Tower newTower = selectedBuildTower.clone();
 		newTower.location = new V2(where.center);
 		money -= newTower.getPrice();

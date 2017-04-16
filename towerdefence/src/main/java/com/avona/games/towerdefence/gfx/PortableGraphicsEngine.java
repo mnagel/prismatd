@@ -68,6 +68,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		display.prepareTransformationForLayer(gameLayer);
 		renderMission();
+		renderMissionStatement();
 
 		for (Enemy e : game.enemies) {
 			renderEnemy(e);
@@ -94,9 +95,6 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			drawCircle(l.x, l.y, t.getRange(), 1.0f, 1.0f, 1.0f, 1.0f);
 		}
 
-		if (game.mission.showOverlay) {
-			renderOverlay();
-		}
 		display.resetTransformation();
 
 		renderMenu();
@@ -282,7 +280,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		display.resetTransformation();
 	}
 
-	private void renderOverlay() {
+	private void renderMissionStatement() {
 		for (MissionStatementText t : game.mission.missionStatementTexts) {
 			display.drawText(
 					gameLayer,
@@ -337,7 +335,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		if (game.selectedObject != null) {
 			if (game.selectedObject instanceof Tower) {
 				final Tower t = (Tower) game.selectedObject;
-				towerString = String.format(Locale.US, "%s Lev%d %s | ",
+				towerString = String.format(Locale.US, "%s L%d %s | ",
 						t.getName(), t.level, t.enemySelectionPolicy.getName());
 			} else if (game.selectedObject instanceof Enemy) {
 				final Enemy e = (Enemy) game.selectedObject;
@@ -349,23 +347,14 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 								e.maxLife.R, e.maxLife.G, e.maxLife.B);
 			}
 		}
-		String waveString = "";
-		if (game.mission != null) {
-			final WaveTracker wt = game.mission.waveTracker;
-			if (wt.hasWaveStarted() || wt.hasWaveEnded()) {
-				waveString = String.format(Locale.US, "Wave %d | ", wt.currentWaveNum());
-			}
-		}
+
 		final String fpsString = String.format(
 				Locale.US,
-				"%s%s%d killed | %d lives | $%d | mission %d | %s | fps %.2f",
-				towerString,
-				waveString,
-				game.killed,
+				"%d lives | $%d | %s | %s | fps %.2f",
 				game.lives,
 				game.money,
-				game.curMissionIdx + 1,
 				game.mission.missionName,
+				towerString,
 				graphicsTickRater.tickRate
 		);
 		final V2 bounds = display.getTextBounds(fpsString);
