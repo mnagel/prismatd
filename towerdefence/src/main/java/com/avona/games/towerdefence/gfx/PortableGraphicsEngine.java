@@ -26,7 +26,6 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	public static final int DEFAULT_HEIGHT = 480;
 	public static final int DEFAULT_WIDTH = 675;
 	public static final int MENU_BUTTON_COUNT = 5;
-	private static final String SEND_NEXT_WAVE_TEXT = "Send next Wave";
 	private static final String LEVEL_UP_TEXT = "Level up Tower";
 	private Layer menuLayer;
 	private Layer gameLayer;
@@ -267,22 +266,32 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			i++;
 		}
 
-		display.drawText(menuLayer, SEND_NEXT_WAVE_TEXT, true,
+		String waveButtonText =
+				wavenr + 1 < game.mission.getWaveCount() ?
+						"Send Wave #" + (wavenr + 2) :
+						"Final Wave!";
+
+		display.drawText(
+				menuLayer,
+				waveButtonText,
+				true,
 				new V2(menuLayer.virtualRegion.x / 2, menuLayer.virtualRegion.y / 2.0f / MENU_BUTTON_COUNT),
-				new RGB(1.0f, 1.0f, 1.0f), 1.0f);
+				new RGB(1.0f, 1.0f, 1.0f),
+				1.0f
+		);
 		display.resetTransformation();
 	}
 
 	private void renderOverlay() {
-		for (MissionStatementText t: game.mission.missionStatementTexts) {
+		for (MissionStatementText t : game.mission.missionStatementTexts) {
 			display.drawText(
 					gameLayer,
 					t.text,
 					false,
 					game.mission.gridCells2d[t.x][t.y].center,
-					new RGB(1,1,1),
+					new RGB(1, 1, 1),
 					1
-					);
+			);
 		}
 	}
 

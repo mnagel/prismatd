@@ -135,12 +135,12 @@ public abstract class Mission implements Serializable, WaveSender {
 	}
 
 	@Override
-	public int getNumWaves() {
+	public int getWaveCount() {
 		return enemyWaves.length;
 	}
 
 	public Collection<Enemy> getEnemyPreview(int waveId) { // TODO: move to wave class once possible
-		if (waveId >= getNumWaves()) {
+		if (waveId >= getWaveCount()) {
 			return new ArrayList<>();
 		}
 

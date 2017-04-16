@@ -39,7 +39,7 @@ public class WaveTracker implements Serializable {
 	}
 
 	public boolean haveAllWavesBeenDeployed() {
-		return (waveNum + 1) == sender.getNumWaves()
+		return (waveNum + 1) == sender.getWaveCount()
 				|| (waveNum > -1 && currentWave == null);
 	}
 

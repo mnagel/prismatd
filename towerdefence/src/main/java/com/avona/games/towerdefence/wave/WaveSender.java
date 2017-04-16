@@ -17,5 +17,5 @@ public interface WaveSender {
 	/**
 	 * @return The number of waves in total.
 	 */
-	int getNumWaves();
+	int getWaveCount();
 }
