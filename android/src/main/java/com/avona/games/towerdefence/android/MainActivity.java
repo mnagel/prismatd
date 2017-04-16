@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Select Mission");
+		builder.setCancelable(false);
 		builder.setItems(missions, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
