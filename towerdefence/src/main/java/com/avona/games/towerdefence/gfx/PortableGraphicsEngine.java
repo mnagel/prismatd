@@ -351,7 +351,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		final String fpsString = String.format(
 				Locale.US,
-				"%d lives | $%d | %s | %s | fps %.2f",
+				"%d lives | $%d | %s | %sfps %.2f",
 				game.lives,
 				game.money,
 				game.mission.missionName,
