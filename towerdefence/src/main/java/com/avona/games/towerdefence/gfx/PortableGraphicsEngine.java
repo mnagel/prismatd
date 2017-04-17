@@ -156,9 +156,9 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 			GeometryHelper.boxVerticesAsTriangleStrip(
 					(c.x + padding) * GridCell.width,
-					(c.y + padding) * GridCell.heigth,
+					(c.y + padding) * GridCell.height,
 					GridCell.width * cellScaling,
-					GridCell.heigth * cellScaling,
+					GridCell.height * cellScaling,
 					va
 			);
 

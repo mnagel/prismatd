@@ -4,7 +4,7 @@ import com.avona.games.towerdefence.V2;
 
 public class GridCell {
 	public static final float width = 40.0f;
-	public static final float heigth = 40.0f;
+	public static final float height = 40.0f;
 
 	public int x;
 	public int y;
