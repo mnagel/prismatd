@@ -18,6 +18,15 @@ android {
     }
 }
 
+task gfxIconData(type: Copy) {
+    //from project(':towerdefence').file('gfx/icon.svg')
+    from file('../gfx/icon.png')
+    into file('src/main/res/drawable')
+}
+
+preBuild.dependsOn gfxIconData
+
 dependencies {
     compile project(':towerdefence')
+    gfxIconData
 }
