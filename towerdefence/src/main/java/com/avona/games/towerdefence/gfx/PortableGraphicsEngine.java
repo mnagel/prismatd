@@ -151,11 +151,14 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			va.numCoords = 4;
 			va.reserveBuffers();
 
+			final float padding = 0.05f;
+			final float cellScaling = 1.0f - 2.0f * padding;
+
 			GeometryHelper.boxVerticesAsTriangleStrip(
-					c.x * GridCell.width,
-					c.y * GridCell.heigth,
-					GridCell.width * 0.9f,
-					GridCell.heigth * 0.9f,
+					(c.x + padding) * GridCell.width,
+					(c.y + padding) * GridCell.heigth,
+					GridCell.width * cellScaling,
+					GridCell.heigth * cellScaling,
 					va
 			);
 
