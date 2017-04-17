@@ -19,14 +19,20 @@ android {
 }
 
 task gfxIconData(type: Copy) {
-    //from project(':towerdefence').file('gfx/icon.svg')
-    from file('../gfx/icon.png')
+    from project(':').file('gfx/icon.png')
     into file('src/main/res/drawable')
 }
 
+task gfxShaderData(type: Copy) {
+    from project(':').file('gfx/shaders')
+    into file('src/main/shaders')
+}
+
 preBuild.dependsOn gfxIconData
+preBuild.dependsOn gfxShaderData
 
 dependencies {
     compile project(':towerdefence')
     gfxIconData
+    gfxShaderData
 }
