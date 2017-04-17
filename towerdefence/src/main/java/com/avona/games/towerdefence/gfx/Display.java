@@ -13,6 +13,8 @@ public interface Display {
 
 	Texture allocateTexture();
 
+	Shader allocateShader();
+
 	void prepareTransformationForLayer(Layer layer);
 
 	void resetTransformation();

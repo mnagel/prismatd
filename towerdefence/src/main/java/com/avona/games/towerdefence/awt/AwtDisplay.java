@@ -6,9 +6,9 @@ import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.gfx.Display;
 import com.avona.games.towerdefence.gfx.DisplayEventListener;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
+import com.avona.games.towerdefence.gfx.Shader;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.gfx.VertexArray;
-import com.avona.games.towerdefence.res.ResourceResolver;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -22,6 +22,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -212,6 +213,31 @@ public class AwtDisplay implements Display, GLEventListener {
 			gl.glBindTexture(GL_TEXTURE_2D, array.texture.textureId);
 			gl.glTexCoordPointer(2, GL_FLOAT, 0, array.textureBuffer);
 		}
+		if (array.hasShader) {
+			assert array.shader != null;
+			int program = array.shader.getProgram();
+			gl.glUseProgram(program);
+
+			HashMap<String, Shader.Variable> variables = array.shader.getUniforms();
+			for (Shader.Variable variable : variables.values()) {
+				if (variable.value == null) {
+					continue;
+				}
+				if (variable.value instanceof Integer) {
+					gl.glProgramUniform1i(program, variable.uniformLocation, (Integer) variable.value);
+				}
+				if (variable.value instanceof Boolean) {
+					gl.glProgramUniform1i(program, variable.uniformLocation, (Boolean) variable.value ? 1 : 0);
+				}
+				if (variable.value instanceof Float) {
+					gl.glProgramUniform1f(program, variable.uniformLocation, (Float) variable.value);
+				}
+				if (variable.value instanceof V2) {
+					V2 v = (V2) variable.value;
+					gl.glProgramUniform2f(program, variable.uniformLocation, v.x, v.y);
+				}
+			}
+		}
 
 		if (array.mode == VertexArray.Mode.TRIANGLE_FAN) {
 			gl.glDrawArrays(GL_TRIANGLE_FAN, 0, array.numCoords);
@@ -226,6 +252,9 @@ public class AwtDisplay implements Display, GLEventListener {
 			gl.glDrawArrays(GL_LINE_STRIP, 0, array.numCoords);
 		}
 
+		if (array.hasShader) {
+			gl.glUseProgram(0);
+		}
 		if (array.hasTexture) {
 			gl.glBindTexture(GL_TEXTURE_2D, 0);
 			gl.glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -266,6 +295,13 @@ public class AwtDisplay implements Display, GLEventListener {
 		gl.glBindTexture(GL_TEXTURE_2D, 0);
 
 		return texture;
+	}
+
+	@Override
+	public Shader allocateShader() {
+		assert gl != null;
+
+		return new AwtShader(gl);
 	}
 
 	@Override

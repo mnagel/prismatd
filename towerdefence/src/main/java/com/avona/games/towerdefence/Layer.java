@@ -51,4 +51,9 @@ public class Layer {
 				virtualPosition.x / virtualRegion.x * region.x + offset.x,
 				virtualPosition.y / virtualRegion.y * region.y + offset.y);
 	}
+
+	public float scaleToPhysical(float value) {
+		// Assumption: x scale = y scale
+		return value * region.x / virtualRegion.x;
+	}
 }

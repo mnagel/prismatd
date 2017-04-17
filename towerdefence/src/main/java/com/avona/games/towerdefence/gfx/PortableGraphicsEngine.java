@@ -37,6 +37,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 	private VertexArray[] missionVertices;
 	private VertexArray[] menuVertices;
+	private Shader towerShader;
 
 	public PortableGraphicsEngine(Display display, Game game, Mouse mouse,
 								  LayerHerder layerHerder, PortableMainLoop ml) {
@@ -73,15 +74,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			renderEnemy(e);
 		}
 		for (Tower t : game.towers) {
-			// pulsate selected tower
-			if (t == game.selectedObject) {
-				float origSize = t.radius;
-				t.radius = origSize * (1.0f + 0.2f * (float) Math.abs(Math.sin(4 * graphicsTime.clock)));
-				renderTower(t, null, gameLayer);
-				t.radius = origSize;
-			} else {
-				renderTower(t, null, gameLayer);
-			}
+			renderTower(t, null, gameLayer, t == game.selectedObject);
 		}
 		for (Particle p : game.particles) {
 			renderParticle(p);
@@ -234,15 +227,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 					menuLayer.virtualRegion.x * 0.5f,
 					menuLayer.virtualRegion.y * (1.0f - (i + 0.5f) / MENU_BUTTON_COUNT));
 
-			if (t == game.selectedBuildTower) {
-				// pulsate selected tower
-				float origSize = t.radius;
-				t.radius = origSize * (1.0f + 0.2f * (float) Math.abs(Math.sin(4 * graphicsTime.clock)));
-				renderTower(t, location, menuLayer);
-				t.radius = origSize;
-			} else {
-				renderTower(t, location, menuLayer);
-			}
+			renderTower(t, location, menuLayer, t == game.selectedBuildTower);
 		}
 
 		if (game.selectedObject instanceof Tower) {
@@ -383,8 +368,8 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		display.drawText(null, fpsString, false, new V2(2.0f, 4.0f), new RGB(1.0f, 1.0f, 1.0f), 1.0f);
 	}
 
-	private void renderTower(final Tower t, V2 overrideLocation, Layer layer) {
-		final float radius = t.radius;
+	private void renderTower(final Tower t, V2 overrideLocation, Layer layer, boolean selected) {
+		float radius = t.radius;
 		final V2 location = overrideLocation != null ? overrideLocation : t.location;
 
 		RGB gfxcol = t.color.normalized();
@@ -395,6 +380,20 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
 
 		va.reserveBuffers();
+
+		if (towerShader == null) {
+			towerShader = display.allocateShader();
+			towerShader.loadShaderProgram("tower.vert", "tower.frag");
+		}
+
+		towerShader.setUniform("selected", selected);
+		towerShader.setUniform("clock", graphicsTime.clock);
+		towerShader.setUniform("virtualLocation", location);
+		towerShader.setUniform("physicalLocation", layer.convertToPhysical(location));
+		towerShader.setUniform("physicalRadius", layer.scaleToPhysical(radius));
+
+		va.shader = towerShader;
+		va.hasShader = true;
 
 		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius,
 				location.y - radius, radius * 2, radius * 2, va);
