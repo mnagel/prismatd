@@ -8,6 +8,8 @@ import com.avona.games.towerdefence.gfx.DisplayEventListener;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.gfx.VertexArray;
+import com.avona.games.towerdefence.res.ResourceResolver;
+import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
@@ -16,12 +18,12 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.awt.TextRenderer;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import static com.jogamp.opengl.GL2.GL_BLEND;
@@ -92,6 +94,12 @@ public class AwtDisplay implements Display, GLEventListener {
 				.createCustomCursor(
 						new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR),
 						new java.awt.Point(0, 0), "NOCURSOR"));
+		try {
+			Image image = ImageIO.read(ResourceResolverRegistry.getInstance().getRawResource("icon.png"));
+			frame.setIconImage(image);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		frame.setVisible(true);
 	}
 
