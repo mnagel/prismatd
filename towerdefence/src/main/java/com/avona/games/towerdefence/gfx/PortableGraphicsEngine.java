@@ -265,10 +265,13 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			i++;
 		}
 
-		String waveButtonText =
-				wavenr + 1 < game.mission.getWaveCount() ?
-						"Send Wave #" + (wavenr + 2) :
-						"Final Wave!";
+		String waveButtonText =	"Send Wave #" + (wavenr + 2);
+		if (wavenr + 1 >= game.mission.getWaveCount()) {
+			waveButtonText = "Final Wave!";
+		}
+		if (game.mission.completed) {
+			waveButtonText = "Mission Done!";
+		}
 
 		display.drawText(
 				menuLayer,
