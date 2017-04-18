@@ -30,7 +30,7 @@ public class PaintRedTower extends Tower {
 
 	protected EnemySelectionPolicy getPolicyForLevel(int level) {
 		if (level > 1) {
-			return new NearestEnemyWithColourPolicy(false, true, false);
+			return new NearestEnemyWithColourPolicy(false, true, true);
 		}
 		return new NearestEnemyPolicy();
 	}

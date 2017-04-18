@@ -44,9 +44,6 @@ public class SlowDownTower extends Tower {
 
     @Override
     protected EnemySelectionPolicy getPolicyForLevel(int level) {
-        if (level > 1) {
-            return new NearestEnemyWithColourPolicy(false, true, false);
-        }
         return new NearestEnemyPolicy();
     }
 }

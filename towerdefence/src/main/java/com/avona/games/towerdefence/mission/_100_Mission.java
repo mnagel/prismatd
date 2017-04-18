@@ -12,11 +12,11 @@ import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 @SuppressWarnings("WeakerAccess")
 @MissionName(value = "There shall be light!")
-public class _100_Level extends Mission {
+public class _100_Mission extends Mission {
 
 	private static final long serialVersionUID = -3454126790549945539L;
 
-	public _100_Level(final Game game) {
+	public _100_Mission(final Game game) {
 		super(game);
 
 		waveTracker.waveBegunListeners

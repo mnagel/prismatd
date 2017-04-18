@@ -10,7 +10,8 @@ public final class MissionList {
 			_040_About_Money.class,
 			_050_SpecialTower_PaintRed.class,
 			_060_SpecialTower_SlowDown.class,
-			_100_Level.class,
+			_100_Mission.class,
+			_900_Benchmark.class,
 	};
 
 	public static String[] getAvailableMissionNames() {
