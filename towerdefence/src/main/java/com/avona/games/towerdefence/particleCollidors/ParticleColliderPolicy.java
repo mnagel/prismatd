@@ -7,6 +7,5 @@ import java.io.Serializable;
 import java.util.List;
 
 public interface ParticleColliderPolicy extends Serializable {
-	public void collideParticleWithEnemies(Particle p, List<Enemy> enemies,
-										   float dt);
+	void collideParticleWithEnemies(Particle p, List<Enemy> enemies, float dt);
 }

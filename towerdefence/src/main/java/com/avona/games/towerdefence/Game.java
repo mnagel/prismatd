@@ -16,13 +16,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public List<Enemy> enemies = new LinkedList<Enemy>();
-	public List<Tower> towers = new LinkedList<Tower>();
-	public List<Particle> particles = new LinkedList<Particle>();
-	public List<Transient> transients = new LinkedList<Transient>();
+	public List<Enemy> enemies = new LinkedList<>();
+	public List<Tower> towers = new LinkedList<>();
+	public List<Particle> particles = new LinkedList<>();
+	public List<Transient> transients = new LinkedList<>();
 	public TimeTrack gameTime = new TimeTrack();
 	public TimedCodeManager timedCodeManager = new TimedCodeManager();
 	public EventListener eventListener;
@@ -57,7 +58,7 @@ public class Game implements Serializable {
 
 			try {
 				Constructor<Mission> ctor = klass.getConstructor(Game.class);
-				Mission lvl = ctor.newInstance(new Object[]{this});
+				Mission lvl = ctor.newInstance(this);
 				this.missions[i] = lvl;
 			} catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
 				Util.log("died horribly in mission list hackery");
@@ -68,8 +69,7 @@ public class Game implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Object getLocationWithinRadius(final List objects,
-												 final V2 location, final float range) {
+	public static Object getLocationWithinRadius(final List objects, final V2 location, final float range) {
 		final List<LocationObject> locationObjects = (List<LocationObject>) objects;
 		for (final LocationObject lo : locationObjects) {
 			if (lo.collidesWith(location, range))
@@ -146,12 +146,11 @@ public class Game implements Serializable {
 		addTowerAt(selectedBuildTower.clone(), where);
 	}
 
-	public void addTowerAt(Tower t, GridCell where) {
-		Tower newTower = t;
+	public void addTowerAt(Tower newTower, GridCell where) {
 		newTower.location = new V2(where.center);
 		money -= newTower.getPrice();
 		addTransient(new TransientText(
-				String.format("-$%d", newTower.getPrice()),
+				String.format(Locale.US, "-$%d", newTower.getPrice()),
 				1.5f,
 				where.center,
 				new RGB(1.0f, 1.0f, 1.0f),
@@ -169,7 +168,7 @@ public class Game implements Serializable {
 		money -= price;
 		t.setLevel(t.level + 1);
 		addTransient(new TransientText(
-				String.format("-$%d", price),
+				String.format(Locale.US, "-$%d", price),
 				1.5f,
 				t.location,
 				new RGB(1.0f, 1.0f, 1.0f),
@@ -209,9 +208,7 @@ public class Game implements Serializable {
 		gameTime.updateTick(dt);
 		timedCodeManager.update(gameTime.tick);
 
-		/**
-		 * Step all objects first. This will cause them to move.
-		 */
+		// Step all objects first. This will cause them to move.
 		for (Enemy e : enemies) {
 			e.step(dt);
 		}
@@ -241,11 +238,8 @@ public class Game implements Serializable {
 			}
 		}
 
-		/**
-		 * Look for each tower, if it's ready to shoot and if an enemy ready to
-		 * shoot. If so, create a new particle. The tower is free to create any
-		 * particle in its shootTowards() method.
-		 */
+		// Look for each tower, if it's ready to shoot and if an enemy ready to shoot.
+		// If so, create a new particle. The tower is free to create any particle in its shootTowards() method.
 
 		for (Tower t : towers) {
 			Enemy enemy = t.findSuitableEnemy(enemies);
@@ -257,9 +251,7 @@ public class Game implements Serializable {
 			}
 		}
 
-		/**
-		 * Handle enemy damage / deaths.
-		 */
+		// Handle enemy damage / deaths.
 		Iterator<Enemy> eiter = enemies.iterator();
 		while (eiter.hasNext()) {
 			final Enemy e = eiter.next();

@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DisplayEventDistributor implements DisplayEventListener {
-	private List<DisplayEventListener> listeners = new LinkedList<DisplayEventListener>();
+	private List<DisplayEventListener> listeners = new LinkedList<>();
 
 	public void add(DisplayEventListener listener) {
 		listeners.add(listener);

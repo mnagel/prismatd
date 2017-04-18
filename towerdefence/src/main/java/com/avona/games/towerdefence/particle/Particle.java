@@ -16,9 +16,7 @@ public class Particle extends MovingObject {
 	public Enemy target;
 	public RGB strength;
 	protected float range = 5;
-	protected double timeAlive = 4.0;
 	protected boolean dead = false;
-	protected double counter = 0.0;
 	private ParticleColliderPolicy collidorPolicy;
 
 	public Particle(V2 location, Enemy target,

@@ -10,7 +10,7 @@ import com.avona.games.towerdefence.mission.MissionList;
 import java.util.HashMap;
 
 public class LayeredInputActor implements InputActor {
-	public HashMap<Layer, InputActor> inputLayerMap = new HashMap<Layer, InputActor>();
+	public HashMap<Layer, InputActor> inputLayerMap = new HashMap<>();
 	private PortableMainLoop ml;
 	private Mouse mouse;
 	private LayerHerder layerHerder;

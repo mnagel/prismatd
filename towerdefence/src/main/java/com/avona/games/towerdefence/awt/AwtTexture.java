@@ -23,8 +23,9 @@ public class AwtTexture extends Texture {
 	}
 
 	// TODO Use a native method instead of this.
-	protected ByteBuffer resizeAndCopyToBuffer(byte[] data,
-											   final ImageColorFormat fmt) {
+	protected ByteBuffer resizeAndCopyToBuffer(
+			byte[] data,
+			final ImageColorFormat fmt) {
 		assert nativeHeight * nativeWidth * 4 == data.length;
 
 		width = Util.roundUpPower2(nativeWidth);

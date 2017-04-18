@@ -15,7 +15,7 @@ public class BufferCache {
 
 	private BufferCache() {
 		for (int i = 0; i < cacheClasses.length; ++i) {
-			cacheClasses[i] = new LinkedList<ByteBuffer>();
+			cacheClasses[i] = new LinkedList<>();
 		}
 	}
 

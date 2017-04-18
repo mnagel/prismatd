@@ -7,13 +7,13 @@ import java.io.Serializable;
 
 public interface EventListener extends Serializable {
 
-	public void onBuildTower(Tower t);
+	void onBuildTower(Tower t);
 
-	public void onMissionSwitched(Mission mission);
+	void onMissionSwitched(Mission mission);
 
-	public void onMissionCompleted(Mission mission);
+	void onMissionCompleted(Mission mission);
 
-	public void onGameCompleted(Game g);
+	void onGameCompleted(Game g);
 
-	public void onGameOver(Game g);
+	void onGameOver(Game g);
 }

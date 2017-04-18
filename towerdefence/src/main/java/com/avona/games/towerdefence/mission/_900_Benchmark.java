@@ -33,9 +33,6 @@ public class _900_Benchmark extends Mission {
 				}
 			}
 		});
-
-		Util.log("autostarting first wave");
-		//waveTracker.startNextWave();
 	}
 
 	private void setupTowers() {
@@ -104,7 +101,7 @@ public class _900_Benchmark extends Mission {
 	@Override
 	protected WaveEnemyConfig[][] loadEnemyWaves() {
 		int lvl = 10000;
-		Enemy[] protoype = new Enemy[] {
+		Enemy[] prototype = new Enemy[] {
 				new RedEnemy(this, lvl),
 				new GreenEnemy(this, lvl),
 				new BlueEnemy(this, lvl),
@@ -114,7 +111,7 @@ public class _900_Benchmark extends Mission {
 				new RainbowEnemy(this, lvl),
 		};
 
-		for (Enemy e: protoype) {
+		for (Enemy e: prototype) {
 			e.getVelocity().setLength(50);
 		}
 
@@ -122,7 +119,7 @@ public class _900_Benchmark extends Mission {
 
 		for (int wave = 0; wave < wec.length; wave++) {
 			for (int enemy = 0; enemy < wec[0].length; enemy++) {
-				Enemy e = protoype[enemy % protoype.length].clone();
+				Enemy e = prototype[enemy % prototype.length].clone();
 				wec[wave][enemy] = new WaveEnemyConfig(e, 0.5f);
 			}
 		}

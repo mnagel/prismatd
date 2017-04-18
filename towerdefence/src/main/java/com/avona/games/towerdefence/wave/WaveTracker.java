@@ -11,16 +11,16 @@ public class WaveTracker implements Serializable {
 
 	private static final long serialVersionUID = 1069096293847665655L;
 
-	public List<WaveListener> waveFullyDeployedListeners = new LinkedList<WaveListener>();
-	public List<WaveListener> waveCompletedListeners = new LinkedList<WaveListener>();
-	public List<WaveListener> waveBegunListeners = new LinkedList<WaveListener>();
+	public List<WaveListener> waveFullyDeployedListeners = new LinkedList<>();
+	public List<WaveListener> waveCompletedListeners = new LinkedList<>();
+	public List<WaveListener> waveBegunListeners = new LinkedList<>();
 	private int waveNum = -1;
 	/**
 	 * Currently running wave.
 	 */
 	private Wave currentWave;
 	private WaveSender sender;
-	private List<Wave> pendingWaves = new LinkedList<Wave>();
+	private List<Wave> pendingWaves = new LinkedList<>();
 
 	public WaveTracker(final WaveSender sender) {
 		this.sender = sender;

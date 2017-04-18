@@ -5,7 +5,7 @@ import com.avona.games.towerdefence.enemy.Enemy;
 import java.io.Serializable;
 
 public interface EnemyEventListener extends Serializable {
-	public void onDeathEvent(Enemy e);
+	void onDeathEvent(Enemy e);
 
-	public void onEscapeEvent(Enemy e);
+	void onEscapeEvent(Enemy e);
 }

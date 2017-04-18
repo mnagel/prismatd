@@ -13,8 +13,7 @@ public class NearestEnemyWithColourPolicy implements EnemySelectionPolicy {
 	private boolean withGreen;
 	private boolean withBlue;
 
-	public NearestEnemyWithColourPolicy(boolean withRed, boolean withGreen,
-										boolean withBlue) {
+	public NearestEnemyWithColourPolicy(boolean withRed, boolean withGreen, boolean withBlue) {
 		this.withRed = withRed;
 		this.withGreen = withGreen;
 		this.withBlue = withBlue;
@@ -36,7 +35,7 @@ public class NearestEnemyWithColourPolicy implements EnemySelectionPolicy {
 		return b.toString();
 	}
 
-	final private boolean enemyHasOurColours(final Enemy e) {
+	private boolean enemyHasOurColours(final Enemy e) {
 		final RGB l = e.life;
 		return (withRed && l.R > 0) || (withGreen && l.G > 0)
 				|| (withBlue && l.B > 0);

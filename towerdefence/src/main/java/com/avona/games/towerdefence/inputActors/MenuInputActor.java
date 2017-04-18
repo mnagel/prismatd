@@ -40,7 +40,6 @@ public class MenuInputActor extends EmptyInputActor {
 
 		if (btn < game.mission.buildableTowers.length) {
 			game.selectedBuildTower = game.mission.buildableTowers[btn];
-			return;
 		}
 	}
 

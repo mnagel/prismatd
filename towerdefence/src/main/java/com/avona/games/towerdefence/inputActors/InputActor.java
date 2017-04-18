@@ -9,34 +9,29 @@ import com.avona.games.towerdefence.V2;
  */
 public interface InputActor {
 
-	public void pause();
+	void pause();
 
-	public void resume();
+	void resume();
 
-	public void togglePause();
+	void togglePause();
 
-	public void mouseBtn1DownAt(V2 location);
+	void mouseBtn1DownAt(V2 location);
 
-	public void mouseBtn1UpAt(V2 location);
+	void mouseBtn1UpAt(V2 location);
 
-	public void mouseBtn2DownAt(V2 location);
+	void mouseBtn2DownAt(V2 location);
 
-	public void mouseBtn2UpAt(V2 location);
+	void mouseBtn2UpAt(V2 location);
 
-	public void mouseEntered();
+	void mouseEntered();
 
-	public void mouseExited();
+	void mouseExited();
 
-	public void mouseMovedTo(V2 location);
+	void mouseMovedTo(V2 location);
 
-	public void mouseDraggedTo(V2 location);
+	void mouseDraggedTo(V2 location);
 
-	public void pressedMenuKey();
+	void pressedMenuKey();
 
-	/**
-	 * Used as debugging key for debugging purposes.
-	 *
-	 * @param keyCode
-	 */
-	public void pressedOtherKey(char keyCode);
+	void pressedOtherKey(char keyCode);
 }

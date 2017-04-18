@@ -29,7 +29,6 @@ public abstract class LocationObject implements Serializable {
 	public abstract void step(final float dt);
 
 	public boolean collidesWith(final V2 otherLocation, final float otherRadius) {
-		return Collision.circleCollidesWithCircle(location, radius,
-				otherLocation, otherRadius);
+		return Collision.circleCollidesWithCircle(location, radius, otherLocation, otherRadius);
 	}
 }

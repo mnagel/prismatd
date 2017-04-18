@@ -5,7 +5,6 @@ import com.avona.games.towerdefence.TimedCodeManager;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemySelection.EnemySelectionPolicy;
 import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
-import com.avona.games.towerdefence.enemySelection.NearestEnemyWithColourPolicy;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.particle.SlowDownParticle;
 import com.avona.games.towerdefence.particleCollidors.NearestEnemyColliderPolicy;

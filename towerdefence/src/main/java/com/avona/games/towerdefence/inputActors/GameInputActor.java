@@ -50,8 +50,7 @@ public class GameInputActor extends EmptyInputActor {
 			game.selectedObject = t;
 			return;
 		}
-		final Enemy e = game.getEnemyWithinRadius(location, mouse.radius);
-		game.selectedObject = e;
+		game.selectedObject = game.getEnemyWithinRadius(location, mouse.radius);
 	}
 
 	@Override

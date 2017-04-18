@@ -7,7 +7,6 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -33,27 +32,21 @@ public class AudioEngine extends Thread {
 			return;
 		}
 
-		AudioInputStream audioInputStream = null;
+		AudioInputStream audioInputStream;
 		try {
 			audioInputStream = AudioSystem.getAudioInputStream(soundFile);
-		} catch (UnsupportedAudioFileException e1) {
-			e1.printStackTrace();
-			return;
-		} catch (IOException e1) {
+		} catch (UnsupportedAudioFileException | IOException e1) {
 			e1.printStackTrace();
 			return;
 		}
 
 		AudioFormat format = audioInputStream.getFormat();
-		SourceDataLine auline = null;
+		SourceDataLine auline;
 		DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
 
 		try {
 			auline = (SourceDataLine) AudioSystem.getLine(info);
 			auline.open(format);
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;

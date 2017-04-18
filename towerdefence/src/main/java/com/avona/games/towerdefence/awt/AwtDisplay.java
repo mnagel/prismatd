@@ -8,7 +8,6 @@ import com.avona.games.towerdefence.gfx.DisplayEventListener;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.gfx.VertexArray;
-import com.avona.games.towerdefence.res.ResourceResolver;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -18,13 +17,15 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.awt.TextRenderer;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 
 import static com.jogamp.opengl.GL2.GL_BLEND;
 import static com.jogamp.opengl.GL2.GL_CLAMP_TO_EDGE;
@@ -69,8 +70,7 @@ public class AwtDisplay implements Display, GLEventListener {
 
 	public AwtDisplay(DisplayEventListener eventListener) {
 		this.eventListener = eventListener;
-		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 12),
-				true, true);
+		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 12), true, true);
 		setupGlCanvas();
 		setupFrame();
 	}
