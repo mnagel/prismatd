@@ -20,14 +20,14 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 public class MainLoop extends PortableMainLoop implements GLEventListener {
 	private static final String SAVEGAME = "savegame";
 
 	private static final long serialVersionUID = 1L;
 
-	final private int EXPECTED_FPS = 30;
+	final private int EXPECTED_FPS = 60;
 
 	public InputMangler input;
 	private AnimatorBase animator;
@@ -53,14 +53,17 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		initWithGame();
 	}
 
-	// TODO code duplication
-	private static int userSelectsAString(String title, String message, String[] strings) {
+	public static int userSelectsAString(String title, String message, String[] strings) {
 		int x = JOptionPane.showOptionDialog(
 				null,
 				message,
 				title,
 				0,
-				0, null, strings, null);
+				JOptionPane.PLAIN_MESSAGE,
+				null,
+				strings,
+				null
+		);
 
 		if (x == JOptionPane.CLOSED_OPTION) x = -1;
 		return x;
@@ -75,6 +78,12 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 
 			arg2 = new String[args.length - 1];
 			System.arraycopy(args, 1, arg2, 0, arg2.length);
+		}
+
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+			Util.log("cannot set native look and feel");
 		}
 
 		String[] missions = MissionList.getAvailableMissionNames();
