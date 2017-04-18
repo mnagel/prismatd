@@ -17,13 +17,12 @@ public abstract class Enemy extends MovingObject {
 	public int waypointId = 1;
 	public boolean escaped = false;
 	public int worth;
-	public List<EnemyEventListener> eventListeners = new LinkedList<EnemyEventListener>();
+	public List<EnemyEventListener> eventListeners = new LinkedList<>();
 	public V2 target;
 	public RGB life;
 	public RGB maxLife;
 
-	public Enemy(Mission mission, int levelNum, int worth, RGB maxLife, int speed,
-				 float radius) {
+	public Enemy(Mission mission, int levelNum, int worth, RGB maxLife, int speed, float radius) {
 		super();
 		this.mission = mission;
 		this.levelNum = levelNum;

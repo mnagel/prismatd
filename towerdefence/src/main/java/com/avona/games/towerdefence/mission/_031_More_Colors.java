@@ -1,9 +1,13 @@
 package com.avona.games.towerdefence.mission;
 
 import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.enemy.BlueEnemy;
 import com.avona.games.towerdefence.enemy.GreenEnemy;
+import com.avona.games.towerdefence.enemy.RainbowEnemy;
 import com.avona.games.towerdefence.enemy.RedEnemy;
+import com.avona.games.towerdefence.enemy.WhiteEnemy;
 import com.avona.games.towerdefence.enemy.YellowEnemy;
+import com.avona.games.towerdefence.tower.BlueTower;
 import com.avona.games.towerdefence.tower.GreenTower;
 import com.avona.games.towerdefence.tower.RedTower;
 import com.avona.games.towerdefence.tower.Tower;
@@ -66,7 +70,8 @@ public class _031_More_Colors extends Mission {
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
 				new RedTower(game.timedCodeManager, 1),
-				new GreenTower(game.timedCodeManager, 1)
+				new GreenTower(game.timedCodeManager, 1),
+				new BlueTower(game.timedCodeManager, 1)
 		};
 	}
 
@@ -81,20 +86,49 @@ public class _031_More_Colors extends Mission {
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
 				},
 				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(this, 1), 1.7f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 2.0f),
 
-						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(this, 1), 1.7f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 2.0f),
 
-						new WaveEnemyConfig(new YellowEnemy(this, 1), 0.0f),
+						new WaveEnemyConfig(new YellowEnemy(this, 1), 1.0f),
 						new WaveEnemyConfig(new RedEnemy(this, 1), 1.0f),
-						new WaveEnemyConfig(new YellowEnemy(this, 1), 0.0f),
+						new WaveEnemyConfig(new YellowEnemy(this, 1), 1.0f),
 						new WaveEnemyConfig(new RedEnemy(this, 1), 1.0f),
-						new WaveEnemyConfig(new YellowEnemy(this, 1), 0.0f),
+						new WaveEnemyConfig(new YellowEnemy(this, 1), 1.0f),
 						new WaveEnemyConfig(new RedEnemy(this, 1), 1.0f),
+				},
+				new WaveEnemyConfig[]{
+						new WaveEnemyConfig(new YellowEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new WhiteEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new YellowEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new WhiteEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new YellowEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new WhiteEnemy(this, 1), 1.0f),
+				},
+				new WaveEnemyConfig[]{
+
+						new WaveEnemyConfig(new RedEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new BlueEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new YellowEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new WhiteEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new YellowEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new WhiteEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new YellowEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new WhiteEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new BlueEnemy(this, 1), 2.0f),
+
+						new WaveEnemyConfig(new RainbowEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new RainbowEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new RainbowEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new RainbowEnemy(this, 1), 1.0f),
+						new WaveEnemyConfig(new RainbowEnemy(this, 1), 1.0f),
 				},
 		};
 	}

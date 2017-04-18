@@ -110,6 +110,8 @@ public class _900_Benchmark extends Mission {
 				new BlueEnemy(this, lvl),
 				new PurpleEnemy(this, lvl),
 				new YellowEnemy(this, lvl),
+				new WhiteEnemy(this, lvl),
+				new RainbowEnemy(this, lvl),
 		};
 
 		for (Enemy e: protoype) {

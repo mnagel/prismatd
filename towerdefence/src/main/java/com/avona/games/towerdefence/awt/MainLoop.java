@@ -152,8 +152,7 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 	}
 
 	@Override
-	public void reshape(GLAutoDrawable arg0, int arg1, int arg2, int arg3,
-						int arg4) {
+	public void reshape(GLAutoDrawable arg0, int arg1, int arg2, int arg3, int arg4) {
 		// Unused.
 	}
 
