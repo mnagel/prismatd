@@ -20,8 +20,6 @@ import android.graphics.Paint;
 
 import com.avona.games.towerdefence.Util;
 
-import javax.microedition.khronos.opengles.GL10;
-
 public class NumericSprite {
 	private final static String sStrike = "0123456789";
 	private LabelMaker mLabelMaker;
@@ -34,24 +32,24 @@ public class NumericSprite {
 		mLabelMaker = null;
 	}
 
-	public void initialize(GL10 gl, Paint paint) {
+	public void initialize(Paint paint) {
 		int height = Util.roundUpPower2((int) paint.getFontSpacing());
 		final float interDigitGaps = 9 * 1.0f;
 		int width = Util.roundUpPower2((int) (interDigitGaps + paint
 				.measureText(sStrike)));
 		mLabelMaker = new LabelMaker(true, width, height);
-		mLabelMaker.initialize(gl);
-		mLabelMaker.beginAdding(gl);
+		mLabelMaker.initialize();
+		mLabelMaker.beginAdding();
 		for (int i = 0; i < 10; i++) {
 			String digit = sStrike.substring(i, i + 1);
-			mLabelId[i] = mLabelMaker.add(gl, digit, paint);
+			mLabelId[i] = mLabelMaker.add(digit, paint);
 			mWidth[i] = (int) Math.ceil(mLabelMaker.getWidth(i));
 		}
-		mLabelMaker.endAdding(gl);
+		mLabelMaker.endAdding();
 	}
 
-	public void shutdown(GL10 gl) {
-		mLabelMaker.shutdown(gl);
+	public void shutdown() {
+		mLabelMaker.shutdown();
 		mLabelMaker = null;
 	}
 
@@ -59,16 +57,16 @@ public class NumericSprite {
 		mText = format(value);
 	}
 
-	public void draw(GL10 gl, float x, float y) {
+	public void draw(float x, float y) {
 		int length = mText.length();
-		mLabelMaker.beginDrawing(gl);
+		mLabelMaker.beginDrawing();
 		for (int i = 0; i < length; i++) {
 			char c = mText.charAt(i);
 			int digit = c - '0';
-			mLabelMaker.draw(gl, x, y, mLabelId[digit]);
+			mLabelMaker.draw(x, y, mLabelId[digit]);
 			x += mWidth[digit];
 		}
-		mLabelMaker.endDrawing(gl);
+		mLabelMaker.endDrawing();
 	}
 
 	public float width() {

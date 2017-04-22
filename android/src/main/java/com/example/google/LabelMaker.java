@@ -21,13 +21,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
 import java.util.ArrayList;
-
-import javax.microedition.khronos.opengles.GL10;
-import javax.microedition.khronos.opengles.GL11;
-import javax.microedition.khronos.opengles.GL11Ext;
 
 /**
  * An OpenGL text label maker.
@@ -81,51 +78,38 @@ public class LabelMaker {
 
 	/**
 	 * Call to initialize the class. Call whenever the surface has been created.
-	 *
-	 * @param gl
 	 */
-	public void initialize(GL10 gl) {
+	public void initialize() {
 		mState = STATE_INITIALIZED;
 		int[] textures = new int[1];
-		gl.glGenTextures(1, textures, 0);
+		GLES20.glGenTextures(1, textures, 0);
 		mTextureID = textures[0];
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureID);
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureID);
 
 		// Use Nearest for performance.
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER,
-				GL10.GL_NEAREST);
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER,
-				GL10.GL_NEAREST);
+		GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+		GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
 
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S,
-				GL10.GL_CLAMP_TO_EDGE);
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T,
-				GL10.GL_CLAMP_TO_EDGE);
-
-		gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE,
-				GL10.GL_REPLACE);
+		GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+		GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
 	}
 
 	/**
 	 * Call when the surface has been destroyed
 	 */
-	public void shutdown(GL10 gl) {
-		if (gl != null) {
-			if (mState > STATE_NEW) {
-				int[] textures = new int[1];
-				textures[0] = mTextureID;
-				gl.glDeleteTextures(1, textures, 0);
-				mState = STATE_NEW;
-			}
+	public void shutdown() {
+		if (mState > STATE_NEW) {
+			int[] textures = new int[1];
+			textures[0] = mTextureID;
+			GLES20.glDeleteTextures(1, textures, 0);
+			mState = STATE_NEW;
 		}
 	}
 
 	/**
 	 * Call before adding labels. Clears out any existing labels.
-	 *
-	 * @param gl
 	 */
-	public void beginAdding(GL10 gl) {
+	public void beginAdding() {
 		checkState(STATE_INITIALIZED, STATE_ADDING);
 		mLabels.clear();
 		mU = 0;
@@ -141,25 +125,23 @@ public class LabelMaker {
 	/**
 	 * Call to add a label
 	 *
-	 * @param gl
 	 * @param text      the text of the label
 	 * @param textPaint the paint of the label
 	 * @return the id of the label, used to measure and draw the label
 	 */
-	public int add(GL10 gl, String text, Paint textPaint) {
-		return add(gl, null, text, textPaint);
+	public int add(String text, Paint textPaint) {
+		return add(null, text, textPaint);
 	}
 
 	/**
 	 * Call to add a label
 	 *
-	 * @param gl
 	 * @param text      the text of the label
 	 * @param textPaint the paint of the label
 	 * @return the id of the label, used to measure and draw the label
 	 */
-	public int add(GL10 gl, Drawable background, String text, Paint textPaint) {
-		return add(gl, background, text, textPaint, 0, 0);
+	public int add(Drawable background, String text, Paint textPaint) {
+		return add(background, text, textPaint, 0, 0);
 	}
 
 	/**
@@ -167,19 +149,18 @@ public class LabelMaker {
 	 *
 	 * @return the id of the label, used to measure and draw the label
 	 */
-	public int add(GL10 gl, Drawable drawable, int minWidth, int minHeight) {
-		return add(gl, drawable, null, null, minWidth, minHeight);
+	public int add(Drawable drawable, int minWidth, int minHeight) {
+		return add(drawable, null, null, minWidth, minHeight);
 	}
 
 	/**
 	 * Call to add a label
 	 *
-	 * @param gl
 	 * @param text      the text of the label
 	 * @param textPaint the paint of the label
 	 * @return the id of the label, used to measure and draw the label
 	 */
-	public int add(GL10 gl, Drawable background, String text, Paint textPaint,
+	public int add(Drawable background, String text, Paint textPaint,
 				   int minWidth, int minHeight) {
 		checkState(STATE_ADDING, STATE_ADDING);
 		boolean drawBackground = background != null;
@@ -261,13 +242,11 @@ public class LabelMaker {
 
 	/**
 	 * Call to end adding labels. Must be called before drawing starts.
-	 *
-	 * @param gl
 	 */
-	public void endAdding(GL10 gl) {
+	public void endAdding() {
 		checkState(STATE_ADDING, STATE_INITIALIZED);
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureID);
-		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, mBitmap, 0);
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureID);
+		GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, mBitmap, 0);
 		// Reclaim storage used by bitmap and canvas.
 		mBitmap.recycle();
 		mBitmap = null;
@@ -308,47 +287,42 @@ public class LabelMaker {
 
 	/**
 	 * Begin drawing labels. Sets the OpenGL state for rapid drawing.
-	 *
-	 * @param gl
 	 */
-	public void beginDrawing(GL10 gl) {
+	public void beginDrawing() {
 		checkState(STATE_INITIALIZED, STATE_DRAWING);
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureID);
-		gl.glColor4x(0x10000, 0x10000, 0x10000, 0x10000);
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureID);
+		// TODO needs GLES20 replacement
+//		GLES20.glColor4x(0x10000, 0x10000, 0x10000, 0x10000);
 	}
 
 	/**
 	 * Draw a given label at a given x,y position, expressed in pixels, with the
 	 * lower-left-hand-corner of the view being (0,0).
 	 *
-	 * @param gl
 	 * @param x
 	 * @param y
 	 * @param labelID
 	 */
-	public void draw(GL10 gl, float x, float y, int labelID) {
+	public void draw(float x, float y, int labelID) {
 		checkState(STATE_DRAWING, STATE_DRAWING);
-		gl.glPushMatrix();
-		float snappedX = (float) Math.floor(x);
-		float snappedY = (float) Math.floor(y);
-		gl.glTranslatef(snappedX, snappedY, 0.0f);
-		Label label = mLabels.get(labelID);
-		gl.glEnable(GL10.GL_TEXTURE_2D);
-		((GL11) gl).glTexParameteriv(GL10.GL_TEXTURE_2D,
-				GL11Ext.GL_TEXTURE_CROP_RECT_OES, label.mCrop, 0);
-		((GL11Ext) gl).glDrawTexiOES((int) snappedX, (int) snappedY, 0,
-				(int) label.width, (int) label.height);
-		gl.glPopMatrix();
+		// TODO needs GLES20 replacement
+//		GLES20.glPushMatrix();
+//		float snappedX = (float) Math.floor(x);
+//		float snappedY = (float) Math.floor(y);
+//		GLES20.glTranslatef(snappedX, snappedY, 0.0f);
+//		Label label = mLabels.get(labelID);
+//		GLES20.glEnable(GLES20.GL_TEXTURE_2D);
+//		GLES20.glTexParameteriv(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_CROP_RECT_OES, label.mCrop, 0);
+//		GLES20.glDrawTexiOES((int) snappedX, (int) snappedY, 0, (int) label.width, (int) label.height);
+//		GLES20.glPopMatrix();
 	}
 
 	/**
 	 * Ends the drawing and restores the OpenGL state.
-	 *
-	 * @param gl
 	 */
-	public void endDrawing(GL10 gl) {
+	public void endDrawing() {
 		checkState(STATE_DRAWING, STATE_INITIALIZED);
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 	}
 
 	private void checkState(int oldState, int newState) {
@@ -363,6 +337,7 @@ public class LabelMaker {
 		public float height;
 		public float baseline;
 		public int[] mCrop;
+
 		public Label(float width, float height, float baseLine, int cropU,
 					 int cropV, int cropW, int cropH) {
 			this.width = width;

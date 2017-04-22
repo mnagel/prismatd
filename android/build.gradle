@@ -25,7 +25,13 @@ task gfxIconData(type: Copy) {
 
 task gfxShaderData(type: Copy) {
     from project(':').file('gfx/shaders')
-    into file('src/main/shaders')
+    into file('src/main/res/raw')
+    rename { filename ->
+        filename.replace '.frag', '_frag.glsl'
+    }
+    rename { filename ->
+        filename.replace '.vert', '_vert.glsl'
+    }
 }
 
 preBuild.dependsOn gfxIconData
