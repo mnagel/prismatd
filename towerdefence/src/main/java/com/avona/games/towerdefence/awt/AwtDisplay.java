@@ -1,12 +1,10 @@
 package com.avona.games.towerdefence.awt;
 
-import android.opengl.Matrix;
-
 import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.gfx.Display;
 import com.avona.games.towerdefence.gfx.DisplayEventListener;
+import com.avona.games.towerdefence.gfx.PortableDisplay;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.gfx.Shader;
 import com.avona.games.towerdefence.gfx.Texture;
@@ -28,7 +26,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Stack;
 
 import javax.imageio.ImageIO;
 
@@ -65,19 +62,13 @@ import static com.jogamp.opengl.GL2.GL_VERTEX_ARRAY;
  * will iterate over all in-game objects and call (possibly overloaded) class
  * methods to perform the GL calls. It will not touch any in-game state, though.
  */
-public class AwtDisplay implements Display, GLEventListener {
+public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	public Frame frame;
 	public GLCanvas canvas;
 	private GL2 gl;
 	private TextRenderer renderer;
 	private V2 size = new V2();
 	private DisplayEventListener eventListener;
-	private float[] modelMatrix = new float[16];
-	private float[] viewMatrix = new float[16];
-	private float[] modelViewMatrix = new float[16];
-	private float[] projectionMatrix = new float[16];
-	private float[] mvpMatrix = new float[16];
-	private Stack<float[]> modelMatrixStack = new Stack<>();
 
 	public AwtDisplay(DisplayEventListener eventListener) {
 		this.eventListener = eventListener;
@@ -175,15 +166,12 @@ public class AwtDisplay implements Display, GLEventListener {
 
 		gl.glViewport(0, 0, (int) size.x, (int) size.y);
 
-		Matrix.setIdentityM(modelMatrix, 0);
-		Matrix.setIdentityM(viewMatrix, 0);
-		Matrix.multiplyMM(modelViewMatrix, 0, viewMatrix, 0, modelMatrix, 0);
-		Matrix.orthoM(projectionMatrix, 0, 0, width, 0, height, -1, 1);
+		initializeMatrices(width, height);
 
 		gl.glMatrixMode(GL_PROJECTION);
-		gl.glLoadMatrixf(projectionMatrix, 0);
+		gl.glLoadMatrixf(getProjectionMatrix(), 0);
 		gl.glMatrixMode(GL_MODELVIEW);
-		gl.glLoadMatrixf(modelViewMatrix, 0);
+		gl.glLoadMatrixf(getModelViewMatrix(), 0);
 
 		eventListener.onReshapeScreen();
 	}
@@ -197,18 +185,14 @@ public class AwtDisplay implements Display, GLEventListener {
 
 	@Override
 	public void prepareTransformationForLayer(Layer layer) {
-		modelMatrixStack.push(modelMatrix.clone());
-		Matrix.translateM(modelMatrix, 0, layer.offset.x, layer.offset.y, 0);
-		Matrix.scaleM(modelMatrix, 0, layer.region.x / layer.virtualRegion.x, layer.region.y / layer.virtualRegion.y, 1);
-		Matrix.multiplyMM(modelViewMatrix, 0, viewMatrix, 0, modelMatrix, 0);
-		gl.glLoadMatrixf(modelViewMatrix, 0);
+		super.prepareTransformationForLayer(layer);
+		gl.glLoadMatrixf(getModelViewMatrix(), 0);
 	}
 
 	@Override
 	public void resetTransformation() {
-		modelMatrix = modelMatrixStack.pop();
-		Matrix.multiplyMM(modelViewMatrix, 0, viewMatrix, 0, modelMatrix, 0);
-		gl.glLoadMatrixf(modelViewMatrix, 0);
+		super.resetTransformation();
+		gl.glLoadMatrixf(getModelViewMatrix(), 0);
 	}
 
 	@Override
@@ -235,8 +219,7 @@ public class AwtDisplay implements Display, GLEventListener {
 		if (array.hasShader) {
 			assert array.shader != null;
 			int program = array.shader.getProgram();
-			gl.glUseProgram(program);
-
+			
 			HashMap<String, Shader.Variable> variables = array.shader.getUniforms();
 			for (Shader.Variable variable : variables.values()) {
 				if (variable.value == null) {
@@ -257,10 +240,10 @@ public class AwtDisplay implements Display, GLEventListener {
 				}
 			}
 
-			Matrix.multiplyMM(modelViewMatrix, 0, viewMatrix, 0, modelMatrix, 0);
-			Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, modelViewMatrix, 0);
+			gl.glUseProgram(program);
+
 			int mvpMatrixLoc = gl.glGetUniformLocation(program, "u_mvpMatrix");
-			gl.glUniformMatrix4fv(mvpMatrixLoc, 1, false, mvpMatrix, 0);
+			gl.glUniformMatrix4fv(mvpMatrixLoc, 1, false, getMvpMatrix(), 0);
 
 			int posAttrib = gl.glGetAttribLocation(program, "a_position");
 			gl.glEnableVertexAttribArray(posAttrib);
