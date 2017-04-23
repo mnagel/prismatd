@@ -260,14 +260,23 @@ public class Game implements Serializable {
 				continue;
 			}
 
-			final V2 w = mission.waypoints[e.waypointId].center;
-			if (Collision.movingCircleCollidedWithCircle(e.location,
-					e.getVelocity(), e.radius, w, V2.ZERO, 1, dt)) {
+			final V2 lastWp = mission.waypoints[e.waypointId - 1].center;
+			final V2 currentWp = e.target;
+			float overshoot = lastWp.dist(e.location) - lastWp.dist(currentWp);
+			if (overshoot >= 0) {
+				// Position exactly on waypoint for correct direction calculation
+				e.location = currentWp.clone();
 				e.setWPID(e.waypointId + 1);
 				if (e.escaped) {
 					eiter.remove();
 					continue;
 				}
+
+				// Compensate motion lost for overshoot towards next waypoint
+				V2 move = new V2(e.target);
+				move.sub(e.location);
+				move.setLength(overshoot);
+				e.location.add(move);
 			}
 		}
 	}

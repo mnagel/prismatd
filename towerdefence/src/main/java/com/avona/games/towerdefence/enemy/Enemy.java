@@ -55,9 +55,6 @@ public abstract class Enemy extends MovingObject {
 
 	public void setWPID(int waypointId) {
 		this.waypointId = waypointId;
-		// move exactly onto current waypoint. prevents unwanted diagonal movement.
-		// TODO: do not teleport here, but account for the distance between current location and waypoint
-		location = mission.waypoints[waypointId - 1].center.clone();
 		if (waypointId < mission.waypoints.length) {
 			target = mission.waypoints[waypointId].center;
 			getVelocity().setDirection(location, target);
