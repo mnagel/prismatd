@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -55,19 +56,13 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 	}
 
 	public static int userSelectsAString(String title, String message, String[] strings) {
-		int x = JOptionPane.showOptionDialog(
-				null,
-				message,
-				title,
-				0,
-				JOptionPane.PLAIN_MESSAGE,
-				null,
-				strings,
-				null
-		);
+		String s = (String) JOptionPane.showInputDialog(null, message, title, JOptionPane.QUESTION_MESSAGE, null, strings, strings[0]);
+		if (s == null) {
+			return -1;
+		}
 
-		if (x == JOptionPane.CLOSED_OPTION) x = -1;
-		return x;
+		// Returns -1 if the list does not contain the element
+		return Arrays.asList(strings).indexOf(s);
 	}
 
 	public static void main(String[] args) {
