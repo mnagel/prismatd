@@ -2,7 +2,6 @@ package com.avona.games.towerdefence.android;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.graphics.Paint;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView.Renderer;
 
@@ -33,6 +32,13 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 	private AssetManager assetManager;
 	private int textSize;
 
+	private void checkGLError(String op) {
+		int error;
+		while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
+			Util.log(op + ": glError " + error);
+		}
+	}
+
 	public AndroidDisplay(Context context, DisplayEventListener eventListener) {
 		this.eventListener = eventListener;
 		this.assetManager = context.getAssets();
@@ -44,6 +50,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 
 	@Override
 	public void onDrawFrame(GL10 glUnused) {
+		checkGLError("onDrawFrame");
 	}
 
 	@Override
@@ -69,6 +76,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		glText.load("Roboto-Regular.ttf", textSize, 2, 2);
 
 		eventListener.onNewScreenContext();
+		checkGLError("after onSurfaceCreated");
 	}
 
 	public void prepareScreen() {
@@ -89,6 +97,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		glText.begin(color.R, color.G, color.B, alpha, getMvpMatrix());
 		glText.draw(text, loc.x, loc.y);
 		glText.end();
+		checkGLError("after drawText");
 	}
 
 	@Override
@@ -182,6 +191,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		GLES20.glDisableVertexAttribArray(posAttrib);
 		GLES20.glDisableVertexAttribArray(colAttrib);
 		GLES20.glUseProgram(0);
+		checkGLError("after drawVertexArray");
 	}
 
 	@Override
@@ -192,7 +202,6 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		GLES20.glGenTextures(1, textures, 0);
 		texture.textureId = textures[0];
 
-		assert GLES20.glGetError() == 0;
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.textureId);
 
 		GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
@@ -201,10 +210,9 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
 		GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
 
-		Util.log("glGetError after create texture: " + GLES20.glGetError());
-		assert GLES20.glGetError() == 0;
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 
+		checkGLError("after drawVertexArray");
 		return texture;
 	}
 
