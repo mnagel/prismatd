@@ -49,11 +49,6 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 	}
 
 	@Override
-	public void onDrawFrame(GL10 glUnused) {
-		checkGLError("onDrawFrame");
-	}
-
-	@Override
 	public void onSurfaceChanged(GL10 glUnused, int width, int height) {
 		size = new V2(width, height);
 
@@ -65,15 +60,23 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 	}
 
 	@Override
+	public void onDrawFrame(GL10 gl) {
+
+	}
+
+	@Override
 	public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
+		glText = new GLText(assetManager);
+		glText.load("Roboto-Regular.ttf", textSize, 2, 2);
+		myinit();
+	}
+
+	public void myinit() {
 		GLES20.glEnable(GLES20.GL_BLEND);
 		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		defaultShader = allocateShader("default");
 		defaultShader.loadShaderProgram("default.vert", "default.frag");
-
-		glText = new GLText(assetManager);
-		glText.load("Roboto-Regular.ttf", textSize, 2, 2);
 
 		eventListener.onNewScreenContext();
 		checkGLError("after onSurfaceCreated");
@@ -86,34 +89,9 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 	}
 
 	@Override
-	public void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha) {
-		V2 loc = location.clone();
-		if (centered) {
-			final V2 textBounds = getTextBounds(text);
-			loc.x -= textBounds.x / 2;
-			loc.y -= textBounds.y / 2;
-		}
-
-		glText.begin(color.R, color.G, color.B, alpha, getMvpMatrix());
-		glText.draw(text, loc.x, loc.y);
-		glText.end();
-		checkGLError("after drawText");
-	}
-
-	@Override
-	public V2 getTextBounds(final String text) {
-		float height = glText.getHeight();
-		float width = glText.getLength(text);
-		return new V2(width, height);
-	}
-
-	@Override
 	public void drawVertexArray(final VertexArray array) {
-		assert array.coordBuffer != null;
-
 		int program;
 		if (array.hasShader) {
-			assert array.shader != null;
 			program = array.shader.getProgram();
 			checkGLError("before glUseProgram");
 			GLES20.glUseProgram(program);
@@ -181,8 +159,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		} else if (array.mode == VertexArray.Mode.TRIANGLES) {
 			assert array.indexBuffer != null;
 			array.indexBuffer.position(0);
-			GLES20.glDrawElements(GLES20.GL_TRIANGLES, array.numIndexes,
-					GLES20.GL_UNSIGNED_SHORT, array.indexBuffer);
+			GLES20.glDrawElements(GLES20.GL_TRIANGLES, array.numIndexes, GLES20.GL_UNSIGNED_SHORT, array.indexBuffer);
 		} else if (array.mode == VertexArray.Mode.LINE_STRIP) {
 			GLES20.glDrawArrays(GLES20.GL_LINE_STRIP, 0, array.numCoords);
 		}
@@ -235,5 +212,27 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 	public int userSelectsAString(String title, String message, String[] strings) {
 		Util.log("called unimplemented method userSelectsAString on android...");
 		return -1;
+	}
+
+	@Override
+	public void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha) {
+		V2 loc = location.clone();
+		if (centered) {
+			final V2 textBounds = getTextBounds(text);
+			loc.x -= textBounds.x / 2;
+			loc.y -= textBounds.y / 2;
+		}
+
+		glText.begin(color.R, color.G, color.B, alpha, getMvpMatrix());
+		glText.draw(text, loc.x, loc.y);
+		glText.end();
+		checkGLError("after drawText");
+	}
+
+	@Override
+	public V2 getTextBounds(final String text) {
+		float height = glText.getHeight();
+		float width = glText.getLength(text);
+		return new V2(width, height);
 	}
 }
