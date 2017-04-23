@@ -139,6 +139,7 @@ public class Game implements Serializable {
 		return !isPaused()
 				&& selectedBuildTower != null
 				&& money >= selectedBuildTower.getPrice()
+				&& where != null
 				&& where.state == CellState.FREE;
 	}
 
