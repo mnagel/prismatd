@@ -127,7 +127,7 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 
 	public void prepareScreen() {
 		// Paint background, clearing previous drawings.
-		GLES20.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+		//GLES20.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 	}
 

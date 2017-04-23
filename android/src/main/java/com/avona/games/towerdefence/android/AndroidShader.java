@@ -21,7 +21,7 @@ public class AndroidShader extends Shader {
 		return name;
 	}
 
-	private static int compileShader(String shaderString, int shaderType) {
+	private int compileShader(String shaderString, int shaderType) {
 		int program = GLES20.glCreateShader(shaderType);
 
 		GLES20.glShaderSource(program, shaderString);
@@ -31,17 +31,17 @@ public class AndroidShader extends Shader {
 		GLES20.glGetShaderiv(program, GLES20.GL_COMPILE_STATUS, compiled, 0);
 		if (compiled[0] == 0) {
 			GLES20.glDeleteProgram(program);
-			throw new RuntimeException("Error compiling shader: " + GLES20.glGetShaderInfoLog(program));
+			throw new RuntimeException("Error compiling shader: " + this.getName() + ": " + GLES20.glGetShaderInfoLog(program));
 		}
 
 		return program;
 	}
 
-	private static int compileVertexShader(String vertexShaderString) {
+	private int compileVertexShader(String vertexShaderString) {
 		return compileShader(vertexShaderString, GLES20.GL_VERTEX_SHADER);
 	}
 
-	private static int compileFragmentShader(String fragmentShaderString) {
+	private int compileFragmentShader(String fragmentShaderString) {
 		return compileShader(fragmentShaderString, GLES20.GL_FRAGMENT_SHADER);
 	}
 

@@ -38,6 +38,8 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	private VertexArray[] missionVertices;
 	private VertexArray[] menuVertices;
 	private Shader towerShader;
+	private Shader enemyShader;
+	private Shader particleShader;
 
 	public PortableGraphicsEngine(Display display, Game game, Mouse mouse,
 								  LayerHerder layerHerder, PortableMainLoop ml) {
@@ -299,6 +301,20 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
 
+		if (enemyShader == null) {
+			enemyShader = display.allocateShader("enemy");
+			enemyShader.loadShaderProgram("enemy.vert", "enemy.frag");
+		}
+
+		enemyShader.setUniform("selected", false);
+		enemyShader.setUniform("clock", graphicsTime.clock);
+		enemyShader.setUniform("virtualLocation", location);
+		enemyShader.setUniform("physicalLocation", gameLayer.convertToPhysical(location));
+		enemyShader.setUniform("physicalRadius", gameLayer.scaleToPhysical(radius));
+
+		va.shader = enemyShader;
+		va.hasShader = true;
+
 		va.reserveBuffers();
 
 		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius,
@@ -432,6 +448,20 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		va.hasColour = true;
 		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+
+		if (particleShader == null) {
+			particleShader = display.allocateShader("particle");
+			particleShader.loadShaderProgram("particle.vert", "particle.frag");
+		}
+
+		particleShader.setUniform("selected", false);
+		particleShader.setUniform("clock", graphicsTime.clock);
+		particleShader.setUniform("virtualLocation", location);
+		particleShader.setUniform("physicalLocation", gameLayer.convertToPhysical(location));
+		particleShader.setUniform("physicalRadius", gameLayer.scaleToPhysical(p.radius));
+
+		va.shader = particleShader;
+		va.hasShader = false; // something broken here with the shader
 
 		va.reserveBuffers();
 

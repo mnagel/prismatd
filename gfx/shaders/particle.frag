@@ -9,8 +9,6 @@ uniform float clock;
 varying float modifiedRadius;
 
 void main(void) {
-
-
 	vec2 posOnObject = (1.0 / 2.0 / modifiedRadius) * (gl_FragCoord.xy - physicalLocation);
 
 	// Color from vertex shader
