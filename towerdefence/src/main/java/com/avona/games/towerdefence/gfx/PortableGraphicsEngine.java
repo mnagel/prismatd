@@ -439,12 +439,10 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		RGB gfxcol = p.strength.normalized();
 
-		final float width = 10;
-		final float height = 10;
+		final float radius = p.radius;
 		final V2 location = p.location;
 
-		VertexArray va = new VertexArray();
-
+		final VertexArray va = new VertexArray();
 		va.hasColour = true;
 		va.numCoords = 4;
 		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
@@ -458,20 +456,15 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		particleShader.setUniform("clock", graphicsTime.clock);
 		particleShader.setUniform("virtualLocation", location);
 		particleShader.setUniform("physicalLocation", gameLayer.convertToPhysical(location));
-		particleShader.setUniform("physicalRadius", gameLayer.scaleToPhysical(p.radius));
+		particleShader.setUniform("physicalRadius", gameLayer.scaleToPhysical(radius));
 
 		va.shader = particleShader;
-		va.hasShader = false; // something broken here with the shader
+		va.hasShader = true;
 
 		va.reserveBuffers();
 
-		GeometryHelper.boxVerticesAsTriangleStrip(
-				location.x - width / 2,
-				location.y - height / 2,
-				width,
-				height,
-				va
-		);
+		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius,
+				location.y - radius, radius * 2, radius * 2, va);
 
 		// Top right
 		va.addColour(gfxcol.R * 1.0f, gfxcol.G * 0.9f, gfxcol.B * 0.9f, 1.0f);
