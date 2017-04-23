@@ -15,13 +15,13 @@ public class Particle extends MovingObject {
 	public static Random r = new Random();
 	public Enemy target;
 	public RGB strength;
-	protected float range = 5;
 	protected boolean dead = false;
 	private ParticleColliderPolicy collidorPolicy;
 
 	public Particle(V2 location, Enemy target,
 					ParticleColliderPolicy collidorPolicy, int velocity, RGB strength) {
 		this.location = location.clone();
+		this.radius = 5;
 		this.target = target;
 		this.collidorPolicy = collidorPolicy;
 		this.strength = strength;
@@ -36,7 +36,7 @@ public class Particle extends MovingObject {
 
 	public boolean collidedWith(Enemy e, final float dt) {
 		return Collision.movingCircleCollidesWithCircle(location, getVelocity(),
-				range, e.location, e.getVelocity(), e.radius, dt);
+				radius, e.location, e.getVelocity(), e.radius, dt);
 	}
 
 	/**
