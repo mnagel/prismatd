@@ -35,6 +35,7 @@ import javax.imageio.ImageIO;
  * will iterate over all in-game objects and call (possibly overloaded) class
  * methods to perform the GL calls. It will not touch any in-game state, though.
  */
+@SuppressWarnings("AccessStaticViaInstance")
 public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	public Frame frame;
 	public GLCanvas canvas;
