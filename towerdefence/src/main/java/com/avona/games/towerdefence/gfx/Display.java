@@ -13,7 +13,7 @@ public interface Display {
 
 	Texture allocateTexture();
 
-	Shader allocateShader();
+	Shader allocateShader(String name);
 
 	void prepareTransformationForLayer(Layer layer);
 

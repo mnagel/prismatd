@@ -18,6 +18,8 @@ public abstract class Shader {
 		return program;
 	}
 
+	public abstract String getName();
+
 	protected abstract int getUniformLocation(String name);
 
 	public void setUniform(String name, Object value) {

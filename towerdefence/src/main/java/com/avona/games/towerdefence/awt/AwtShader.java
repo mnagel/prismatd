@@ -7,12 +7,19 @@ import com.jogamp.opengl.GL2;
 import java.io.InputStream;
 
 public class AwtShader extends Shader {
+	private String name;
 	private final GL2 gl;
 	private int vertexShader = -1;
 	private int fragmentShader = -1;
 
-	public AwtShader(final GL2 gl) {
+	public AwtShader(final GL2 gl, String name) {
 		this.gl = gl;
+		this.name = name;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	private static int compileShader(GL2 gl, String shaderString, int shaderType) {

@@ -8,8 +8,18 @@ import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import java.io.InputStream;
 
 public class AndroidShader extends Shader {
+	private String name;
 	private int vertexShader = -1;
 	private int fragmentShader = -1;
+
+	public AndroidShader(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
 
 	private static int compileShader(String shaderString, int shaderType) {
 		int program = GLES20.glCreateShader(shaderType);

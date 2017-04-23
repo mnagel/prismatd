@@ -32,13 +32,6 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 	private AssetManager assetManager;
 	private int textSize;
 
-	private void checkGLError(String op) {
-		int error;
-		while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
-			Util.log(op + ": glError " + error);
-		}
-	}
-
 	public AndroidDisplay(Context context, DisplayEventListener eventListener) {
 		this.eventListener = eventListener;
 		this.assetManager = context.getAssets();
@@ -46,6 +39,13 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		// Galaxy S has a DPI of roughly xhdpi (2.0). Let's take it as the reference metric.
 		//textSize = (int) (context.getResources().getDisplayMetrics().density / 2.0 * 20);
 		textSize = 14;
+	}
+
+	private void checkGLError(String op) {
+		int error;
+		while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
+			Util.log(op + ": glError " + error);
+		}
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		GLES20.glEnable(GLES20.GL_BLEND);
 		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
-		defaultShader = allocateShader();
+		defaultShader = allocateShader("default");
 		defaultShader.loadShaderProgram("default.vert", "default.frag");
 
 		glText = new GLText(assetManager);
@@ -115,6 +115,8 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		if (array.hasShader) {
 			assert array.shader != null;
 			program = array.shader.getProgram();
+			checkGLError("before glUseProgram");
+			GLES20.glUseProgram(program);
 
 			HashMap<String, Shader.Variable> variables = array.shader.getUniforms();
 			for (Shader.Variable variable : variables.values()) {
@@ -134,30 +136,31 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 					V2 v = (V2) variable.value;
 					GLES20.glUniform2f(variable.uniformLocation, v.x, v.y);
 				}
+				checkGLError("after variable " + array.shader.getName() + ":" + variable.name);
 			}
 		} else {
 			program = defaultShader.getProgram();
+			checkGLError("before glUseProgram");
+			GLES20.glUseProgram(program);
 		}
-
-		GLES20.glUseProgram(program);
 
 		int mvpMatrixLoc = GLES20.glGetUniformLocation(program, "u_mvpMatrix");
 		GLES20.glUniformMatrix4fv(mvpMatrixLoc, 1, false, getMvpMatrix(), 0);
+		checkGLError("after u_mvpMatrix");
 
 		array.coordBuffer.position(0);
 		int posAttrib = GLES20.glGetAttribLocation(program, "a_position");
 		GLES20.glVertexAttribPointer(posAttrib, 2, GLES20.GL_FLOAT, false, 0, array.coordBuffer);
 		GLES20.glEnableVertexAttribArray(posAttrib);
+		checkGLError("after a_position");
 
 		array.colourBuffer.position(0);
 		int colAttrib = GLES20.glGetAttribLocation(program, "a_color");
 		GLES20.glVertexAttribPointer(colAttrib, 4, GLES20.GL_FLOAT, false, 0, array.colourBuffer);
 		GLES20.glEnableVertexAttribArray(colAttrib);
+		checkGLError("after a_color");
 
 		if (array.hasTexture) {
-			assert array.textureBuffer != null;
-			assert array.texture != null;
-
 			int textureLoc = GLES20.glGetUniformLocation(program, "u_texture");
 			int texCoordinateLoc = GLES20.glGetAttribLocation(program, "a_texCoordinate");
 
@@ -168,6 +171,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 			array.textureBuffer.position(0);
 			GLES20.glVertexAttribPointer(texCoordinateLoc, 2, GLES20.GL_FLOAT, false, 0, array.textureBuffer);
 			GLES20.glEnableVertexAttribArray(texCoordinateLoc);
+			checkGLError("after u_texture");
 		}
 
 		if (array.mode == VertexArray.Mode.TRIANGLE_FAN) {
@@ -182,6 +186,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		} else if (array.mode == VertexArray.Mode.LINE_STRIP) {
 			GLES20.glDrawArrays(GLES20.GL_LINE_STRIP, 0, array.numCoords);
 		}
+		checkGLError("after glDrawArrays");
 
 		if (array.hasTexture) {
 			int texCoordinateLoc = GLES20.glGetAttribLocation(program, "a_texCoordinate");
@@ -217,8 +222,8 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 	}
 
 	@Override
-	public Shader allocateShader() {
-		return new AndroidShader();
+	public Shader allocateShader(String name) {
+		return new AndroidShader(name);
 	}
 
 	@Override

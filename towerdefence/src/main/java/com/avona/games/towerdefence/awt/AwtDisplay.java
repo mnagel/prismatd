@@ -317,10 +317,10 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	}
 
 	@Override
-	public Shader allocateShader() {
+	public Shader allocateShader(String name) {
 		assert gl != null;
 
-		return new AwtShader(gl);
+		return new AwtShader(gl, name);
 	}
 
 	@Override

@@ -382,7 +382,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		va.reserveBuffers();
 
 		if (towerShader == null) {
-			towerShader = display.allocateShader();
+			towerShader = display.allocateShader("tower");
 			towerShader.loadShaderProgram("tower.vert", "tower.frag");
 		}
 
