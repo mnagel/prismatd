@@ -1,10 +1,12 @@
 package com.avona.games.towerdefence.android;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Paint;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView.Renderer;
 
+import com.android.texample2.GLText;
 import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.Util;
@@ -14,7 +16,6 @@ import com.avona.games.towerdefence.gfx.PortableDisplay;
 import com.avona.games.towerdefence.gfx.Shader;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.gfx.VertexArray;
-import com.example.google.LabelMaker;
 
 import java.util.HashMap;
 
@@ -26,20 +27,18 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class AndroidDisplay extends PortableDisplay implements Renderer {
 	private Shader defaultShader;
-	private Paint labelPaint;
-	private LabelMaker labels;
+	private GLText glText;
 	private V2 size;
 	private DisplayEventListener eventListener;
+	private AssetManager assetManager;
+	private int textSize;
 
 	public AndroidDisplay(Context context, DisplayEventListener eventListener) {
 		this.eventListener = eventListener;
+		this.assetManager = context.getAssets();
 
 		// Galaxy S has a DPI of roughly xhdpi (2.0). Let's take it as the reference metric.
-		int textSize = (int) (context.getResources().getDisplayMetrics().density / 2.0 * 20);
-
-		labelPaint = new Paint();
-		labelPaint.setTextSize(textSize);
-		labelPaint.setAntiAlias(true);
+		textSize = (int) (context.getResources().getDisplayMetrics().density / 2.0 * 20);
 	}
 
 	@Override
@@ -54,12 +53,6 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 
 		initializeMatrices(width, height);
 
-		if (labels != null) {
-			labels.shutdown();
-		}
-		labels = new LabelMaker(true, Util.roundUpPower2(width), Util.roundUpPower2(64));
-		labels.initialize();
-
 		eventListener.onReshapeScreen();
 	}
 
@@ -70,6 +63,9 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 
 		defaultShader = allocateShader();
 		defaultShader.loadShaderProgram("default.vert", "default.frag");
+
+		glText = new GLText(assetManager);
+		glText.load("Roboto-Regular.ttf", textSize, 2, 2);
 
 		eventListener.onNewScreenContext();
 	}
@@ -94,24 +90,16 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 			loc.y -= textBounds.y / 2;
 		}
 
-		labels.beginAdding();
-		labelPaint.setARGB((int) (alpha * 255), (int) (color.R * 255), (int) (color.G * 255), (int) (color.B * 255));
-		final int l = labels.add(text, labelPaint);
-		labels.endAdding();
-
-		labels.beginDrawing();
-		labels.draw((int) loc.x, (int) loc.y, l);
-		labels.endDrawing();
+		glText.begin(color.R, color.G, color.B, alpha, getMvpMatrix());
+		glText.draw(text, loc.x, loc.y);
+		glText.end();
 	}
 
 	@Override
 	public V2 getTextBounds(final String text) {
-		final int ascent = (int) Math.ceil(-labelPaint.ascent());
-		final int descent = (int) Math.ceil(labelPaint.descent());
-		final int measuredTextWidth = (int) Math.ceil(labelPaint
-				.measureText(text));
-		final int textHeight = ascent + descent;
-		return new V2(measuredTextWidth, textHeight);
+		float height = glText.getHeight();
+		float width = glText.getLength(text);
+		return new V2(width, height);
 	}
 
 	@Override
