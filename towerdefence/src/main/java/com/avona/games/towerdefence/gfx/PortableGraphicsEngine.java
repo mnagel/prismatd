@@ -458,10 +458,10 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		particleShader.setUniform("clock", graphicsTime.clock);
 		particleShader.setUniform("virtualLocation", location);
 		particleShader.setUniform("physicalLocation", gameLayer.convertToPhysical(location));
-		particleShader.setUniform("physicalRadius", gameLayer.scaleToPhysical(p.radius));
+		particleShader.setUniform("physicalRadius", gameLayer.scaleToPhysical(width / 2));
 
 		va.shader = particleShader;
-		va.hasShader = false; // something broken here with the shader
+		va.hasShader = true;
 
 		va.reserveBuffers();
 
