@@ -2,6 +2,7 @@ package com.avona.games.towerdefence.awt;
 
 import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.RGB;
+import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.gfx.DisplayEventListener;
 import com.avona.games.towerdefence.gfx.PortableDisplay;
@@ -65,10 +66,17 @@ import static com.jogamp.opengl.GL2.GL_VERTEX_ARRAY;
 public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	public Frame frame;
 	public GLCanvas canvas;
-	private GL2 gl;
+	private GL2 GLES20;
 	private TextRenderer renderer;
 	private V2 size = new V2();
 	private DisplayEventListener eventListener;
+
+	private void checkGLError(String op) {
+		int error;
+		while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
+			Util.log(op + ": glError " + error);
+		}
+	}
 
 	public AwtDisplay(DisplayEventListener eventListener) {
 		this.eventListener = eventListener;
@@ -145,10 +153,10 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		// We have a fresh GL context, retrieve reference.
-		gl = (GL2) canvas.getGL();
+		GLES20 = (GL2) canvas.getGL();
 
-		gl.glEnable(GL_BLEND);
-		gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		GLES20.glEnable(GL_BLEND);
+		GLES20.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		eventListener.onNewScreenContext();
 	}
@@ -163,14 +171,14 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 						int height) {
 		size = new V2(width, height);
 
-		gl.glViewport(0, 0, (int) size.x, (int) size.y);
+		GLES20.glViewport(0, 0, (int) size.x, (int) size.y);
 
 		initializeMatrices(width, height);
 
-		gl.glMatrixMode(GL_PROJECTION);
-		gl.glLoadMatrixf(getProjectionMatrix(), 0);
-		gl.glMatrixMode(GL_MODELVIEW);
-		gl.glLoadMatrixf(getModelViewMatrix(), 0);
+		GLES20.glMatrixMode(GL_PROJECTION);
+		GLES20.glLoadMatrixf(getProjectionMatrix(), 0);
+		GLES20.glMatrixMode(GL_MODELVIEW);
+		GLES20.glLoadMatrixf(getModelViewMatrix(), 0);
 
 		eventListener.onReshapeScreen();
 	}
@@ -178,149 +186,137 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	@Override
 	public void prepareScreen() {
 		// Paint background, clearing previous drawings.
-		gl.glColor3d(0.0, 0.0, 0.0);
-		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		GLES20.glColor3d(0.0, 0.0, 0.0);
+		GLES20.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	@Override
 	public void prepareTransformationForLayer(Layer layer) {
 		super.prepareTransformationForLayer(layer);
-		gl.glLoadMatrixf(getModelViewMatrix(), 0);
+		GLES20.glLoadMatrixf(getModelViewMatrix(), 0);
 	}
 
 	@Override
 	public void resetTransformation() {
 		super.resetTransformation();
-		gl.glLoadMatrixf(getModelViewMatrix(), 0);
+		GLES20.glLoadMatrixf(getModelViewMatrix(), 0);
 	}
 
 	@Override
 	public void drawVertexArray(final VertexArray array) {
 		assert array.coordBuffer != null;
-		gl.glEnableClientState(GL_VERTEX_ARRAY);
+		GLES20.glEnableClientState(GL_VERTEX_ARRAY);
 		array.coordBuffer.position(0);
-		gl.glVertexPointer(2, GL_FLOAT, 0, array.coordBuffer);
+		GLES20.glVertexPointer(2, GL_FLOAT, 0, array.coordBuffer);
 		if (array.hasColour) {
 			assert array.colourBuffer != null;
-			gl.glEnableClientState(GL_COLOR_ARRAY);
+			GLES20.glEnableClientState(GL_COLOR_ARRAY);
 			array.colourBuffer.position(0);
-			gl.glColorPointer(4, GL_FLOAT, 0, array.colourBuffer);
+			GLES20.glColorPointer(4, GL_FLOAT, 0, array.colourBuffer);
 		}
 		if (array.hasTexture) {
 			assert array.textureBuffer != null;
 			assert array.texture != null;
 			array.textureBuffer.position(0);
-			gl.glEnable(GL_TEXTURE_2D);
-			gl.glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			gl.glBindTexture(GL_TEXTURE_2D, array.texture.textureId);
-			gl.glTexCoordPointer(2, GL_FLOAT, 0, array.textureBuffer);
+			GLES20.glEnable(GL_TEXTURE_2D);
+			GLES20.glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			GLES20.glBindTexture(GL_TEXTURE_2D, array.texture.textureId);
+			GLES20.glTexCoordPointer(2, GL_FLOAT, 0, array.textureBuffer);
 		}
 		if (array.hasShader) {
 			assert array.shader != null;
 			int program = array.shader.getProgram();
-			
+
 			HashMap<String, Shader.Variable> variables = array.shader.getUniforms();
 			for (Shader.Variable variable : variables.values()) {
 				if (variable.value == null) {
 					continue;
 				}
 				if (variable.value instanceof Integer) {
-					gl.glProgramUniform1i(program, variable.uniformLocation, (Integer) variable.value);
+					GLES20.glProgramUniform1i(program, variable.uniformLocation, (Integer) variable.value);
 				}
 				if (variable.value instanceof Boolean) {
-					gl.glProgramUniform1i(program, variable.uniformLocation, (Boolean) variable.value ? 1 : 0);
+					GLES20.glProgramUniform1i(program, variable.uniformLocation, (Boolean) variable.value ? 1 : 0);
 				}
 				if (variable.value instanceof Float) {
-					gl.glProgramUniform1f(program, variable.uniformLocation, (Float) variable.value);
+					GLES20.glProgramUniform1f(program, variable.uniformLocation, (Float) variable.value);
 				}
 				if (variable.value instanceof V2) {
 					V2 v = (V2) variable.value;
-					gl.glProgramUniform2f(program, variable.uniformLocation, v.x, v.y);
+					GLES20.glProgramUniform2f(program, variable.uniformLocation, v.x, v.y);
 				}
 			}
 
-			gl.glUseProgram(program);
+			GLES20.glUseProgram(program);
 
-			int mvpMatrixLoc = gl.glGetUniformLocation(program, "u_mvpMatrix");
-			gl.glUniformMatrix4fv(mvpMatrixLoc, 1, false, getMvpMatrix(), 0);
+			int mvpMatrixLoc = GLES20.glGetUniformLocation(program, "u_mvpMatrix");
+			GLES20.glUniformMatrix4fv(mvpMatrixLoc, 1, false, getMvpMatrix(), 0);
 
-			int posAttrib = gl.glGetAttribLocation(program, "a_position");
-			gl.glEnableVertexAttribArray(posAttrib);
-			gl.glVertexAttribPointer(posAttrib, 2, GL_FLOAT, false, 0, array.coordBuffer);
+			int posAttrib = GLES20.glGetAttribLocation(program, "a_position");
+			GLES20.glEnableVertexAttribArray(posAttrib);
+			GLES20.glVertexAttribPointer(posAttrib, 2, GL_FLOAT, false, 0, array.coordBuffer);
 
-			int colAttrib = gl.glGetAttribLocation(program, "a_color");
-			gl.glEnableVertexAttribArray(colAttrib);
-			gl.glVertexAttribPointer(colAttrib, 4, GL_FLOAT, false, 0, array.colourBuffer);
+			int colAttrib = GLES20.glGetAttribLocation(program, "a_color");
+			GLES20.glEnableVertexAttribArray(colAttrib);
+			GLES20.glVertexAttribPointer(colAttrib, 4, GL_FLOAT, false, 0, array.colourBuffer);
 		}
 
 		if (array.mode == VertexArray.Mode.TRIANGLE_FAN) {
-			gl.glDrawArrays(GL_TRIANGLE_FAN, 0, array.numCoords);
+			GLES20.glDrawArrays(GL_TRIANGLE_FAN, 0, array.numCoords);
 		} else if (array.mode == VertexArray.Mode.TRIANGLE_STRIP) {
-			gl.glDrawArrays(GL_TRIANGLE_STRIP, 0, array.numCoords);
+			GLES20.glDrawArrays(GL_TRIANGLE_STRIP, 0, array.numCoords);
 		} else if (array.mode == VertexArray.Mode.TRIANGLES) {
 			assert array.indexBuffer != null;
 			array.indexBuffer.position(0);
-			gl.glDrawElements(GL_TRIANGLES, array.numIndexes,
-					GL_UNSIGNED_SHORT, array.indexBuffer);
+			GLES20.glDrawElements(GL_TRIANGLES, array.numIndexes, GL_UNSIGNED_SHORT, array.indexBuffer);
 		} else if (array.mode == VertexArray.Mode.LINE_STRIP) {
-			gl.glDrawArrays(GL_LINE_STRIP, 0, array.numCoords);
+			GLES20.glDrawArrays(GL_LINE_STRIP, 0, array.numCoords);
 		}
 
 		if (array.hasShader) {
 			int program = array.shader.getProgram();
-			int posAttrib = gl.glGetAttribLocation(program, "a_position");
-			gl.glDisableVertexAttribArray(posAttrib);
-			int colAttrib = gl.glGetAttribLocation(program, "a_color");
-			gl.glDisableVertexAttribArray(colAttrib);
-			gl.glUseProgram(0);
+			int posAttrib = GLES20.glGetAttribLocation(program, "a_position");
+			GLES20.glDisableVertexAttribArray(posAttrib);
+			int colAttrib = GLES20.glGetAttribLocation(program, "a_color");
+			GLES20.glDisableVertexAttribArray(colAttrib);
+			GLES20.glUseProgram(0);
 		}
 		if (array.hasTexture) {
-			gl.glBindTexture(GL_TEXTURE_2D, 0);
-			gl.glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			gl.glDisable(GL_TEXTURE_2D);
+			GLES20.glBindTexture(GL_TEXTURE_2D, 0);
+			GLES20.glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			GLES20.glDisable(GL_TEXTURE_2D);
 		}
 		if (array.hasColour) {
-			gl.glDisableClientState(GL_COLOR_ARRAY);
+			GLES20.glDisableClientState(GL_COLOR_ARRAY);
 		}
-		gl.glDisableClientState(GL_VERTEX_ARRAY);
+		GLES20.glDisableClientState(GL_VERTEX_ARRAY);
 	}
 
 	@Override
 	public Texture allocateTexture() {
-		assert gl != null;
-
-		Texture texture = new AwtTexture(gl);
+		Texture texture = new AwtTexture(GLES20);
 
 		int[] textures = new int[1];
-		gl.glGenTextures(1, textures, 0);
+		GLES20.glGenTextures(1, textures, 0);
 		texture.textureId = textures[0];
 
-		assert gl.glGetError() == 0;
-		gl.glBindTexture(GL_TEXTURE_2D, texture.textureId);
+		GLES20.glBindTexture(GL_TEXTURE_2D, texture.textureId);
 
-		gl.glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-				GL_NEAREST);
-		gl.glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-				GL_LINEAR);
+		GLES20.glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		GLES20.glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		gl.glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
-				GL_CLAMP_TO_EDGE);
-		gl.glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
-				GL_CLAMP_TO_EDGE);
+		GLES20.glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		GLES20.glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-		gl.glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+		GLES20.glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-		assert gl.glGetError() == 0;
-		gl.glBindTexture(GL_TEXTURE_2D, 0);
-
+		checkGLError("after drawVertexArray");
 		return texture;
 	}
 
 	@Override
 	public Shader allocateShader(String name) {
-		assert gl != null;
-
-		return new AwtShader(gl, name);
+		return new AwtShader(GLES20, name);
 	}
 
 	@Override
