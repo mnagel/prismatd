@@ -38,7 +38,8 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		this.assetManager = context.getAssets();
 
 		// Galaxy S has a DPI of roughly xhdpi (2.0). Let's take it as the reference metric.
-		textSize = (int) (context.getResources().getDisplayMetrics().density / 2.0 * 20);
+		//textSize = (int) (context.getResources().getDisplayMetrics().density / 2.0 * 20);
+		textSize = 14;
 	}
 
 	@Override
