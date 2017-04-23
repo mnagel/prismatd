@@ -2,18 +2,21 @@ package com.avona.games.towerdefence.android;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.opengl.GLES20;
 import android.opengl.GLSurfaceView.Renderer;
-import android.opengl.GLU;
 
 import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.gfx.Display;
 import com.avona.games.towerdefence.gfx.DisplayEventListener;
+import com.avona.games.towerdefence.gfx.PortableDisplay;
+import com.avona.games.towerdefence.gfx.Shader;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.gfx.VertexArray;
 import com.example.google.LabelMaker;
+
+import java.util.HashMap;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -21,8 +24,8 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * This class provides all basic drawing primitives for the Android platform.
  */
-public class AndroidDisplay implements Display, Renderer {
-	private GL10 gl;
+public class AndroidDisplay extends PortableDisplay implements Renderer {
+	private Shader defaultShader;
 	private Paint labelPaint;
 	private LabelMaker labels;
 	private V2 size;
@@ -40,44 +43,41 @@ public class AndroidDisplay implements Display, Renderer {
 	}
 
 	@Override
-	public void onDrawFrame(GL10 gl) {
+	public void onDrawFrame(GL10 glUnused) {
 	}
 
 	@Override
-	public void onSurfaceChanged(GL10 gl, int width, int height) {
+	public void onSurfaceChanged(GL10 glUnused, int width, int height) {
 		size = new V2(width, height);
 
-		gl.glViewport(0, 0, (int) size.x, (int) size.y);
-		gl.glMatrixMode(GL10.GL_PROJECTION);
-		gl.glLoadIdentity();
-		GLU.gluOrtho2D(gl, 0, width, 0, height);
-		gl.glMatrixMode(GL10.GL_MODELVIEW);
-		gl.glLoadIdentity();
+		GLES20.glViewport(0, 0, (int) size.x, (int) size.y);
+
+		initializeMatrices(width, height);
 
 		if (labels != null) {
-			labels.shutdown(gl);
+			labels.shutdown();
 		}
-		labels = new LabelMaker(true, Util.roundUpPower2(width), Util
-				.roundUpPower2(64));
-		labels.initialize(gl);
+		labels = new LabelMaker(true, Util.roundUpPower2(width), Util.roundUpPower2(64));
+		labels.initialize();
 
 		eventListener.onReshapeScreen();
 	}
 
 	@Override
-	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		this.gl = gl;
+	public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
+		GLES20.glEnable(GLES20.GL_BLEND);
+		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
-		gl.glEnable(GL10.GL_BLEND);
-		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		defaultShader = allocateShader();
+		defaultShader.loadShaderProgram("default.vert", "default.frag");
 
 		eventListener.onNewScreenContext();
 	}
 
 	public void prepareScreen() {
 		// Paint background, clearing previous drawings.
-		gl.glColor4f(0.0f, 0.0f, 0.0f, 0.0f);
-		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+		GLES20.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 	}
 
 	@Override
@@ -94,14 +94,14 @@ public class AndroidDisplay implements Display, Renderer {
 			loc.y -= textBounds.y / 2;
 		}
 
-		labels.beginAdding(gl);
+		labels.beginAdding();
 		labelPaint.setARGB((int) (alpha * 255), (int) (color.R * 255), (int) (color.G * 255), (int) (color.B * 255));
-		final int l = labels.add(gl, text, labelPaint);
-		labels.endAdding(gl);
+		final int l = labels.add(text, labelPaint);
+		labels.endAdding();
 
-		labels.beginDrawing(gl);
-		labels.draw(gl, (int) loc.x, (int) loc.y, l);
-		labels.endDrawing(gl);
+		labels.beginDrawing();
+		labels.draw((int) loc.x, (int) loc.y, l);
+		labels.endDrawing();
 	}
 
 	@Override
@@ -115,97 +115,118 @@ public class AndroidDisplay implements Display, Renderer {
 	}
 
 	@Override
-	public void prepareTransformationForLayer(Layer layer) {
-		gl.glPushMatrix();
-		gl.glTranslatef(layer.offset.x, layer.offset.y, 0);
-		gl.glScalef(layer.region.x / layer.virtualRegion.x, layer.region.y
-				/ layer.virtualRegion.y, 1);
-	}
-
-	@Override
-	public void resetTransformation() {
-		gl.glPopMatrix();
-	}
-
-	@Override
 	public void drawVertexArray(final VertexArray array) {
 		assert array.coordBuffer != null;
-		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-		array.coordBuffer.position(0);
-		gl.glVertexPointer(2, GL10.GL_FLOAT, 0, array.coordBuffer);
 
-		if (array.hasColour) {
-			assert array.colourBuffer != null;
-			gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-			array.colourBuffer.position(0);
-			gl.glColorPointer(4, GL10.GL_FLOAT, 0, array.colourBuffer);
+		int program;
+		if (array.hasShader) {
+			assert array.shader != null;
+			program = array.shader.getProgram();
+
+			HashMap<String, Shader.Variable> variables = array.shader.getUniforms();
+			for (Shader.Variable variable : variables.values()) {
+				if (variable.value == null) {
+					continue;
+				}
+				if (variable.value instanceof Integer) {
+					GLES20.glUniform1i(variable.uniformLocation, (Integer) variable.value);
+				}
+				if (variable.value instanceof Boolean) {
+					GLES20.glUniform1i(variable.uniformLocation, (Boolean) variable.value ? 1 : 0);
+				}
+				if (variable.value instanceof Float) {
+					GLES20.glUniform1f(variable.uniformLocation, (Float) variable.value);
+				}
+				if (variable.value instanceof V2) {
+					V2 v = (V2) variable.value;
+					GLES20.glUniform2f(variable.uniformLocation, v.x, v.y);
+				}
+			}
+		} else {
+			program = defaultShader.getProgram();
 		}
+
+		GLES20.glUseProgram(program);
+
+		int mvpMatrixLoc = GLES20.glGetUniformLocation(program, "u_mvpMatrix");
+		GLES20.glUniformMatrix4fv(mvpMatrixLoc, 1, false, getMvpMatrix(), 0);
+
+		array.coordBuffer.position(0);
+		int posAttrib = GLES20.glGetAttribLocation(program, "a_position");
+		GLES20.glVertexAttribPointer(posAttrib, 2, GLES20.GL_FLOAT, false, 0, array.coordBuffer);
+		GLES20.glEnableVertexAttribArray(posAttrib);
+
+		array.colourBuffer.position(0);
+		int colAttrib = GLES20.glGetAttribLocation(program, "a_color");
+		GLES20.glVertexAttribPointer(colAttrib, 4, GLES20.GL_FLOAT, false, 0, array.colourBuffer);
+		GLES20.glEnableVertexAttribArray(colAttrib);
+
 		if (array.hasTexture) {
 			assert array.textureBuffer != null;
 			assert array.texture != null;
+
+			int textureLoc = GLES20.glGetUniformLocation(program, "u_texture");
+			int texCoordinateLoc = GLES20.glGetAttribLocation(program, "a_texCoordinate");
+
+			GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, array.texture.textureId);
+			GLES20.glUniform1i(textureLoc, 0);
+
 			array.textureBuffer.position(0);
-			gl.glEnable(GL10.GL_TEXTURE_2D);
-			gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-			gl.glBindTexture(GL10.GL_TEXTURE_2D, array.texture.textureId);
-			gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, array.textureBuffer);
+			GLES20.glVertexAttribPointer(texCoordinateLoc, 2, GLES20.GL_FLOAT, false, 0, array.textureBuffer);
+			GLES20.glEnableVertexAttribArray(texCoordinateLoc);
 		}
 
 		if (array.mode == VertexArray.Mode.TRIANGLE_FAN) {
-			gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, array.numCoords);
+			GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, array.numCoords);
 		} else if (array.mode == VertexArray.Mode.TRIANGLE_STRIP) {
-			gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, array.numCoords);
+			GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, array.numCoords);
 		} else if (array.mode == VertexArray.Mode.TRIANGLES) {
 			assert array.indexBuffer != null;
 			array.indexBuffer.position(0);
-			gl.glDrawElements(GL10.GL_TRIANGLES, array.numIndexes,
-					GL10.GL_UNSIGNED_SHORT, array.indexBuffer);
+			GLES20.glDrawElements(GLES20.GL_TRIANGLES, array.numIndexes,
+					GLES20.GL_UNSIGNED_SHORT, array.indexBuffer);
 		} else if (array.mode == VertexArray.Mode.LINE_STRIP) {
-			gl.glDrawArrays(GL10.GL_LINE_STRIP, 0, array.numCoords);
+			GLES20.glDrawArrays(GLES20.GL_LINE_STRIP, 0, array.numCoords);
 		}
 
 		if (array.hasTexture) {
-			gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
-			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-			gl.glDisable(GL10.GL_TEXTURE_2D);
-		}
-		if (array.hasColour) {
-			gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+			int texCoordinateLoc = GLES20.glGetAttribLocation(program, "a_texCoordinate");
+			GLES20.glDisableVertexAttribArray(texCoordinateLoc);
 		}
 
-		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+		GLES20.glDisableVertexAttribArray(posAttrib);
+		GLES20.glDisableVertexAttribArray(colAttrib);
+		GLES20.glUseProgram(0);
 	}
 
 	@Override
 	public Texture allocateTexture() {
-		assert gl != null;
-
-		Texture texture = new AndroidTexture(gl);
+		Texture texture = new AndroidTexture();
 
 		int[] textures = new int[1];
-		gl.glGenTextures(1, textures, 0);
+		GLES20.glGenTextures(1, textures, 0);
 		texture.textureId = textures[0];
 
-		assert gl.glGetError() == 0;
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, texture.textureId);
+		assert GLES20.glGetError() == 0;
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.textureId);
 
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER,
-				GL10.GL_NEAREST);
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER,
-				GL10.GL_LINEAR);
+		GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+		GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
 
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S,
-				GL10.GL_CLAMP_TO_EDGE);
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T,
-				GL10.GL_CLAMP_TO_EDGE);
+		GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+		GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
 
-		gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE,
-				GL10.GL_REPLACE);
-
-		Util.log("glGetError after create texture: " + gl.glGetError());
-		assert gl.glGetError() == 0;
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
+		Util.log("glGetError after create texture: " + GLES20.glGetError());
+		assert GLES20.glGetError() == 0;
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 
 		return texture;
+	}
+
+	@Override
+	public Shader allocateShader() {
+		return new AndroidShader();
 	}
 
 	@Override

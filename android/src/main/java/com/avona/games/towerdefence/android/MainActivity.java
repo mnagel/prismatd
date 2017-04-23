@@ -1,10 +1,12 @@
 package com.avona.games.towerdefence.android;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.pm.ConfigurationInfo;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -35,6 +37,13 @@ public class MainActivity extends Activity {
 		} else {
 			// TODO: Restore.
 			Util.log("restoring instance");
+		}
+
+		// Check if the system supports OpenGL ES 2.0
+		final ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+		final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
+		if (configurationInfo.reqGlEsVersion < 0x20000) {
+			throw new RuntimeException("This device does not support GL ES 2.0");
 		}
 
 		String[] missions = MissionList.getAvailableMissionNames();

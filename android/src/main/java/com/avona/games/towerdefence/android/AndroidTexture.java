@@ -2,6 +2,7 @@ package com.avona.games.towerdefence.android;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
 import com.avona.games.towerdefence.Util;
@@ -10,15 +11,7 @@ import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 
 import java.io.InputStream;
 
-import javax.microedition.khronos.opengles.GL10;
-
 public class AndroidTexture extends Texture {
-	private GL10 gl;
-
-	public AndroidTexture(GL10 gl) {
-		this.gl = gl;
-	}
-
 	@Override
 	public void loadImage(String fileName) {
 		final InputStream is = ResourceResolverRegistry.getInstance()
@@ -48,11 +41,11 @@ public class AndroidTexture extends Texture {
 		bitmap.setPixels(pixels, 0, nativeWidth, 0, 0, nativeWidth,
 				nativeHeight);
 
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, textureId);
-		assert gl.glGetError() == 0;
-		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
+		assert GLES20.glGetError() == 0;
+		GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
 		bitmap.recycle();
-		assert gl.glGetError() == 0;
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
+		assert GLES20.glGetError() == 0;
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 	}
 }

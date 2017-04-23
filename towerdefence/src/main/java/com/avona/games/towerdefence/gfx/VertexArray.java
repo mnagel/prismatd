@@ -16,6 +16,8 @@ final public class VertexArray {
 	public FloatBuffer textureBuffer;
 	public Texture texture;
 	public boolean hasTexture;
+	public Shader shader;
+	public boolean hasShader;
 	public int numIndexes;
 	public ByteBuffer indexByteBuffer;
 	public CharBuffer indexBuffer;

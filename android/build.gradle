@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "com.avona.games.towerdefence.android"
-        minSdkVersion 24
-        targetSdkVersion 24
+        minSdkVersion 22
+        targetSdkVersion 25
     }
 
     buildTypes {
@@ -25,7 +25,13 @@ task gfxIconData(type: Copy) {
 
 task gfxShaderData(type: Copy) {
     from project(':').file('gfx/shaders')
-    into file('src/main/shaders')
+    into file('src/main/res/raw')
+    rename { filename ->
+        filename.replace '.frag', '_frag.glsl'
+    }
+    rename { filename ->
+        filename.replace '.vert', '_vert.glsl'
+    }
 }
 
 preBuild.dependsOn gfxIconData

@@ -18,6 +18,10 @@ public class AndroidResourceResolver implements ResourceResolver {
 	@Override
 	public InputStream getRawResource(String name) {
 		try {
+			if (name.endsWith(".vert") || name.endsWith(".frag")) {
+				name = "raw/" + name;
+				name = name.replace(".", "_");
+			}
 			final int id = res.getIdentifier(PACKAGE_NAME + ":" + name, null, null);
 			return res.openRawResource(id);
 		} catch (Exception e) {

@@ -3,9 +3,10 @@ package com.avona.games.towerdefence.awt;
 import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.gfx.Display;
 import com.avona.games.towerdefence.gfx.DisplayEventListener;
+import com.avona.games.towerdefence.gfx.PortableDisplay;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
+import com.avona.games.towerdefence.gfx.Shader;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.gfx.VertexArray;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
@@ -24,6 +25,7 @@ import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
@@ -60,7 +62,7 @@ import static com.jogamp.opengl.GL2.GL_VERTEX_ARRAY;
  * will iterate over all in-game objects and call (possibly overloaded) class
  * methods to perform the GL calls. It will not touch any in-game state, though.
  */
-public class AwtDisplay implements Display, GLEventListener {
+public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	public Frame frame;
 	public GLCanvas canvas;
 	private GL2 gl;
@@ -162,11 +164,13 @@ public class AwtDisplay implements Display, GLEventListener {
 		size = new V2(width, height);
 
 		gl.glViewport(0, 0, (int) size.x, (int) size.y);
+
+		initializeMatrices(width, height);
+
 		gl.glMatrixMode(GL_PROJECTION);
-		gl.glLoadIdentity();
-		gl.glOrtho(0, width, 0, height, -1, 1);
+		gl.glLoadMatrixf(getProjectionMatrix(), 0);
 		gl.glMatrixMode(GL_MODELVIEW);
-		gl.glLoadIdentity();
+		gl.glLoadMatrixf(getModelViewMatrix(), 0);
 
 		eventListener.onReshapeScreen();
 	}
@@ -180,15 +184,14 @@ public class AwtDisplay implements Display, GLEventListener {
 
 	@Override
 	public void prepareTransformationForLayer(Layer layer) {
-		gl.glPushMatrix();
-		gl.glTranslatef(layer.offset.x, layer.offset.y, 0);
-		gl.glScalef(layer.region.x / layer.virtualRegion.x, layer.region.y
-				/ layer.virtualRegion.y, 1);
+		super.prepareTransformationForLayer(layer);
+		gl.glLoadMatrixf(getModelViewMatrix(), 0);
 	}
 
 	@Override
 	public void resetTransformation() {
-		gl.glPopMatrix();
+		super.resetTransformation();
+		gl.glLoadMatrixf(getModelViewMatrix(), 0);
 	}
 
 	@Override
@@ -212,6 +215,43 @@ public class AwtDisplay implements Display, GLEventListener {
 			gl.glBindTexture(GL_TEXTURE_2D, array.texture.textureId);
 			gl.glTexCoordPointer(2, GL_FLOAT, 0, array.textureBuffer);
 		}
+		if (array.hasShader) {
+			assert array.shader != null;
+			int program = array.shader.getProgram();
+			
+			HashMap<String, Shader.Variable> variables = array.shader.getUniforms();
+			for (Shader.Variable variable : variables.values()) {
+				if (variable.value == null) {
+					continue;
+				}
+				if (variable.value instanceof Integer) {
+					gl.glProgramUniform1i(program, variable.uniformLocation, (Integer) variable.value);
+				}
+				if (variable.value instanceof Boolean) {
+					gl.glProgramUniform1i(program, variable.uniformLocation, (Boolean) variable.value ? 1 : 0);
+				}
+				if (variable.value instanceof Float) {
+					gl.glProgramUniform1f(program, variable.uniformLocation, (Float) variable.value);
+				}
+				if (variable.value instanceof V2) {
+					V2 v = (V2) variable.value;
+					gl.glProgramUniform2f(program, variable.uniformLocation, v.x, v.y);
+				}
+			}
+
+			gl.glUseProgram(program);
+
+			int mvpMatrixLoc = gl.glGetUniformLocation(program, "u_mvpMatrix");
+			gl.glUniformMatrix4fv(mvpMatrixLoc, 1, false, getMvpMatrix(), 0);
+
+			int posAttrib = gl.glGetAttribLocation(program, "a_position");
+			gl.glEnableVertexAttribArray(posAttrib);
+			gl.glVertexAttribPointer(posAttrib, 2, GL_FLOAT, false, 0, array.coordBuffer);
+
+			int colAttrib = gl.glGetAttribLocation(program, "a_color");
+			gl.glEnableVertexAttribArray(colAttrib);
+			gl.glVertexAttribPointer(colAttrib, 4, GL_FLOAT, false, 0, array.colourBuffer);
+		}
 
 		if (array.mode == VertexArray.Mode.TRIANGLE_FAN) {
 			gl.glDrawArrays(GL_TRIANGLE_FAN, 0, array.numCoords);
@@ -226,6 +266,14 @@ public class AwtDisplay implements Display, GLEventListener {
 			gl.glDrawArrays(GL_LINE_STRIP, 0, array.numCoords);
 		}
 
+		if (array.hasShader) {
+			int program = array.shader.getProgram();
+			int posAttrib = gl.glGetAttribLocation(program, "a_position");
+			gl.glDisableVertexAttribArray(posAttrib);
+			int colAttrib = gl.glGetAttribLocation(program, "a_color");
+			gl.glDisableVertexAttribArray(colAttrib);
+			gl.glUseProgram(0);
+		}
 		if (array.hasTexture) {
 			gl.glBindTexture(GL_TEXTURE_2D, 0);
 			gl.glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -266,6 +314,13 @@ public class AwtDisplay implements Display, GLEventListener {
 		gl.glBindTexture(GL_TEXTURE_2D, 0);
 
 		return texture;
+	}
+
+	@Override
+	public Shader allocateShader() {
+		assert gl != null;
+
+		return new AwtShader(gl);
 	}
 
 	@Override
