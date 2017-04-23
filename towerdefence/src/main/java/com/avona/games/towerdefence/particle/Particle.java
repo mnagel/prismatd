@@ -36,7 +36,7 @@ public class Particle extends MovingObject {
 
 	public boolean collidedWith(Enemy e, final float dt) {
 		return Collision.movingCircleCollidesWithCircle(location, getVelocity(),
-				radius, e.location, e.getVelocity(), e.radius, dt);
+				0.5f * radius, e.location, e.getVelocity(), 0.1f * e.radius, dt);
 	}
 
 	/**
