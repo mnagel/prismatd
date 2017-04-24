@@ -6,6 +6,7 @@ import com.avona.games.towerdefence.RechargeTimer;
 import com.avona.games.towerdefence.TimedCodeManager;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemySelection.EnemySelectionPolicy;
+import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.particleCollidors.ParticleColliderPolicy;
 
@@ -20,7 +21,6 @@ public abstract class Tower extends LocationObject {
 	// The color the tower will be drawn with.
 	public RGB color;
 	protected RechargeTimer timer;
-	protected float range;
 	protected int price;
 
 	public Tower(TimedCodeManager timedCodeManager,
@@ -30,7 +30,7 @@ public abstract class Tower extends LocationObject {
 		this.enemyParticleColliderPolicy = enemyParticleColliderPolicy;
 		this.level = level;
 		timer = new RechargeTimer(timedCodeManager, 0.3f);
-		radius = 16;
+		radius = GridCell.size / 2;
 	}
 
 	public Tower(final Tower t) {
@@ -39,7 +39,6 @@ public abstract class Tower extends LocationObject {
 		enemyParticleColliderPolicy = t.enemyParticleColliderPolicy;
 		level = t.level;
 		timer = t.timer.clone();
-		range = t.range;
 		price = t.price;
 		color = t.color;
 	}
@@ -50,8 +49,10 @@ public abstract class Tower extends LocationObject {
 		return 10 + 2 * (level - 1);
 	}
 
-	public int getRange() {
-		return 75 + 2 * (level - 1);
+	public float getRange() {
+		float base = 2.5f;
+		float perLevel = 0.5f;
+		return GridCell.size * (base + perLevel * (this.level -1));
 	}
 
 	public int getLevelUpPrice() {

@@ -40,6 +40,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	private Shader towerShader;
 	private Shader enemyShader;
 	private Shader particleShader;
+	private Shader gridcellShader;
 
 	public PortableGraphicsEngine(Display display, Game game, Mouse mouse,
 								  LayerHerder layerHerder, PortableMainLoop ml) {
@@ -146,14 +147,32 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			va.numCoords = 4;
 			va.reserveBuffers();
 
+			if (i == 0) {
+				// TODO this is kinda fundamentally broken b/c there is only one binding of uniforms for all gridcells
+				if (gridcellShader == null) {
+					gridcellShader = display.allocateShader("gridcell");
+					gridcellShader.loadShaderProgram("default.vert", "default.frag");
+				}
+
+				gridcellShader.setUniform("selected", false);
+				gridcellShader.setUniform("level", 1);
+				gridcellShader.setUniform("clock", graphicsTime.clock);
+				gridcellShader.setUniform("virtualLocation", c.center);
+				gridcellShader.setUniform("physicalLocation", gameLayer.convertToPhysical(c.center));
+				gridcellShader.setUniform("physicalRadius", gameLayer.scaleToPhysical(GridCell.size));
+			}
+
+			va.shader = gridcellShader;
+			va.hasShader = true;
+
 			final float padding = 0.05f;
 			final float cellScaling = 1.0f - 2.0f * padding;
 
 			GeometryHelper.boxVerticesAsTriangleStrip(
-					(c.x + padding) * GridCell.width,
-					(c.y + padding) * GridCell.height,
-					GridCell.width * cellScaling,
-					GridCell.height * cellScaling,
+					(c.x + padding) * GridCell.size,
+					(c.y + padding) * GridCell.size,
+					GridCell.size * cellScaling,
+					GridCell.size * cellScaling,
 					va
 			);
 

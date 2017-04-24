@@ -68,7 +68,7 @@ public abstract class Mission implements Serializable, WaveSender {
 		gridCells = new GridCell[gridCellCountX * gridCellCountY];
 		for (int x = 0; x < gridCellCountX; x++) {
 			for (int y = 0; y < gridCellCountY; y++) {
-				GridCell c = new GridCell(x, y, new V2((x + 0.5f) * GridCell.width, (y + 0.5f) * GridCell.height), CellState.FREE);
+				GridCell c = new GridCell(x, y, new V2((x + 0.5f) * GridCell.size, (y + 0.5f) * GridCell.size), CellState.FREE);
 				gridCells2d[x][y] = c;
 				gridCells[x * gridCellCountY + y] = c;
 			}
@@ -108,8 +108,8 @@ public abstract class Mission implements Serializable, WaveSender {
 	}
 
 	public GridCell getCellAt(V2 location) {
-		int x = (int) Math.floor(location.x / GridCell.width);
-		int y = (int) Math.floor(location.y / GridCell.height);
+		int x = (int) Math.floor(location.x / GridCell.size);
+		int y = (int) Math.floor(location.y / GridCell.size);
 		if (x >= 0 && x < gridCellCountX && y >= 0 && y < gridCellCountY) {
 			return gridCells2d[x][y];
 		} else {
