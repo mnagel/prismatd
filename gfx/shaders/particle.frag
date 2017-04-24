@@ -21,8 +21,8 @@ void main(void) {
 	vec2 posOnObject = vec2(0.5) + 0.5 * (gl_FragCoord.xy - physicalLocation) / modifiedRadius;
 
     // more shader gfx config
-    float tailcount = min(level, 3);
-    float n = 55.0 * level;
+    float tailcount = min(float(level), 3.0);
+    float n = 55.0 * float(level);
     const float f1 = 5.0;
     const float f2 = 1.0;
 
@@ -32,7 +32,7 @@ void main(void) {
 	// http://glslsandbox.com/e#40071.0
 	float intensity = 0.;
 	for (float i = 0.; i < n; i++) {
-		float angle = i/n * 2 * pi;
+		float angle = i/n * 2.0 * pi;
 		vec2 xy = posOnObject + vec2(0.25 * cos(angle) - 0.5, 0.25 * sin(angle) - 0.5);
 		intensity += pow(1000000., (0.77 - length(xy) * 1.9) * (1. + thickness * fract(i/n*tailcount - clock))) / 80000.;
 	}
