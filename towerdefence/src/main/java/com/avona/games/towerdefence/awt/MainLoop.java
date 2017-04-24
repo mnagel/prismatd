@@ -85,7 +85,9 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		String[] missions = MissionList.getAvailableMissionNames();
 		int startMission = userSelectsAString("Load Mission", "Please select a Mission to load:", missions);
 
-		new MainLoop(arg2, startMission);
+		if (startMission >= 0) {
+			new MainLoop(arg2, startMission);
+		}
 	}
 
 	@Override
