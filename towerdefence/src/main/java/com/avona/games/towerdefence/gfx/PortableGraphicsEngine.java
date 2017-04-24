@@ -307,6 +307,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 
 		enemyShader.setUniform("selected", false);
+		enemyShader.setUniform("level", e.levelNum);
 		enemyShader.setUniform("clock", graphicsTime.clock);
 		enemyShader.setUniform("virtualLocation", location);
 		enemyShader.setUniform("physicalLocation", gameLayer.convertToPhysical(location));
@@ -402,6 +403,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			towerShader.loadShaderProgram("tower.vert", "tower.frag");
 		}
 
+		towerShader.setUniform("level", t.level);
 		towerShader.setUniform("selected", selected);
 		towerShader.setUniform("clock", graphicsTime.clock);
 		towerShader.setUniform("virtualLocation", location);
@@ -453,6 +455,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 
 		particleShader.setUniform("selected", false);
+		particleShader.setUniform("level", 1);
 		particleShader.setUniform("clock", graphicsTime.clock);
 		particleShader.setUniform("virtualLocation", location);
 		particleShader.setUniform("physicalLocation", gameLayer.convertToPhysical(location));

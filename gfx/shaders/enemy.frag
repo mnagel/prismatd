@@ -2,6 +2,7 @@ precision highp float;
 
 // Global
 varying vec4 v_color;
+uniform int level;
 
 // Local
 uniform vec2 physicalLocation;
@@ -14,8 +15,12 @@ void main(void) {
 	// Relative position on object in [0, 1] x [0, 1]
 	vec2 posOnObject = vec2(0.5) + 0.5 * (gl_FragCoord.xy - physicalLocation) / modifiedRadius;
 
-	// Color from vertex shader
-	vec4 color = v_color;
+    const float n = 50;
+    const float f1 = 5.0;
+    const float f2 = 1.0;
+
+    // decimate high values, add base offset towards white
+	vec4 color = vec4(f1/n, f1/n, f1/n, 1.0) * v_color + vec4(f2/n, f2/n, f2/n, 1.0);
 
 	// http://glslsandbox.com/e#40071.0
 	float intensity = 0.;

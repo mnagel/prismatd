@@ -5,6 +5,7 @@ public final class MissionList {
 	public static final Class<Mission>[] availableMissions = new Class[]{
 			_010_Hello_World.class,
 			_020_About_Colors.class,
+			_025_Tower_Levels.class,
 			_030_Mixing_Colors.class,
 			_031_More_Colors.class,
 			_040_About_Money.class,
