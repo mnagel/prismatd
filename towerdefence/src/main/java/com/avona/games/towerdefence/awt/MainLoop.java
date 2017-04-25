@@ -1,9 +1,6 @@
 package com.avona.games.towerdefence.awt;
 
-import com.avona.games.towerdefence.Debug;
-import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.PortableMainLoop;
-import com.avona.games.towerdefence.Util;
+import com.avona.games.towerdefence.*;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.mission.MissionList;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
@@ -75,7 +72,10 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		}
 
 		String[] missions = MissionList.getAvailableMissionNames();
-		int startMission = userSelectsAString("Load Mission", "Please select a Mission to load:", missions);
+		int startMission = FeatureFlags.AUTOSTART_MISSION;
+		if (startMission == -1) {
+			startMission = userSelectsAString("Load Mission", "Please select a Mission to load:", missions);
+		}
 
 		if (startMission >= 0) {
 			new MainLoop(arg2, startMission);

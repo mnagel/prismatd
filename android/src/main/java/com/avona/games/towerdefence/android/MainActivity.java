@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
+import com.avona.games.towerdefence.FeatureFlags;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.mission.MissionList;
 
@@ -47,18 +48,28 @@ public class MainActivity extends Activity {
 
 		String[] missions = MissionList.getAvailableMissionNames();
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Select Mission");
-		builder.setCancelable(false);
-		builder.setItems(missions, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				Util.log("Selected Mission: " + which);
-				ml = new MainLoop(MainActivity.this, vibrator, which);
-				setContentView(ml.surfaceView);
-			}
-		});
-		builder.show();
+		int startMission = FeatureFlags.AUTOSTART_MISSION;
+		//noinspection ConstantConditions
+		if (startMission == -1) {
+			Util.log("AUTOSTART_MISSION: " + startMission);
+			ml = new MainLoop(MainActivity.this, vibrator, FeatureFlags.AUTOSTART_MISSION);
+			setContentView(ml.surfaceView);
+		} else {
+			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Select Mission");
+			builder.setCancelable(false);
+			builder.setItems(missions, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					Util.log("Selected Mission: " + which);
+					ml = new MainLoop(MainActivity.this, vibrator, which);
+					setContentView(ml.surfaceView);
+				}
+			});
+			builder.show();
+		}
+
+
 	}
 
 	@Override

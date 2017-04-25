@@ -65,6 +65,7 @@ public class Game implements Serializable {
 			}
 		}
 
+		//noinspection ConstantConditions
 		loadMission(startMission);
 	}
 
