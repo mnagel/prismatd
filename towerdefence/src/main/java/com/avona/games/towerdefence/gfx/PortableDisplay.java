@@ -1,7 +1,6 @@
 package com.avona.games.towerdefence.gfx;
 
 import android.opengl.Matrix;
-
 import com.avona.games.towerdefence.Layer;
 
 import java.util.Stack;

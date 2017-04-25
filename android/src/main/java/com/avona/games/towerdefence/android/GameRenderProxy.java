@@ -1,7 +1,6 @@
 package com.avona.games.towerdefence.android;
 
 import android.opengl.GLSurfaceView.Renderer;
-
 import com.avona.games.towerdefence.PortableMainLoop;
 
 import javax.microedition.khronos.egl.EGLConfig;

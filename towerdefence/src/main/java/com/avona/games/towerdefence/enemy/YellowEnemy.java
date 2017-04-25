@@ -12,8 +12,8 @@ public class YellowEnemy extends Enemy {
 				levelNum,
 				3 + (levelNum - 1),
 				new RGB(
-						1/2.0f * 50 * levelNum + 10,
-						1/2.0f * 50 * levelNum + 10,
+						1 / 2.0f * 50 * levelNum + 10,
+						1 / 2.0f * 50 * levelNum + 10,
 						0
 				),
 				2 * (80 + 3 * (levelNum - 1)),

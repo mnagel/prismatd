@@ -1,12 +1,7 @@
 package com.avona.games.towerdefence.mission;
 
 import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.enemy.BlueEnemy;
-import com.avona.games.towerdefence.enemy.GreenEnemy;
-import com.avona.games.towerdefence.enemy.RainbowEnemy;
-import com.avona.games.towerdefence.enemy.RedEnemy;
-import com.avona.games.towerdefence.enemy.WhiteEnemy;
-import com.avona.games.towerdefence.enemy.YellowEnemy;
+import com.avona.games.towerdefence.enemy.*;
 import com.avona.games.towerdefence.tower.BlueTower;
 import com.avona.games.towerdefence.tower.GreenTower;
 import com.avona.games.towerdefence.tower.RedTower;

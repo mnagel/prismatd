@@ -19,7 +19,7 @@ public final class MissionList {
 		Class<Mission>[] missions = availableMissions;
 		String[] res = new String[missions.length];
 		for (int i = 0; i < missions.length; i++) {
-			res[i] = Integer.toString(i+1) + ": " + missions[i].getAnnotation(MissionName.class).value();
+			res[i] = Integer.toString(i + 1) + ": " + missions[i].getAnnotation(MissionName.class).value();
 		}
 		return res;
 	}

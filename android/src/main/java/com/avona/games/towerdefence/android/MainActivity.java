@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
-
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.mission.MissionList;
 

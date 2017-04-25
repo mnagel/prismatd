@@ -52,7 +52,7 @@ public abstract class Tower extends LocationObject {
 	public float getRange() {
 		float base = 2.5f;
 		float perLevel = 0.5f;
-		return GridCell.size * (base + perLevel * (this.level -1));
+		return GridCell.size * (base + perLevel * (this.level - 1));
 	}
 
 	public int getLevelUpPrice() {

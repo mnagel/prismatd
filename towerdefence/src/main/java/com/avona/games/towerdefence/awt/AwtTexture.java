@@ -6,14 +6,13 @@ import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.jogamp.opengl.GL;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-
-import javax.imageio.ImageIO;
 
 public class AwtTexture extends Texture {
 	private GL gl;

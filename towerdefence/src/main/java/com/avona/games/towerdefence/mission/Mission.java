@@ -11,12 +11,7 @@ import com.avona.games.towerdefence.wave.WaveSender;
 import com.avona.games.towerdefence.wave.WaveTracker;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public abstract class Mission implements Serializable, WaveSender {
 	public final static float ORIGIN_X = 0;
@@ -45,7 +40,7 @@ public abstract class Mission implements Serializable, WaveSender {
 
 		this.game = game;
 		this.missionStatementTexts = getMissionStatementTexts();
-		for (MissionStatementText t: this.missionStatementTexts) {
+		for (MissionStatementText t : this.missionStatementTexts) {
 			t.y = gridCellCountY - t.y - 1;
 		}
 

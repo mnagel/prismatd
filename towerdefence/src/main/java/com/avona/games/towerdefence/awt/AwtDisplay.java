@@ -4,31 +4,18 @@ import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.gfx.DisplayEventListener;
-import com.avona.games.towerdefence.gfx.PortableDisplay;
-import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
-import com.avona.games.towerdefence.gfx.Shader;
-import com.avona.games.towerdefence.gfx.Texture;
-import com.avona.games.towerdefence.gfx.VertexArray;
+import com.avona.games.towerdefence.gfx.*;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
-import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.GLAutoDrawable;
-import com.jogamp.opengl.GLCapabilities;
-import com.jogamp.opengl.GLEventListener;
-import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.awt.TextRenderer;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
-
-import javax.imageio.ImageIO;
 
 /**
  * The GraphicsEngine object currently incorporates all drawing operations. It

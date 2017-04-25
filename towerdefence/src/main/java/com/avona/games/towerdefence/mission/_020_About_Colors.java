@@ -4,7 +4,6 @@ import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.enemy.BlueEnemy;
 import com.avona.games.towerdefence.enemy.RedEnemy;
 import com.avona.games.towerdefence.tower.BlueTower;
-import com.avona.games.towerdefence.tower.PaintRedTower;
 import com.avona.games.towerdefence.tower.RedTower;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;

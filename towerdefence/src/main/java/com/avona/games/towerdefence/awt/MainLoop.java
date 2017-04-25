@@ -12,17 +12,9 @@ import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.util.AnimatorBase;
 import com.jogamp.opengl.util.FPSAnimator;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import javax.swing.*;
+import java.io.*;
 import java.util.Arrays;
-
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 public class MainLoop extends PortableMainLoop implements GLEventListener {
 	private static final String SAVEGAME = "savegame";
@@ -118,7 +110,7 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		this.display = display;
 	}
 
-	private void loadGame(final String filename) throws	IOException, ClassNotFoundException {
+	private void loadGame(final String filename) throws IOException, ClassNotFoundException {
 		final InputStream is = new FileInputStream(filename);
 		final ObjectInputStream ois = new ObjectInputStream(is);
 

@@ -3,7 +3,6 @@ package com.avona.games.towerdefence.inputActors;
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.Mouse;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.tower.Tower;
 
 public class GameInputActor extends EmptyInputActor {

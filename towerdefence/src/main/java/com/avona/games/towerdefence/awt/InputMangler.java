@@ -4,13 +4,7 @@ import com.avona.games.towerdefence.PortableMainLoop;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.inputActors.InputActor;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 public class InputMangler implements KeyListener, MouseListener,
 		MouseMotionListener {

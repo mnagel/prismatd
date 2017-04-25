@@ -11,6 +11,7 @@ public final class V2 implements Serializable {
 
 	public V2() {
 	}
+
 	public V2(final float x, final float y) {
 		this.x = x;
 		this.y = y;

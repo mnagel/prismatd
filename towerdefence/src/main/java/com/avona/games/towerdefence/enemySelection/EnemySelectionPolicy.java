@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface EnemySelectionPolicy extends Serializable {
 	String getName();
+
 	Enemy findSuitableEnemy(Tower tower, List<Enemy> enemies);
 }

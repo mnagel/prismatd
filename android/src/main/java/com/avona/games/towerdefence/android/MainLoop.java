@@ -3,7 +3,6 @@ package com.avona.games.towerdefence.android;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.os.Vibrator;
-
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.PortableMainLoop;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;

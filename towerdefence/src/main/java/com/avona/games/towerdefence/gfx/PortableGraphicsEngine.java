@@ -1,15 +1,6 @@
 package com.avona.games.towerdefence.gfx;
 
-import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.Layer;
-import com.avona.games.towerdefence.LayerHerder;
-import com.avona.games.towerdefence.Mouse;
-import com.avona.games.towerdefence.PortableMainLoop;
-import com.avona.games.towerdefence.RGB;
-import com.avona.games.towerdefence.TickRater;
-import com.avona.games.towerdefence.TimeTrack;
-import com.avona.games.towerdefence.Transient;
-import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.*;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.mission.CellState;
 import com.avona.games.towerdefence.mission.GridCell;
@@ -271,7 +262,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			i++;
 		}
 
-		String waveButtonText =	"Send Wave #" + (wavenr + 2);
+		String waveButtonText = "Send Wave #" + (wavenr + 2);
 		if (wavenr + 1 >= game.mission.getWaveCount()) {
 			waveButtonText = "Final Wave!";
 		}

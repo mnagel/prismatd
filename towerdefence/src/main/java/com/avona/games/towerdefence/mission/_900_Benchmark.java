@@ -36,7 +36,7 @@ public class _900_Benchmark extends Mission {
 	}
 
 	private void setupTowers() {
-		Tower[] protoype = new Tower[] {
+		Tower[] protoype = new Tower[]{
 				new RedTower(game.timedCodeManager, 1),
 				new GreenTower(game.timedCodeManager, 1),
 				new BlueTower(game.timedCodeManager, 1),
@@ -101,7 +101,7 @@ public class _900_Benchmark extends Mission {
 	@Override
 	protected WaveEnemyConfig[][] loadEnemyWaves() {
 		int lvl = 10000;
-		Enemy[] prototype = new Enemy[] {
+		Enemy[] prototype = new Enemy[]{
 				new RedEnemy(this, lvl),
 				new GreenEnemy(this, lvl),
 				new BlueEnemy(this, lvl),
@@ -111,7 +111,7 @@ public class _900_Benchmark extends Mission {
 				new RainbowEnemy(this, lvl),
 		};
 
-		for (Enemy e: prototype) {
+		for (Enemy e : prototype) {
 			e.getVelocity().setLength(50);
 		}
 

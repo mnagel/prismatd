@@ -4,22 +4,16 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView.Renderer;
-
 import com.android.texample2.GLText;
 import com.avona.games.towerdefence.Layer;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.V2;
-import com.avona.games.towerdefence.gfx.DisplayEventListener;
-import com.avona.games.towerdefence.gfx.PortableDisplay;
-import com.avona.games.towerdefence.gfx.Shader;
-import com.avona.games.towerdefence.gfx.Texture;
-import com.avona.games.towerdefence.gfx.VertexArray;
-
-import java.util.HashMap;
+import com.avona.games.towerdefence.gfx.*;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+import java.util.HashMap;
 
 /**
  * This class provides all basic drawing primitives for the Android platform.

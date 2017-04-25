@@ -1,44 +1,44 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+	compileSdkVersion 25
+	buildToolsVersion '25.0.2'
 
-    defaultConfig {
-        applicationId "com.avona.games.towerdefence.android"
-        minSdkVersion 22
-        targetSdkVersion 25
-    }
+	defaultConfig {
+		applicationId "com.avona.games.towerdefence.android"
+		minSdkVersion 22
+		targetSdkVersion 25
+	}
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-        }
-    }
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+		}
+	}
 }
 
 task gfxIconData(type: Copy) {
-    from project(':').file('gfx/icon.png')
-    into file('src/main/res/drawable')
+	from project(':').file('gfx/icon.png')
+	into file('src/main/res/drawable')
 }
 
 task gfxShaderData(type: Copy) {
-    from project(':').file('gfx/shaders')
-    into file('src/main/res/raw')
-    rename { filename ->
-        filename.replace '.frag', '_frag.glsl'
-    }
-    rename { filename ->
-        filename.replace '.vert', '_vert.glsl'
-    }
+	from project(':').file('gfx/shaders')
+	into file('src/main/res/raw')
+	rename { filename ->
+		filename.replace '.frag', '_frag.glsl'
+	}
+	rename { filename ->
+		filename.replace '.vert', '_vert.glsl'
+	}
 }
 
 preBuild.dependsOn gfxIconData
 preBuild.dependsOn gfxShaderData
 
 dependencies {
-    compile project(':towerdefence')
-    gfxIconData
-    gfxShaderData
+	compile project(':towerdefence')
+	gfxIconData
+	gfxShaderData
 }

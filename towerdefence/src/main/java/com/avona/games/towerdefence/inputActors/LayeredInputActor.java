@@ -1,10 +1,6 @@
 package com.avona.games.towerdefence.inputActors;
 
-import com.avona.games.towerdefence.Layer;
-import com.avona.games.towerdefence.LayerHerder;
-import com.avona.games.towerdefence.Mouse;
-import com.avona.games.towerdefence.PortableMainLoop;
-import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.*;
 import com.avona.games.towerdefence.mission.MissionList;
 
 import java.util.HashMap;

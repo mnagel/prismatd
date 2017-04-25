@@ -7,6 +7,7 @@ final public class ImageColorFormat {
 	public int greenIndex;
 	public int blueIndex;
 	public int alphaIndex;
+
 	public ImageColorFormat(int r, int g, int b, int a) {
 		redIndex = r;
 		greenIndex = g;

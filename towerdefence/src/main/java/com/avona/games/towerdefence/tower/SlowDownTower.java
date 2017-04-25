@@ -10,40 +10,40 @@ import com.avona.games.towerdefence.particle.SlowDownParticle;
 import com.avona.games.towerdefence.particleCollidors.NearestEnemyColliderPolicy;
 
 public class SlowDownTower extends Tower {
-    public SlowDownTower(final TimedCodeManager timedCodeManager, final int level) {
-        super(timedCodeManager, new NearestEnemyColliderPolicy(), level);
-        color = new RGB(1.0f, 1.0f, 1.0f);
-        timer.time = 1.0f;
-    }
+	public SlowDownTower(final TimedCodeManager timedCodeManager, final int level) {
+		super(timedCodeManager, new NearestEnemyColliderPolicy(), level);
+		color = new RGB(1.0f, 1.0f, 1.0f);
+		timer.time = 1.0f;
+	}
 
-    public SlowDownTower(final SlowDownTower other) {
-        super(other);
-    }
+	public SlowDownTower(final SlowDownTower other) {
+		super(other);
+	}
 
-    @Override
-    public String getName() {
-        return "Slow-down tower";
-    }
+	@Override
+	public String getName() {
+		return "Slow-down tower";
+	}
 
-    @Override
-    public Tower clone() {
-        return new SlowDownTower(this);
-    }
+	@Override
+	public Tower clone() {
+		return new SlowDownTower(this);
+	}
 
-    @Override
-    public Particle makeParticle(Enemy e) {
-        return new SlowDownParticle(
-                location,
-                e,
-                enemyParticleColliderPolicy,
-                150 + 2 * (level - 1),
-                new RGB(1.0f, 1.0f, 1.0f),
-                10
-        );
-    }
+	@Override
+	public Particle makeParticle(Enemy e) {
+		return new SlowDownParticle(
+				location,
+				e,
+				enemyParticleColliderPolicy,
+				150 + 2 * (level - 1),
+				new RGB(1.0f, 1.0f, 1.0f),
+				10
+		);
+	}
 
-    @Override
-    protected EnemySelectionPolicy getPolicyForLevel(int level) {
-        return new NearestEnemyPolicy();
-    }
+	@Override
+	protected EnemySelectionPolicy getPolicyForLevel(int level) {
+		return new NearestEnemyPolicy();
+	}
 }
