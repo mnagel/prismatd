@@ -65,7 +65,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		renderMissionStatement();
 
 		for (Enemy e : game.enemies) {
-			renderEnemy(e);
+			renderEnemy(e, gameLayer);
 		}
 		for (Tower t : game.towers) {
 			renderTower(t, null, gameLayer, t == game.selectedObject);
@@ -262,7 +262,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 					(i + 1) * menuLayer.virtualRegion.x / (enemyCount + 1),
 					menuLayer.virtualRegion.y / 2.0f / MENU_BUTTON_COUNT
 			);
-			renderEnemy(e);
+			renderEnemy(e, menuLayer);
 			i++;
 		}
 
@@ -299,7 +299,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 	}
 
-	private void renderEnemy(final Enemy e) {
+	private void renderEnemy(final Enemy e, Layer layer) {
 		if (e.isDead())
 			return;
 
@@ -325,8 +325,8 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		enemyShader.setUniform("level", e.levelNum);
 		enemyShader.setUniform("clock", graphicsTime.clock + e.seed);
 		enemyShader.setUniform("virtualLocation", location);
-		enemyShader.setUniform("physicalLocation", gameLayer.convertToPhysical(location));
-		enemyShader.setUniform("physicalRadius", gameLayer.scaleToPhysical(radius));
+		enemyShader.setUniform("physicalLocation", layer.convertToPhysical(location));
+		enemyShader.setUniform("physicalRadius", layer.scaleToPhysical(radius));
 
 		va.shader = enemyShader;
 		va.hasShader = true;
