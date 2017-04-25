@@ -51,14 +51,10 @@ public class MainActivity extends Activity {
 		int startMission = FeatureFlags.AUTOSTART_MISSION;
 		//noinspection ConstantConditions
 		if (startMission == -1) {
-			Util.log("AUTOSTART_MISSION: " + startMission);
-			ml = new MainLoop(MainActivity.this, vibrator, FeatureFlags.AUTOSTART_MISSION);
-			setContentView(ml.surfaceView);
-		} else {
 			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Select Mission");
 			builder.setCancelable(false);
-			builder.setItems(missions, new DialogInterface.OnClickListener() {
+			builder.setItems(missions, new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					Util.log("Selected Mission: " + which);
@@ -67,6 +63,10 @@ public class MainActivity extends Activity {
 				}
 			});
 			builder.show();
+		} else {
+			Util.log("AUTOSTART_MISSION: " + startMission);
+			ml = new MainLoop(MainActivity.this, vibrator, FeatureFlags.AUTOSTART_MISSION);
+			setContentView(ml.surfaceView);
 		}
 
 
