@@ -97,7 +97,9 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			renderPauseOverlay();
 		}
 
-		renderStats();
+		if (FeatureFlags.SHOW_CONSOLE) {
+			renderStats();
+		}
 		renderMouse();
 	}
 
