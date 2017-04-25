@@ -170,9 +170,11 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			);
 
 			if (c.state == CellState.FREE) {
-				GeometryHelper.boxColoursAsTriangleStrip(0.2f, 0.2f, 0.2f, 0.4f, va);
+				GeometryHelper.boxColoursAsTriangleStrip(0.2f, 0.2f, 0.2f, 1.0f, va);
+			} else if (c.state == CellState.WALL) {
+				GeometryHelper.boxColoursAsTriangleStrip(0.1f, 0.1f, 0.2f, 1.0f, va);
 			} else if (c.state == CellState.WAY) {
-				GeometryHelper.boxColoursAsTriangleStrip(1.0f, 1.0f, 1.0f, 0.4f, va);
+				GeometryHelper.boxColoursAsTriangleStrip(0.0f, 0.0f, 0.0f, 1.0f, va);
 			}
 
 		}
@@ -284,7 +286,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	}
 
 	private void renderMissionStatement() {
-		float y_off = display.getTextBounds("#XM|p").y/2;
+		float y_off = display.getTextBounds("#XM|p").y / 2;
 		for (MissionStatementText t : game.mission.missionStatementTexts) {
 			display.drawText(
 					gameLayer,

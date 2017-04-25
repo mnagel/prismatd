@@ -84,6 +84,8 @@ public abstract class Mission implements Serializable, WaveSender {
 
 				if (c == '.') {
 					gridCells2d[x][y].state = CellState.FREE;
+				} else if (c == '#') {
+					gridCells2d[x][y].state = CellState.WALL;
 				} else {
 					gridCells2d[x][y].state = CellState.WAY;
 				}
