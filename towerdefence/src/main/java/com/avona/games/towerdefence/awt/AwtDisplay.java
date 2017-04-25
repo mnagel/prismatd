@@ -31,10 +31,13 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	private TextRenderer renderer;
 	private V2 size = new V2();
 	private DisplayEventListener eventListener;
+	// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
+	private final static int FONTSIZE = 12;
 
 	public AwtDisplay(DisplayEventListener eventListener) {
 		this.eventListener = eventListener;
-		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, 12), true, true);
+		// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
+		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, FONTSIZE), true, true);
 		setupGlCanvas();
 		setupFrame();
 	}

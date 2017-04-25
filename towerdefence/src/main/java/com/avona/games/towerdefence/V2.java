@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Locale;
 
 public final class V2 implements Serializable {
-	public static final V2 ZERO = new V2();
 	private static final long serialVersionUID = 1L;
 	public float x = 0.0f;
 	public float y = 0.0f;
@@ -34,13 +33,11 @@ public final class V2 implements Serializable {
 	}
 
 	public static float dist(final V2 from, final V2 to) {
-		return (float) Math.sqrt((to.x - from.x) * (to.x - from.x)
-				+ (to.y - from.y) * (to.y - from.y));
+		return (float) Math.sqrt((to.x - from.x) * (to.x - from.x) + (to.y - from.y) * (to.y - from.y));
 	}
 
 	public static float squaredDist(final V2 from, final V2 to) {
-		return (to.x - from.x) * (to.x - from.x) + (to.y - from.y)
-				* (to.y - from.y);
+		return (to.x - from.x) * (to.x - from.x) + (to.y - from.y) * (to.y - from.y);
 	}
 
 	public static float dot(final V2 vec0, final V2 vec1) {
@@ -56,8 +53,7 @@ public final class V2 implements Serializable {
 	 */
 	public static V2 project(final V2 toBeProjectedVec, final V2 baseVec) {
 		V2 projectedVec = new V2(baseVec);
-		projectedVec.mult(dot(toBeProjectedVec, baseVec)
-				/ dot(baseVec, baseVec));
+		projectedVec.mult(dot(toBeProjectedVec, baseVec) / dot(baseVec, baseVec));
 		return projectedVec;
 	}
 
@@ -94,14 +90,16 @@ public final class V2 implements Serializable {
 		return String.format(f, x, y);
 	}
 
-	public void add(final V2 v) {
+	public V2 add(final V2 v) {
 		x += v.x;
 		y += v.y;
+		return this;
 	}
 
-	public void add(final float add_x, final float add_y) {
+	public V2 add(final float add_x, final float add_y) {
 		x += add_x;
 		y += add_y;
+		return this;
 	}
 
 	/**
@@ -110,40 +108,45 @@ public final class V2 implements Serializable {
 	 * @param other  V2 to accumulate onto this instance.
 	 * @param weight Weight factor. 1.0f to get plain addition.
 	 */
-	public void addWeighted(final V2 other, final float weight) {
+	public V2 addWeighted(final V2 other, final float weight) {
 		this.add(other.x * weight, other.y * weight);
+		return this;
 	}
 
-	public void sub(final V2 v) {
+	public V2 sub(final V2 v) {
 		x -= v.x;
 		y -= v.y;
+		return this;
 	}
 
-	public void sub(final float sub_x, final float sub_y) {
+	public V2 sub(final float sub_x, final float sub_y) {
 		x -= sub_x;
 		y -= sub_y;
+		return this;
 	}
 
-	public void mult(final float f) {
+	public V2 mult(final float f) {
 		x *= f;
 		y *= f;
+		return this;
 	}
 
 	public float length() {
 		return (float) Math.sqrt(x * x + y * y);
 	}
 
-	public void setLength(float length) {
+	public V2 setLength(float length) {
 		float f = length / length();
-		this.mult(f);
+		return this.mult(f);
 	}
 
 	public float squaredLength() {
 		return (x * x + y * y);
 	}
 
-	public void normalize() {
+	public V2 normalize() {
 		this.setLength(1.0f);
+		return this;
 	}
 
 	public float dist(final V2 dest) {
@@ -161,11 +164,11 @@ public final class V2 implements Serializable {
 	 * @param from Starting point. Will not be modified.
 	 * @param to   Target point. Will not be modified.
 	 */
-	public void setDirection(final V2 from, final V2 to) {
+	public V2 setDirection(final V2 from, final V2 to) {
 		final float l = this.length();
 		this.x = to.x - from.x;
 		this.y = to.y - from.y;
-		this.setLength(l);
+		return this.setLength(l);
 	}
 
 	public V2 rotate(final V2 origin, final float degrees) {

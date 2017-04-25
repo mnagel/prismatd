@@ -24,15 +24,12 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 	private V2 size;
 	private DisplayEventListener eventListener;
 	private AssetManager assetManager;
-	private int textSize;
+	// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
+	private final static int FONTSIZE = 14;
 
 	public AndroidDisplay(Context context, DisplayEventListener eventListener) {
 		this.eventListener = eventListener;
 		this.assetManager = context.getAssets();
-
-		// Galaxy S has a DPI of roughly xhdpi (2.0). Let's take it as the reference metric.
-		//textSize = (int) (context.getResources().getDisplayMetrics().density / 2.0 * 20);
-		textSize = 14;
 	}
 
 	private void checkGLError(String op) {
@@ -61,7 +58,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 	@Override
 	public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
 		glText = new GLText(assetManager);
-		glText.load("Roboto-Regular.ttf", textSize, 2, 2);
+		glText.load("Roboto-Regular.ttf", FONTSIZE, 2, 2);
 		myinit();
 	}
 

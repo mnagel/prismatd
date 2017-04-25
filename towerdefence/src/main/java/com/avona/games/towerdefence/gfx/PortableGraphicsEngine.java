@@ -282,12 +282,13 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	}
 
 	private void renderMissionStatement() {
+		float y_off = display.getTextBounds("#XM|p").y/2;
 		for (MissionStatementText t : game.mission.missionStatementTexts) {
 			display.drawText(
 					gameLayer,
 					t.text,
 					false,
-					game.mission.gridCells2d[t.x][t.y].center,
+					game.mission.gridCells2d[t.x][t.y].center.clone().add(0, -y_off),
 					new RGB(1, 1, 1),
 					1
 			);
