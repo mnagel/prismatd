@@ -318,7 +318,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		enemyShader.setUniform("selected", false);
 		enemyShader.setUniform("level", e.levelNum);
-		enemyShader.setUniform("clock", graphicsTime.clock);
+		enemyShader.setUniform("clock", graphicsTime.clock + e.seed);
 		enemyShader.setUniform("virtualLocation", location);
 		enemyShader.setUniform("physicalLocation", gameLayer.convertToPhysical(location));
 		enemyShader.setUniform("physicalRadius", gameLayer.scaleToPhysical(radius));
@@ -415,7 +415,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		towerShader.setUniform("level", t.level);
 		towerShader.setUniform("selected", selected);
-		towerShader.setUniform("clock", graphicsTime.clock);
+		towerShader.setUniform("clock", graphicsTime.clock + t.seed);
 		towerShader.setUniform("virtualLocation", location);
 		towerShader.setUniform("physicalLocation", layer.convertToPhysical(location));
 		towerShader.setUniform("physicalRadius", layer.scaleToPhysical(radius));
@@ -466,7 +466,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		particleShader.setUniform("selected", false);
 		particleShader.setUniform("level", 1);
-		particleShader.setUniform("clock", graphicsTime.clock);
+		particleShader.setUniform("clock", graphicsTime.clock + p.seed);
 		particleShader.setUniform("virtualLocation", location);
 		particleShader.setUniform("physicalLocation", gameLayer.convertToPhysical(location));
 		particleShader.setUniform("physicalRadius", gameLayer.scaleToPhysical(radius));

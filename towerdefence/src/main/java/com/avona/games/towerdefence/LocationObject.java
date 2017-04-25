@@ -12,6 +12,9 @@ public abstract class LocationObject implements Serializable {
 	public V2 location;
 	public float radius;
 
+	// used in gfx engine and elsewhere
+	public float seed = (float)Math.random();
+
 	protected LocationObject() {
 	}
 
