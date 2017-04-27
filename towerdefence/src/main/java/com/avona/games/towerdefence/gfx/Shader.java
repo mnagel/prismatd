@@ -6,7 +6,15 @@ public abstract class Shader {
 	protected int program = -1;
 	private HashMap<String, Variable> uniforms = new HashMap<>();
 
-	abstract public void loadShaderProgram(String vertexShaderString, String fragmentShaderString);
+	abstract public String getShaderProgram(String shaderProgramName);
+
+	abstract public void loadShaderPrograms(String vertexShaderProgram, String fragmentShaderProgram);
+
+	public void loadShaderProgramsByName(String vertexShaderProgramName, String fragmentShaderProgramName) {
+		String vertexShaderProgram = getShaderProgram(vertexShaderProgramName);
+		String fragmentShaderProgram = getShaderProgram(fragmentShaderProgramName);
+		loadShaderPrograms(vertexShaderProgram, fragmentShaderProgram);
+	}
 
 	abstract public void unloadShaderProgram();
 

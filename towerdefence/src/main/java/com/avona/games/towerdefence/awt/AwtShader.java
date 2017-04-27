@@ -88,27 +88,27 @@ public class AwtShader extends Shader {
 		return name;
 	}
 
-	private String getShaderAsString(String shaderFilename) {
+	@Override
+	public String getShaderProgram(String shaderProgramName) {
 		final String baseDir = "shaders/";
-		final InputStream is = ResourceResolverRegistry.getInstance().getRawResource(baseDir + shaderFilename);
+		final InputStream is = ResourceResolverRegistry.getInstance().getRawResource(baseDir + shaderProgramName);
 
 		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
 		return s.hasNext() ? s.next() : "";
 	}
 
-	@Override
-	public void loadShaderProgram(String vertexShaderFilename, String fragmentShaderFilename) {
+	public void loadShaderPrograms(String vertexShaderProgram, String fragmentShaderProgram) {
 		unloadShaderProgram();
 
 		program = gl.glCreateProgram();
 
-		if (vertexShaderFilename != null) {
-			vertexShader = compileVertexShader(gl, getShaderAsString(vertexShaderFilename));
+		if (vertexShaderProgram != null) {
+			vertexShader = compileVertexShader(gl, vertexShaderProgram);
 			gl.glAttachShader(program, vertexShader);
 		}
 
-		if (fragmentShaderFilename != null) {
-			fragmentShader = compileFragmentShader(gl, getShaderAsString(fragmentShaderFilename));
+		if (fragmentShaderProgram != null) {
+			fragmentShader = compileFragmentShader(gl, fragmentShaderProgram);
 			gl.glAttachShader(program, fragmentShader);
 		}
 

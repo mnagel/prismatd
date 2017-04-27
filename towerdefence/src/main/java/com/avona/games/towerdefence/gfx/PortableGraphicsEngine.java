@@ -28,7 +28,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 	private VertexArray[] missionVertices;
 	private VertexArray[] menuVertices;
-	private Shader towerShader;
+	public Shader towerShader;
 	private Shader enemyShader;
 	private Shader particleShader;
 	private Shader gridcellShader;
@@ -144,7 +144,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 				// TODO this is kinda fundamentally broken b/c there is only one binding of uniforms for all gridcells
 				if (gridcellShader == null) {
 					gridcellShader = display.allocateShader("gridcell");
-					gridcellShader.loadShaderProgram("default.vert", "default.frag");
+					gridcellShader.loadShaderProgramsByName("default.vert", "default.frag");
 				}
 
 				gridcellShader.setUniform("selected", false);
@@ -318,7 +318,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		if (enemyShader == null) {
 			enemyShader = display.allocateShader("enemy");
-			enemyShader.loadShaderProgram("enemy.vert", "enemy.frag");
+			enemyShader.loadShaderProgramsByName("enemy.vert", "enemy.frag");
 		}
 
 		enemyShader.setUniform("selected", false);
@@ -415,7 +415,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		if (towerShader == null) {
 			towerShader = display.allocateShader("tower");
-			towerShader.loadShaderProgram("tower.vert", "tower.frag");
+			towerShader.loadShaderProgramsByName("tower.vert", "tower.frag");
 		}
 
 		towerShader.setUniform("level", t.level);
@@ -466,7 +466,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		if (particleShader == null) {
 			particleShader = display.allocateShader("particle");
-			particleShader.loadShaderProgram("particle.vert", "particle.frag");
+			particleShader.loadShaderProgramsByName("particle.vert", "particle.frag");
 		}
 
 		particleShader.setUniform("selected", false);

@@ -44,27 +44,28 @@ public class AndroidShader extends Shader {
 		return compileShader(fragmentShaderString, GLES20.GL_FRAGMENT_SHADER);
 	}
 
-	private String getShaderAsString(String shaderFilename) {
+	@Override
+	public String getShaderProgram(String shaderProgramName) {
 		final String baseDir = "";
-		final InputStream is = ResourceResolverRegistry.getInstance().getRawResource(baseDir + shaderFilename);
+		final InputStream is = ResourceResolverRegistry.getInstance().getRawResource(baseDir + shaderProgramName);
 
 		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
 		return s.hasNext() ? s.next() : "";
 	}
 
 	@Override
-	public void loadShaderProgram(String vertexShaderFilename, String fragmentShaderFilename) {
+	public void loadShaderPrograms(String vertexShaderProgram, String fragmentShaderProgram) {
 		unloadShaderProgram();
 
 		program = GLES20.glCreateProgram();
 
-		if (vertexShaderFilename != null) {
-			vertexShader = compileVertexShader(getShaderAsString(vertexShaderFilename));
+		if (vertexShaderProgram != null) {
+			vertexShader = compileVertexShader(vertexShaderProgram);
 			GLES20.glAttachShader(program, vertexShader);
 		}
 
-		if (fragmentShaderFilename != null) {
-			fragmentShader = compileFragmentShader(getShaderAsString(fragmentShaderFilename));
+		if (fragmentShaderProgram != null) {
+			fragmentShader = compileFragmentShader(fragmentShaderProgram);
 			GLES20.glAttachShader(program, fragmentShader);
 		}
 

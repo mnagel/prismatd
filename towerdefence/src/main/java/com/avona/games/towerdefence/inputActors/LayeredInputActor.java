@@ -1,6 +1,8 @@
 package com.avona.games.towerdefence.inputActors;
 
 import com.avona.games.towerdefence.*;
+import com.avona.games.towerdefence.awt.AwtReplShader;
+import com.avona.games.towerdefence.awt.ReplShaderGui;
 import com.avona.games.towerdefence.mission.MissionList;
 
 import java.util.HashMap;
@@ -185,6 +187,10 @@ public class LayeredInputActor implements InputActor {
 		}
 		if (keyCode == 'd') {
 			ml.game.logDebugInfo();
+		}
+		if (keyCode == 'x') { // not pretty, but works
+			ReplShaderGui.main2();
+			ml.ge.towerShader = AwtReplShader.getInstance();
 		}
 		if (keyCode == 'l') {
 			String[] missions = MissionList.getAvailableMissionNames();

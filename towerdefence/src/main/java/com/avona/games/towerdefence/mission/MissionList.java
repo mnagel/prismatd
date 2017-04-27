@@ -3,6 +3,10 @@ package com.avona.games.towerdefence.mission;
 @SuppressWarnings("unchecked")
 public final class MissionList {
 	public static final Class<Mission>[] availableMissions = new Class[]{
+			// make
+			// it
+			// start
+			// at line 10 so you can see the indexes needed for FeatureFlags
 			_010_Hello_World.class,
 			_020_About_Colors.class,
 			_025_Tower_Levels.class,
