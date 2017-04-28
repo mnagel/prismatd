@@ -43,10 +43,8 @@ public class Game implements Serializable {
 	 * of that tower.
 	 */
 	public LocationObject selectedObject = null;
-	private EnemyDeathGivesMoney enemyDeathGivesMoney = new EnemyDeathGivesMoney(
-			this);
-	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(
-			this);
+	private EnemyDeathGivesMoney enemyDeathGivesMoney = new EnemyDeathGivesMoney(this);
+	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(this);
 
 	// TODO startMission is evil
 	public Game(EventListener eventListener, int startMission) {
@@ -121,7 +119,14 @@ public class Game implements Serializable {
 
 	public void pressForwardButton() {
 		if (mission.completed) {
-			loadNextMission();
+			AsyncInput.runnableChooser("Choose Mission", MissionList.getAvailableMissionNames(), new IAsyncInput.MyRunnable() {
+				@Override
+				public void run(int selectedOption) {
+					if (selectedOption != -1) {
+						loadMission(selectedOption);
+					}
+				}
+			});
 		} else {
 			mission.waveTracker.startNextWave();
 		}

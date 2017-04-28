@@ -11,7 +11,6 @@ import com.jogamp.opengl.util.FPSAnimator;
 
 import javax.swing.*;
 import java.io.*;
-import java.util.Arrays;
 
 public class MainLoop extends PortableMainLoop implements GLEventListener {
 	private static final String SAVEGAME = "savegame";
@@ -44,26 +43,8 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		initWithGame();
 	}
 
-	public static int userSelectsAString(String title, String message, String[] strings) {
-		String s = (String) JOptionPane.showInputDialog(null, message, title, JOptionPane.QUESTION_MESSAGE, null, strings, strings[0]);
-		if (s == null) {
-			return -1;
-		}
-
-		// Returns -1 if the list does not contain the element
-		return Arrays.asList(strings).indexOf(s);
-	}
-
 	public static void main(String[] args) {
-		String[] arg2 = args;
-
-		if (args.length > 0 && args[0].indexOf("--missioneditor") == 0) {
-			Util.log("enabling map editor");
-			Debug.mapEditor = true;
-
-			arg2 = new String[args.length - 1];
-			System.arraycopy(args, 1, arg2, 0, arg2.length);
-		}
+		final String[] arg2 = args;
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -71,14 +52,20 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 			Util.log("cannot set native look and feel");
 		}
 
-		String[] missions = MissionList.getAvailableMissionNames();
-		int startMission = FeatureFlags.AUTOSTART_MISSION;
-		if (startMission == -1) {
-			startMission = userSelectsAString("Load Mission", "Please select a Mission to load:", missions);
-		}
+		AsyncInput.setInstance(new AwtIAsyncInput());
 
-		if (startMission >= 0) {
-			new MainLoop(arg2, startMission);
+		if (FeatureFlags.AUTOSTART_MISSION != -1) {
+			new MainLoop(arg2, FeatureFlags.AUTOSTART_MISSION);
+		} else {
+			String[] missions = MissionList.getAvailableMissionNames();
+			AsyncInput.runnableChooser("Load Mission", missions, new IAsyncInput.MyRunnable() {
+				@Override
+				public void run(int selectedOption) {
+					if (selectedOption != -1) {
+						new MainLoop(arg2, selectedOption);
+					}
+				}
+			});
 		}
 	}
 

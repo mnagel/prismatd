@@ -194,10 +194,14 @@ public class LayeredInputActor implements InputActor {
 		}
 		if (keyCode == 'l') {
 			String[] missions = MissionList.getAvailableMissionNames();
-			int what = ml.display.userSelectsAString("Load Mission", "Please select a Mission to load:", missions);
-			if (what >= 0) {
-				ml.game.loadMission(what);
-			}
+			AsyncInput.runnableChooser("Load Mission", missions, new IAsyncInput.MyRunnable() {
+				@Override
+				public void run(int selectedOption) {
+					if (selectedOption != -1) {
+						ml.game.loadMission(selectedOption);
+					}
+				}
+			});
 		}
 	}
 }

@@ -246,11 +246,6 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	}
 
 	@Override
-	public int userSelectsAString(String title, String message, String[] strings) {
-		return MainLoop.userSelectsAString(title, message, strings);
-	}
-
-	@Override
 	public void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha) {
 		V2 loc;
 		if (layer != null) {

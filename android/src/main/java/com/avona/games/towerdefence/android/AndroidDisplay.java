@@ -200,12 +200,6 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 	}
 
 	@Override
-	public int userSelectsAString(String title, String message, String[] strings) {
-		Util.log("called unimplemented method userSelectsAString on android...");
-		return -1;
-	}
-
-	@Override
 	public void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha) {
 		V2 loc = location.clone();
 		if (centered) {

@@ -17,6 +17,8 @@ public final class MissionList {
 			_060_SpecialTower_SlowDown.class,
 			_100_Mission.class,
 			_900_Benchmark.class,
+			_901_Mini_Mission.class,
+			_901_Mini_Mission.class,
 	};
 
 	public static String[] getAvailableMissionNames() {

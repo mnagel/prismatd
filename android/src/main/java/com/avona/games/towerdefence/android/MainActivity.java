@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
+import com.avona.games.towerdefence.AsyncInput;
 import com.avona.games.towerdefence.FeatureFlags;
+import com.avona.games.towerdefence.IAsyncInput;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.mission.MissionList;
 
@@ -25,13 +27,14 @@ public class MainActivity extends Activity {
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		AsyncInput.setInstance(new AndroidIAsyncInput(this));
+
 		super.onCreate(savedInstanceState);
 		Util.log("instance: onCreate");
 
 		final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		final PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-		wl = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK,
-				"td-game");
+		wl = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "td-game");
 
 		if (savedInstanceState == null) {
 		} else {
@@ -46,30 +49,21 @@ public class MainActivity extends Activity {
 			throw new RuntimeException("This device does not support GL ES 2.0");
 		}
 
-		String[] missions = MissionList.getAvailableMissionNames();
-
-		int startMission = FeatureFlags.AUTOSTART_MISSION;
-		//noinspection ConstantConditions
-		if (startMission == -1) {
-			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("Select Mission");
-			builder.setCancelable(false);
-			builder.setItems(missions, new OnClickListener() {
+		if (FeatureFlags.AUTOSTART_MISSION != -1) {
+			Util.log("AUTOSTART_MISSION: " + FeatureFlags.AUTOSTART_MISSION);
+			ml = new MainLoop(MainActivity.this, vibrator, FeatureFlags.AUTOSTART_MISSION);
+			setContentView(ml.surfaceView);
+		} else {
+			String[] missions = MissionList.getAvailableMissionNames();
+			AsyncInput.runnableChooser("Select Mission", missions, new IAsyncInput.MyRunnable() {
 				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					Util.log("Selected Mission: " + which);
-					ml = new MainLoop(MainActivity.this, vibrator, which);
+				public void run(int selectedOption) {
+					Util.log("Selected Mission: " + selectedOption);
+					ml = new MainLoop(MainActivity.this, vibrator, selectedOption);
 					setContentView(ml.surfaceView);
 				}
 			});
-			builder.show();
-		} else {
-			Util.log("AUTOSTART_MISSION: " + startMission);
-			ml = new MainLoop(MainActivity.this, vibrator, FeatureFlags.AUTOSTART_MISSION);
-			setContentView(ml.surfaceView);
 		}
-
-
 	}
 
 	@Override

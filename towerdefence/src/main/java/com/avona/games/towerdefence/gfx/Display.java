@@ -26,6 +26,4 @@ public interface Display {
 	void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha);
 
 	V2 getTextBounds(final String text);
-
-	int userSelectsAString(String title, String message, String[] strings);
 }

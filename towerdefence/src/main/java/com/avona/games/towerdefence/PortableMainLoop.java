@@ -48,16 +48,14 @@ public abstract class PortableMainLoop implements Serializable {
 	public void setupInputActors() {
 
 		GameInputActor gameInputActor = new GameInputActor(game, mouse);
-		if (Debug.mapEditor) {
+		if (FeatureFlags.MISSION_EDITOR) {
 			gameInputActor = new MissionEditorInputActor(game, mouse);
 		}
 
 		inputActor = new LayeredInputActor(this, mouse, layerHerder);
-		inputActor.inputLayerMap.put(layerHerder
-				.findLayerByName(GAME_LAYER_NAME), gameInputActor);
+		inputActor.inputLayerMap.put(layerHerder.findLayerByName(GAME_LAYER_NAME), gameInputActor);
 		final Layer menuLayer = layerHerder.findLayerByName(MENU_LAYER_NAME);
-		inputActor.inputLayerMap.put(menuLayer, new MenuInputActor(game,
-				menuLayer));
+		inputActor.inputLayerMap.put(menuLayer, new MenuInputActor(game, menuLayer));
 	}
 
 	public void performLoop() {
