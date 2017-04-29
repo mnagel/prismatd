@@ -11,6 +11,8 @@ public class AwtShader extends Shader {
 	private String name;
 	private int vertexShader = -1;
 	private int fragmentShader = -1;
+	private String vertexSource;
+	private String fragmentSource;
 
 	public AwtShader(final GL2 gl, String name) {
 		this.gl = gl;
@@ -41,7 +43,7 @@ public class AwtShader extends Shader {
 		return program;
 	}
 
-	private static int compileVertexShader(GL2 gl, String vertexShaderString) {
+	private int compileVertexShader(GL2 gl, String vertexShaderString) {
 		// Compatibility
 		vertexShaderString =
 				"#if __VERSION__ >= 130\n" +
@@ -53,6 +55,7 @@ public class AwtShader extends Shader {
 						"  precision mediump int; \n" +
 						"#endif \n" +
 						vertexShaderString;
+		vertexSource = vertexShaderString;
 
 		if (gl.isGL3core()) {
 			vertexShaderString = "#version 130\n" + vertexShaderString;
@@ -61,7 +64,7 @@ public class AwtShader extends Shader {
 		return compileShader(gl, vertexShaderString, GL2.GL_VERTEX_SHADER);
 	}
 
-	private static int compileFragmentShader(GL2 gl, String fragmentShaderString) {
+	private int compileFragmentShader(GL2 gl, String fragmentShaderString) {
 		// Compatibility
 		fragmentShaderString =
 				"#if __VERSION__ >= 130\n" +
@@ -76,6 +79,8 @@ public class AwtShader extends Shader {
 						"#endif \n" +
 						fragmentShaderString;
 
+		fragmentSource = fragmentShaderString;
+
 		if (gl.isGL3core()) {
 			fragmentShaderString = "#version 130\n" + fragmentShaderString;
 		}
@@ -86,6 +91,16 @@ public class AwtShader extends Shader {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public String getVertexSource() {
+		return vertexSource;
+	}
+
+	@Override
+	public String getFragmentSource() {
+		return fragmentSource;
 	}
 
 	@Override

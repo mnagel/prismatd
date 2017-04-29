@@ -1,6 +1,7 @@
 package com.avona.games.towerdefence.android;
 
 import android.opengl.GLES20;
+import com.avona.games.towerdefence.FeatureFlags;
 import com.avona.games.towerdefence.gfx.Shader;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 
@@ -9,7 +10,9 @@ import java.io.InputStream;
 public class AndroidShader extends Shader {
 	private String name;
 	private int vertexShader = -1;
+	private String vertexSource;
 	private int fragmentShader = -1;
+	private String fragmentSource;
 
 	public AndroidShader(String name) {
 		this.name = name;
@@ -18,6 +21,16 @@ public class AndroidShader extends Shader {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public String getVertexSource() {
+		return vertexSource;
+	}
+
+	@Override
+	public String getFragmentSource() {
+		return fragmentSource;
 	}
 
 	private int compileShader(String shaderString, int shaderType) {
@@ -37,10 +50,12 @@ public class AndroidShader extends Shader {
 	}
 
 	private int compileVertexShader(String vertexShaderString) {
+		vertexSource = vertexShaderString;
 		return compileShader(vertexShaderString, GLES20.GL_VERTEX_SHADER);
 	}
 
 	private int compileFragmentShader(String fragmentShaderString) {
+		fragmentSource = fragmentShaderString;
 		return compileShader(fragmentShaderString, GLES20.GL_FRAGMENT_SHADER);
 	}
 
@@ -104,6 +119,13 @@ public class AndroidShader extends Shader {
 
 	@Override
 	protected int getUniformLocation(String name) {
-		return GLES20.glGetUniformLocation(program, name);
+		int res = GLES20.glGetUniformLocation(program, name);
+		AndroidDisplay.checkGLError_static("shader bind");
+		if (res == -1 && FeatureFlags.TRACE_ON_GL_ERROR) {
+			if (FeatureFlags.CRASH_ON_GL_ERROR) {
+				throw new RuntimeException("shader bind");
+			}
+		}
+		return res;
 	}
 }

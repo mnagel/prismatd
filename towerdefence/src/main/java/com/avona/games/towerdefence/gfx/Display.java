@@ -26,4 +26,6 @@ public interface Display {
 	void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha);
 
 	V2 getTextBounds(final String text);
+
+	void checkGLError(String trace);
 }

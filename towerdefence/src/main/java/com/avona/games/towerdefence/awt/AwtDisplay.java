@@ -1,9 +1,6 @@
 package com.avona.games.towerdefence.awt;
 
-import com.avona.games.towerdefence.Layer;
-import com.avona.games.towerdefence.RGB;
-import com.avona.games.towerdefence.Util;
-import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.*;
 import com.avona.games.towerdefence.gfx.*;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.jogamp.opengl.*;
@@ -24,6 +21,8 @@ import java.util.HashMap;
  */
 @SuppressWarnings("AccessStaticViaInstance")
 public class AwtDisplay extends PortableDisplay implements GLEventListener {
+	// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
+	private final static int FONTSIZE = 12;
 	public Frame frame;
 	public GLCanvas canvas;
 	private Shader defaultShader;
@@ -31,8 +30,6 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	private TextRenderer renderer;
 	private V2 size = new V2();
 	private DisplayEventListener eventListener;
-	// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
-	private final static int FONTSIZE = 12;
 
 	public AwtDisplay(DisplayEventListener eventListener) {
 		this.eventListener = eventListener;
@@ -42,11 +39,24 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		setupFrame();
 	}
 
-	private void checkGLError(String op) {
+	public static void checkGLError_static(String trace, GL2 GLES20) {
 		int error;
+		boolean hadError = false;
 		while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
-			Util.log(op + ": glError " + error);
+			Util.log(trace + ": glError " + error);
+			hadError = true;
 		}
+
+		if (hadError && FeatureFlags.TRACE_ON_GL_ERROR) {
+			if (FeatureFlags.CRASH_ON_GL_ERROR) {
+				throw new RuntimeException("crash on glError");
+			}
+		}
+	}
+
+	@Override
+	public void checkGLError(String trace) {
+		checkGLError_static(trace, GLES20);
 	}
 
 	private void setupGlCanvas() {

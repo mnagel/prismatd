@@ -72,6 +72,9 @@ public abstract class PortableMainLoop implements Serializable {
 
 		// Show the world.
 		ge.render(wallTime.tick);
+		if (display != null) {
+			display.checkGLError("after frame render");
+		}
 	}
 
 	public void pauseGame() {

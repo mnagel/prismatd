@@ -28,6 +28,10 @@ public abstract class Shader {
 
 	public abstract String getName();
 
+	public abstract String getVertexSource();
+
+	public abstract String getFragmentSource();
+
 	protected abstract int getUniformLocation(String name);
 
 	public void setUniform(String name, Object value) {

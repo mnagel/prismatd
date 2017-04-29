@@ -5,10 +5,7 @@ import android.content.res.AssetManager;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView.Renderer;
 import com.android.texample2.GLText;
-import com.avona.games.towerdefence.Layer;
-import com.avona.games.towerdefence.RGB;
-import com.avona.games.towerdefence.Util;
-import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.*;
 import com.avona.games.towerdefence.gfx.*;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -19,24 +16,37 @@ import java.util.HashMap;
  * This class provides all basic drawing primitives for the Android platform.
  */
 public class AndroidDisplay extends PortableDisplay implements Renderer {
+	// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
+	private final static int FONTSIZE = 14;
 	private Shader defaultShader;
 	private GLText glText;
 	private V2 size;
 	private DisplayEventListener eventListener;
 	private AssetManager assetManager;
-	// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
-	private final static int FONTSIZE = 14;
 
 	public AndroidDisplay(Context context, DisplayEventListener eventListener) {
 		this.eventListener = eventListener;
 		this.assetManager = context.getAssets();
 	}
 
-	private void checkGLError(String op) {
+	public static void checkGLError_static(String trace) {
 		int error;
+		boolean hadError = false;
 		while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
-			Util.log(op + ": glError " + error);
+			Util.log(trace + ": glError " + error);
+			hadError = true;
 		}
+
+		if (hadError && FeatureFlags.TRACE_ON_GL_ERROR) {
+			if (FeatureFlags.CRASH_ON_GL_ERROR) {
+				throw new RuntimeException("crash on glError");
+			}
+		}
+	}
+
+	@Override
+	public void checkGLError(String trace) {
+		checkGLError_static(trace);
 	}
 
 	@Override
@@ -105,7 +115,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 					V2 v = (V2) variable.value;
 					GLES20.glUniform2f(variable.uniformLocation, v.x, v.y);
 				}
-				checkGLError("after variable " + array.shader.getName() + ":" + variable.name);
+				checkGLError(String.format("shader: %s, variable: %s, value: %s", array.shader.getName(), variable.name, variable.value));
 			}
 		} else {
 			program = defaultShader.getProgram();
