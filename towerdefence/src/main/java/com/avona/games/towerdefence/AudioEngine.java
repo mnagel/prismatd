@@ -4,12 +4,13 @@ import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
+@SuppressWarnings("UnnecessaryReturnStatement")
 public class AudioEngine extends Thread {
 
 	private static final int EXTERNAL_BUFFER_SIZE = 128 * 1024;
 	private String filename;
 
-	public AudioEngine(String wavfile) {
+	private AudioEngine(String wavfile) {
 		filename = wavfile;
 	}
 

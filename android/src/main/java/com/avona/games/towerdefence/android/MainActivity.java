@@ -5,8 +5,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
 import com.avona.games.towerdefence.AsyncInput;
 import com.avona.games.towerdefence.FeatureFlags;
@@ -15,7 +13,6 @@ import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.mission.MissionList;
 
 public class MainActivity extends Activity {
-	protected WakeLock wl;
 	boolean paused = true; // onResume will start us
 	private AndroidMainLoop ml;
 
@@ -30,9 +27,7 @@ public class MainActivity extends Activity {
 		Util.log("instance: onCreate");
 
 		final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-		// getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		final PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-		wl = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "td-game");
+		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// TODO: Restore from savedInstanceState
 
@@ -81,7 +76,6 @@ public class MainActivity extends Activity {
 
 		ml.rootInputActor.pause();
 		ml.surfaceView.onPause();
-		wl.release();
 
 		paused = true;
 	}
@@ -92,7 +86,6 @@ public class MainActivity extends Activity {
 
 		ml.rootInputActor.resume();
 		ml.surfaceView.onResume();
-		wl.acquire();
 
 		paused = false;
 	}
