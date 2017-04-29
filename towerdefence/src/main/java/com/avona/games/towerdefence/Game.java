@@ -59,7 +59,22 @@ public class Game implements Serializable {
 		return null;
 	}
 
-	public void loadMission(int missionIdx) {
+	public void loadMissionInteractive() {
+		Util.log("loadMissionInteractive");
+		String[] missions = MissionList.getAvailableMissionNames();
+		AsyncInput.runnableChooser("Load Mission", missions, new IAsyncInput.MyRunnable() {
+			@Override
+			public void run(int selectedOption) {
+				Util.log("run");
+				if (selectedOption != -1) {
+					loadMission(selectedOption);
+				}
+			}
+		});
+	}
+
+	private void loadMission(int missionIdx) {
+		Util.log("loadMission");
 		Class<Mission> klass = MissionList.availableMissions[missionIdx];
 
 		try {
@@ -75,6 +90,7 @@ public class Game implements Serializable {
 		selectedBuildTower = mission.buildableTowers[0];
 
 		eventListener.onMissionSwitched(mission);
+
 	}
 
 	public void looseLife() {
@@ -95,14 +111,7 @@ public class Game implements Serializable {
 
 	public void pressForwardButton() {
 		if (mission.completed) {
-			AsyncInput.runnableChooser("Choose Mission", MissionList.getAvailableMissionNames(), new IAsyncInput.MyRunnable() {
-				@Override
-				public void run(int selectedOption) {
-					if (selectedOption != -1) {
-						loadMission(selectedOption);
-					}
-				}
-			});
+			loadMissionInteractive();
 		} else {
 			mission.waveTracker.startNextWave();
 		}

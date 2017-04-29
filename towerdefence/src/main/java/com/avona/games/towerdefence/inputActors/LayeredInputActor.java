@@ -3,7 +3,6 @@ package com.avona.games.towerdefence.inputActors;
 import com.avona.games.towerdefence.*;
 import com.avona.games.towerdefence.awt.AwtReplShader;
 import com.avona.games.towerdefence.awt.ReplShaderGui;
-import com.avona.games.towerdefence.mission.MissionList;
 import com.avona.games.towerdefence.tower.Tower;
 
 import java.util.HashMap;
@@ -196,15 +195,7 @@ public class LayeredInputActor implements InputActor {
 			ml.game.killAllEnemies();
 		}
 		if (keyCode == 'l') {
-			String[] missions = MissionList.getAvailableMissionNames();
-			AsyncInput.runnableChooser("Load Mission", missions, new IAsyncInput.MyRunnable() {
-				@Override
-				public void run(int selectedOption) {
-					if (selectedOption != -1) {
-						ml.game.loadMission(selectedOption);
-					}
-				}
-			});
+			ml.game.loadMissionInteractive();
 		}
 		if (keyCode == 'x') { // not pretty, but works
 			ReplShaderGui.main2();

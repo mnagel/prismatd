@@ -2,10 +2,7 @@ package com.avona.games.towerdefence.android;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.pm.ConfigurationInfo;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -33,14 +30,11 @@ public class MainActivity extends Activity {
 		Util.log("instance: onCreate");
 
 		final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		// getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		final PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		wl = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "td-game");
 
-		if (savedInstanceState == null) {
-		} else {
-			// TODO: Restore.
-			Util.log("restoring instance");
-		}
+		// TODO: Restore from savedInstanceState
 
 		// Check if the system supports OpenGL ES 2.0
 		final ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
@@ -49,6 +43,7 @@ public class MainActivity extends Activity {
 			throw new RuntimeException("This device does not support GL ES 2.0");
 		}
 
+		//noinspection ConstantConditions
 		if (FeatureFlags.AUTOSTART_MISSION != -1) {
 			Util.log("AUTOSTART_MISSION: " + FeatureFlags.AUTOSTART_MISSION);
 			ml = new MainLoop(MainActivity.this, vibrator, FeatureFlags.AUTOSTART_MISSION);
@@ -104,27 +99,31 @@ public class MainActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		pause();
+		//pause();
 
-		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-		alertBuilder.setCancelable(true);
-		alertBuilder.setPositiveButton("Continue Playing",
-				new OnClickListener() {
+		AsyncInput.runnableChooser(
+				"What do you want to do?",
+				new String[]{
+						"Go Back to my game.",
+						"Start another mission.",
+						"Quit the game."
+				},
+				new IAsyncInput.MyRunnable() {
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						resume();
+					public void run(int selectedOption) {
+						switch (selectedOption) {
+							case 1:
+								ml.game.loadMissionInteractive();
+							default:
+							case 0:
+								//resume();
+								break;
+							case 2:
+								finish();
+								break;
+						}
 					}
-				});
-		alertBuilder.setNegativeButton("Quit", new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				finish();
-			}
-		});
-
-		final AlertDialog alertDialog = alertBuilder.create();
-		alertDialog
-				.setMessage("Do you really want to quit Prisma TD?\nYour progress will be lost!");
-		alertDialog.show();
+				}
+		);
 	}
 }
