@@ -23,14 +23,12 @@ public abstract class Tower extends LocationObject {
 	protected RechargeTimer timer;
 	protected int price;
 
-	public Tower(TimedCodeManager timedCodeManager,
-				 ParticleColliderPolicy enemyParticleColliderPolicy, int level) {
-		super();
+	public Tower(TimedCodeManager timedCodeManager, ParticleColliderPolicy enemyParticleColliderPolicy, int level) {
+		super(null, GridCell.size / 2);
 		this.enemySelectionPolicy = getPolicyForLevel(level);
 		this.enemyParticleColliderPolicy = enemyParticleColliderPolicy;
 		this.level = level;
 		timer = new RechargeTimer(timedCodeManager, 0.3f);
-		radius = GridCell.size / 2;
 	}
 
 	public Tower(final Tower t) {

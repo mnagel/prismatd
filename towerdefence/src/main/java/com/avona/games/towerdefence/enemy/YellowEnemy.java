@@ -16,8 +16,7 @@ public class YellowEnemy extends Enemy {
 						1 / 2.0f * 50 * levelNum + 10,
 						0
 				),
-				2 * (80 + 3 * (levelNum - 1)),
-				12
+				2 * (80 + 3 * (levelNum - 1))
 		);
 	}
 

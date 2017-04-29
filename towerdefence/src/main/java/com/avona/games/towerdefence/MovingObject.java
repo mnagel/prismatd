@@ -5,7 +5,8 @@ public abstract class MovingObject extends LocationObject {
 
 	private V2 velocity = new V2(1.0f, 1.0f);
 
-	public MovingObject() {
+	public MovingObject(V2 location, float radius) {
+		super(location, radius);
 	}
 
 	public MovingObject(final MovingObject other) {

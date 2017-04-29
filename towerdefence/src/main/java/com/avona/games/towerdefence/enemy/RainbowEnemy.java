@@ -17,8 +17,7 @@ public class RainbowEnemy extends Enemy {
 						0,
 						0
 				),
-				80 + 3 * (levelNum - 1),
-				12
+				80 + 3 * (levelNum - 1)
 		);
 	}
 

@@ -33,16 +33,21 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	private Shader particleShader;
 	private Shader gridcellShader;
 
-	public PortableGraphicsEngine(Display display, Game game, Mouse mouse,
-								  LayerHerder layerHerder, PortableMainLoop ml) {
+	private float textSize;
+
+	public PortableGraphicsEngine(
+			Display display,
+			Game game,
+			Mouse mouse,
+			LayerHerder layerHerder,
+			PortableMainLoop ml
+	) {
 		this.display = display;
 		this.game = game;
 		this.mouse = mouse;
 
-		gameLayer = layerHerder
-				.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
-		menuLayer = layerHerder
-				.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
+		gameLayer = layerHerder.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
+		menuLayer = layerHerder.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
 		ml.eventListener.listeners.add(new ReloadOnMissionSwitch(this));
 	}
 
@@ -57,6 +62,8 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	public void render(final float dt) {
 		graphicsTime.updateTick(dt);
 		graphicsTickRater.updateTickRate();
+
+		textSize = display.getTextBounds("#XM|p").y / 2;
 
 		display.prepareScreen();
 
@@ -79,8 +86,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		if (game.selectedObject != null) {
 			if (game.selectedObject instanceof Tower) {
 				final Tower t = (Tower) game.selectedObject;
-				drawCircle(t.location.x, t.location.y, t.getRange(), 1.0f, 1.0f,
-						1.0f, 1.0f);
+				drawCircle(t.location.x, t.location.y, t.getRange(), 1.0f, 1.0f, 1.0f, 1.0f);
 			}
 		}
 		if (game.draggingTower && game.selectedBuildTower != null) {
@@ -278,7 +284,10 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 				menuLayer,
 				waveButtonText,
 				true,
-				new V2(menuLayer.virtualRegion.x / 2, menuLayer.virtualRegion.y / 2.0f / MENU_BUTTON_COUNT),
+				new V2(
+						menuLayer.virtualRegion.x / 2,
+						menuLayer.virtualRegion.y / 2.0f / MENU_BUTTON_COUNT - textSize - Enemy.ENEMY_RADIUS
+				),
 				new RGB(1.0f, 1.0f, 1.0f),
 				1.0f
 		);
@@ -286,13 +295,12 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	}
 
 	private void renderMissionStatement() {
-		float y_off = display.getTextBounds("#XM|p").y / 2;
 		for (MissionStatementText t : game.mission.missionStatementTexts) {
 			display.drawText(
 					gameLayer,
 					t.text,
 					false,
-					game.mission.gridCells2d[t.x][t.y].center.clone().add(0, -y_off),
+					game.mission.gridCells2d[t.x][t.y].center.clone().add(0, textSize / 2),
 					new RGB(1, 1, 1),
 					1
 			);
@@ -333,8 +341,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		va.reserveBuffers();
 
-		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius,
-				location.y - radius, radius * 2, radius * 2, va);
+		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius, location.y - radius, radius * 2, radius * 2, va);
 
 		// Top right
 		va.addColour(gfxcol.R * 1.0f, gfxcol.G * 0.9f, gfxcol.B * 0.9f, 1.0f);
@@ -389,8 +396,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		va.reserveBuffers();
 
-		GeometryHelper
-				.boxVerticesAsTriangleStrip(0.0f, 0.0f, width, height, va);
+		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f, width, height, va);
 		GeometryHelper.boxColoursAsTriangleStrip(0.0f, 0.0f, 0.0f, 0.2f, va);
 
 		display.drawVertexArray(va);
@@ -445,8 +451,9 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		va.freeBuffers();
 
 		if (overrideLocation != null) {
+			float y_off = GridCell.size / 2 + textSize / 2;
 			final String label = String.format(Locale.US, "$%d", t.getPrice());
-			display.drawText(layer, label, true, location, RGB.WHITE, 1.0f);
+			display.drawText(layer, label, true, location.clone().sub(0, y_off), RGB.WHITE, 1.0f);
 		}
 	}
 
@@ -481,8 +488,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		va.reserveBuffers();
 
-		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius,
-				location.y - radius, radius * 2, radius * 2, va);
+		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius, location.y - radius, radius * 2, radius * 2, va);
 
 		// Top right
 		va.addColour(gfxcol.R * 1.0f, gfxcol.G * 0.9f, gfxcol.B * 0.9f, 1.0f);

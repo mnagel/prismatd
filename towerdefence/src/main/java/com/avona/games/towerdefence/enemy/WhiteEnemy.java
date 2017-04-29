@@ -16,8 +16,7 @@ public class WhiteEnemy extends Enemy {
 						5 * 50 * levelNum + 10,
 						5 * 50 * levelNum + 10
 				),
-				(80 + 3 * (levelNum - 1)) / 3,
-				12
+				(80 + 3 * (levelNum - 1)) / 3
 		);
 	}
 

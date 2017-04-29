@@ -5,6 +5,7 @@ import com.avona.games.towerdefence.MovingObject;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
+import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.particleCollidors.ParticleColliderPolicy;
 
 import java.util.List;
@@ -18,9 +19,8 @@ public class Particle extends MovingObject {
 	protected boolean dead = false;
 	private ParticleColliderPolicy collidorPolicy;
 
-	public Particle(V2 location, Enemy target,
-					ParticleColliderPolicy collidorPolicy, int velocity, RGB strength) {
-		this.location = location.clone();
+	public Particle(V2 location, Enemy target, ParticleColliderPolicy collidorPolicy, int velocity, RGB strength) {
+		super(location.clone(), GridCell.size / 8);
 		this.radius = 5;
 		this.target = target;
 		this.collidorPolicy = collidorPolicy;

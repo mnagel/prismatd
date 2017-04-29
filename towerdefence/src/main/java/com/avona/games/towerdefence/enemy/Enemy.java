@@ -4,13 +4,14 @@ import com.avona.games.towerdefence.MovingObject;
 import com.avona.games.towerdefence.RGB;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyEventListener;
+import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.mission.Mission;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Enemy extends MovingObject {
-	private static final long serialVersionUID = 1L;
+	public static final float ENEMY_RADIUS = GridCell.size / 3;
 
 	public Mission mission;
 	public int levelNum;
@@ -22,14 +23,13 @@ public abstract class Enemy extends MovingObject {
 	public RGB life;
 	public RGB maxLife;
 
-	public Enemy(Mission mission, int levelNum, int worth, RGB maxLife, int speed, float radius) {
-		super();
+	public Enemy(Mission mission, int levelNum, int worth, RGB maxLife, int speed) {
+		super(null, ENEMY_RADIUS);
 		this.mission = mission;
 		this.levelNum = levelNum;
 		this.worth = worth;
 		this.maxLife = maxLife;
 		this.getVelocity().setLength(speed);
-		this.radius = radius;
 		life = maxLife.clone();
 	}
 

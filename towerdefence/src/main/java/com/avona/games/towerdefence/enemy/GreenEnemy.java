@@ -16,8 +16,7 @@ public class GreenEnemy extends Enemy {
 						50 * levelNum + 10,
 						0
 				),
-				80 + 3 * (levelNum - 1),
-				12
+				80 + 3 * (levelNum - 1)
 		);
 	}
 
