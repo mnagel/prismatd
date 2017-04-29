@@ -17,7 +17,7 @@ import com.avona.games.towerdefence.mission.MissionList;
 public class MainActivity extends Activity {
 	protected WakeLock wl;
 	boolean paused = true; // onResume will start us
-	private MainLoop ml;
+	private AndroidMainLoop ml;
 
 	/**
 	 * Called when the activity is first created.
@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
 		//noinspection ConstantConditions
 		if (FeatureFlags.AUTOSTART_MISSION != -1) {
 			Util.log("AUTOSTART_MISSION: " + FeatureFlags.AUTOSTART_MISSION);
-			ml = new MainLoop(MainActivity.this, vibrator, FeatureFlags.AUTOSTART_MISSION);
+			ml = new AndroidMainLoop(MainActivity.this, vibrator, FeatureFlags.AUTOSTART_MISSION);
 			setContentView(ml.surfaceView);
 		} else {
 			String[] missions = MissionList.getAvailableMissionNames();
@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
 				@Override
 				public void run(int selectedOption) {
 					Util.log("Selected Mission: " + selectedOption);
-					ml = new MainLoop(MainActivity.this, vibrator, selectedOption);
+					ml = new AndroidMainLoop(MainActivity.this, vibrator, selectedOption);
 					setContentView(ml.surfaceView);
 				}
 			});

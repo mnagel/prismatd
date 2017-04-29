@@ -6,18 +6,17 @@ import com.avona.games.towerdefence.inputActors.InputActor;
 
 import java.awt.event.*;
 
-public class InputMangler implements KeyListener, MouseListener,
-		MouseMotionListener {
+class InputMangler implements KeyListener, MouseListener, MouseMotionListener {
 	private AwtDisplay display;
 	private PortableMainLoop ml;
 	private InputActor actor;
 
-	public InputMangler(PortableMainLoop mainLoop, InputActor actor) {
+	InputMangler(PortableMainLoop mainLoop, InputActor actor) {
 		this.ml = mainLoop;
 		this.actor = actor;
 	}
 
-	public void setupListeners(final AwtDisplay display) {
+	void setupListeners(final AwtDisplay display) {
 		this.display = display;
 
 		display.frame.addWindowListener(new WindowAdapter() {
@@ -32,7 +31,7 @@ public class InputMangler implements KeyListener, MouseListener,
 		display.canvas.addMouseMotionListener(this);
 	}
 
-	protected V2 eventLocation(MouseEvent e) {
+	private V2 eventLocation(MouseEvent e) {
 		V2 location = new V2();
 		final float xf = e.getX();
 		final float yf = e.getY();

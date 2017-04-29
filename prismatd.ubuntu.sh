@@ -6,7 +6,7 @@ GLUEGEN="/usr/share/java/gluegen2-rt.jar"
 
 LIBRARY="/usr/lib/jni/"
 
-MAINCLASS="com.avona.games.towerdefence.awt.MainLoop"
+MAINCLASS="com.avona.games.towerdefence.awt.AwtMainLoop"
 
 # check if prismatd jar is installed
 if [ -e $PRISMATD ]

@@ -6,7 +6,6 @@ import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.inputActors.GameInputActor;
 import com.avona.games.towerdefence.inputActors.LayeredInputActor;
 import com.avona.games.towerdefence.inputActors.MenuInputActor;
-import com.avona.games.towerdefence.inputActors.MissionEditorInputActor;
 import com.avona.games.towerdefence.mission.Mission;
 
 import java.io.Serializable;
@@ -48,10 +47,6 @@ public abstract class PortableMainLoop implements Serializable {
 	public void setupInputActors() {
 
 		GameInputActor gameInputActor = new GameInputActor(game, mouse);
-		if (FeatureFlags.MISSION_EDITOR) {
-			gameInputActor = new MissionEditorInputActor(game, mouse);
-		}
-
 		inputActor = new LayeredInputActor(this, mouse, layerHerder);
 		inputActor.inputLayerMap.put(layerHerder.findLayerByName(GAME_LAYER_NAME), gameInputActor);
 		final Layer menuLayer = layerHerder.findLayerByName(MENU_LAYER_NAME);

@@ -12,17 +12,16 @@ import com.jogamp.opengl.util.FPSAnimator;
 import javax.swing.*;
 import java.io.*;
 
-public class MainLoop extends PortableMainLoop implements GLEventListener {
+public class AwtMainLoop extends PortableMainLoop implements GLEventListener {
 	private static final String SAVEGAME = "savegame";
 
 	private static final long serialVersionUID = 1L;
 
-	final private int EXPECTED_FPS = 60;
+	final static private int EXPECTED_FPS = 60;
 
-	public InputMangler input;
 	private AnimatorBase animator;
 
-	public MainLoop(String[] args, int startMission) {
+	private AwtMainLoop(String[] args, int startMission) {
 		super();
 		// TODO use proper option parser
 
@@ -54,15 +53,16 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 
 		AsyncInput.setInstance(new AwtIAsyncInput());
 
+		//noinspection ConstantConditions
 		if (FeatureFlags.AUTOSTART_MISSION != -1) {
-			new MainLoop(arg2, FeatureFlags.AUTOSTART_MISSION);
+			new AwtMainLoop(arg2, FeatureFlags.AUTOSTART_MISSION);
 		} else {
 			String[] missions = MissionList.getAvailableMissionNames();
 			AsyncInput.runnableChooser("Load Mission", missions, new IAsyncInput.MyRunnable() {
 				@Override
 				public void run(int selectedOption) {
 					if (selectedOption != -1) {
-						new MainLoop(arg2, selectedOption);
+						new AwtMainLoop(arg2, selectedOption);
 					}
 				}
 			});
@@ -87,7 +87,7 @@ public class MainLoop extends PortableMainLoop implements GLEventListener {
 		display.canvas.addGLEventListener(this);
 
 		setupInputActors();
-		input = new InputMangler(this, inputActor);
+		InputMangler input = new InputMangler(this, inputActor);
 
 		animator = new FPSAnimator(display.canvas, EXPECTED_FPS);
 		//animator.setRunAsFastAsPossible(false);

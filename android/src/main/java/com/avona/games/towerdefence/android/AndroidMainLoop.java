@@ -8,13 +8,13 @@ import com.avona.games.towerdefence.PortableMainLoop;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 
-public class MainLoop extends PortableMainLoop {
+class AndroidMainLoop extends PortableMainLoop {
 	private static final long serialVersionUID = 1L;
 
-	public GLSurfaceView surfaceView;
+	GLSurfaceView surfaceView;
 
 	// TODO startMission is evil
-	public MainLoop(Context context, Vibrator vibrator, int startMission) {
+	AndroidMainLoop(Context context, Vibrator vibrator, int startMission) {
 		super();
 
 		// TODO startMission is evil
