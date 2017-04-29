@@ -22,8 +22,7 @@ public final class RGB implements Serializable {
 		B = orig.B;
 	}
 
-	@Override
-	public RGB clone() {
+	public RGB clone2() {
 		return new RGB(this);
 	}
 

@@ -41,10 +41,8 @@ public class AndroidTexture extends Texture {
 				nativeHeight);
 
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
-		assert GLES20.glGetError() == 0;
 		GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
 		bitmap.recycle();
-		assert GLES20.glGetError() == 0;
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 	}
 }

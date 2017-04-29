@@ -12,7 +12,7 @@ public abstract class MovingObject extends LocationObject {
 	public MovingObject(final MovingObject other) {
 		super(other);
 		if (other.getVelocity() != null)
-			setVelocity(other.getVelocity().clone());
+			setVelocity(other.getVelocity().clone2());
 	}
 
 	public V2 getVelocity() {

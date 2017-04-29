@@ -22,7 +22,7 @@ public abstract class LocationObject implements Serializable {
 
 	protected LocationObject(final LocationObject o) {
 		if (o.location != null)
-			location = o.location.clone();
+			location = o.location.clone2();
 		radius = o.radius;
 	}
 

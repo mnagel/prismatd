@@ -42,7 +42,7 @@ public class PaintRedTower extends Tower {
 	}
 
 	@Override
-	public Tower clone() {
+	public Tower clone2() {
 		return new PaintRedTower(this);
 	}
 

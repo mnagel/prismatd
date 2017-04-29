@@ -261,7 +261,7 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		if (layer != null) {
 			loc = layer.convertToPhysical(location);
 		} else {
-			loc = location.clone();
+			loc = location.clone2();
 		}
 		if (centered) {
 			final V2 textBounds = getTextBounds(text);

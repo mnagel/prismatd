@@ -16,8 +16,7 @@ public class RechargeTimer extends TimedCode {
 		this.time = t.time;
 	}
 
-	@Override
-	public RechargeTimer clone() {
+	public RechargeTimer clone2() {
 		return new RechargeTimer(this);
 	}
 

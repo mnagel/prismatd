@@ -26,8 +26,8 @@ public class PaintballParticle extends Particle {
 			return;
 		}
 
-		final RGB oldLife = e.life.clone();
-		final RGB newLife = oldLife.clone().subUpto(strength, 0.0f);
+		final RGB oldLife = e.life.clone2();
+		final RGB newLife = oldLife.clone2().subUpto(strength, 0.0f);
 		final float length = oldLife.length() - newLife.length();
 		final RGB damage = new RGB(-mask.R * length + strength.R, -mask.G * length + strength.G, -mask.B * length + strength.B);
 

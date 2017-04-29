@@ -76,8 +76,7 @@ public final class V2 implements Serializable {
 		return result;
 	}
 
-	@Override
-	public V2 clone() {
+	public V2 clone2() {
 		return new V2(this);
 	}
 

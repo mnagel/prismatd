@@ -37,9 +37,9 @@ public class Wave extends TimedCode implements EnemyEventListener {
 	}
 
 	private void spawnEnemy() {
-		final V2 location = mission.waypoints[0].center.clone();
+		final V2 location = mission.waypoints[0].center.clone2();
 		WaveEnemyConfig we = enemies[curEnemy];
-		Enemy e = we.enemy.clone();
+		Enemy e = we.enemy.clone2();
 		e.eventListeners.add(this);
 		e.setInitialLocation(location);
 		++curEnemy;

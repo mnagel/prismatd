@@ -114,7 +114,7 @@ public class Game implements Serializable {
 	}
 
 	public void addTowerAt(GridCell where) {
-		addTowerAt(selectedBuildTower.clone(), where);
+		addTowerAt(selectedBuildTower.clone2(), where);
 	}
 
 	public void addTowerAt(Tower newTower, GridCell where) {
@@ -236,7 +236,7 @@ public class Game implements Serializable {
 			float overshoot = lastWp.dist(e.location) - lastWp.dist(currentWp);
 			if (overshoot >= 0) {
 				// Position exactly on waypoint for correct direction calculation
-				e.location = currentWp.clone();
+				e.location = currentWp.clone2();
 				e.setWPID(e.waypointId + 1);
 				if (e.escaped) {
 					eiter.remove();

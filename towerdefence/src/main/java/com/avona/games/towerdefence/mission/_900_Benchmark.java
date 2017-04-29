@@ -47,7 +47,7 @@ public class _900_Benchmark extends Mission {
 		for (int i = 0; i < gridCells.length; i++) {
 			GridCell c = gridCells[i];
 			if (c.state == CellState.FREE) {
-				game.addTowerAt(protoype[i % protoype.length].clone(), c);
+				game.addTowerAt(protoype[i % protoype.length].clone2(), c);
 			}
 		}
 	}
@@ -119,7 +119,7 @@ public class _900_Benchmark extends Mission {
 
 		for (int wave = 0; wave < wec.length; wave++) {
 			for (int enemy = 0; enemy < wec[0].length; enemy++) {
-				Enemy e = prototype[enemy % prototype.length].clone();
+				Enemy e = prototype[enemy % prototype.length].clone2();
 				wec[wave][enemy] = new WaveEnemyConfig(e, 0.5f);
 			}
 		}

@@ -1,10 +1,7 @@
 package com.avona.games.towerdefence;
 
 import java.io.Serializable;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class TimedCodeManager implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -71,7 +68,7 @@ public class TimedCodeManager implements Serializable {
 		String s = "" + clock + ": ";
 		ListIterator<TimedCode> titer = timedCode.listIterator(0);
 		while (titer.hasNext()) {
-			s += " " + String.format("%.1f", titer.next().startTime);
+			s += " " + String.format(Locale.US, "%.1f", titer.next().startTime);
 		}
 		return s;
 	}

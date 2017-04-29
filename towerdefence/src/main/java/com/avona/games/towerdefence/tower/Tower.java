@@ -36,7 +36,7 @@ public abstract class Tower extends LocationObject {
 		enemySelectionPolicy = t.enemySelectionPolicy;
 		enemyParticleColliderPolicy = t.enemyParticleColliderPolicy;
 		level = t.level;
-		timer = t.timer.clone();
+		timer = t.timer.clone2();
 		price = t.price;
 		color = t.color;
 	}
@@ -57,8 +57,7 @@ public abstract class Tower extends LocationObject {
 		return 5 + 2 * (level - 1);
 	}
 
-	@Override
-	public abstract Tower clone();
+	public abstract Tower clone2();
 
 	public abstract Particle makeParticle(Enemy e);
 

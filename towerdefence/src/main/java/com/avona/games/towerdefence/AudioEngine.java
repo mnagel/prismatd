@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class AudioEngine extends Thread {
 
-	private final int EXTERNAL_BUFFER_SIZE = 128 * 1024;
+	private static final int EXTERNAL_BUFFER_SIZE = 128 * 1024;
 	private String filename;
 
 	public AudioEngine(String wavfile) {

@@ -32,7 +32,7 @@ public class TimeTrack implements Serializable {
 	 * same time.
 	 *
 	 * @param wallClock New wall clock time.
-	 * @see TimeTrack#updateTick(double)
+	 * @see TimeTrack#updateTick(float)
 	 */
 	public void update(double wallClock) {
 		if (lastWallClock != 0)

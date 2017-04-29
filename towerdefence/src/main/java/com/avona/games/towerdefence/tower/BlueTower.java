@@ -34,7 +34,7 @@ public class BlueTower extends Tower {
 	}
 
 	@Override
-	public Tower clone() {
+	public Tower clone2() {
 		return new BlueTower(this);
 	}
 

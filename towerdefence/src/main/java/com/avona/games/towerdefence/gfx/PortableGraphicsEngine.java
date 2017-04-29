@@ -302,7 +302,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 					gameLayer,
 					t.text,
 					false,
-					game.mission.gridCells2d[t.x][t.y].center.clone().sub(0, textSize / 2),
+					game.mission.gridCells2d[t.x][t.y].center.clone2().sub(0, textSize / 2),
 					new RGB(1, 1, 1),
 					1
 			);
@@ -447,7 +447,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		if (overrideLocation != null) {
 			float y_off = GridCell.size / 2 + textSize / 2;
 			final String label = String.format(Locale.US, "$%d", t.getPrice());
-			display.drawText(layer, label, true, location.clone().sub(0, y_off), RGB.WHITE, 1.0f);
+			display.drawText(layer, label, true, location.clone2().sub(0, y_off), RGB.WHITE, 1.0f);
 		}
 	}
 

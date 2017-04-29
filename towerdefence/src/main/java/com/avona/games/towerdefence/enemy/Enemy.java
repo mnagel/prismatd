@@ -30,7 +30,7 @@ public abstract class Enemy extends MovingObject {
 		this.worth = worth;
 		this.maxLife = maxLife;
 		this.getVelocity().setLength(speed);
-		life = maxLife.clone();
+		life = maxLife.clone2();
 	}
 
 	public Enemy(Enemy other) {
@@ -46,12 +46,11 @@ public abstract class Enemy extends MovingObject {
 	}
 
 	public void setInitialLocation(V2 location) {
-		this.location = location.clone();
+		this.location = location.clone2();
 		setWPID(1);
 	}
 
-	@Override
-	public abstract Enemy clone();
+	public abstract Enemy clone2();
 
 	public void setWPID(int waypointId) {
 		this.waypointId = waypointId;

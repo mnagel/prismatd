@@ -25,7 +25,7 @@ public class WhiteEnemy extends Enemy {
 	}
 
 	@Override
-	public Enemy clone() {
+	public Enemy clone2() {
 		return new WhiteEnemy(this);
 	}
 }
