@@ -64,8 +64,7 @@ public final class V2 implements Serializable {
 
 		V2 v2 = (V2) o;
 
-		if (Float.compare(v2.x, x) != 0) return false;
-		return Float.compare(v2.y, y) == 0;
+		return Float.compare(v2.x, x) == 0 && Float.compare(v2.y, y) == 0;
 
 	}
 

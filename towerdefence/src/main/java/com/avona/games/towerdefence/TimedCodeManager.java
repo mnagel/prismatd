@@ -6,7 +6,9 @@ import java.util.*;
 public class TimedCodeManager implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private List<TimedCode> timedCode = new LinkedList<TimedCode>();
+	// it is... via iterator.add
+	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+	private List<TimedCode> timedCode = new LinkedList<>();
 	private double clock = 0.0;
 
 	/**
@@ -14,7 +16,7 @@ public class TimedCodeManager implements Serializable {
 	 */
 	private boolean modified;
 
-	public void update(final float dt) {
+	void update(final float dt) {
 		clock += dt;
 
 		// Find code that timed out and execute it.

@@ -4,19 +4,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class LayerHerder {
-	public static Layer DEFAULT_LAYER = new Layer();
+	private static Layer DEFAULT_LAYER = new Layer();
 
 	@SuppressWarnings("unchecked")
 	private List<Layer>[] layers = new List[Layer.MAX_DEPTH + 1];
 
-	public LayerHerder() {
+	LayerHerder() {
 		for (int depth = 0; depth <= Layer.MAX_DEPTH; ++depth) {
-			layers[depth] = new LinkedList<Layer>();
+			layers[depth] = new LinkedList<>();
 		}
 	}
 
-	public void addLayer(final Layer layer) {
-		assert layer.depth >= Layer.MIN_DEPTH && layer.depth <= Layer.MAX_DEPTH;
+	void addLayer(final Layer layer) {
 		layers[layer.depth].add(layer);
 	}
 
