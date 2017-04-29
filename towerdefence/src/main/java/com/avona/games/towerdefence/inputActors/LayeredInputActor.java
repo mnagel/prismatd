@@ -208,7 +208,7 @@ public class LayeredInputActor implements InputActor {
 		}
 		if (keyCode == 'x') { // not pretty, but works
 			ReplShaderGui.main2();
-			ml.ge.towerShader = AwtReplShader.getInstance();
+			ml.ge.setTowerShader(AwtReplShader.getInstance());
 		}
 	}
 }

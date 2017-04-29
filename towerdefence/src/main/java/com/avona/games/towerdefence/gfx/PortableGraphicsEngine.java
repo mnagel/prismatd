@@ -28,11 +28,10 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 	private VertexArray[] missionVertices;
 	private VertexArray[] menuVertices;
-	public Shader towerShader;
+	private Shader towerShader;
 	private Shader enemyShader;
 	private Shader particleShader;
 	private Shader gridcellShader;
-
 	private float textSize;
 
 	public PortableGraphicsEngine(
@@ -51,15 +50,19 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		ml.eventListener.listeners.add(new ReloadOnMissionSwitch(this));
 	}
 
+	synchronized public void setTowerShader(Shader towerShader) {
+		this.towerShader = towerShader;
+	}
+
 	@Override
-	public void onNewScreenContext() {
-		// Make sure that the VertexArrays are cleared on a screen context
-		// reset. Otherwise, any preloaded texture wouldn't be reloaded again.
+	synchronized public void onNewScreenContext() {
+		// Make sure that the VertexArrays are cleared on a screen context reset.
+		// Otherwise, any preloaded texture wouldn't be reloaded again.
 		freeMissionVertices();
 		freeMenuVertices();
 	}
 
-	public void render(final float dt) {
+	synchronized public void render(final float dt) {
 		graphicsTime.updateTick(dt);
 		graphicsTickRater.updateTickRate();
 
@@ -153,12 +156,12 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 					gridcellShader.loadShaderProgramsByName("default.vert", "default.frag");
 				}
 
-				gridcellShader.setUniform("selected", false);
-				gridcellShader.setUniform("level", 1);
-				gridcellShader.setUniform("clock", graphicsTime.clock);
-				gridcellShader.setUniform("virtualLocation", c.center);
-				gridcellShader.setUniform("physicalLocation", gameLayer.convertToPhysical(c.center));
-				gridcellShader.setUniform("physicalRadius", gameLayer.scaleToPhysical(GridCell.size));
+//				gridcellShader.setUniform("selected", false);
+//				gridcellShader.setUniform("level", 1);
+//				gridcellShader.setUniform("clock", graphicsTime.clock);
+//				gridcellShader.setUniform("virtualLocation", c.center);
+//				gridcellShader.setUniform("physicalLocation", gameLayer.convertToPhysical(c.center));
+//				gridcellShader.setUniform("physicalRadius", gameLayer.scaleToPhysical(GridCell.size));
 			}
 
 			va.shader = gridcellShader;
@@ -186,10 +189,9 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 	}
 
-	void freeMissionVertices() {
+	synchronized void freeMissionVertices() {
 		if (missionVertices != null) {
-			// In case we're recreating the world, allow re-using of the
-			// buffers.
+			// In case we're recreating the world, allow re-using of the buffers.
 			for (VertexArray va : missionVertices) {
 				va.freeBuffers();
 			}
@@ -221,7 +223,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		GeometryHelper.boxColoursAsTriangleStrip(0.2f, 0.2f, 0.2f, 0.4f, va);
 	}
 
-	void freeMenuVertices() {
+	synchronized void freeMenuVertices() {
 		if (menuVertices != null) {
 			// In case we're recreating the world, allow re-using of the
 			// buffers.
@@ -502,7 +504,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	}
 
 	@Override
-	public void onReshapeScreen() {
+	synchronized public void onReshapeScreen() {
 		final V2 size = display.getSize();
 
 		final float gameFieldPercentage = gameLayer.virtualRegion.x
