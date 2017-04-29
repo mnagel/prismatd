@@ -15,7 +15,7 @@ void main(void) {
 	// Relative position on object in [0, 1] x [0, 1]
 	vec2 posOnObject = vec2(0.5) + 0.5 * (gl_FragCoord.xy - physicalLocation) / modifiedRadius;
 
-    float n = 50.0 + float(level);
+    float n = 50.0 + min(1.0, float(level));
     const float f1 = 5.0;
     const float f2 = 1.0;
 
