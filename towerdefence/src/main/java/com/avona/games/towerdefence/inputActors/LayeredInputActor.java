@@ -4,6 +4,7 @@ import com.avona.games.towerdefence.*;
 import com.avona.games.towerdefence.awt.AwtReplShader;
 import com.avona.games.towerdefence.awt.ReplShaderGui;
 import com.avona.games.towerdefence.mission.MissionList;
+import com.avona.games.towerdefence.tower.Tower;
 
 import java.util.HashMap;
 
@@ -182,15 +183,17 @@ public class LayeredInputActor implements InputActor {
 		if (keyCode == ' ') {
 			ml.game.pressForwardButton();
 		}
-		if (keyCode == 'k') {
-			ml.game.killAllEnemies();
+		if (keyCode == '+') {
+			if (ml.game.selectedObject instanceof Tower) {
+				final Tower t = (Tower) ml.game.selectedObject;
+				ml.game.levelUpTower(t);
+			}
 		}
 		if (keyCode == 'd') {
 			ml.game.logDebugInfo();
 		}
-		if (keyCode == 'x') { // not pretty, but works
-			ReplShaderGui.main2();
-			ml.ge.towerShader = AwtReplShader.getInstance();
+		if (keyCode == 'k') {
+			ml.game.killAllEnemies();
 		}
 		if (keyCode == 'l') {
 			String[] missions = MissionList.getAvailableMissionNames();
@@ -202,6 +205,10 @@ public class LayeredInputActor implements InputActor {
 					}
 				}
 			});
+		}
+		if (keyCode == 'x') { // not pretty, but works
+			ReplShaderGui.main2();
+			ml.ge.towerShader = AwtReplShader.getInstance();
 		}
 	}
 }

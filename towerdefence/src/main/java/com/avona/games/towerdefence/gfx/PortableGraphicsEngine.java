@@ -63,7 +63,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		graphicsTime.updateTick(dt);
 		graphicsTickRater.updateTickRate();
 
-		textSize = display.getTextBounds("#XM|p").y / 2;
+		textSize = display.getTextBounds("#XM|p").y;
 
 		display.prepareScreen();
 
@@ -300,7 +300,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 					gameLayer,
 					t.text,
 					false,
-					game.mission.gridCells2d[t.x][t.y].center.clone().add(0, textSize / 2),
+					game.mission.gridCells2d[t.x][t.y].center.clone().sub(0, textSize / 2),
 					new RGB(1, 1, 1),
 					1
 			);
@@ -343,15 +343,11 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius, location.y - radius, radius * 2, radius * 2, va);
 
-		// Top right
-		va.addColour(gfxcol.R * 1.0f, gfxcol.G * 0.9f, gfxcol.B * 0.9f, 1.0f);
-		// Bottom right
-		va.addColour(gfxcol.R * 0.8f, gfxcol.G * 0.6f, gfxcol.B * 0.6f, 1.0f);
-		// Top left
-		va.addColour(gfxcol.R * 0.6f, gfxcol.G * 0.8f, gfxcol.B * 0.8f, 1.0f);
-		// Bottom left
-		va.addColour(gfxcol.R * 0.9f, gfxcol.G * 1.0f, gfxcol.B * 1.0f, 1.0f);
-		va.rotate(location, 45);
+		// TODO: check if color is still needed like this or if shader can do
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 1.0f);
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 1.0f);
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 1.0f);
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 1.0f);
 
 		display.drawVertexArray(va);
 
@@ -434,17 +430,13 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		va.shader = towerShader;
 		va.hasShader = true;
 
-		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius,
-				location.y - radius, radius * 2, radius * 2, va);
+		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius, location.y - radius, radius * 2, radius * 2, va);
 
-		// Top right
-		va.addColour(gfxcol.R * 1.0f, gfxcol.G * 0.9f, gfxcol.B * 0.9f, 1.0f);
-		// Bottom right
-		va.addColour(gfxcol.R * 0.8f, gfxcol.G * 0.6f, gfxcol.B * 0.6f, 1.0f);
-		// Top left
-		va.addColour(gfxcol.R * 0.6f, gfxcol.G * 0.8f, gfxcol.B * 0.8f, 1.0f);
-		// Bottom left
-		va.addColour(gfxcol.R * 0.9f, gfxcol.G * 1.0f, gfxcol.B * 1.0f, 1.0f);
+		// TODO: check if color is still needed like this or if shader can do
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 1.0f);
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 1.0f);
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 1.0f);
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 1.0f);
 
 		display.drawVertexArray(va);
 
@@ -490,14 +482,11 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		GeometryHelper.boxVerticesAsTriangleStrip(location.x - radius, location.y - radius, radius * 2, radius * 2, va);
 
-		// Top right
-		va.addColour(gfxcol.R * 1.0f, gfxcol.G * 0.9f, gfxcol.B * 0.9f, 1.0f);
-		// Bottom right
-		va.addColour(gfxcol.R * 0.8f, gfxcol.G * 0.6f, gfxcol.B * 0.6f, 1.0f);
-		// Top left
-		va.addColour(gfxcol.R * 0.6f, gfxcol.G * 0.8f, gfxcol.B * 0.8f, 1.0f);
-		// Bottom left
-		va.addColour(gfxcol.R * 0.9f, gfxcol.G * 1.0f, gfxcol.B * 1.0f, 1.0f);
+		// TODO: check if color is still needed like this or if shader can do
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 1.0f);
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 1.0f);
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 1.0f);
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 1.0f);
 
 		display.drawVertexArray(va);
 

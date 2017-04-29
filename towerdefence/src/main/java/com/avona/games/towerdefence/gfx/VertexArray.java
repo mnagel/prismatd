@@ -90,6 +90,7 @@ final public class VertexArray {
 	// rotate the whole VertexArray.
 	// algorithm and memory management are ***VERY*** bad
 	// do it better soon ;)
+	@Deprecated
 	public void rotate(final V2 o, final float degrees) {
 		for (int i = 0; i < numCoords; i++) {
 			V2 unpack = new V2(coordBuffer.get(2 * i), coordBuffer.get(2 * i + 1));
