@@ -18,6 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+@SuppressWarnings("UnnecessaryContinue")
 public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public List<Enemy> enemies = new LinkedList<>();
@@ -27,8 +28,6 @@ public class Game implements Serializable {
 	public TimeTrack gameTime = new TimeTrack();
 	public TimedCodeManager timedCodeManager = new TimedCodeManager();
 	public EventListener eventListener;
-	public Mission[] missions;
-	public int curMissionIdx;
 	public Mission mission;
 	public int killed = 0;
 	public int lives;
@@ -49,28 +48,11 @@ public class Game implements Serializable {
 	// TODO startMission is evil
 	public Game(EventListener eventListener, int startMission) {
 		this.eventListener = eventListener;
-		this.missions = new Mission[MissionList.availableMissions.length];
-
-		for (int i = 0; i < this.missions.length; i++) {
-			Class<Mission> klass = MissionList.availableMissions[i];
-
-			try {
-				Constructor<Mission> ctor = klass.getConstructor(Game.class);
-				Mission lvl = ctor.newInstance(this);
-				this.missions[i] = lvl;
-			} catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-				Util.log("died horribly in mission list hackery");
-			}
-		}
-
-		//noinspection ConstantConditions
 		loadMission(startMission);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static Object getLocationWithinRadius(final List objects, final V2 location, final float range) {
-		final List<LocationObject> locationObjects = (List<LocationObject>) objects;
-		for (final LocationObject lo : locationObjects) {
+	private static <T extends LocationObject> T getObjectWithinRange(final List<T> objects, final V2 location, final float range) {
+		for (final T lo : objects) {
 			if (lo.collidesWith(location, range))
 				return lo;
 		}
@@ -78,8 +60,14 @@ public class Game implements Serializable {
 	}
 
 	public void loadMission(int missionIdx) {
-		curMissionIdx = missionIdx;
-		mission = missions[curMissionIdx];
+		Class<Mission> klass = MissionList.availableMissions[missionIdx];
+
+		try {
+			Constructor<Mission> ctor = klass.getConstructor(Game.class);
+			this.mission = ctor.newInstance(this);
+		} catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+			throw new RuntimeException("died horribly in mission list hackery", e);
+		}
 
 		towers.clear();
 		lives = mission.getStartLives();
@@ -87,18 +75,6 @@ public class Game implements Serializable {
 		selectedBuildTower = mission.buildableTowers[0];
 
 		eventListener.onMissionSwitched(mission);
-	}
-
-	public boolean isLastMission() {
-		return curMissionIdx + 1 == missions.length;
-	}
-
-	public void loadNextMission() {
-		if (!isLastMission()) {
-			loadMission(curMissionIdx + 1);
-		} else {
-			eventListener.onGameCompleted(this);
-		}
 	}
 
 	public void looseLife() {
@@ -113,7 +89,7 @@ public class Game implements Serializable {
 		}
 	}
 
-	public boolean isGameOver() {
+	private boolean isGameOver() {
 		return lives == 0;
 	}
 
@@ -189,18 +165,18 @@ public class Game implements Serializable {
 	}
 
 	public Tower getTowerWithinRadius(V2 location, float range) {
-		return (Tower) getLocationWithinRadius(towers, location, range);
+		return getObjectWithinRange(towers, location, range);
 	}
 
 	public Enemy getEnemyWithinRadius(V2 location, float range) {
-		return (Enemy) getLocationWithinRadius(enemies, location, range);
+		return getObjectWithinRange(enemies, location, range);
 	}
 
-	public void pause() {
+	void pause() {
 		gameTime.stopClock();
 	}
 
-	public void unpause() {
+	void unpause() {
 		gameTime.startClock();
 	}
 
@@ -208,7 +184,7 @@ public class Game implements Serializable {
 		return !gameTime.isRunning();
 	}
 
-	public void updateWorld(final float dt) {
+	void updateWorld(final float dt) {
 		if (isPaused())
 			return;
 
@@ -297,7 +273,7 @@ public class Game implements Serializable {
 		Util.log(sb.toString());
 	}
 
-	public void addTransient(Transient newT) {
+	private void addTransient(Transient newT) {
 		Iterator<Transient> it = transients.iterator();
 		while (it.hasNext()) {
 			Transient t = it.next();
