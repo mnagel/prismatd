@@ -7,10 +7,12 @@ import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.tower.Tower;
 
 public class MenuInputActor extends EmptyInputActor {
+	private InputActor parent;
 	private Game game;
 	private Layer layer;
 
-	public MenuInputActor(final Game game, final Layer layer) {
+	public MenuInputActor(final InputActor parent, final Game game, final Layer layer) {
+		this.parent = parent;
 		this.game = game;
 		this.layer = layer;
 	}
@@ -27,7 +29,7 @@ public class MenuInputActor extends EmptyInputActor {
 
 		if (btn == PortableGraphicsEngine.MENU_BUTTON_COUNT - 1) {
 			// Send wave button is always last.
-			game.pressForwardButton();
+			parent.pressedOtherKey(' '); // send space to parent(layered)->game
 			return;
 		}
 
@@ -42,5 +44,4 @@ public class MenuInputActor extends EmptyInputActor {
 			game.selectedBuildTower = game.mission.buildableTowers[btn];
 		}
 	}
-
 }

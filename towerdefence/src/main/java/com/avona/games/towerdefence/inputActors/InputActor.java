@@ -31,7 +31,5 @@ public interface InputActor {
 
 	void mouseDraggedTo(V2 location);
 
-	void pressedMenuKey();
-
 	void pressedOtherKey(char keyCode);
 }

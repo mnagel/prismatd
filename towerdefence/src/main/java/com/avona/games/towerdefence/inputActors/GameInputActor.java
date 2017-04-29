@@ -1,8 +1,7 @@
 package com.avona.games.towerdefence.inputActors;
 
-import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.Mouse;
-import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.*;
+import com.avona.games.towerdefence.mission.MissionList;
 import com.avona.games.towerdefence.tower.Tower;
 
 public class GameInputActor extends EmptyInputActor {
@@ -35,7 +34,83 @@ public class GameInputActor extends EmptyInputActor {
 
 	@Override
 	public void mouseBtn2DownAt(V2 location) {
-		game.pressForwardButton();
+		if (game.mission.completed) {
+			loadMissionInteractive();
+		} else {
+			game.mission.waveTracker.startNextWave();
+		}
+	}
+
+	private void pressForwardButton() {
+		if (game.mission.completed) {
+			loadMissionInteractive();
+		} else {
+			game.mission.waveTracker.startNextWave();
+		}
+	}
+
+	private void loadMissionInteractive() {
+		Util.log("loadMissionInteractive");
+		String[] missions = MissionList.getAvailableMissionNames();
+		AsyncInput.runnableChooser("Load Mission", missions, new IAsyncInput.MyRunnable() {
+			@Override
+			public void run(int selectedOption) {
+				Util.log("run");
+				if (selectedOption != -1) {
+					game.loadMission(selectedOption);
+				}
+			}
+		});
+	}
+
+	@Override
+	public void pressedOtherKey(char keyCode) {
+		// SPACE <<< yeah, search function works now
+		if (keyCode == ' ') {
+			pressForwardButton();
+		}
+		if (keyCode == '+') {
+			if (game.selectedObject instanceof Tower) {
+				final Tower t = (Tower) game.selectedObject;
+				game.levelUpTower(t);
+			}
+		}
+		if (keyCode == 'b') {
+			//pause();
+			AsyncInput.runnableChooser(
+					"What do you want to do?",
+					new String[]{
+							"Go Back to my game.",
+							"Start another mission.",
+							"Quit the game."
+					},
+					new IAsyncInput.MyRunnable() {
+						@Override
+						public void run(int selectedOption) {
+							switch (selectedOption) {
+								case 1:
+									loadMissionInteractive();
+								default:
+								case 0:
+									//resume();
+									break;
+								case 2:
+									game.isTerminated = true;
+									break;
+							}
+						}
+					}
+			);
+		}
+		if (keyCode == 'd') {
+			game.logDebugInfo();
+		}
+		if (keyCode == 'k') {
+			game.killAllEnemies();
+		}
+		if (keyCode == 'l') {
+			loadMissionInteractive();
+		}
 	}
 
 	@Override
@@ -43,7 +118,7 @@ public class GameInputActor extends EmptyInputActor {
 		game.draggingTower = false;
 	}
 
-	public void checkMouseOverTower(V2 location) {
+	private void checkMouseOverTower(V2 location) {
 		final Tower t = game.getTowerWithinRadius(location, mouse.radius);
 		if (t != null) {
 			game.selectedObject = t;

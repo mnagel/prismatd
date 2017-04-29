@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
 		if (paused)
 			return;
 
-		ml.inputActor.pause();
+		ml.rootInputActor.pause();
 		ml.surfaceView.onPause();
 		wl.release();
 
@@ -90,7 +90,7 @@ public class MainActivity extends Activity {
 		if (ml == null || !paused)
 			return;
 
-		ml.inputActor.resume();
+		ml.rootInputActor.resume();
 		ml.surfaceView.onResume();
 		wl.acquire();
 
@@ -99,31 +99,6 @@ public class MainActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		//pause();
-
-		AsyncInput.runnableChooser(
-				"What do you want to do?",
-				new String[]{
-						"Go Back to my game.",
-						"Start another mission.",
-						"Quit the game."
-				},
-				new IAsyncInput.MyRunnable() {
-					@Override
-					public void run(int selectedOption) {
-						switch (selectedOption) {
-							case 1:
-								ml.game.loadMissionInteractive();
-							default:
-							case 0:
-								//resume();
-								break;
-							case 2:
-								finish();
-								break;
-						}
-					}
-				}
-		);
+		ml.rootInputActor.pressedOtherKey('b');
 	}
 }

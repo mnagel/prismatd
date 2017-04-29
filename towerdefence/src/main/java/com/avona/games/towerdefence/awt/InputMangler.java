@@ -45,7 +45,7 @@ class InputMangler implements KeyListener, MouseListener, MouseMotionListener {
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_ESCAPE:
-				actor.pressedMenuKey();
+				actor.pressedOtherKey('b');
 				break;
 			case KeyEvent.VK_P:
 				actor.togglePause();

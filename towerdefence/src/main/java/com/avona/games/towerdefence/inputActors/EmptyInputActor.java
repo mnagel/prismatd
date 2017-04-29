@@ -2,7 +2,7 @@ package com.avona.games.towerdefence.inputActors;
 
 import com.avona.games.towerdefence.V2;
 
-public class EmptyInputActor implements InputActor {
+class EmptyInputActor implements InputActor {
 
 	@Override
 	public void mouseBtn1DownAt(V2 location) {
@@ -42,10 +42,6 @@ public class EmptyInputActor implements InputActor {
 
 	@Override
 	public void resume() {
-	}
-
-	@Override
-	public void pressedMenuKey() {
 	}
 
 	@Override

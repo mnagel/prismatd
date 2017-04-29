@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.android;
 
-import android.content.Context;
+import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Vibrator;
 import com.avona.games.towerdefence.Game;
@@ -10,20 +10,22 @@ import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 
 class AndroidMainLoop extends PortableMainLoop {
 	private static final long serialVersionUID = 1L;
+	private final Activity activity;
 
 	GLSurfaceView surfaceView;
 
 	// TODO startMission is evil
-	AndroidMainLoop(Context context, Vibrator vibrator, int startMission) {
+	AndroidMainLoop(Activity activity, Vibrator vibrator, int startMission) {
 		super();
+		this.activity = activity;
 
 		// TODO startMission is evil
 		game = new Game(eventListener, startMission);
 		initWithGame();
 
-		ResourceResolverRegistry.setInstance(new AndroidResourceResolver(context.getResources()));
+		ResourceResolverRegistry.setInstance(new AndroidResourceResolver(activity.getResources()));
 
-		final AndroidDisplay display = new AndroidDisplay(context, displayEventListener);
+		final AndroidDisplay display = new AndroidDisplay(activity, displayEventListener);
 		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder, this);
 		displayEventListener.add(ge);
 
@@ -31,13 +33,13 @@ class AndroidMainLoop extends PortableMainLoop {
 
 		eventListener.listeners.add(new AndroidEventListener(vibrator));
 
-		surfaceView = new InputForwardingGLSurfaceView(context, inputActor, display);
+		surfaceView = new InputForwardingGLSurfaceView(activity, rootInputActor, display);
 		surfaceView.setEGLContextClientVersion(2);
 		surfaceView.setRenderer(new GameRenderProxy(this, display));
 	}
 
 	@Override
 	public void exit() {
-		// TODO Determine how an application properly exits in Android.
+		activity.finish();
 	}
 }

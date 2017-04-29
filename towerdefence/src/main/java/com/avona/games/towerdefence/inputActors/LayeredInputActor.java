@@ -3,7 +3,6 @@ package com.avona.games.towerdefence.inputActors;
 import com.avona.games.towerdefence.*;
 import com.avona.games.towerdefence.awt.AwtReplShader;
 import com.avona.games.towerdefence.awt.ReplShaderGui;
-import com.avona.games.towerdefence.tower.Tower;
 
 import java.util.HashMap;
 
@@ -16,16 +15,10 @@ public class LayeredInputActor implements InputActor {
 	private boolean currentLayerSawMouseBtn1Down = false;
 	private boolean currentLayerSawMouseBtn2Down = false;
 
-	public LayeredInputActor(PortableMainLoop mainLoop, Mouse mouse,
-							 LayerHerder layerHerder) {
+	public LayeredInputActor(PortableMainLoop mainLoop, Mouse mouse, LayerHerder layerHerder) {
 		this.ml = mainLoop;
 		this.mouse = mouse;
 		this.layerHerder = layerHerder;
-	}
-
-	@Override
-	public void pressedMenuKey() {
-		ml.exit();
 	}
 
 	@Override
@@ -178,28 +171,14 @@ public class LayeredInputActor implements InputActor {
 
 	@Override
 	public void pressedOtherKey(char keyCode) {
-		// SPACE <<< yeah, search function works now
-		if (keyCode == ' ') {
-			ml.game.pressForwardButton();
-		}
-		if (keyCode == '+') {
-			if (ml.game.selectedObject instanceof Tower) {
-				final Tower t = (Tower) ml.game.selectedObject;
-				ml.game.levelUpTower(t);
-			}
-		}
-		if (keyCode == 'd') {
-			ml.game.logDebugInfo();
-		}
-		if (keyCode == 'k') {
-			ml.game.killAllEnemies();
-		}
-		if (keyCode == 'l') {
-			ml.game.loadMissionInteractive();
-		}
 		if (keyCode == 'x') { // not pretty, but works
 			ReplShaderGui.main2();
 			ml.ge.setTowerShader(AwtReplShader.getInstance());
 		}
+
+		// forward to game - in the hope that layer can handle it
+		final Layer layer = layerHerder.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
+		final InputActor inputActor = inputLayerMap.get(layer);
+		inputActor.pressedOtherKey(keyCode);
 	}
 }

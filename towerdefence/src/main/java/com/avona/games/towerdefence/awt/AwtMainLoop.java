@@ -87,7 +87,7 @@ public class AwtMainLoop extends PortableMainLoop implements GLEventListener {
 		display.canvas.addGLEventListener(this);
 
 		setupInputActors();
-		InputMangler input = new InputMangler(this, inputActor);
+		InputMangler input = new InputMangler(this, rootInputActor);
 
 		animator = new FPSAnimator(display.canvas, EXPECTED_FPS);
 		//animator.setRunAsFastAsPossible(false);
@@ -107,7 +107,7 @@ public class AwtMainLoop extends PortableMainLoop implements GLEventListener {
 
 	@Override
 	public void display(GLAutoDrawable arg0) {
-		performLoop();
+		performIteration();
 	}
 
 	/*

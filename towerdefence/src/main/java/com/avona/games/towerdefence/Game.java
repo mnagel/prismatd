@@ -32,6 +32,7 @@ public class Game implements Serializable {
 	public int killed = 0;
 	public int lives;
 	public int money;
+	public boolean isTerminated = false;
 	/**
 	 * Which type of tower to build - if any.
 	 */
@@ -59,21 +60,7 @@ public class Game implements Serializable {
 		return null;
 	}
 
-	public void loadMissionInteractive() {
-		Util.log("loadMissionInteractive");
-		String[] missions = MissionList.getAvailableMissionNames();
-		AsyncInput.runnableChooser("Load Mission", missions, new IAsyncInput.MyRunnable() {
-			@Override
-			public void run(int selectedOption) {
-				Util.log("run");
-				if (selectedOption != -1) {
-					loadMission(selectedOption);
-				}
-			}
-		});
-	}
-
-	private void loadMission(int missionIdx) {
+	public void loadMission(int missionIdx) {
 		Util.log("loadMission");
 		Class<Mission> klass = MissionList.availableMissions[missionIdx];
 
@@ -107,14 +94,6 @@ public class Game implements Serializable {
 
 	private boolean isGameOver() {
 		return lives == 0;
-	}
-
-	public void pressForwardButton() {
-		if (mission.completed) {
-			loadMissionInteractive();
-		} else {
-			mission.waveTracker.startNextWave();
-		}
 	}
 
 	/**

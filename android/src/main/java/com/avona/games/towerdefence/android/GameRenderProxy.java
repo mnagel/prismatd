@@ -11,11 +11,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class GameRenderProxy implements Renderer {
 	private static final String TAG = "GameRenderProxy";
-	private PortableMainLoop ml;
-	private AndroidDisplay display;
-
 	// TODO find a good place for this
 	public static ConcurrentLinkedQueue<Runnable> msgs = new ConcurrentLinkedQueue<>();
+	private PortableMainLoop ml;
+	private AndroidDisplay display;
 
 	public GameRenderProxy(PortableMainLoop ml, AndroidDisplay display) {
 		this.ml = ml;
@@ -29,7 +28,7 @@ public class GameRenderProxy implements Renderer {
 			Log.v(TAG, "Processing message in GameRenderProxy");
 			r.run();
 		}
-		ml.performLoop();
+		ml.performIteration();
 	}
 
 	@Override

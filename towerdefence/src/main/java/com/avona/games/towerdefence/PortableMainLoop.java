@@ -4,6 +4,7 @@ import com.avona.games.towerdefence.gfx.Display;
 import com.avona.games.towerdefence.gfx.DisplayEventDistributor;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.inputActors.GameInputActor;
+import com.avona.games.towerdefence.inputActors.InputActor;
 import com.avona.games.towerdefence.inputActors.LayeredInputActor;
 import com.avona.games.towerdefence.inputActors.MenuInputActor;
 import com.avona.games.towerdefence.mission.Mission;
@@ -18,7 +19,7 @@ public abstract class PortableMainLoop implements Serializable {
 	public Game game;
 	public Display display;
 	public PortableGraphicsEngine ge;
-	public LayeredInputActor inputActor;
+	public InputActor rootInputActor;
 	public Mouse mouse = new Mouse();
 	public LayerHerder layerHerder = new LayerHerder();
 	public EventDistributor eventListener = new EventDistributor();
@@ -47,13 +48,18 @@ public abstract class PortableMainLoop implements Serializable {
 	public void setupInputActors() {
 
 		GameInputActor gameInputActor = new GameInputActor(game, mouse);
-		inputActor = new LayeredInputActor(this, mouse, layerHerder);
-		inputActor.inputLayerMap.put(layerHerder.findLayerByName(GAME_LAYER_NAME), gameInputActor);
+		LayeredInputActor lia = new LayeredInputActor(this, mouse, layerHerder);
+		rootInputActor = lia;
+		lia.inputLayerMap.put(layerHerder.findLayerByName(GAME_LAYER_NAME), gameInputActor);
 		final Layer menuLayer = layerHerder.findLayerByName(MENU_LAYER_NAME);
-		inputActor.inputLayerMap.put(menuLayer, new MenuInputActor(game, menuLayer));
+		lia.inputLayerMap.put(menuLayer, new MenuInputActor(rootInputActor, game, menuLayer));
 	}
 
-	public void performLoop() {
+	public void performIteration() {
+		if (game.isTerminated) {
+			exit();
+		}
+
 		final double wallClock = getWallClock();
 		wallTime.update(wallClock);
 
