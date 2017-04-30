@@ -17,20 +17,21 @@ public class GameInputActor extends EmptyInputActor {
 
 	@Override
 	public void mouseBtn1DownAt(V2 location) {
-		if (game.selectedBuildTower == null)
-			return;
-		game.draggingTower = true;
+		if (game.selectedBuildTower != null) {
+			game.draggingTower = true;
+		}
 	}
 
 	@Override
 	public void mouseBtn1UpAt(V2 location) {
-		if (!game.draggingTower)
-			return;
-		game.draggingTower = false;
-
-		if (game.canBuildTowerAt(game.mission.getCellAt(location))) {
-			game.addTowerAt(game.mission.getCellAt(location));
+		if (game.draggingTower) {
+			if (game.canBuildTowerAt(game.mission.getCellAt(location))) {
+				game.addTowerAt(game.mission.getCellAt(location));
+			}
 		}
+
+		game.selectedBuildTower = null;
+		game.draggingTower = false;
 		checkMouseOverTower(location);
 	}
 
@@ -157,6 +158,6 @@ public class GameInputActor extends EmptyInputActor {
 
 	@Override
 	public void mouseMovedTo(V2 location) {
-		checkMouseOverTower(location);
+		// checkMouseOverTower(location);
 	}
 }

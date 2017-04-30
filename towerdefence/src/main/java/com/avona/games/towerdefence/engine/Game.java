@@ -117,7 +117,8 @@ public class Game implements Serializable {
 	}
 
 	public void addTowerAt(GridCell where) {
-		addTowerAt(selectedBuildTower.clone2(), where);
+		Tower t = selectedBuildTower.clone2();
+		addTowerAt(t, where);
 	}
 
 	public void addTowerAt(Tower newTower, GridCell where) {
