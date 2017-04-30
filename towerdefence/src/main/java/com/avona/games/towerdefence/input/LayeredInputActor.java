@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.inputActors;
+package com.avona.games.towerdefence.input;
 
 import com.avona.games.towerdefence.*;
 import com.avona.games.towerdefence.awt.AwtReplShader;

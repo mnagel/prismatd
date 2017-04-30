@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import com.avona.games.towerdefence.IAsyncInput;
+import com.avona.games.towerdefence.input.IAsyncInput;
 
 // TODO FIX ... THIS
 public class AndroidIAsyncInput implements IAsyncInput {

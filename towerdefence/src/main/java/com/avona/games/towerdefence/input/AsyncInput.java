@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.input;
 
 public class AsyncInput {
 	private static IAsyncInput instance;

@@ -2,6 +2,8 @@ package com.avona.games.towerdefence.awt;
 
 import com.avona.games.towerdefence.*;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
+import com.avona.games.towerdefence.input.AsyncInput;
+import com.avona.games.towerdefence.input.IAsyncInput;
 import com.avona.games.towerdefence.mission.MissionList;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.jogamp.opengl.GLAutoDrawable;

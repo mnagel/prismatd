@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.awt;
 
-import com.avona.games.towerdefence.IAsyncInput;
+import com.avona.games.towerdefence.input.IAsyncInput;
 
 import javax.swing.*;
 import java.util.Arrays;

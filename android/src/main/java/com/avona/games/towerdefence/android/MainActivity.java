@@ -6,9 +6,9 @@ import android.content.Context;
 import android.content.pm.ConfigurationInfo;
 import android.os.Bundle;
 import android.os.Vibrator;
-import com.avona.games.towerdefence.AsyncInput;
+import com.avona.games.towerdefence.input.AsyncInput;
 import com.avona.games.towerdefence.FeatureFlags;
-import com.avona.games.towerdefence.IAsyncInput;
+import com.avona.games.towerdefence.input.IAsyncInput;
 import com.avona.games.towerdefence.Util;
 import com.avona.games.towerdefence.mission.MissionList;
 

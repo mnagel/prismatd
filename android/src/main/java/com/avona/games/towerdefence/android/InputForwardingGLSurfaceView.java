@@ -5,7 +5,7 @@ import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 import com.avona.games.towerdefence.V2;
 import com.avona.games.towerdefence.gfx.Display;
-import com.avona.games.towerdefence.inputActors.InputActor;
+import com.avona.games.towerdefence.input.InputActor;
 
 class InputForwardingGLSurfaceView extends GLSurfaceView {
 	private InputActor inputActor;
