@@ -14,13 +14,11 @@ class AndroidMainLoop extends PortableMainLoop {
 
 	GLSurfaceView surfaceView;
 
-	// TODO startMission is evil
-	AndroidMainLoop(Activity activity, Vibrator vibrator, int startMission) {
+	AndroidMainLoop(Activity activity, Vibrator vibrator) {
 		super();
 		this.activity = activity;
 
-		// TODO startMission is evil
-		game = new Game(eventListener, startMission);
+		game = new Game(eventListener);
 		initWithGame();
 
 		ResourceResolverRegistry.setInstance(new AndroidResourceResolver(activity.getResources()));
@@ -28,8 +26,6 @@ class AndroidMainLoop extends PortableMainLoop {
 		final AndroidDisplay display = new AndroidDisplay(activity, displayEventListener);
 		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder, this);
 		displayEventListener.add(ge);
-
-		setupInputActors();
 
 		eventListener.listeners.add(new AndroidEventListener(vibrator));
 

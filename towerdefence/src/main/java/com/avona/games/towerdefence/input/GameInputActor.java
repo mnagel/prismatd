@@ -1,10 +1,10 @@
 package com.avona.games.towerdefence.input;
 
+import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.mission.MissionList;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.util.Util;
-import com.avona.games.towerdefence.core.V2;
 
 public class GameInputActor extends EmptyInputActor {
 	private Game game;
@@ -36,11 +36,7 @@ public class GameInputActor extends EmptyInputActor {
 
 	@Override
 	public void mouseBtn2DownAt(V2 location) {
-		if (game.mission.completed) {
-			loadMissionInteractive();
-		} else {
-			game.mission.waveTracker.startNextWave();
-		}
+		pressForwardButton();
 	}
 
 	private void pressForwardButton() {

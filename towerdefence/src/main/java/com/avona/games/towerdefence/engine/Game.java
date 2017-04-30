@@ -1,22 +1,23 @@
 package com.avona.games.towerdefence.engine;
 
-import com.avona.games.towerdefence.events.IEventListener;
-import com.avona.games.towerdefence.transients.Transient;
-import com.avona.games.towerdefence.transients.TransientText;
+import com.avona.games.towerdefence.core.RGB;
+import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyDeathUpdatesGameStats;
+import com.avona.games.towerdefence.events.IEventListener;
 import com.avona.games.towerdefence.mission.CellState;
 import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.mission.MissionList;
+import com.avona.games.towerdefence.mission.data._000_Empty_Mission;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.time.TimeTrack;
 import com.avona.games.towerdefence.time.TimedCodeManager;
 import com.avona.games.towerdefence.tower.Tower;
-import com.avona.games.towerdefence.core.RGB;
+import com.avona.games.towerdefence.transients.Transient;
+import com.avona.games.towerdefence.transients.TransientText;
 import com.avona.games.towerdefence.util.Util;
-import com.avona.games.towerdefence.core.V2;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -54,24 +55,13 @@ public class Game implements Serializable {
 	private EnemyDeathGivesMoney enemyDeathGivesMoney = new EnemyDeathGivesMoney(this);
 	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(this);
 
-	// TODO startMission is evil
-	public Game(IEventListener eventListener, int startMission) {
+	public Game(IEventListener eventListener) {
 		this.eventListener = eventListener;
-		loadMission(startMission);
+		//noinspection unchecked
+		loadMission((Class) _000_Empty_Mission.class);
 	}
 
-	private static <T extends LocationObject> T getObjectWithinRange(final List<T> objects, final V2 location, final float range) {
-		for (final T lo : objects) {
-			if (lo.collidesWith(location, range))
-				return lo;
-		}
-		return null;
-	}
-
-	public void loadMission(int missionIdx) {
-		Util.log("loadMission");
-		Class<Mission> klass = MissionList.availableMissions[missionIdx];
-
+	private void loadMission(Class<Mission> klass) {
 		try {
 			Constructor<Mission> ctor = klass.getConstructor(Game.class);
 			this.mission = ctor.newInstance(this);
@@ -85,7 +75,12 @@ public class Game implements Serializable {
 		selectedBuildTower = mission.buildableTowers[0];
 
 		eventListener.onMissionSwitched(mission);
+	}
 
+	public void loadMission(int missionIdx) {
+		Util.log("loadMission");
+		Class<Mission> klass = MissionList.availableMissions[missionIdx];
+		loadMission(klass);
 	}
 
 	public void looseLife() {
@@ -158,6 +153,14 @@ public class Game implements Serializable {
 		e.eventListeners.add(enemyDeathGivesMoney);
 		e.eventListeners.add(enemyDeathUpdatesGameStats);
 		enemies.add(e);
+	}
+
+	private <T extends LocationObject> T getObjectWithinRange(final List<T> objects, final V2 location, final float range) {
+		for (final T lo : objects) {
+			if (lo.collidesWith(location, range))
+				return lo;
+		}
+		return null;
 	}
 
 	public Tower getTowerWithinRadius(V2 location, float range) {
