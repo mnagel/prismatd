@@ -37,7 +37,7 @@ The files in `./doc/` are plain text files but are best viewed with zim-wiki.
 All available information on how to build, run, modify, ... is located there.
 
 # Screenshots
-![PrismaTD Screenshot](/doc/screenshots/screenshot-desktop-2010-10-05.png?raw=true)
+![PrismaTD Screenshot](/doc/screenshots/screenshot-2017-04-30.png?raw=true)
 
 More screenshots can be found in `./doc/screenshots/`.
 
