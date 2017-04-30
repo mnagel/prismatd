@@ -49,7 +49,7 @@ public abstract class PortableMainLoop implements Serializable {
 
 		//noinspection ConstantConditions
 		if (FeatureFlags.AUTOSTART_MISSION != -1) {
-			game.loadMission(FeatureFlags.AUTOSTART_MISSION);
+			game.loadMission(FeatureFlags.AUTOSTART_MISSION - 1); // array 0-based
 		} else {
 			rootInputActor.pressedOtherKey('l');
 		}
