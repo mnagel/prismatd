@@ -6,4 +6,6 @@ public final class FeatureFlags {
 	public static final boolean MISSION_EDITOR = false;
 	public static final boolean TRACE_ON_GL_ERROR = false;
 	public static final boolean CRASH_ON_GL_ERROR = false;
+
+	public static final boolean OPENGL_DEBUG_LAYERS = false;
 }

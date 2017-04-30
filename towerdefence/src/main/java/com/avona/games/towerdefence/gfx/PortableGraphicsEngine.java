@@ -1,11 +1,11 @@
 package com.avona.games.towerdefence.gfx;
 
+import com.avona.games.towerdefence.core.RGB;
+import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.engine.PortableMainLoop;
-import com.avona.games.towerdefence.input.Layer;
-import com.avona.games.towerdefence.input.LayerHerder;
-import com.avona.games.towerdefence.input.Mouse;
+import com.avona.games.towerdefence.input.*;
 import com.avona.games.towerdefence.mission.CellState;
 import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.mission.MissionStatementText;
@@ -15,8 +15,7 @@ import com.avona.games.towerdefence.time.TimeTrack;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.transients.Transient;
 import com.avona.games.towerdefence.util.FeatureFlags;
-import com.avona.games.towerdefence.core.RGB;
-import com.avona.games.towerdefence.core.V2;
+import com.google.common.collect.Lists;
 
 import java.util.Collection;
 import java.util.Locale;
@@ -27,7 +26,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	public static final int DEFAULT_WIDTH = 675;
 	public static final int MENU_BUTTON_COUNT = 5;
 	private static final String LEVEL_UP_TEXT = "Level up Tower";
-	private Layer menuLayer;
+	private MenuLayer menuLayer;
 	private Layer gameLayer;
 
 	private TimeTrack graphicsTime = new TimeTrack();
@@ -37,7 +36,6 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	private Mouse mouse;
 
 	private VertexArray[] missionVertices;
-	private VertexArray[] menuVertices;
 	private Shader towerShader;
 	private Shader enemyShader;
 	private Shader particleShader;
@@ -56,7 +54,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		this.mouse = mouse;
 
 		gameLayer = layerHerder.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
-		menuLayer = layerHerder.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
+		menuLayer = (MenuLayer) layerHerder.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
 		ml.eventListener.listeners.add(new ReloadOnMissionSwitch(this));
 	}
 
@@ -69,7 +67,6 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		// Make sure that the VertexArrays are cleared on a screen context reset.
 		// Otherwise, any preloaded texture wouldn't be reloaded again.
 		freeMissionVertices();
-		freeMenuVertices();
 	}
 
 	synchronized public void render(final float dt) {
@@ -103,12 +100,10 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 			}
 		}
 		if (game.draggingTower && game.selectedBuildTower != null) {
-			final V2 l = gameLayer.convertToVirtual(mouse.location);
+			final V2 l = gameLayer.convertToVirtual(mouse.physicalLocation);
 			final Tower t = game.selectedBuildTower;
 			drawCircle(l.x, l.y, t.getRange(), 1.0f, 1.0f, 1.0f, 1.0f);
 		}
-
-		display.resetTransformation();
 
 		renderMenu();
 
@@ -219,91 +214,90 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 	}
 
-	private void buildMenu() {
-		freeMenuVertices();
-		menuVertices = new VertexArray[1];
-
-		final VertexArray va = new VertexArray();
-		menuVertices[0] = va;
-		va.hasColour = true;
-		va.numCoords = 4;
-		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
-		va.reserveBuffers();
-		GeometryHelper.boxVerticesAsTriangleStrip(0.0f, 0.0f, menuLayer.virtualRegion.x, menuLayer.virtualRegion.y, va);
-		GeometryHelper.boxColoursAsTriangleStrip(0.2f, 0.2f, 0.2f, 0.4f, va);
-	}
-
-	synchronized void freeMenuVertices() {
-		if (menuVertices != null) {
-			// In case we're recreating the world, allow re-using of the
-			// buffers.
-			for (VertexArray va : menuVertices) {
-				va.freeBuffers();
-			}
-			menuVertices = null;
-		}
-	}
-
 	private void renderMenu() {
 		display.prepareTransformationForLayer(menuLayer);
-		if (menuVertices == null) {
-			buildMenu();
-		}
 
-		for (VertexArray va : menuVertices) {
-			display.drawVertexArray(va);
-		}
+		// TODO make buttons persistent and also handle their clicking
+		menuLayer.resetButtons();
 
-		for (int i = 0; i < game.mission.buildableTowers.length; i++) {
-			Tower t = game.mission.buildableTowers[i];
+		// TODO handle these states in the menu
+		if (!(game.selectedObject instanceof Tower)) {
+			for (int i = 0; i < game.mission.buildableTowers.length; i++) {
+				final Tower t = game.mission.buildableTowers[i];
 
-			V2 location = new V2(
-					menuLayer.virtualRegion.x * 0.5f,
-					menuLayer.virtualRegion.y * (1.0f - (i + 0.5f) / MENU_BUTTON_COUNT));
+				menuLayer.addButton(new MenuButton("tower" + i) {
+					@Override
+					public void render() {
+						Layer l = menuLayer.getButtonLayer(this);
+						V2 location = l.virtualRegion.clone2().mult(0.5f);
+						renderTower(t, location, l, t == game.selectedBuildTower);
 
-			renderTower(t, location, menuLayer, t == game.selectedBuildTower);
+						float y_off = GridCell.size / 2 + textSize / 2;
+						final String label = String.format(Locale.US, "$%d", t.getPrice());
+						display.drawText(l, label, true, location, RGB.WHITE, 1.0f);
+					}
+				});
+			}
 		}
 
 		if (game.selectedObject instanceof Tower) {
-			display.drawText(menuLayer, LEVEL_UP_TEXT, true,
-					new V2(menuLayer.virtualRegion.x * 0.5f,
-							menuLayer.virtualRegion.y * (1.0f - (MENU_BUTTON_COUNT - 2 + 0.5f) / MENU_BUTTON_COUNT)),
-					new RGB(1.0f, 1.0f, 1.0f), 1.0f);
+			menuLayer.addButton(new MenuButton("levelup") {
+				@Override
+				public void render() {
+					display.drawText(
+							menuLayer.getButtonLayer(this),
+							LEVEL_UP_TEXT,
+							true,
+							new V2(GridCell.size / 2, GridCell.size / 2),
+							new RGB(1.0f, 1.0f, 1.0f),
+							1.0f
+					);
+				}
+			});
 		}
 
-		int wavenr = game.mission.waveTracker.currentWaveNum();
-		Collection<Enemy> es = game.mission.getEnemyPreview(wavenr + 1);
-		int enemyCount = es.size();
-		int i = 0;
-		for (Enemy e : es) {
-			e.location = new V2(
-					(i + 1) * menuLayer.virtualRegion.x / (enemyCount + 1),
-					menuLayer.virtualRegion.y / 2.0f / MENU_BUTTON_COUNT
-			);
-			renderEnemy(e, menuLayer);
-			i++;
-		}
+		menuLayer.addButton(new MenuButton("wave") {
+			@Override
+			public void render() {
+				Layer l = menuLayer.getButtonLayer(this);
+				int wavenr = game.mission.waveTracker.currentWaveNum();
+				Collection<Enemy> es = game.mission.getEnemyPreview(wavenr + 1);
+				int enemyCount = es.size();
+				int i = 0;
+				for (Enemy e : es) {
+					e.location = new V2(
+							(i + 1) * GridCell.size / 2 / (enemyCount + 1),
+							GridCell.size / 2
+					);
+					renderEnemy(e, l);
+					i++;
+				}
 
-		String waveButtonText = "Send Wave #" + (wavenr + 2);
-		if (wavenr + 1 >= game.mission.getWaveCount()) {
-			waveButtonText = "Final Wave!";
-		}
-		if (game.mission.completed) {
-			waveButtonText = "Mission Done!";
-		}
+				String waveButtonText = "Send Wave #" + (wavenr + 2);
+				if (wavenr + 1 >= game.mission.getWaveCount()) {
+					waveButtonText = "Final Wave!";
+				}
+				if (game.mission.completed) {
+					waveButtonText = "Mission Done!";
+				}
 
-		display.drawText(
-				menuLayer,
-				waveButtonText,
-				true,
-				new V2(
-						menuLayer.virtualRegion.x / 2,
-						menuLayer.virtualRegion.y / 2.0f / MENU_BUTTON_COUNT - textSize - Enemy.ENEMY_RADIUS
-				),
-				new RGB(1.0f, 1.0f, 1.0f),
-				1.0f
-		);
-		display.resetTransformation();
+				display.drawText(
+						l,
+						waveButtonText,
+						true,
+						new V2(GridCell.size / 2, GridCell.size / 2),
+						new RGB(1.0f, 1.0f, 1.0f),
+						1.0f
+				);
+			}
+		});
+
+
+		for (MenuButton b : Lists.reverse(menuLayer.buttons)) {
+			Layer l = menuLayer.getButtonLayer(b);
+			display.prepareTransformationForLayer(l);
+			b.render();
+		}
 	}
 
 	private void renderMissionStatement() {
@@ -453,12 +447,6 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		display.drawVertexArray(va);
 
 		va.freeBuffers();
-
-		if (overrideLocation != null) {
-			float y_off = GridCell.size / 2 + textSize / 2;
-			final String label = String.format(Locale.US, "$%d", t.getPrice());
-			display.drawText(layer, label, true, location.clone2().sub(0, y_off), RGB.WHITE, 1.0f);
-		}
 	}
 
 	private void renderParticle(final Particle p) {
@@ -506,9 +494,11 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	}
 
 	private void renderMouse() {
+		Layer l = gameLayer;
+		display.prepareTransformationForLayer(l);
 		if (!mouse.onScreen)
 			return;
-		final V2 p = mouse.location;
+		final V2 p = l.convertToVirtual(mouse.physicalLocation);
 		final float col = 0.5f + 0.3f * (float) Math.abs(Math.sin(4 * graphicsTime.clock));
 		drawFilledCircle(p.x, p.y, mouse.radius, 1.0f, 1.0f, 1.0f, col);
 	}

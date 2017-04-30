@@ -1,8 +1,8 @@
 package com.avona.games.towerdefence.gfx;
 
-import com.avona.games.towerdefence.input.Layer;
 import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;
+import com.avona.games.towerdefence.input.Layer;
 
 /**
  * This class provides all basic drawing primitives.
@@ -16,8 +16,6 @@ public interface Display {
 	Shader allocateShader(String name);
 
 	void prepareTransformationForLayer(Layer layer);
-
-	void resetTransformation();
 
 	void prepareScreen();
 

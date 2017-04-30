@@ -101,7 +101,7 @@ public class LayeredInputActor implements InputActor {
 		currentLayerSawMouseBtn1Down = false;
 		currentLayerSawMouseBtn2Down = false;
 
-		final Layer layer = layerHerder.findLayerWithinPoint(mouse.location);
+		final Layer layer = layerHerder.findLayerWithinPoint(mouse.physicalLocation);
 		mouseEnteredLayer(layer);
 		lastLayer = layer;
 	}
@@ -126,7 +126,7 @@ public class LayeredInputActor implements InputActor {
 
 	@Override
 	public void mouseMovedTo(V2 location) {
-		mouse.location = location;
+		mouse.physicalLocation = location;
 
 		final Layer layer = layerHerder.findLayerWithinPoint(location);
 		detectLayerSwitch(layer);
@@ -141,7 +141,7 @@ public class LayeredInputActor implements InputActor {
 
 	@Override
 	public void mouseDraggedTo(V2 location) {
-		mouse.location = location;
+		mouse.physicalLocation = location;
 
 		final Layer layer = layerHerder.findLayerWithinPoint(location);
 		detectLayerSwitch(layer);

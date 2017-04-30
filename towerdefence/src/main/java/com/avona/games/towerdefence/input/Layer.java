@@ -2,37 +2,43 @@ package com.avona.games.towerdefence.input;
 
 import com.avona.games.towerdefence.core.V2;
 
+import java.util.Locale;
+
 public class Layer {
 	public static int MIN_DEPTH = 0;
 	public static int MAX_DEPTH = 2;
-
-	/**
-	 * Defines the z order of the layer.
-	 */
-	public int depth = 1;
-
 	/**
 	 * Name of the layer. Must be unique among all layers.
 	 */
-	public String name = new String();
-
+	public String name;
 	/**
 	 * Size used by screen, i.e. pixel size.
 	 */
 	public V2 region = new V2();
-
 	/**
 	 * Size used by internal logic. Typically constant for a certain layer type.
 	 */
 	public V2 virtualRegion = new V2();
-
 	/**
 	 * Absolute offset from the screens lower left corner.
 	 */
 	public V2 offset = new V2();
+	/**
+	 * Defines the z order of the layer.
+	 */
+	int depth = 1;
+	private Layer parent = null;
+
+	public Layer(String name, Layer parent, V2 offset, V2 region, V2 virtualRegion) {
+		this.name = name;
+		this.parent = parent;
+		this.offset = offset;
+		this.region = region;
+		this.virtualRegion = virtualRegion;
+	}
 
 	public String toString() {
-		return "Layer<offset " + offset + ", region " + region + ">";
+		return String.format(Locale.US, "L:%s v%s r%s at %s", name, virtualRegion.toString(0), region.toString(0), offset.toString(0));
 	}
 
 	/**

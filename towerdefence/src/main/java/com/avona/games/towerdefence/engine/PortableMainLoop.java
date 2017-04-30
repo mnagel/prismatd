@@ -1,5 +1,6 @@
 package com.avona.games.towerdefence.engine;
 
+import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.events.EventDistributor;
 import com.avona.games.towerdefence.gfx.Display;
 import com.avona.games.towerdefence.gfx.DisplayEventDistributor;
@@ -32,16 +33,16 @@ public abstract class PortableMainLoop implements Serializable {
 	}
 
 	protected void initWithGame() {
-		Layer gameLayer = new Layer();
-		gameLayer.virtualRegion.x = Mission.WIDTH;
-		gameLayer.virtualRegion.y = Mission.HEIGHT;
-		gameLayer.name = GAME_LAYER_NAME;
+		Layer gameLayer = new Layer(
+				GAME_LAYER_NAME,
+				null,
+				new V2(),
+				new V2(),
+				new V2(Mission.WIDTH, Mission.HEIGHT)
+		);
 		layerHerder.addLayer(gameLayer);
 
-		Layer menuLayer = new Layer();
-		menuLayer.virtualRegion.x = 125;
-		menuLayer.virtualRegion.y = 480;
-		menuLayer.name = MENU_LAYER_NAME;
+		Layer menuLayer = new MenuLayer(MENU_LAYER_NAME);
 		layerHerder.addLayer(menuLayer);
 
 		setupInputActors();

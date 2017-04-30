@@ -6,7 +6,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class LayerHerder {
-	private static Layer DEFAULT_LAYER = new Layer();
+	private static Layer DEFAULT_LAYER = new Layer(
+			"DEFAULTLAYER",
+			null,
+			new V2(),
+			new V2(),
+			new V2()
+	);
 
 	@SuppressWarnings("unchecked")
 	private List<Layer>[] layers = new List[Layer.MAX_DEPTH + 1];

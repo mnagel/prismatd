@@ -16,6 +16,5 @@ public class ReloadOnMissionSwitch extends EmptyEventListener {
 	@Override
 	public void onMissionSwitched(Mission mission) {
 		ge.freeMissionVertices();
-		ge.freeMenuVertices();
 	}
 }
