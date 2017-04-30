@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.core;
 
 import java.io.Serializable;
 import java.util.Locale;

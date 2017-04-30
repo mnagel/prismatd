@@ -1,7 +1,7 @@
 package com.avona.games.towerdefence.tower;
 
 import com.avona.games.towerdefence.LocationObject;
-import com.avona.games.towerdefence.RGB;
+import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.RechargeTimer;
 import com.avona.games.towerdefence.TimedCodeManager;
 import com.avona.games.towerdefence.enemy.Enemy;

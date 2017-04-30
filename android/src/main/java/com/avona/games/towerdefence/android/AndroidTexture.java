@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
-import com.avona.games.towerdefence.Util;
+import com.avona.games.towerdefence.util.Util;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 

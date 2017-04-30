@@ -1,5 +1,7 @@
 package com.avona.games.towerdefence;
 
+import com.avona.games.towerdefence.core.V2;
+
 public class Collision {
 	public static boolean circleCollidesWithCircle(
 			final V2 location0,

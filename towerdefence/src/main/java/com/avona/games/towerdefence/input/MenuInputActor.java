@@ -1,8 +1,7 @@
 package com.avona.games.towerdefence.input;
 
 import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.Layer;
-import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.tower.Tower;
 

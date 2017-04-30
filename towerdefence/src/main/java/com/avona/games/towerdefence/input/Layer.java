@@ -1,4 +1,6 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.input;
+
+import com.avona.games.towerdefence.core.V2;
 
 public class Layer {
 	public static int MIN_DEPTH = 0;

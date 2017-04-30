@@ -3,6 +3,7 @@ package com.avona.games.towerdefence.input;
 import com.avona.games.towerdefence.*;
 import com.avona.games.towerdefence.awt.AwtReplShader;
 import com.avona.games.towerdefence.awt.ReplShaderGui;
+import com.avona.games.towerdefence.core.V2;
 
 import java.util.HashMap;
 

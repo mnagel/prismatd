@@ -1,5 +1,7 @@
 package com.avona.games.towerdefence;
 
+import com.avona.games.towerdefence.core.V2;
+
 public abstract class MovingObject extends LocationObject {
 	private static final long serialVersionUID = 1L;
 

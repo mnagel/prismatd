@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.awt;
 
-import com.avona.games.towerdefence.Util;
+import com.avona.games.towerdefence.util.Util;
 import com.avona.games.towerdefence.gfx.ImageColorFormat;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;

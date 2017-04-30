@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.gfx;
 
-import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.core.V2;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;

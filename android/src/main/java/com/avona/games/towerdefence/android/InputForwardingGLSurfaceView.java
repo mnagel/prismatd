@@ -3,7 +3,7 @@ package com.avona.games.towerdefence.android;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
-import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.gfx.Display;
 import com.avona.games.towerdefence.input.InputActor;
 

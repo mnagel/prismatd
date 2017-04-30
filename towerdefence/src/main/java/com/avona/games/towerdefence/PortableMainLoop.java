@@ -3,10 +3,7 @@ package com.avona.games.towerdefence;
 import com.avona.games.towerdefence.gfx.Display;
 import com.avona.games.towerdefence.gfx.DisplayEventDistributor;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
-import com.avona.games.towerdefence.input.GameInputActor;
-import com.avona.games.towerdefence.input.InputActor;
-import com.avona.games.towerdefence.input.LayeredInputActor;
-import com.avona.games.towerdefence.input.MenuInputActor;
+import com.avona.games.towerdefence.input.*;
 import com.avona.games.towerdefence.mission.Mission;
 
 import java.io.Serializable;

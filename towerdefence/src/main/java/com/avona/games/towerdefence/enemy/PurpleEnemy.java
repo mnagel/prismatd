@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.enemy;
 
-import com.avona.games.towerdefence.RGB;
+import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.mission.Mission;
 
 public class PurpleEnemy extends Enemy {

@@ -1,4 +1,6 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.input;
+
+import com.avona.games.towerdefence.core.V2;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,13 +11,13 @@ public class LayerHerder {
 	@SuppressWarnings("unchecked")
 	private List<Layer>[] layers = new List[Layer.MAX_DEPTH + 1];
 
-	LayerHerder() {
+	public LayerHerder() {
 		for (int depth = 0; depth <= Layer.MAX_DEPTH; ++depth) {
 			layers[depth] = new LinkedList<>();
 		}
 	}
 
-	void addLayer(final Layer layer) {
+	public void addLayer(final Layer layer) {
 		layers[layer.depth].add(layer);
 	}
 

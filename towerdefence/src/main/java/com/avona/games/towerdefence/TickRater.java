@@ -1,5 +1,7 @@
 package com.avona.games.towerdefence;
 
+import com.avona.games.towerdefence.util.Util;
+
 public class TickRater {
 	static final float INITIAL_TICKRATE = 60.0f;
 

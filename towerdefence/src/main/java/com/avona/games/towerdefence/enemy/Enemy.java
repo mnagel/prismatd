@@ -1,8 +1,8 @@
 package com.avona.games.towerdefence.enemy;
 
 import com.avona.games.towerdefence.MovingObject;
-import com.avona.games.towerdefence.RGB;
-import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.core.RGB;
+import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyEventListener;
 import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.mission.Mission;

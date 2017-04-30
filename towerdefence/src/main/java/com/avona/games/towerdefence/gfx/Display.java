@@ -1,8 +1,8 @@
 package com.avona.games.towerdefence.gfx;
 
-import com.avona.games.towerdefence.Layer;
-import com.avona.games.towerdefence.RGB;
-import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.input.Layer;
+import com.avona.games.towerdefence.core.RGB;
+import com.avona.games.towerdefence.core.V2;
 
 /**
  * This class provides all basic drawing primitives.

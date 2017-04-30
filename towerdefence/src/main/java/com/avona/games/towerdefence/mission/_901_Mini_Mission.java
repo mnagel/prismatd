@@ -1,7 +1,7 @@
 package com.avona.games.towerdefence.mission;
 
 import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.Util;
+import com.avona.games.towerdefence.util.Util;
 import com.avona.games.towerdefence.enemy.RedEnemy;
 import com.avona.games.towerdefence.tower.RedTower;
 import com.avona.games.towerdefence.tower.Tower;

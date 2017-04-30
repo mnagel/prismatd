@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.enemySelection;
 
-import com.avona.games.towerdefence.RGB;
+import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.tower.Tower;
 

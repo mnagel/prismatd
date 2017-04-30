@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.input;
 
-import com.avona.games.towerdefence.V2;
+import com.avona.games.towerdefence.core.V2;
 
 /**
  * This interface contains all input events that might occur. To be as portable

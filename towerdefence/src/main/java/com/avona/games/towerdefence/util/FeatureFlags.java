@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.util;
 
 public final class FeatureFlags {
 	public static final int AUTOSTART_MISSION = -1;

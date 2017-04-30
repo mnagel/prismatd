@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.awt;
 
-import com.avona.games.towerdefence.Util;
+import com.avona.games.towerdefence.util.Util;
 import com.jogamp.opengl.GL2;
 
 public class AwtReplShader extends AwtShader {

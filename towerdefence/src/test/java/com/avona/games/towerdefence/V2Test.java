@@ -1,5 +1,6 @@
 package com.avona.games.towerdefence;
 
+import com.avona.games.towerdefence.core.V2;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;

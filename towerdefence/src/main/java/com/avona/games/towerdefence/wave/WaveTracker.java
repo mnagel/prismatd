@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.wave;
 
-import com.avona.games.towerdefence.Util;
+import com.avona.games.towerdefence.util.Util;
 import com.avona.games.towerdefence.wave.waveListeners.WaveListener;
 
 import java.io.Serializable;

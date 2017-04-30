@@ -1,7 +1,7 @@
 package com.avona.games.towerdefence.android;
 
 import android.content.res.Resources;
-import com.avona.games.towerdefence.Util;
+import com.avona.games.towerdefence.util.Util;
 import com.avona.games.towerdefence.res.ResourceResolver;
 
 import java.io.InputStream;

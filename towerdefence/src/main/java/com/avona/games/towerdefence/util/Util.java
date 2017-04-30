@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

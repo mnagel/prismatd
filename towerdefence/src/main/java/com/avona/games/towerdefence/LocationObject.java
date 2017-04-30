@@ -1,5 +1,7 @@
 package com.avona.games.towerdefence;
 
+import com.avona.games.towerdefence.core.V2;
+
 import java.io.Serializable;
 
 /**
