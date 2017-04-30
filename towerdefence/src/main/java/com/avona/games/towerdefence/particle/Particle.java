@@ -6,7 +6,7 @@ import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.mission.GridCell;
-import com.avona.games.towerdefence.particleCollidors.ParticleColliderPolicy;
+import com.avona.games.towerdefence.particle.collidorPolicy.ParticleColliderPolicy;
 
 import java.util.List;
 import java.util.Random;

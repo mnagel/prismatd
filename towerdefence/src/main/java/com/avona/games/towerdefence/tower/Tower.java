@@ -7,7 +7,7 @@ import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.tower.enemySelection.EnemySelectionPolicy;
 import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.particle.Particle;
-import com.avona.games.towerdefence.particleCollidors.ParticleColliderPolicy;
+import com.avona.games.towerdefence.particle.collidorPolicy.ParticleColliderPolicy;
 
 import java.util.List;
 
@@ -15,6 +15,7 @@ public abstract class Tower extends LocationObject {
 	private static final long serialVersionUID = 1L;
 
 	public EnemySelectionPolicy enemySelectionPolicy;
+	// TODO move to particle
 	public ParticleColliderPolicy enemyParticleColliderPolicy;
 	public int level;
 	// The color the tower will be drawn with.

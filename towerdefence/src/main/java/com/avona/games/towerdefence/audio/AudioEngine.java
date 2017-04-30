@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.audio;
 
 import javax.sound.sampled.*;
 import java.io.File;

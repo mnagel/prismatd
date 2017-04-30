@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.input;
 
 import com.avona.games.towerdefence.core.V2;
 

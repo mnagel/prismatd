@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.particleCollidors;
+package com.avona.games.towerdefence.particle.collidorPolicy;
 
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;

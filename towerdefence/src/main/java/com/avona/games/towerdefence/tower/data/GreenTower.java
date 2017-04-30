@@ -7,7 +7,7 @@ import com.avona.games.towerdefence.tower.enemySelection.EnemySelectionPolicy;
 import com.avona.games.towerdefence.tower.enemySelection.NearestEnemyPolicy;
 import com.avona.games.towerdefence.tower.enemySelection.NearestEnemyWithColourPolicy;
 import com.avona.games.towerdefence.particle.Particle;
-import com.avona.games.towerdefence.particleCollidors.NearestEnemyColliderPolicy;
+import com.avona.games.towerdefence.particle.collidorPolicy.NearestEnemyColliderPolicy;
 import com.avona.games.towerdefence.tower.Tower;
 
 public class GreenTower extends Tower {
