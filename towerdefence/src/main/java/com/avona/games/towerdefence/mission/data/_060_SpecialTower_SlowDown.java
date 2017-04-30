@@ -12,7 +12,7 @@ import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 @SuppressWarnings("WeakerAccess")
-@MissionName(value = "Tutorial: Slow it down")
+@MissionName(value = "Slow it down")
 public class _060_SpecialTower_SlowDown extends Mission {
 	public _060_SpecialTower_SlowDown(Game game) {
 		super(game);
