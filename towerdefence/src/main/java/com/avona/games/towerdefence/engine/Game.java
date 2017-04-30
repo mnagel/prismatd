@@ -1,5 +1,8 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.engine;
 
+import com.avona.games.towerdefence.events.IEventListener;
+import com.avona.games.towerdefence.transients.Transient;
+import com.avona.games.towerdefence.transients.TransientText;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyDeathUpdatesGameStats;
@@ -32,7 +35,7 @@ public class Game implements Serializable {
 	public List<Transient> transients = new LinkedList<>();
 	public TimeTrack gameTime = new TimeTrack();
 	public TimedCodeManager timedCodeManager = new TimedCodeManager();
-	public EventListener eventListener;
+	public IEventListener eventListener;
 	public Mission mission;
 	public int killed = 0;
 	public int lives;
@@ -52,7 +55,7 @@ public class Game implements Serializable {
 	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(this);
 
 	// TODO startMission is evil
-	public Game(EventListener eventListener, int startMission) {
+	public Game(IEventListener eventListener, int startMission) {
 		this.eventListener = eventListener;
 		loadMission(startMission);
 	}

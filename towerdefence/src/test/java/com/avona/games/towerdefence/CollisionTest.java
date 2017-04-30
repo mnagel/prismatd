@@ -1,6 +1,7 @@
 package com.avona.games.towerdefence;
 
 import com.avona.games.towerdefence.core.V2;
+import com.avona.games.towerdefence.engine.Collision;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;

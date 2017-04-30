@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.enemy;
 
-import com.avona.games.towerdefence.MovingObject;
+import com.avona.games.towerdefence.engine.MovingObject;
 import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyEventListener;

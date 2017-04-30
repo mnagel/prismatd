@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.wave;
 
-import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.time.TimedCode;
 import com.avona.games.towerdefence.time.TimedCodeManager;
 import com.avona.games.towerdefence.core.V2;

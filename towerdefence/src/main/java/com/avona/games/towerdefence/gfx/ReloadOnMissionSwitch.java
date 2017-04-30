@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.gfx;
 
-import com.avona.games.towerdefence.EmptyEventListener;
+import com.avona.games.towerdefence.events.EmptyEventListener;
 import com.avona.games.towerdefence.mission.Mission;
 
 public class ReloadOnMissionSwitch extends EmptyEventListener {

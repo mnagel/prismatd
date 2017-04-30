@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.mission;
 
-import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.util.Util;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
@@ -32,6 +32,7 @@ public abstract class Mission implements Serializable, WaveSender {
 	public int gridCellCountX;
 	public int gridCellCountY;
 
+	// TODO: make independent of game
 	protected Game game;
 
 	public Mission(final Game game) {

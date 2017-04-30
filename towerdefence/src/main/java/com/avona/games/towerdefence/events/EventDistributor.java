@@ -1,43 +1,44 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.events;
 
+import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.tower.Tower;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class EventDistributor implements EventListener {
+public class EventDistributor implements IEventListener {
 	private static final long serialVersionUID = 1L;
 
-	public List<EventListener> listeners = new LinkedList<>();
+	public List<IEventListener> listeners = new LinkedList<>();
 
 	@Override
 	public void onBuildTower(Tower t) {
-		for (EventListener l : listeners)
+		for (IEventListener l : listeners)
 			l.onBuildTower(t);
 	}
 
 	@Override
 	public void onMissionCompleted(Mission mission) {
-		for (EventListener l : listeners)
+		for (IEventListener l : listeners)
 			l.onMissionCompleted(mission);
 	}
 
 	@Override
 	public void onGameCompleted(Game g) {
-		for (EventListener l : listeners)
+		for (IEventListener l : listeners)
 			l.onGameCompleted(g);
 	}
 
 	@Override
 	public void onGameOver(Game g) {
-		for (EventListener l : listeners)
+		for (IEventListener l : listeners)
 			l.onGameOver(g);
 	}
 
 	@Override
 	public void onMissionSwitched(Mission mission) {
-		for (EventListener l : listeners)
+		for (IEventListener l : listeners)
 			l.onMissionSwitched(mission);
 	}
 }

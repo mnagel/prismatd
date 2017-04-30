@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.wave.waveListeners;
 
-import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.wave.Wave;
 
 public class GrantInterestPerWave implements WaveListener {

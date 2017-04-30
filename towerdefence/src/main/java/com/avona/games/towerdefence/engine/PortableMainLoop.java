@@ -1,5 +1,6 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.engine;
 
+import com.avona.games.towerdefence.events.EventDistributor;
 import com.avona.games.towerdefence.gfx.Display;
 import com.avona.games.towerdefence.gfx.DisplayEventDistributor;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;

@@ -1,7 +1,8 @@
 package com.avona.games.towerdefence.gfx;
 
-import com.avona.games.towerdefence.*;
 import com.avona.games.towerdefence.enemy.Enemy;
+import com.avona.games.towerdefence.engine.Game;
+import com.avona.games.towerdefence.engine.PortableMainLoop;
 import com.avona.games.towerdefence.input.Layer;
 import com.avona.games.towerdefence.input.LayerHerder;
 import com.avona.games.towerdefence.input.Mouse;
@@ -12,6 +13,7 @@ import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.time.TickRater;
 import com.avona.games.towerdefence.time.TimeTrack;
 import com.avona.games.towerdefence.tower.Tower;
+import com.avona.games.towerdefence.transients.Transient;
 import com.avona.games.towerdefence.util.FeatureFlags;
 import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;

@@ -1,7 +1,7 @@
 package com.avona.games.towerdefence.particle;
 
-import com.avona.games.towerdefence.Collision;
-import com.avona.games.towerdefence.MovingObject;
+import com.avona.games.towerdefence.engine.Collision;
+import com.avona.games.towerdefence.engine.MovingObject;
 import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;

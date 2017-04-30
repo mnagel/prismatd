@@ -1,9 +1,10 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.events;
 
+import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.tower.Tower;
 
-public class EmptyEventListener implements EventListener {
+public class EmptyEventListener implements IEventListener {
 
 	private static final long serialVersionUID = -5784144234246757063L;
 

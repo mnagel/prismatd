@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.enemy.eventListeners;
 
-import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.enemy.Enemy;
 
 public class EnemyDeathGivesMoney implements EnemyEventListener {

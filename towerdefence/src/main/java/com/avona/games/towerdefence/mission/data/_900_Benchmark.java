@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.mission.data;
 
-import com.avona.games.towerdefence.Game;
+import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.enemy.data.*;
 import com.avona.games.towerdefence.mission.*;
 import com.avona.games.towerdefence.tower.data.*;

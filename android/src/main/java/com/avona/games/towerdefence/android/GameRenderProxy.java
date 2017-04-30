@@ -2,7 +2,7 @@ package com.avona.games.towerdefence.android;
 
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
-import com.avona.games.towerdefence.PortableMainLoop;
+import com.avona.games.towerdefence.engine.PortableMainLoop;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

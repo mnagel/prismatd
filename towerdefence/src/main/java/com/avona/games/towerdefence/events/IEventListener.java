@@ -1,11 +1,12 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.events;
 
+import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.tower.Tower;
 
 import java.io.Serializable;
 
-public interface EventListener extends Serializable {
+public interface IEventListener extends Serializable {
 
 	void onBuildTower(Tower t);
 
