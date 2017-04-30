@@ -1,8 +1,11 @@
-package com.avona.games.towerdefence.mission;
+package com.avona.games.towerdefence.mission.data;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.enemy.GreenEnemy;
 import com.avona.games.towerdefence.enemy.PurpleEnemy;
+import com.avona.games.towerdefence.mission.Mission;
+import com.avona.games.towerdefence.mission.MissionName;
+import com.avona.games.towerdefence.mission.MissionStatementText;
 import com.avona.games.towerdefence.tower.BlueTower;
 import com.avona.games.towerdefence.tower.GreenTower;
 import com.avona.games.towerdefence.tower.RedTower;

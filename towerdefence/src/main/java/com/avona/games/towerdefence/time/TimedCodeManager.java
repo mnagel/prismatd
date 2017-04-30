@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.time;
 
 import java.io.Serializable;
 import java.util.*;
@@ -16,7 +16,7 @@ public class TimedCodeManager implements Serializable {
 	 */
 	private boolean modified;
 
-	void update(final float dt) {
+	public void update(final float dt) {
 		clock += dt;
 
 		// Find code that timed out and execute it.

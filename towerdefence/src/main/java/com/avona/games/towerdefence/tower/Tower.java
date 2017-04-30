@@ -3,7 +3,7 @@ package com.avona.games.towerdefence.tower;
 import com.avona.games.towerdefence.LocationObject;
 import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.RechargeTimer;
-import com.avona.games.towerdefence.TimedCodeManager;
+import com.avona.games.towerdefence.time.TimedCodeManager;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemySelection.EnemySelectionPolicy;
 import com.avona.games.towerdefence.mission.GridCell;

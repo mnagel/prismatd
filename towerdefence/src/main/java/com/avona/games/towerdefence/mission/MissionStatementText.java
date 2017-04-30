@@ -6,7 +6,7 @@ public class MissionStatementText {
 
 	public String text;
 
-	MissionStatementText(int x, int y, String text) {
+	public MissionStatementText(int x, int y, String text) {
 		this.x = x;
 		this.y = y;
 		this.text = text;

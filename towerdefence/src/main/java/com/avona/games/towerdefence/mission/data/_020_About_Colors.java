@@ -1,8 +1,11 @@
-package com.avona.games.towerdefence.mission;
+package com.avona.games.towerdefence.mission.data;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.enemy.BlueEnemy;
 import com.avona.games.towerdefence.enemy.RedEnemy;
+import com.avona.games.towerdefence.mission.Mission;
+import com.avona.games.towerdefence.mission.MissionName;
+import com.avona.games.towerdefence.mission.MissionStatementText;
 import com.avona.games.towerdefence.tower.BlueTower;
 import com.avona.games.towerdefence.tower.RedTower;
 import com.avona.games.towerdefence.tower.Tower;
@@ -10,12 +13,12 @@ import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 @SuppressWarnings("WeakerAccess")
-@MissionName(value = "Tower Levels")
-public class _025_Tower_Levels extends Mission {
+@MissionName(value = "About Colors")
+public class _020_About_Colors extends Mission {
 
 	private static final long serialVersionUID = -2476503319147078452L;
 
-	public _025_Tower_Levels(final Game game) {
+	public _020_About_Colors(final Game game) {
 		super(game);
 
 		waveTracker.waveBegunListeners
@@ -35,18 +38,19 @@ public class _025_Tower_Levels extends Mission {
 	@Override
 	protected String getMissionDefinitionString() {
 		String l = "";
-		l += "###1############\n"; // 0
-		l += "###x############\n"; // 1
-		l += "###x############\n"; // 2
-		l += "###x############\n"; // 3
-		l += "###x############\n"; // 4
-		l += "##.x############\n"; // 5
-		l += "###x.###########\n"; // 6
-		l += "###x############\n"; // 7
-		l += "###x############\n"; // 8
-		l += "###x############\n"; // 9
-		l += "###x############\n"; // 0
-		l += "###2############\n"; // 1
+		//////0123456789012345
+		l += "...1............\n"; // 0
+		l += "...x............\n"; // 1
+		l += "...x............\n"; // 2
+		l += "...x............\n"; // 3
+		l += "...x............\n"; // 4
+		l += "...x............\n"; // 5
+		l += "...x............\n"; // 6
+		l += "...x............\n"; // 7
+		l += "...x............\n"; // 8
+		l += "...x............\n"; // 9
+		l += "...x............\n"; // 0
+		l += "...2............\n"; // 1
 		return l;
 	}
 
@@ -62,9 +66,8 @@ public class _025_Tower_Levels extends Mission {
 	@Override
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
-				new RedTower(game.timedCodeManager, 1),
-				new RedTower(game.timedCodeManager, 3),
-				new BlueTower(game.timedCodeManager, 1)
+				new RedTower(game.timedCodeManager, 2),
+				new BlueTower(game.timedCodeManager, 2)
 		};
 	}
 

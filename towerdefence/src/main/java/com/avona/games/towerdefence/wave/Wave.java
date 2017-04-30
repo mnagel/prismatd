@@ -1,8 +1,8 @@
 package com.avona.games.towerdefence.wave;
 
 import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.TimedCode;
-import com.avona.games.towerdefence.TimedCodeManager;
+import com.avona.games.towerdefence.time.TimedCode;
+import com.avona.games.towerdefence.time.TimedCodeManager;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemyEventListeners.EnemyEventListener;

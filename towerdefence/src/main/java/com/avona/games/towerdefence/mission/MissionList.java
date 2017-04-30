@@ -1,5 +1,7 @@
 package com.avona.games.towerdefence.mission;
 
+import com.avona.games.towerdefence.mission.data.*;
+
 @SuppressWarnings("unchecked")
 public final class MissionList {
 	public static final Class<Mission>[] availableMissions = new Class[]{

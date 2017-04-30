@@ -1,24 +1,24 @@
-package com.avona.games.towerdefence.mission;
+package com.avona.games.towerdefence.mission.data;
 
 import com.avona.games.towerdefence.Game;
-import com.avona.games.towerdefence.enemy.BlueEnemy;
 import com.avona.games.towerdefence.enemy.GreenEnemy;
-import com.avona.games.towerdefence.enemy.PurpleEnemy;
 import com.avona.games.towerdefence.enemy.RedEnemy;
-import com.avona.games.towerdefence.tower.BlueTower;
-import com.avona.games.towerdefence.tower.GreenTower;
+import com.avona.games.towerdefence.mission.Mission;
+import com.avona.games.towerdefence.mission.MissionName;
+import com.avona.games.towerdefence.mission.MissionStatementText;
+import com.avona.games.towerdefence.tower.PaintRedTower;
 import com.avona.games.towerdefence.tower.RedTower;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 @SuppressWarnings("WeakerAccess")
-@MissionName(value = "About Money")
-public class _040_About_Money extends Mission {
+@MissionName(value = "Paint it Red")
+public class _050_SpecialTower_PaintRed extends Mission {
 
 	private static final long serialVersionUID = -2376503319147078452L;
 
-	public _040_About_Money(final Game game) {
+	public _050_SpecialTower_PaintRed(final Game game) {
 		super(game);
 
 		waveTracker.waveBegunListeners
@@ -32,7 +32,7 @@ public class _040_About_Money extends Mission {
 
 	@Override
 	public int getStartMoney() {
-		return 15;
+		return 1000;
 	}
 
 	@Override
@@ -58,8 +58,7 @@ public class _040_About_Money extends Mission {
 	@Override
 	protected MissionStatementText[] getMissionStatementTexts() {
 		return new MissionStatementText[]{
-				new MissionStatementText(8, 1, "Towers cost Money."),
-				new MissionStatementText(8, 2, "You need to decide when to buy them."),
+				new MissionStatementText(8, 1, "Check out the Paint Red Tower..."),
 				new MissionStatementText(8, 10, "Stop the Pixels from escaping!"),
 		};
 	}
@@ -68,8 +67,7 @@ public class _040_About_Money extends Mission {
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
 				new RedTower(game.timedCodeManager, 1),
-				new GreenTower(game.timedCodeManager, 1),
-				new BlueTower(game.timedCodeManager, 1)
+				new PaintRedTower(game.timedCodeManager, 1),
 		};
 	}
 
@@ -80,25 +78,20 @@ public class _040_About_Money extends Mission {
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
 				},
 				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.7f),
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.7f),
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.7f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.7f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.7f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.7f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
 				},
 				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
 						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
 				},
 		};
 	}
