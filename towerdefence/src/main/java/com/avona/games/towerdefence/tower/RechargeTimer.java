@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence;
+package com.avona.games.towerdefence.tower;
 
 import com.avona.games.towerdefence.time.TimedCode;
 import com.avona.games.towerdefence.time.TimedCodeManager;

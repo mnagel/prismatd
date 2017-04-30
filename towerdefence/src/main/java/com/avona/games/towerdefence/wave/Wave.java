@@ -5,7 +5,7 @@ import com.avona.games.towerdefence.time.TimedCode;
 import com.avona.games.towerdefence.time.TimedCodeManager;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
-import com.avona.games.towerdefence.enemyEventListeners.EnemyEventListener;
+import com.avona.games.towerdefence.enemy.eventListeners.EnemyEventListener;
 import com.avona.games.towerdefence.mission.Mission;
 
 public class Wave extends TimedCode implements EnemyEventListener {

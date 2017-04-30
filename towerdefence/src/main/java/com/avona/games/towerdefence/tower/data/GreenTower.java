@@ -1,13 +1,14 @@
-package com.avona.games.towerdefence.tower;
+package com.avona.games.towerdefence.tower.data;
 
 import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.time.TimedCodeManager;
 import com.avona.games.towerdefence.enemy.Enemy;
-import com.avona.games.towerdefence.enemySelection.EnemySelectionPolicy;
-import com.avona.games.towerdefence.enemySelection.NearestEnemyPolicy;
-import com.avona.games.towerdefence.enemySelection.NearestEnemyWithColourPolicy;
+import com.avona.games.towerdefence.tower.enemySelection.EnemySelectionPolicy;
+import com.avona.games.towerdefence.tower.enemySelection.NearestEnemyPolicy;
+import com.avona.games.towerdefence.tower.enemySelection.NearestEnemyWithColourPolicy;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.particleCollidors.NearestEnemyColliderPolicy;
+import com.avona.games.towerdefence.tower.Tower;
 
 public class GreenTower extends Tower {
 

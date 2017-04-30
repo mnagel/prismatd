@@ -1,24 +1,25 @@
-package com.avona.games.towerdefence.enemyEventListeners;
+package com.avona.games.towerdefence.enemy.eventListeners;
 
 import com.avona.games.towerdefence.Game;
 import com.avona.games.towerdefence.enemy.Enemy;
 
-public class EnemyDeathGivesMoney implements EnemyEventListener {
+public class EnemyDeathUpdatesGameStats implements EnemyEventListener {
 	private static final long serialVersionUID = 1L;
 
 	private Game game;
 
-	public EnemyDeathGivesMoney(Game game) {
+	public EnemyDeathUpdatesGameStats(Game game) {
 		this.game = game;
 	}
 
 	@Override
 	public void onDeathEvent(Enemy e) {
-		game.money += e.worth;
+		game.killed += 1;
 	}
 
 	@Override
 	public void onEscapeEvent(Enemy e) {
-		// Nothing to do.
+		game.looseLife();
 	}
+
 }

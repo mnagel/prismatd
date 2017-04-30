@@ -1,8 +1,8 @@
 package com.avona.games.towerdefence;
 
 import com.avona.games.towerdefence.enemy.Enemy;
-import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathGivesMoney;
-import com.avona.games.towerdefence.enemyEventListeners.EnemyDeathUpdatesGameStats;
+import com.avona.games.towerdefence.enemy.eventListeners.EnemyDeathGivesMoney;
+import com.avona.games.towerdefence.enemy.eventListeners.EnemyDeathUpdatesGameStats;
 import com.avona.games.towerdefence.mission.CellState;
 import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.mission.Mission;

@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.enemyEventListeners;
+package com.avona.games.towerdefence.enemy.eventListeners;
 
 import com.avona.games.towerdefence.enemy.Enemy;
 

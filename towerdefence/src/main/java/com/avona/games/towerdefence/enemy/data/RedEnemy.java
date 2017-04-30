@@ -1,6 +1,7 @@
-package com.avona.games.towerdefence.enemy;
+package com.avona.games.towerdefence.enemy.data;
 
 import com.avona.games.towerdefence.core.RGB;
+import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.mission.Mission;
 
 public class RedEnemy extends Enemy {
