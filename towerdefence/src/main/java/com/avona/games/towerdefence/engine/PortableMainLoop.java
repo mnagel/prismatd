@@ -20,7 +20,7 @@ public abstract class PortableMainLoop implements Serializable {
 	public Game game;
 	public Display display;
 	public PortableGraphicsEngine ge;
-	public InputActor rootInputActor;
+	public LayeredInputActor rootInputActor;
 	public Mouse mouse = new Mouse();
 	public LayerHerder layerHerder = new LayerHerder();
 	public EventDistributor eventDistributor = new EventDistributor();
@@ -42,7 +42,7 @@ public abstract class PortableMainLoop implements Serializable {
 		);
 		layerHerder.addLayer(gameLayer);
 
-		Layer menuLayer = new MenuLayer(MENU_LAYER_NAME);
+		Layer menuLayer = new MenuLayer(MENU_LAYER_NAME, game);
 		layerHerder.addLayer(menuLayer);
 
 		setupInputActors();

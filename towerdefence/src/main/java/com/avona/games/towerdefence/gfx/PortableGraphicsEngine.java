@@ -219,84 +219,66 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		// TODO make buttons persistent and also handle their clicking
 		menuLayer.resetButtons();
+		menuLayer.buildEntries();
 
-		// TODO handle these states in the menu
-		if (!(game.selectedObject instanceof Tower)) {
-			for (int i = 0; i < game.mission.buildableTowers.length; i++) {
-				final Tower t = game.mission.buildableTowers[i];
+		for (MenuButton b : Lists.reverse(menuLayer.buttons)) {
+			Layer layer = menuLayer.getButtonLayer(b);
+			display.prepareTransformationForLayer(layer);
 
-				menuLayer.addButton(new MenuButton("tower" + i) {
-					@Override
-					public void render() {
-						Layer l = menuLayer.getButtonLayer(this);
-						V2 location = l.virtualRegion.clone2().mult(0.5f);
-						renderTower(t, location, l, t == game.selectedBuildTower);
+			switch (b.look) {
+				case BUILD_TOWER:
 
-						float y_off = GridCell.size / 2 + textSize / 2;
-						final String label = String.format(Locale.US, "$%d", t.getPrice());
-						display.drawText(l, label, true, location, RGB.WHITE, 1.0f);
-					}
-				});
-			}
-		}
+					V2 location = layer.virtualRegion.clone2().mult(0.5f);
+					Tower t = (Tower) b.getRenderExtra();
+					renderTower(t, location, layer, t == game.selectedBuildTower);
 
-		if (game.selectedObject instanceof Tower) {
-			menuLayer.addButton(new MenuButton("levelup") {
-				@Override
-				public void render() {
+					float y_off = GridCell.size / 2 + textSize / 2;
+					final String label = String.format(Locale.US, "$%d", t.getPrice());
+					display.drawText(layer, label, true, location, RGB.WHITE, 1.0f);
+					break;
+				case UPGRADE_TOWER:
 					display.drawText(
-							menuLayer.getButtonLayer(this),
+							layer,
 							LEVEL_UP_TEXT,
 							true,
 							new V2(GridCell.size / 2, GridCell.size / 2),
 							new RGB(1.0f, 1.0f, 1.0f),
 							1.0f
 					);
-				}
-			});
-		}
+					break;
+				case NEXT_WAVE:
+					int wavenr = game.mission.waveTracker.currentWaveNum();
+					Collection<Enemy> es = game.mission.getEnemyPreview(wavenr + 1);
+					int enemyCount = es.size();
+					int i = 0;
+					for (Enemy e : es) {
+						e.location = new V2(
+								(i + 1) * GridCell.size / 2 / (enemyCount + 1),
+								GridCell.size / 2
+						);
+						renderEnemy(e, layer);
+						i++;
+					}
 
-		menuLayer.addButton(new MenuButton("wave") {
-			@Override
-			public void render() {
-				Layer l = menuLayer.getButtonLayer(this);
-				int wavenr = game.mission.waveTracker.currentWaveNum();
-				Collection<Enemy> es = game.mission.getEnemyPreview(wavenr + 1);
-				int enemyCount = es.size();
-				int i = 0;
-				for (Enemy e : es) {
-					e.location = new V2(
-							(i + 1) * GridCell.size / 2 / (enemyCount + 1),
-							GridCell.size / 2
+					String waveButtonText = "Send Wave #" + (wavenr + 2);
+					if (wavenr + 1 >= game.mission.getWaveCount()) {
+						waveButtonText = "Final Wave!";
+					}
+					if (game.mission.completed) {
+						waveButtonText = "Mission Done!";
+					}
+
+					display.drawText(
+							layer,
+							waveButtonText,
+							true,
+							new V2(GridCell.size / 2, GridCell.size / 2),
+							new RGB(1.0f, 1.0f, 1.0f),
+							1.0f
 					);
-					renderEnemy(e, l);
-					i++;
-				}
-
-				String waveButtonText = "Send Wave #" + (wavenr + 2);
-				if (wavenr + 1 >= game.mission.getWaveCount()) {
-					waveButtonText = "Final Wave!";
-				}
-				if (game.mission.completed) {
-					waveButtonText = "Mission Done!";
-				}
-
-				display.drawText(
-						l,
-						waveButtonText,
-						true,
-						new V2(GridCell.size / 2, GridCell.size / 2),
-						new RGB(1.0f, 1.0f, 1.0f),
-						1.0f
-				);
+					break;
 			}
-		});
 
-
-		for (MenuButton b : Lists.reverse(menuLayer.buttons)) {
-			Layer l = menuLayer.getButtonLayer(b);
-			display.prepareTransformationForLayer(l);
-			b.render();
 		}
 	}
 

@@ -1,15 +1,19 @@
 package com.avona.games.towerdefence.input;
 
 import com.avona.games.towerdefence.core.V2;
+import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.mission.GridCell;
+import com.avona.games.towerdefence.tower.Tower;
+import com.avona.games.towerdefence.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuLayer extends Layer {
 	public List<MenuButton> buttons = new ArrayList<>();
+	Game game;
 
-	public MenuLayer(String name) {
+	public MenuLayer(String name, Game game) {
 		super(
 				name,
 				null,
@@ -17,6 +21,7 @@ public class MenuLayer extends Layer {
 				new V2(),
 				new V2(125, 480)
 		);
+		this.game = game;
 	}
 
 	public void addButton(MenuButton b) {
@@ -45,4 +50,65 @@ public class MenuLayer extends Layer {
 		);
 		return res;
 	}
+	
+	public void buildEntries() {
+
+
+		// TODO handle these states in the menu
+		if (!(game.selectedObject instanceof Tower)) {
+			for (int i = 0; i < game.mission.buildableTowers.length; i++) {
+				final Tower t = game.mission.buildableTowers[i];
+
+				addButton(new MenuButton("tower" + i, MenuButton.MenuButtonLook.BUILD_TOWER) {
+					@Override
+					public void onClick() {
+						Util.log("klicked tower button");
+						game.selectedBuildTower = t;
+					}
+
+					@Override
+					public Object getRenderExtra() {
+						return t;
+					}
+				});
+			}
+		}
+
+		if (game.selectedObject instanceof Tower) {
+			addButton(new MenuButton("levelup", MenuButton.MenuButtonLook.UPGRADE_TOWER) {
+				@Override
+				public void onClick() {
+					Util.log("klicked lvlup button");
+					if (game.selectedObject instanceof Tower) {
+						final Tower t = (Tower) game.selectedObject;
+						game.levelUpTower(t);
+					}
+				}
+
+				@Override
+				public Object getRenderExtra() {
+					return null;
+				}
+			});
+		}
+
+		addButton(new MenuButton("wave", MenuButton.MenuButtonLook.NEXT_WAVE) {
+
+			@Override
+			public void onClick() {
+				//parent.pressedOtherKey(' ');
+				Util.log("klicked wave button");
+			}
+
+			@Override
+			public Object getRenderExtra() {
+				return null;
+			}
+		});
+
+
+	}
+
+
+
 }
