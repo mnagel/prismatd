@@ -79,21 +79,51 @@ public class GameInputActor extends EmptyInputActor {
 					"What do you want to do?",
 					new String[]{
 							"Go Back to my game.",
-							"Start another mission.",
+							"Start another mission...",
+							"Cheat...",
 							"Quit the game."
 					},
 					new IAsyncInput.MyRunnable() {
 						@Override
 						public void run(int selectedOption) {
 							switch (selectedOption) {
-								case 1:
-									loadMissionInteractive();
 								default:
 								case 0:
-									//resume();
+									break;
+								case 1:
+									loadMissionInteractive();
 									break;
 								case 2:
+									pressedOtherKey('c');
+									break;
+								case 3:
 									game.isTerminated = true;
+									break;
+							}
+						}
+					}
+			);
+		}
+		if (keyCode == 'c') {
+			AsyncInput.runnableChooser(
+					"Pick your cheat:",
+					new String[]{
+							"Go Back to my game.",
+							"Log Debug Info.",
+							"Kill All Enemies.",
+					},
+					new IAsyncInput.MyRunnable() {
+						@Override
+						public void run(int selectedOption) {
+							switch (selectedOption) {
+								default:
+								case 0:
+									break;
+								case 1:
+									pressedOtherKey('d');
+									break;
+								case 2:
+									pressedOtherKey('k');
 									break;
 							}
 						}
