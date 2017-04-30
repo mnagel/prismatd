@@ -55,7 +55,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		gameLayer = layerHerder.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
 		menuLayer = (MenuLayer) layerHerder.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
-		ml.eventListener.listeners.add(new ReloadOnMissionSwitch(this));
+		ml.eventDistributor.listeners.add(new ReloadOnMissionSwitch(this));
 	}
 
 	synchronized public void setTowerShader(Shader towerShader) {

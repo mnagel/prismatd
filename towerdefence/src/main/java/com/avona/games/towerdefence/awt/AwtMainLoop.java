@@ -35,7 +35,7 @@ public class AwtMainLoop extends PortableMainLoop implements GLEventListener {
 		AsyncInput.setInstance(new AwtIAsyncInput());
 
 		if (args.length == 0) {
-			game = new Game(eventListener);
+			game = new Game(eventDistributor);
 		} else {
 			try {
 				loadGame(args[0]);

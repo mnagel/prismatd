@@ -18,7 +18,7 @@ class AndroidMainLoop extends PortableMainLoop {
 		super();
 		this.activity = activity;
 
-		game = new Game(eventListener);
+		game = new Game(eventDistributor);
 		initWithGame();
 
 		ResourceResolverRegistry.setInstance(new AndroidResourceResolver(activity.getResources()));
@@ -27,7 +27,7 @@ class AndroidMainLoop extends PortableMainLoop {
 		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder, this);
 		displayEventListener.add(ge);
 
-		eventListener.listeners.add(new AndroidEventListener(vibrator));
+		eventDistributor.listeners.add(new AndroidEventListener(vibrator));
 
 		surfaceView = new InputForwardingGLSurfaceView(activity, rootInputActor, display);
 		surfaceView.setEGLContextClientVersion(2);
