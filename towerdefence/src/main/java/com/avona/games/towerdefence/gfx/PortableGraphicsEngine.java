@@ -29,7 +29,6 @@ public class PortableGraphicsEngine {
 
 	private LayerHerder layerHerder;
 
-	private VertexArray[] missionVertices;
 	private Shader towerShader;
 	private Shader enemyShader;
 	private Shader particleShader;
@@ -126,7 +125,7 @@ public class PortableGraphicsEngine {
 	}
 
 	private void renderMission() {
-		missionVertices = new VertexArray[game.mission.gridCells.length];
+		VertexArray[] missionVertices = new VertexArray[game.mission.gridCells.length];
 
 		for (int i = 0; i < game.mission.gridCells.length; i++) {
 			GridCell c = game.mission.gridCells[i];
