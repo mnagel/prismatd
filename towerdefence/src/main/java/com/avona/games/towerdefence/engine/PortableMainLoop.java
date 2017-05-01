@@ -43,10 +43,11 @@ public abstract class PortableMainLoop implements Serializable {
 		);
 		layerHerder.addLayer(gameLayer);
 
-		Layer menuLayer = new MenuLayer(MENU_LAYER_NAME, game);
+		MenuLayer menuLayer = new MenuLayer(MENU_LAYER_NAME, game, layerHerder, eventDistributor);
 		layerHerder.addLayer(menuLayer);
 
 		setupInputActors();
+		menuLayer.rootInputActor = rootInputActor;
 
 		//noinspection ConstantConditions
 		if (FeatureFlags.AUTOSTART_MISSION != -1) {

@@ -2,27 +2,63 @@ package com.avona.games.towerdefence.input;
 
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.engine.Game;
+import com.avona.games.towerdefence.events.EventDistributor;
+import com.avona.games.towerdefence.events.IEventListener;
 import com.avona.games.towerdefence.mission.GridCell;
+import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.util.Util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MenuLayer extends Layer {
+	private final Game game;
+	private final LayerHerder layerHerder;
 	public List<MenuButton> buttons = new ArrayList<>();
-	Game game;
+	private Map<MenuButton, Layer> buttonLayers = new HashMap<>();
 
-	public MenuLayer(String name, Game game) {
+	public LayeredInputActor rootInputActor;
+
+	public MenuLayer(String name, Game game, LayerHerder layerHerder, EventDistributor ed) {
 		super(
 				name,
-				1,
+				0,
 				null,
 				new V2(),
 				new V2(),
 				new V2(125, 480)
 		);
 		this.game = game;
+		this.rootInputActor = rootInputActor;
+		this.layerHerder = layerHerder;
+		ed.listeners.add(new IEventListener() {
+			@Override
+			public void onBuildTower(Tower t) {
+
+			}
+
+			@Override
+			public void onMissionSwitched(Mission mission) {
+				Util.log("missionswitch menulayer");
+				buildEntries();
+			}
+
+			@Override
+			public void onMissionCompleted(Mission mission) {
+
+			}
+
+			@Override
+			public void onGameCompleted(Game g) {
+
+			}
+
+			@Override
+			public void onGameOver(Game g) {
+
+			}
+		});
+
 	}
 
 	public void addButton(MenuButton b) {
@@ -38,6 +74,10 @@ public class MenuLayer extends Layer {
 	}
 
 	public Layer getButtonLayer(MenuButton b) {
+		return buttonLayers.get(b);
+	}
+
+	private Layer makeButtonLayer(MenuButton b) {
 		int index = buttons.indexOf(b);
 
 		float ysize = this.region.y / buttons.size();
@@ -109,8 +149,24 @@ public class MenuLayer extends Layer {
 		});
 
 
+		for (MenuButton b: buttons) {
+			Layer x = makeButtonLayer(b);
+			buttonLayers.put(b, x);
+			layerHerder.addLayer(x);
+			//Util.log("telling root inp");
+			rootInputActor.inputLayerMap.put(x, new MenuButtonInputActor(rootInputActor, game, x));
+		}
+
 	}
 
-
+	public void killEntries() {
+		for (MenuButton b: buttons) {
+			Layer x = getButtonLayer(b);
+			//buttonLayers.add(x);
+			layerHerder.removeLayer(x);
+			rootInputActor.inputLayerMap.remove(x);
+		}
+		buttonLayers = new HashMap<>();
+	}
 
 }
