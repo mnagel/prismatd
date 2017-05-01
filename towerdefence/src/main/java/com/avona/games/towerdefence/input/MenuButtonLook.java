@@ -6,5 +6,6 @@ public enum MenuButtonLook {
 	TOWER_UPGRADE,
 	TOWER_INFO,
 	DEBUG_INFO,
+	GAME_INFO,
 	NEXT_WAVE
 }

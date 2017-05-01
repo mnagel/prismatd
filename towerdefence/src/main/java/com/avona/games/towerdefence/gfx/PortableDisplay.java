@@ -1,9 +1,11 @@
 package com.avona.games.towerdefence.gfx;
 
 import android.opengl.Matrix;
+import com.avona.games.towerdefence.core.RGB;
+import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.input.Layer;
 
-public abstract class PortableDisplay implements Display {
+public abstract class PortableDisplay {
 	private float[] modelMatrix = new float[16];
 	private float[] viewMatrix = new float[16];
 	private float[] modelViewMatrix = new float[16];
@@ -27,7 +29,6 @@ public abstract class PortableDisplay implements Display {
 		Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, modelViewMatrix, 0);
 	}
 
-	@Override
 	public void prepareTransformationForLayer(Layer layer) {
 		// TODO hook Layer Debug Code here
 		float localTransX = layer.offset.x;
@@ -55,4 +56,20 @@ public abstract class PortableDisplay implements Display {
 		updateMvpMatrix();
 		return mvpMatrix;
 	}
+
+	public abstract V2 getSize();
+
+	public abstract Texture allocateTexture();
+
+	public abstract Shader allocateShader(String name);
+
+	public abstract void prepareScreen();
+
+	public abstract void drawVertexArray(final VertexArray array);
+
+	public abstract void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha);
+
+	public abstract V2 getTextBounds(final String text);
+
+	public abstract void checkGLError(String trace);
 }

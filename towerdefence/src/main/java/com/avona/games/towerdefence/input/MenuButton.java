@@ -1,6 +1,6 @@
 package com.avona.games.towerdefence.input;
 
-public abstract class MenuButton {
+public abstract class MenuButton extends EmptyInputActor {
 	public MenuButtonLook look;
 	private String name;
 
@@ -9,9 +9,9 @@ public abstract class MenuButton {
 		this.look = look;
 	}
 
-	public abstract void onClick();
-
-	public abstract Object getRenderExtra();
+	public Object getRenderExtra() {
+		return null;
+	}
 
 	@Override
 	public String toString() {

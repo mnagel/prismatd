@@ -23,7 +23,7 @@ public class PortableGraphicsEngine {
 	private TimeTrack graphicsTime = new TimeTrack();
 	private TickRater graphicsTickRater = new TickRater(graphicsTime);
 
-	private Display display;
+	private PortableDisplay display;
 	private Game game;
 	private Mouse mouse;
 
@@ -37,7 +37,7 @@ public class PortableGraphicsEngine {
 	private float textSize;
 
 	public PortableGraphicsEngine(
-			Display display,
+			PortableDisplay display,
 			Game game,
 			Mouse mouse,
 			LayerHerder layerHerder
@@ -224,6 +224,25 @@ public class PortableGraphicsEngine {
 					);
 					break;
 
+				case GAME_INFO:
+					display.drawText(
+							layer,
+							String.format(Locale.US, "$%d", game.money),
+							true,
+							new V2(GridCell.size / 2, GridCell.size * 0.25f),
+							new RGB(1.0f, 1.0f, 1.0f),
+							1.0f
+					);
+					display.drawText(
+							layer,
+							String.format(Locale.US, "%d lives", game.lives),
+							true,
+							new V2(GridCell.size / 2, GridCell.size * 0.75f),
+							new RGB(1.0f, 1.0f, 1.0f),
+							1.0f
+					);
+					break;
+
 				case NEXT_WAVE:
 					int wavenr = game.mission.waveTracker.currentWaveNum();
 					Collection<Enemy> es = game.mission.getEnemyPreview(wavenr + 1);
@@ -231,7 +250,7 @@ public class PortableGraphicsEngine {
 					int i = 0;
 					for (Enemy e : es) {
 						e.location = new V2(
-								(i + 1) * GridCell.size / 2 / (enemyCount + 1),
+								e.radius + (GridCell.size - 2 * e.radius) / enemyCount * i,
 								GridCell.size / 2
 						);
 						renderEnemy(e, layer);
@@ -250,7 +269,7 @@ public class PortableGraphicsEngine {
 							layer,
 							waveButtonText,
 							true,
-							new V2(GridCell.size / 2, GridCell.size / 2),
+							new V2(GridCell.size / 2, 0),
 							new RGB(1.0f, 1.0f, 1.0f),
 							1.0f
 					);

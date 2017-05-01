@@ -6,6 +6,7 @@ import com.avona.games.towerdefence.events.EmptyEventListener;
 import com.avona.games.towerdefence.events.EventDistributor;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.tower.Tower;
+import com.avona.games.towerdefence.util.FeatureFlags;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,7 +75,7 @@ public class MenuLayer extends Layer {
 
 				addButton(new MenuButton("Build Tower " + i, MenuButtonLook.BUILD_TOWER) {
 					@Override
-					public void onClick() {
+					public void mouseBtn1DownAt(V2 location) {
 						game.selectedBuildTower = t;
 					}
 
@@ -88,52 +89,31 @@ public class MenuLayer extends Layer {
 
 		if (game.selectedObject instanceof Tower) {
 			addButton(new MenuButton("Selected Tower Info", MenuButtonLook.TOWER_INFO) {
-				@Override
-				public void onClick() {
-				}
-
-				@Override
-				public Object getRenderExtra() {
-					return null;
-				}
 			});
 
 			addButton(new MenuButton("Level Up Tower", MenuButtonLook.TOWER_UPGRADE) {
 				@Override
-				public void onClick() {
+				public void mouseBtn1DownAt(V2 location) {
 					if (game.selectedObject instanceof Tower) {
 						final Tower t = (Tower) game.selectedObject;
 						game.levelUpTower(t);
 					}
 				}
-
-				@Override
-				public Object getRenderExtra() {
-					return null;
-				}
 			});
 		}
 
-		addButton(new MenuButton("Debug Info", MenuButtonLook.DEBUG_INFO) {
-			@Override
-			public void onClick() {
-			}
+		if (FeatureFlags.SHOW_CONSOLE) {
+			addButton(new MenuButton("Debug Info", MenuButtonLook.DEBUG_INFO) {
+			});
+		}
 
-			@Override
-			public Object getRenderExtra() {
-				return null;
-			}
+		addButton(new MenuButton("Game Info", MenuButtonLook.GAME_INFO) {
 		});
 
 		addButton(new MenuButton("Next Wave", MenuButtonLook.NEXT_WAVE) {
 			@Override
-			public void onClick() {
+			public void mouseBtn1DownAt(V2 location) {
 				layerHerder.menuLayer.rootInputActor.pressedOtherKey(' ');
-			}
-
-			@Override
-			public Object getRenderExtra() {
-				return null;
 			}
 		});
 
@@ -142,8 +122,7 @@ public class MenuLayer extends Layer {
 			MenuButtonLayer layer = makeButtonLayer(button);
 			buttonLayers.put(button, layer);
 			layerHerder.addLayer(layer);
-			MenuButtonInputActor inputActor = new MenuButtonInputActor(button);
-			rootInputActor.inputLayerMap.put(layer, inputActor);
+			rootInputActor.inputLayerMap.put(layer, button);
 		}
 	}
 

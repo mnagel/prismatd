@@ -2,7 +2,7 @@ package com.avona.games.towerdefence.engine;
 
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.events.EventDistributor;
-import com.avona.games.towerdefence.gfx.Display;
+import com.avona.games.towerdefence.gfx.PortableDisplay;
 import com.avona.games.towerdefence.gfx.DisplayEventDistributor;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.input.*;
@@ -18,7 +18,7 @@ public abstract class PortableMainLoop implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final float FIXED_TICK = 0.04f;
 	public Game game;
-	public Display display;
+	public PortableDisplay display;
 	public PortableGraphicsEngine ge;
 	public LayeredInputActor rootInputActor;
 	public Mouse mouse = new Mouse();

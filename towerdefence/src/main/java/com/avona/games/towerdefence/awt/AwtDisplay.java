@@ -142,7 +142,6 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 	}
 
-	@Override
 	public void drawVertexArray(final VertexArray array) {
 		int program;
 		if (array.hasShader) {
@@ -230,7 +229,6 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		checkGLError("after drawVertexArray");
 	}
 
-	@Override
 	public Texture allocateTexture() {
 		Texture texture = new AwtTexture(GLES20);
 
@@ -252,7 +250,6 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		return texture;
 	}
 
-	@Override
 	public Shader allocateShader(String name) {
 		return new AwtShader(GLES20, name);
 	}
@@ -282,7 +279,6 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		renderer.endRendering();
 	}
 
-	@Override
 	public V2 getTextBounds(final String text) {
 		Rectangle2D bounds = renderer.getBounds(text);
 		return new V2((float) bounds.getWidth(), (float) bounds.getHeight());

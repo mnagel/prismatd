@@ -2,7 +2,7 @@ package com.avona.games.towerdefence.transients;
 
 import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;
-import com.avona.games.towerdefence.gfx.Display;
+import com.avona.games.towerdefence.gfx.PortableDisplay;
 import com.avona.games.towerdefence.input.Layer;
 
 public class TransientText implements Transient {
@@ -36,7 +36,7 @@ public class TransientText implements Transient {
 	}
 
 	@Override
-	public void draw(Display d, Layer layer) {
+	public void draw(PortableDisplay d, Layer layer) {
 		d.drawText(layer, text, true, location, color, alpha);
 	}
 }
