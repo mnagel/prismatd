@@ -14,37 +14,43 @@ public class EventDistributor implements IEventListener {
 
 	@Override
 	public void onBuildTower(Tower t) {
-		for (IEventListener l : listeners)
+		for (IEventListener l : listeners) {
 			l.onBuildTower(t);
+		}
 	}
 
 	@Override
 	public void onMenuRebuild() {
-		for (IEventListener l : listeners)
+		for (IEventListener l : listeners) {
 			l.onMenuRebuild();
+		}
 	}
 
 	@Override
 	public void onMissionCompleted(Mission mission) {
-		for (IEventListener l : listeners)
+		for (IEventListener l : listeners) {
 			l.onMissionCompleted(mission);
+		}
 	}
 
 	@Override
 	public void onGameCompleted(Game g) {
-		for (IEventListener l : listeners)
+		for (IEventListener l : listeners) {
 			l.onGameCompleted(g);
+		}
 	}
 
 	@Override
 	public void onGameOver(Game g) {
-		for (IEventListener l : listeners)
+		for (IEventListener l : listeners) {
 			l.onGameOver(g);
+		}
 	}
 
 	@Override
 	public void onMissionSwitched(Mission mission) {
-		for (IEventListener l : listeners)
+		for (IEventListener l : listeners) {
 			l.onMissionSwitched(mission);
+		}
 	}
 }

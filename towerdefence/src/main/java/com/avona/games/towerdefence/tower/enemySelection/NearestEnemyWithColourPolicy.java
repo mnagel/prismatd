@@ -49,8 +49,9 @@ public class NearestEnemyWithColourPolicy implements EnemySelectionPolicy {
 
 		for (Enemy e : enemies) {
 			// Skip enemies that don't contain the colours we can affect.
-			if (!enemyHasOurColours(e))
+			if (!enemyHasOurColours(e)) {
 				continue;
+			}
 			final float newEnemyLocationSquaredDist = t.location
 					.squaredDist(e.location);
 			// Within range?

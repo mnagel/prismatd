@@ -14,6 +14,14 @@ public class AwtReplShader extends AwtShader {
 		super(gl, name);
 	}
 
+	public static AwtReplShader getInstance() {
+		return instance;
+	}
+
+	static void setInstance(AwtReplShader theInstance) {
+		instance = theInstance;
+	}
+
 	// TODO "mostly threadsafe..."
 	void setPrograms(String vertexShaderProgram, String fragmentShaderProgram) {
 		this.vertexShaderProgram = vertexShaderProgram;
@@ -35,13 +43,5 @@ public class AwtReplShader extends AwtShader {
 		recompileIfNeeded(); // TODO hijacking this call is a dirty hack...
 		// ...but it is somewhat guaranteed to happen between two frames in the correct thread
 		super.setUniform(name, value);
-	}
-
-	public static AwtReplShader getInstance() {
-		return instance;
-	}
-
-	static void setInstance(AwtReplShader theInstance) {
-		instance = theInstance;
 	}
 }

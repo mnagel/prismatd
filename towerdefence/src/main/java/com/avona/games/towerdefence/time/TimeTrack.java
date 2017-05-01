@@ -35,8 +35,9 @@ public class TimeTrack implements Serializable {
 	 * @see TimeTrack#updateTick(float)
 	 */
 	public void update(double wallClock) {
-		if (lastWallClock != 0)
+		if (lastWallClock != 0) {
 			updateTick((float) (wallClock - lastWallClock));
+		}
 		lastWallClock = wallClock;
 	}
 

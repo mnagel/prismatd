@@ -222,8 +222,9 @@ public class Matrix {
 		}
 		// calculate matrix inverse
 		det = 1 / det;
-		for (int j = 0; j < 16; j++)
+		for (int j = 0; j < 16; j++) {
 			mInv[j + mInvOffset] = dst[j] * det;
+		}
 		return true;
 	}
 

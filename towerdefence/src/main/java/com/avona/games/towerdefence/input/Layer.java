@@ -23,11 +23,11 @@ public class Layer {
 	 * Absolute offset from the screens lower left corner.
 	 */
 	public V2 offset = new V2();
+	protected Layer parent = null;
 	/**
 	 * Defines the z order of the layer.
 	 */
 	int depth = 1;
-	protected Layer parent = null;
 
 	public Layer(String name, int depth, Layer parent, V2 offset, V2 region, V2 virtualRegion) {
 		this.name = name;

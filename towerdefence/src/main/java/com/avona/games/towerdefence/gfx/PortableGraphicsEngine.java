@@ -102,8 +102,9 @@ public class PortableGraphicsEngine {
 	}
 
 	private void renderTransient(final Transient t, Layer layer) {
-		if (t.isDead())
+		if (t.isDead()) {
 			return;
+		}
 		t.draw(display, layer);
 	}
 
@@ -250,8 +251,9 @@ public class PortableGraphicsEngine {
 	}
 
 	private void renderEnemy(final Enemy e, Layer layer) {
-		if (e.isDead())
+		if (e.isDead()) {
 			return;
+		}
 
 		RGB gfxcol = e.life.normalized();
 		final float life = e.life.length() / e.maxLife.length();
@@ -386,8 +388,9 @@ public class PortableGraphicsEngine {
 	}
 
 	private void renderParticle(final Particle p) {
-		if (p.isDead())
+		if (p.isDead()) {
 			return;
+		}
 
 		RGB gfxcol = p.strength.normalized();
 
@@ -432,8 +435,9 @@ public class PortableGraphicsEngine {
 	private void renderMouse() {
 		Layer l = layerHerder.gameLayer;
 		display.prepareTransformationForLayer(l);
-		if (!mouse.onScreen)
+		if (!mouse.onScreen) {
 			return;
+		}
 		final V2 p = l.convertToVirtual(mouse.physicalLocation);
 		final float col = 0.5f + 0.3f * (float) Math.abs(Math.sin(4 * graphicsTime.clock));
 		drawFilledCircle(p.x, p.y, mouse.radius, 1.0f, 1.0f, 1.0f, col);

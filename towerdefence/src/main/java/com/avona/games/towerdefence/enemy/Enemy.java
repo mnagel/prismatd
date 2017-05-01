@@ -1,9 +1,9 @@
 package com.avona.games.towerdefence.enemy;
 
-import com.avona.games.towerdefence.engine.MovingObject;
 import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyEventListener;
+import com.avona.games.towerdefence.engine.MovingObject;
 import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.mission.Mission;
 
@@ -64,8 +64,9 @@ public abstract class Enemy extends MovingObject {
 
 	@Override
 	public void step(float dt) {
-		if (isDead())
+		if (isDead()) {
 			return;
+		}
 
 		location.addWeighted(getVelocity(), dt);
 	}

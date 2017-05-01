@@ -145,8 +145,9 @@ public class Game implements Serializable {
 
 	public void levelUpTower(Tower t) {
 		final int price = t.getLevelUpPrice();
-		if (money < price)
+		if (money < price) {
 			return;
+		}
 		money -= price;
 		t.setLevel(t.level + 1);
 		addTransient(new TransientText(
@@ -165,8 +166,9 @@ public class Game implements Serializable {
 
 	private <T extends LocationObject> T getObjectWithinRange(final List<T> objects, final V2 location, final float range) {
 		for (final T lo : objects) {
-			if (lo.collidesWith(location, range))
+			if (lo.collidesWith(location, range)) {
 				return lo;
+			}
 		}
 		return null;
 	}
@@ -192,8 +194,9 @@ public class Game implements Serializable {
 	}
 
 	void updateWorld(final float dt) {
-		if (isPaused())
+		if (isPaused()) {
 			return;
+		}
 
 		gameTime.updateTick(dt);
 		timedCodeManager.update(gameTime.tick);

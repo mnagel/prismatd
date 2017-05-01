@@ -5,12 +5,12 @@ import android.content.res.AssetManager;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView.Renderer;
 import com.android.texample2.GLText;
+import com.avona.games.towerdefence.core.RGB;
+import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.gfx.*;
 import com.avona.games.towerdefence.input.Layer;
 import com.avona.games.towerdefence.util.FeatureFlags;
-import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.util.Util;
-import com.avona.games.towerdefence.core.V2;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

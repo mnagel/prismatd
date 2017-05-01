@@ -38,13 +38,15 @@ public class LayeredInputActor implements InputActor {
 		Util.log("got mouse 1 down... looking for layer");
 		final Layer layer = layerHerder.findLayerWithinPoint(location);
 		currentLayerSawMouseBtn1Down = true;
-		if (layer == null)
+		if (layer == null) {
 			return;
+		}
 		Util.log("proceeding with layer " + layer);
 		location = layer.convertToVirtual(location);
 		final InputActor inputActor = inputLayerMap.get(layer);
-		if (inputActor == null)
+		if (inputActor == null) {
 			return;
+		}
 		Util.log("proceeding with inputactor " + inputActor);
 		inputActor.mouseBtn1DownAt(location);
 	}
@@ -52,15 +54,18 @@ public class LayeredInputActor implements InputActor {
 	@Override
 	public void mouseBtn1UpAt(V2 location) {
 		final Layer layer = layerHerder.findLayerWithinPoint(location);
-		if (layer == null)
+		if (layer == null) {
 			return;
-		if (!currentLayerSawMouseBtn1Down)
+		}
+		if (!currentLayerSawMouseBtn1Down) {
 			return;
+		}
 		currentLayerSawMouseBtn1Down = false;
 		location = layer.convertToVirtual(location);
 		final InputActor inputActor = inputLayerMap.get(layer);
-		if (inputActor == null)
+		if (inputActor == null) {
 			return;
+		}
 		inputActor.mouseBtn1UpAt(location);
 	}
 
@@ -68,34 +73,40 @@ public class LayeredInputActor implements InputActor {
 	public void mouseBtn2DownAt(V2 location) {
 		final Layer layer = layerHerder.findLayerWithinPoint(location);
 		currentLayerSawMouseBtn2Down = true;
-		if (layer == null)
+		if (layer == null) {
 			return;
+		}
 		location = layer.convertToVirtual(location);
 		final InputActor inputActor = inputLayerMap.get(layer);
-		if (inputActor == null)
+		if (inputActor == null) {
 			return;
+		}
 		inputActor.mouseBtn2DownAt(location);
 	}
 
 	@Override
 	public void mouseBtn2UpAt(V2 location) {
 		final Layer layer = layerHerder.findLayerWithinPoint(location);
-		if (layer == null)
+		if (layer == null) {
 			return;
-		if (!currentLayerSawMouseBtn2Down)
+		}
+		if (!currentLayerSawMouseBtn2Down) {
 			return;
+		}
 		currentLayerSawMouseBtn2Down = false;
 		location = layer.convertToVirtual(location);
 		final InputActor inputActor = inputLayerMap.get(layer);
-		if (inputActor == null)
+		if (inputActor == null) {
 			return;
+		}
 		inputActor.mouseBtn2UpAt(location);
 	}
 
 	private void mouseEnteredLayer(final Layer layer) {
 		final InputActor inputActor = inputLayerMap.get(layer);
-		if (inputActor == null)
+		if (inputActor == null) {
 			return;
+		}
 		inputActor.mouseEntered();
 	}
 
@@ -115,8 +126,9 @@ public class LayeredInputActor implements InputActor {
 		currentLayerSawMouseBtn2Down = false;
 
 		final InputActor inputActor = inputLayerMap.get(layer);
-		if (inputActor == null)
+		if (inputActor == null) {
 			return;
+		}
 		inputActor.mouseExited();
 	}
 
@@ -134,12 +146,14 @@ public class LayeredInputActor implements InputActor {
 
 		final Layer layer = layerHerder.findLayerWithinPoint(location);
 		detectLayerSwitch(layer);
-		if (layer == null)
+		if (layer == null) {
 			return;
+		}
 		location = layer.convertToVirtual(location);
 		final InputActor inputActor = inputLayerMap.get(layer);
-		if (inputActor == null)
+		if (inputActor == null) {
 			return;
+		}
 		inputActor.mouseMovedTo(location);
 	}
 
@@ -149,23 +163,28 @@ public class LayeredInputActor implements InputActor {
 
 		final Layer layer = layerHerder.findLayerWithinPoint(location);
 		detectLayerSwitch(layer);
-		if (layer == null)
+		if (layer == null) {
 			return;
+		}
 		location = layer.convertToVirtual(location);
 		final InputActor inputActor = inputLayerMap.get(layer);
-		if (inputActor == null)
+		if (inputActor == null) {
 			return;
+		}
 		inputActor.mouseDraggedTo(location);
 	}
 
 	private void detectLayerSwitch(final Layer layer) {
-		if (layer == lastLayer)
+		if (layer == lastLayer) {
 			return;
+		}
 
-		if (lastLayer != null)
+		if (lastLayer != null) {
 			mouseExitedLayer(lastLayer);
-		if (layer != null)
+		}
+		if (layer != null) {
 			mouseEnteredLayer(layer);
+		}
 		lastLayer = layer;
 	}
 

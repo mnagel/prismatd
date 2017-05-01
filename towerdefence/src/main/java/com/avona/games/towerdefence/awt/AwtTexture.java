@@ -1,9 +1,9 @@
 package com.avona.games.towerdefence.awt;
 
-import com.avona.games.towerdefence.util.Util;
 import com.avona.games.towerdefence.gfx.ImageColorFormat;
 import com.avona.games.towerdefence.gfx.Texture;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
+import com.avona.games.towerdefence.util.Util;
 import com.jogamp.opengl.GL;
 
 import javax.imageio.ImageIO;

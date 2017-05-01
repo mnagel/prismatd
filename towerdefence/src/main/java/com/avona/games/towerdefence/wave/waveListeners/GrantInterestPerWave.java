@@ -15,8 +15,9 @@ public class GrantInterestPerWave implements WaveListener {
 
 	@Override
 	public void onWave(Wave wave) {
-		if (wave.waveNum == 1)
+		if (wave.waveNum == 1) {
 			return;
+		}
 		game.money += game.money * interestRate;
 	}
 }

@@ -1,9 +1,9 @@
 package com.avona.games.towerdefence.android;
 
 import android.opengl.GLES20;
-import com.avona.games.towerdefence.util.FeatureFlags;
 import com.avona.games.towerdefence.gfx.Shader;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
+import com.avona.games.towerdefence.util.FeatureFlags;
 
 import java.io.InputStream;
 

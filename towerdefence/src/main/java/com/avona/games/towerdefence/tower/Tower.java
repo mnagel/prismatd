@@ -1,13 +1,13 @@
 package com.avona.games.towerdefence.tower;
 
-import com.avona.games.towerdefence.engine.LocationObject;
 import com.avona.games.towerdefence.core.RGB;
-import com.avona.games.towerdefence.time.TimedCodeManager;
 import com.avona.games.towerdefence.enemy.Enemy;
-import com.avona.games.towerdefence.tower.enemySelection.EnemySelectionPolicy;
+import com.avona.games.towerdefence.engine.LocationObject;
 import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.particle.collidorPolicy.ParticleColliderPolicy;
+import com.avona.games.towerdefence.time.TimedCodeManager;
+import com.avona.games.towerdefence.tower.enemySelection.EnemySelectionPolicy;
 
 import java.util.List;
 

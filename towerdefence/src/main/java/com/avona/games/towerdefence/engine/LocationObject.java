@@ -15,7 +15,7 @@ public abstract class LocationObject implements Serializable {
 	public float radius;
 
 	// used in gfx engine and elsewhere
-	public float seed = (float)Math.random();
+	public float seed = (float) Math.random();
 
 	protected LocationObject(V2 location, float radius) {
 		this.location = location;
@@ -23,8 +23,9 @@ public abstract class LocationObject implements Serializable {
 	}
 
 	protected LocationObject(final LocationObject o) {
-		if (o.location != null)
+		if (o.location != null) {
 			location = o.location.clone2();
+		}
 		radius = o.radius;
 	}
 

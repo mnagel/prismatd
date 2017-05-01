@@ -1,7 +1,7 @@
 package com.avona.games.towerdefence.enemy.eventListeners;
 
-import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.enemy.Enemy;
+import com.avona.games.towerdefence.engine.Game;
 
 public class EnemyDeathUpdatesGameStats implements EnemyEventListener {
 	private static final long serialVersionUID = 1L;

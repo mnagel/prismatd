@@ -56,7 +56,9 @@ public class Vertices {
 			buffer.order(ByteOrder.nativeOrder());     // Set Native Byte Order
 			this.indices = buffer.asShortBuffer();       // Save Index Buffer
 		} else                                            // ELSE Indices Not Required
+		{
 			indices = null;                              // No Index Buffer
+		}
 
 		numVertices = 0;                                // Zero Vertices in Buffer
 		numIndices = 0;                                 // Zero Indices in Buffer
@@ -81,7 +83,9 @@ public class Vertices {
 		this.vertices.clear();                          // Remove Existing Vertices
 		int last = offset + length;                     // Calculate Last Element
 		for (int i = offset, j = 0; i < last; i++, j++)  // FOR Each Specified Vertex
+		{
 			tmpBuffer[j] = Float.floatToRawIntBits(vertices[i]);  // Set Vertex as Raw Integer Bits in Buffer
+		}
 		this.vertices.put(tmpBuffer, 0, length);      // Set New Vertices
 		this.vertices.flip();                           // Flip Vertex Buffer
 		this.numVertices = length / this.vertexStride;  // Save Number of Vertices

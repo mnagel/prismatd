@@ -1,7 +1,7 @@
 package com.avona.games.towerdefence.awt;
 
-import com.avona.games.towerdefence.engine.PortableMainLoop;
 import com.avona.games.towerdefence.core.V2;
+import com.avona.games.towerdefence.engine.PortableMainLoop;
 import com.avona.games.towerdefence.input.InputActor;
 
 import java.awt.event.*;

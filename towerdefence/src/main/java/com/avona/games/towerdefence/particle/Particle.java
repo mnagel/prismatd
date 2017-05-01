@@ -1,10 +1,10 @@
 package com.avona.games.towerdefence.particle;
 
-import com.avona.games.towerdefence.engine.Collision;
-import com.avona.games.towerdefence.engine.MovingObject;
 import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
+import com.avona.games.towerdefence.engine.Collision;
+import com.avona.games.towerdefence.engine.MovingObject;
 import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.particle.collidorPolicy.ParticleColliderPolicy;
 
@@ -60,11 +60,13 @@ public class Particle extends MovingObject {
 
 	@Override
 	public void step(float dt) {
-		if (target.isDead() || target.escaped)
+		if (target.isDead() || target.escaped) {
 			dead = true;
+		}
 
-		if (isDead())
+		if (isDead()) {
 			return;
+		}
 
 		recalculateTargetVector();
 		location.addWeighted(getVelocity(), dt);

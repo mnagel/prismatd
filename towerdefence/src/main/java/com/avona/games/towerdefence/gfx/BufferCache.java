@@ -37,8 +37,9 @@ public class BufferCache {
 		assert x >= 0;
 
 		for (int i = rangeStart; i < rangeEnd; ++i) {
-			if (x <= (1 << i))
+			if (x <= (1 << i)) {
 				return i;
+			}
 		}
 		return rangeEnd;
 	}

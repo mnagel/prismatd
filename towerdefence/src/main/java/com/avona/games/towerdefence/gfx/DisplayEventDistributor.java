@@ -12,13 +12,15 @@ public class DisplayEventDistributor implements DisplayEventListener {
 
 	@Override
 	public void onNewScreenContext() {
-		for (DisplayEventListener l : listeners)
+		for (DisplayEventListener l : listeners) {
 			l.onNewScreenContext();
+		}
 	}
 
 	@Override
 	public void onReshapeScreen() {
-		for (DisplayEventListener l : listeners)
+		for (DisplayEventListener l : listeners) {
 			l.onReshapeScreen();
+		}
 	}
 }

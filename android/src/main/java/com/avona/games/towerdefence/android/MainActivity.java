@@ -54,8 +54,9 @@ public class MainActivity extends Activity {
 	}
 
 	private void pause() {
-		if (paused)
+		if (paused) {
 			return;
+		}
 
 		ml.rootInputActor.pause();
 		ml.surfaceView.onPause();
@@ -64,8 +65,9 @@ public class MainActivity extends Activity {
 	}
 
 	private void resume() {
-		if (ml == null || !paused)
+		if (ml == null || !paused) {
 			return;
+		}
 
 		ml.rootInputActor.resume();
 		ml.surfaceView.onResume();

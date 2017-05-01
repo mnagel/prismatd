@@ -18,6 +18,7 @@ public class LayerHerder {
 	public MenuLayer menuLayer;
 	@SuppressWarnings("unchecked")
 	private List<Layer>[] layers = new List[Layer.MAX_DEPTH + 1];
+
 	public LayerHerder() {
 		for (int depth = 0; depth <= Layer.MAX_DEPTH; ++depth) {
 			layers[depth] = new LinkedList<>();

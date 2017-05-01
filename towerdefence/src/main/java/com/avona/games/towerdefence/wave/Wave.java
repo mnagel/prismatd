@@ -1,12 +1,12 @@
 package com.avona.games.towerdefence.wave;
 
-import com.avona.games.towerdefence.engine.Game;
-import com.avona.games.towerdefence.time.TimedCode;
-import com.avona.games.towerdefence.time.TimedCodeManager;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyEventListener;
+import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.mission.Mission;
+import com.avona.games.towerdefence.time.TimedCode;
+import com.avona.games.towerdefence.time.TimedCodeManager;
 
 public class Wave extends TimedCode implements EnemyEventListener {
 	private static final long serialVersionUID = 1L;
@@ -59,10 +59,12 @@ public class Wave extends TimedCode implements EnemyEventListener {
 	}
 
 	private void checkEnemiesDone() {
-		if (!fullyDeployed)
+		if (!fullyDeployed) {
 			return;
-		if (activeEnemies > 0)
+		}
+		if (activeEnemies > 0) {
 			return;
+		}
 
 		mission.waveTracker.onWaveCompleted(this);
 	}

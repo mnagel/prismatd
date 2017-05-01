@@ -1,12 +1,12 @@
 package com.avona.games.towerdefence.awt;
 
+import com.avona.games.towerdefence.core.RGB;
+import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.gfx.*;
 import com.avona.games.towerdefence.input.Layer;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.avona.games.towerdefence.util.FeatureFlags;
-import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.util.Util;
-import com.avona.games.towerdefence.core.V2;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.awt.TextRenderer;
