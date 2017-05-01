@@ -72,7 +72,7 @@ public class MenuLayer extends Layer {
 			for (int i = 0; i < game.mission.buildableTowers.length; i++) {
 				final Tower t = game.mission.buildableTowers[i];
 
-				addButton(new MenuButton("Build Tower " + i, MenuButton.MenuButtonLook.BUILD_TOWER) {
+				addButton(new MenuButton("Build Tower " + i, MenuButtonLook.BUILD_TOWER) {
 					@Override
 					public void onClick() {
 						game.selectedBuildTower = t;
@@ -87,7 +87,7 @@ public class MenuLayer extends Layer {
 		}
 
 		if (game.selectedObject instanceof Tower) {
-			addButton(new MenuButton("Level Up Tower", MenuButton.MenuButtonLook.UPGRADE_TOWER) {
+			addButton(new MenuButton("Level Up Tower", MenuButtonLook.UPGRADE_TOWER) {
 				@Override
 				public void onClick() {
 					if (game.selectedObject instanceof Tower) {
@@ -103,7 +103,7 @@ public class MenuLayer extends Layer {
 			});
 		}
 
-		addButton(new MenuButton("Next Wave", MenuButton.MenuButtonLook.NEXT_WAVE) {
+		addButton(new MenuButton("Next Wave", MenuButtonLook.NEXT_WAVE) {
 			@Override
 			public void onClick() {
 				layerHerder.menuLayer.rootInputActor.pressedOtherKey(' ');

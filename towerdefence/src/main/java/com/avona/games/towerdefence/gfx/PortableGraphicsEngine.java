@@ -25,10 +25,9 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 	public static final int DEFAULT_HEIGHT = 480;
 	public static final int DEFAULT_WIDTH = 675;
-	public static final int MENU_BUTTON_COUNT = 5;
 	private static final String LEVEL_UP_TEXT = "Level up Tower";
-	private MenuLayer menuLayer;
-	private Layer gameLayer;
+	//private MenuLayer menuLayer;
+	//private Layer gameLayer;
 	private LayerHerder layerHerder;
 
 	private TimeTrack graphicsTime = new TimeTrack();
@@ -54,9 +53,6 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		this.display = display;
 		this.game = game;
 		this.mouse = mouse;
-
-		gameLayer = layerHerder.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
-		menuLayer = (MenuLayer) layerHerder.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
 		this.layerHerder = layerHerder;
 		ml.eventDistributor.listeners.add(new ReloadOnMissionSwitch(this));
 	}
@@ -79,6 +75,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	}
 
 	synchronized public void render(final float dt) {
+		Layer gameLayer = layerHerder.gameLayer;
 		graphicsTime.updateTick(dt);
 		graphicsTickRater.updateTickRate();
 
@@ -224,6 +221,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	}
 
 	private void renderMenu() {
+		MenuLayer menuLayer = layerHerder.menuLayer;
 		display.prepareTransformationForLayer(menuLayer);
 
 		for (MenuButton b : Lists.reverse(menuLayer.buttons)) {
@@ -232,15 +230,13 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 			switch (b.look) {
 				case BUILD_TOWER:
-
 					V2 location = layer.virtualRegion.clone2().mult(0.5f);
 					Tower t = (Tower) b.getRenderExtra();
 					renderTower(t, location, layer, t == game.selectedBuildTower);
-
-					float y_off = GridCell.size / 2 + textSize / 2;
-					final String label = String.format(Locale.US, "$%d", t.getPrice());
+					String label = String.format(Locale.US, "$%d", t.getPrice());
 					display.drawText(layer, label, true, location, RGB.WHITE, 1.0f);
 					break;
+
 				case UPGRADE_TOWER:
 					display.drawText(
 							layer,
@@ -251,6 +247,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 							1.0f
 					);
 					break;
+
 				case NEXT_WAVE:
 					int wavenr = game.mission.waveTracker.currentWaveNum();
 					Collection<Enemy> es = game.mission.getEnemyPreview(wavenr + 1);
@@ -290,7 +287,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	private void renderMissionStatement() {
 		for (MissionStatementText t : game.mission.missionStatementTexts) {
 			display.drawText(
-					gameLayer,
+					layerHerder.gameLayer,
 					t.text,
 					false,
 					game.mission.gridCells2d[t.x][t.y].center.clone2().sub(0, textSize / 2),
@@ -459,8 +456,8 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		particleShader.setUniform("level", 1);
 		particleShader.setUniform("clock", graphicsTime.clock + p.seed);
 		particleShader.setUniform("virtualLocation", location);
-		particleShader.setUniform("physicalLocation", gameLayer.convertToPhysical(location));
-		particleShader.setUniform("physicalRadius", gameLayer.scaleToPhysical(radius));
+		particleShader.setUniform("physicalLocation", layerHerder.gameLayer.convertToPhysical(location));
+		particleShader.setUniform("physicalRadius", layerHerder.gameLayer.scaleToPhysical(radius));
 
 		va.shader = particleShader;
 		va.hasShader = true;
@@ -481,7 +478,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	}
 
 	private void renderMouse() {
-		Layer l = gameLayer;
+		Layer l = layerHerder.gameLayer;
 		display.prepareTransformationForLayer(l);
 		if (!mouse.onScreen)
 			return;
