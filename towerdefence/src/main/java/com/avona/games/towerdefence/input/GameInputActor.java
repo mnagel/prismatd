@@ -151,9 +151,10 @@ public class GameInputActor extends EmptyInputActor {
 		final Tower t = game.getTowerWithinRadius(location, mouse.radius);
 		if (t != null) {
 			game.selectedObject = t;
-			return;
+		} else {
+			game.selectedObject = game.getEnemyWithinRadius(location, mouse.radius);
 		}
-		game.selectedObject = game.getEnemyWithinRadius(location, mouse.radius);
+		game.eventListener.onMenuRebuild();
 	}
 
 	@Override

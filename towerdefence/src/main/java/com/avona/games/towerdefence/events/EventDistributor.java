@@ -19,6 +19,12 @@ public class EventDistributor implements IEventListener {
 	}
 
 	@Override
+	public void onMenuRebuild() {
+		for (IEventListener l : listeners)
+			l.onMenuRebuild();
+	}
+
+	@Override
 	public void onMissionCompleted(Mission mission) {
 		for (IEventListener l : listeners)
 			l.onMissionCompleted(mission);

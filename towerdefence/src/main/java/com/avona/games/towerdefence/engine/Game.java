@@ -5,7 +5,7 @@ import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyDeathUpdatesGameStats;
-import com.avona.games.towerdefence.events.IEventListener;
+import com.avona.games.towerdefence.events.EventDistributor;
 import com.avona.games.towerdefence.mission.CellState;
 import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.mission.Mission;
@@ -36,7 +36,7 @@ public class Game implements Serializable {
 	public List<Transient> transients = new LinkedList<>();
 	public TimeTrack gameTime = new TimeTrack();
 	public TimedCodeManager timedCodeManager = new TimedCodeManager();
-	public IEventListener eventListener;
+	public EventDistributor eventListener;
 	public Mission mission;
 	public int killed = 0;
 	public int lives;
@@ -55,7 +55,7 @@ public class Game implements Serializable {
 	private EnemyDeathGivesMoney enemyDeathGivesMoney = new EnemyDeathGivesMoney(this);
 	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(this);
 
-	public Game(IEventListener eventListener) {
+	public Game(EventDistributor eventListener) {
 		this.eventListener = eventListener;
 		//noinspection unchecked
 		loadMission((Class) _000_Empty_Mission.class);

@@ -13,6 +13,10 @@ public class EmptyEventListener implements IEventListener {
 	}
 
 	@Override
+	public void onMenuRebuild() {
+	}
+
+	@Override
 	public void onMissionCompleted(Mission l) {
 	}
 

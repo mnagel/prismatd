@@ -15,6 +15,7 @@ import com.avona.games.towerdefence.time.TimeTrack;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.transients.Transient;
 import com.avona.games.towerdefence.util.FeatureFlags;
+import com.avona.games.towerdefence.util.Util;
 import com.google.common.collect.Lists;
 
 import java.util.Collection;
@@ -28,6 +29,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 	private static final String LEVEL_UP_TEXT = "Level up Tower";
 	private MenuLayer menuLayer;
 	private Layer gameLayer;
+	private LayerHerder layerHerder;
 
 	private TimeTrack graphicsTime = new TimeTrack();
 	private TickRater graphicsTickRater = new TickRater(graphicsTime);
@@ -55,11 +57,18 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 		gameLayer = layerHerder.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
 		menuLayer = (MenuLayer) layerHerder.findLayerByName(PortableMainLoop.MENU_LAYER_NAME);
+		this.layerHerder = layerHerder;
 		ml.eventDistributor.listeners.add(new ReloadOnMissionSwitch(this));
 	}
 
 	synchronized public void setTowerShader(Shader towerShader) {
 		this.towerShader = towerShader;
+	}
+
+	@Override
+	public void onReshapeScreen() {
+		Util.log("ge wants resize");
+		layerHerder.onReshapeScreen(display.getSize());
 	}
 
 	@Override
@@ -216,10 +225,6 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 	private void renderMenu() {
 		display.prepareTransformationForLayer(menuLayer);
-
-		// TODO make buttons persistent and also handle their clicking
-		menuLayer.resetButtons();
-		menuLayer.buildEntries();
 
 		for (MenuButton b : Lists.reverse(menuLayer.buttons)) {
 			Layer layer = menuLayer.getButtonLayer(b);
@@ -483,46 +488,6 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		final V2 p = l.convertToVirtual(mouse.physicalLocation);
 		final float col = 0.5f + 0.3f * (float) Math.abs(Math.sin(4 * graphicsTime.clock));
 		drawFilledCircle(p.x, p.y, mouse.radius, 1.0f, 1.0f, 1.0f, col);
-	}
-
-	@Override
-	synchronized public void onReshapeScreen() {
-		final V2 size = display.getSize();
-
-		final float gameFieldPercentage = gameLayer.virtualRegion.x
-				/ (gameLayer.virtualRegion.x + menuLayer.virtualRegion.x);
-
-		final float gameRatio = gameLayer.virtualRegion.x
-				/ gameLayer.virtualRegion.y;
-
-		gameLayer.region.y = size.y;
-		gameLayer.region.x = gameRatio * gameLayer.region.y;
-		if (gameLayer.region.x / size.x > gameFieldPercentage) {
-			// Too wide, screen width is the limit.
-			gameLayer.region.x = size.x * gameFieldPercentage;
-			gameLayer.region.y = gameLayer.region.x / gameRatio;
-		}
-		gameLayer.offset.x = 0;
-		gameLayer.offset.y = (size.y - gameLayer.region.y) * 0.5f;
-
-		final float menuRatio = menuLayer.virtualRegion.x
-				/ menuLayer.virtualRegion.y;
-
-		final V2 remainingSize = new V2(size.x - gameLayer.offset.x
-				- gameLayer.region.x, size.y);
-
-		menuLayer.region.y = remainingSize.y;
-		menuLayer.region.x = menuRatio * menuLayer.region.y;
-		if (menuLayer.region.x > remainingSize.x) {
-			// Too wide, screen width is the limit.
-			menuLayer.region.x = remainingSize.x;
-			menuLayer.region.y = menuLayer.region.x / menuRatio;
-		}
-
-		gameLayer.offset.x += (remainingSize.x - menuLayer.region.x) * .5f;
-
-		menuLayer.offset.y = gameLayer.offset.y;
-		menuLayer.offset.x = gameLayer.offset.x + gameLayer.region.x;
 	}
 
 	private VertexArray createCircleVa(final float x, final float y, final float radius,

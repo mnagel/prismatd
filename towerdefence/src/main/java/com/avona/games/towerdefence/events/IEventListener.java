@@ -10,6 +10,8 @@ public interface IEventListener extends Serializable {
 
 	void onBuildTower(Tower t);
 
+	void onMenuRebuild();
+
 	void onMissionSwitched(Mission mission);
 
 	void onMissionCompleted(Mission mission);

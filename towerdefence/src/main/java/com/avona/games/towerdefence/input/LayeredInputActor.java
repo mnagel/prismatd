@@ -4,6 +4,7 @@ import com.avona.games.towerdefence.awt.AwtReplShader;
 import com.avona.games.towerdefence.awt.ReplShaderGui;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.engine.PortableMainLoop;
+import com.avona.games.towerdefence.util.Util;
 
 import java.util.HashMap;
 
@@ -34,14 +35,17 @@ public class LayeredInputActor implements InputActor {
 
 	@Override
 	public void mouseBtn1DownAt(V2 location) {
+		Util.log("got mouse 1 down... looking for layer");
 		final Layer layer = layerHerder.findLayerWithinPoint(location);
 		currentLayerSawMouseBtn1Down = true;
 		if (layer == null)
 			return;
+		Util.log("proceeding with layer " + layer);
 		location = layer.convertToVirtual(location);
 		final InputActor inputActor = inputLayerMap.get(layer);
 		if (inputActor == null)
 			return;
+		Util.log("proceeding with inputactor " + inputActor);
 		inputActor.mouseBtn1DownAt(location);
 	}
 

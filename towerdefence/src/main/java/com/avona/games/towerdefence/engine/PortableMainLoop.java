@@ -41,11 +41,10 @@ public abstract class PortableMainLoop implements Serializable {
 				new V2(),
 				new V2(Mission.WIDTH, Mission.HEIGHT)
 		);
-		layerHerder.addLayer(gameLayer);
+		layerHerder.addGameLayer(gameLayer);
 
 		MenuLayer menuLayer = new MenuLayer(MENU_LAYER_NAME, game, layerHerder, eventDistributor);
-		layerHerder.addLayer(menuLayer);
-
+		layerHerder.addMenuLayer(menuLayer);
 		setupInputActors();
 		menuLayer.rootInputActor = rootInputActor;
 
@@ -57,6 +56,7 @@ public abstract class PortableMainLoop implements Serializable {
 		}
 	}
 
+
 	public void setupInputActors() {
 		LayeredInputActor lia = new LayeredInputActor(this, mouse, layerHerder);
 		rootInputActor = lia;
@@ -64,10 +64,6 @@ public abstract class PortableMainLoop implements Serializable {
 		Layer gameLayer = layerHerder.findLayerByName(GAME_LAYER_NAME);
 		GameInputActor gameInputActor = new GameInputActor(game, mouse);
 		lia.inputLayerMap.put(gameLayer, gameInputActor);
-
-		Layer menuLayer = layerHerder.findLayerByName(MENU_LAYER_NAME);
-		MenuInputActor menuInputActor = new MenuInputActor(rootInputActor, game, menuLayer);
-		lia.inputLayerMap.put(menuLayer, menuInputActor);
 	}
 
 	public void performIteration() {

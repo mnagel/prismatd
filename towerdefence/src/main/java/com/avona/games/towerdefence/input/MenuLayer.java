@@ -4,37 +4,43 @@ import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.events.EventDistributor;
 import com.avona.games.towerdefence.events.IEventListener;
-import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.util.Util;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MenuLayer extends Layer {
 	private final Game game;
 	private final LayerHerder layerHerder;
 	public List<MenuButton> buttons = new ArrayList<>();
-	private Map<MenuButton, Layer> buttonLayers = new HashMap<>();
-
 	public LayeredInputActor rootInputActor;
+	private Map<MenuButton, MenuButtonLayer> buttonLayers = new HashMap<>();
 
 	public MenuLayer(String name, Game game, LayerHerder layerHerder, EventDistributor ed) {
 		super(
 				name,
-				0,
+				1,
 				null,
 				new V2(),
 				new V2(),
 				new V2(125, 480)
 		);
 		this.game = game;
-		this.rootInputActor = rootInputActor;
 		this.layerHerder = layerHerder;
 		ed.listeners.add(new IEventListener() {
 			@Override
 			public void onBuildTower(Tower t) {
 
+			}
+
+			@Override
+			public void onMenuRebuild() {
+				Util.log("rebuilding menu");
+				buildEntries();
 			}
 
 			@Override
@@ -65,35 +71,28 @@ public class MenuLayer extends Layer {
 		buttons.add(b);
 	}
 
-	public void removeButton(MenuButton b) {
-		buttons.remove(b);
-	}
-
-	public void resetButtons() {
-		buttons = new ArrayList<>();
-	}
-
-	public Layer getButtonLayer(MenuButton b) {
+	public MenuButtonLayer getButtonLayer(MenuButton b) {
 		return buttonLayers.get(b);
 	}
 
-	private Layer makeButtonLayer(MenuButton b) {
+
+	private MenuButtonLayer makeButtonLayer(MenuButton b) {
 		int index = buttons.indexOf(b);
 
-		float ysize = this.region.y / buttons.size();
 
-		Layer res = new Layer(
+		MenuButtonLayer res = new MenuButtonLayer(
 				"forButton" + b.toString(),
 				0,
 				this,
-				new V2(this.offset.x, this.offset.y + this.region.y - (index + 1) * ysize),
-				new V2(this.region.x, ysize),
-				new V2(GridCell.size, GridCell.size)
+				index,
+				buttons.size()
 		);
 		return res;
 	}
-	
+
 	public void buildEntries() {
+		Util.log("build entries");
+		killEntries();
 
 
 		// TODO handle these states in the menu
@@ -138,7 +137,8 @@ public class MenuLayer extends Layer {
 
 			@Override
 			public void onClick() {
-				//parent.pressedOtherKey(' ');
+				layerHerder.menuLayer.
+						rootInputActor.pressedOtherKey(' ');
 				Util.log("klicked wave button");
 			}
 
@@ -149,24 +149,34 @@ public class MenuLayer extends Layer {
 		});
 
 
-		for (MenuButton b: buttons) {
-			Layer x = makeButtonLayer(b);
+		for (MenuButton b : buttons) {
+			MenuButtonLayer x = makeButtonLayer(b);
+			Util.log(b.toString());
+			Util.log(x.toString());
 			buttonLayers.put(b, x);
 			layerHerder.addLayer(x);
 			//Util.log("telling root inp");
-			rootInputActor.inputLayerMap.put(x, new MenuButtonInputActor(rootInputActor, game, x));
+			MenuButtonInputActor y = new MenuButtonInputActor(b);
+			Util.log("add input mapping from " + x + " to " + y);
+			rootInputActor.inputLayerMap.put(x, y);
 		}
+	}
 
+	public void pushDownResize() {
+		for (MenuButton b : buttons) {
+			getButtonLayer(b).adjustSize();
+		}
 	}
 
 	public void killEntries() {
-		for (MenuButton b: buttons) {
+		for (MenuButton b : buttons) {
 			Layer x = getButtonLayer(b);
 			//buttonLayers.add(x);
 			layerHerder.removeLayer(x);
 			rootInputActor.inputLayerMap.remove(x);
 		}
 		buttonLayers = new HashMap<>();
+		buttons = new ArrayList<>();
 	}
 
 }
