@@ -14,6 +14,7 @@ import com.avona.games.towerdefence.time.TimeTrack;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.transients.Transient;
 import com.avona.games.towerdefence.util.FeatureFlags;
+import com.avona.games.towerdefence.util.Util;
 import com.google.common.collect.Lists;
 
 import java.util.Collection;
@@ -203,6 +204,10 @@ public class PortableGraphicsEngine {
 
 		for (MenuButton b : Lists.reverse(menuLayer.buttons)) {
 			Layer layer = menuLayer.getButtonLayer(b);
+			if (layer == null) {
+				Util.log("fix this race condition about removing buttons/layers"); // TODO
+				continue;
+			}
 			prepareTransformationForLayer(layer);
 
 			switch (b.look) {

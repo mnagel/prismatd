@@ -129,7 +129,7 @@ public abstract class Mission implements Serializable, WaveSender {
 	public void onAllWavesCompleted() {
 		Util.log("All waves completed -> mission completed");
 		completed = true;
-		game.eventListener.onMissionCompleted(this);
+		game.eventDistributor.onMissionCompleted(this);
 	}
 
 	@Override

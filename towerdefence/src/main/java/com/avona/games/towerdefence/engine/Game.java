@@ -36,7 +36,7 @@ public class Game implements Serializable {
 	public List<Transient> transients = new LinkedList<>();
 	public TimeTrack gameTime = new TimeTrack();
 	public TimedCodeManager timedCodeManager = new TimedCodeManager();
-	public EventDistributor eventListener;
+	public EventDistributor eventDistributor;
 	public Mission mission;
 	public int killed = 0;
 	public int lives;
@@ -55,8 +55,8 @@ public class Game implements Serializable {
 	private EnemyDeathGivesMoney enemyDeathGivesMoney = new EnemyDeathGivesMoney(this);
 	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(this);
 
-	public Game(EventDistributor eventListener) {
-		this.eventListener = eventListener;
+	public Game(EventDistributor eventDistributor) {
+		this.eventDistributor = eventDistributor;
 		//noinspection unchecked
 		loadMission((Class) _000_Empty_Mission.class);
 	}
@@ -81,7 +81,7 @@ public class Game implements Serializable {
 		selectedBuildTower = mission.buildableTowers[0];
 		selectedObject = null;
 
-		eventListener.onMissionSwitched(mission);
+		eventDistributor.onMissionSwitched(mission);
 	}
 
 	public void loadMission(int missionIdx) {
@@ -98,7 +98,7 @@ public class Game implements Serializable {
 		if (isGameOver()) {
 			// FIXME add some game over logic here...
 			Util.log("you should die now...");
-			eventListener.onGameOver(this);
+			eventDistributor.onGameOver(this);
 		}
 	}
 
@@ -140,7 +140,7 @@ public class Game implements Serializable {
 
 		where.state = CellState.TOWER;
 		towers.add(newTower);
-		eventListener.onBuildTower(newTower);
+		eventDistributor.onBuildTower(newTower);
 	}
 
 	public void levelUpTower(Tower t) {

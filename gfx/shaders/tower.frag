@@ -35,7 +35,7 @@ void main(void) {
 	for (float i = 0.; i < n; i++) {
 		float angle = i/n * 2.0 * pi;
 		if (selected) {
-			angle *= -1;
+			angle *= -1.0;
 		}
 		vec2 xy = posOnObject + vec2(0.25 * cos(angle) - 0.5, 0.25 * sin(angle) - 0.5);
 		intensity += pow(1000000., (0.77 - length(xy) * 1.9) * (1. + thickness * fract(i/n*tailcount - clock))) / 80000.;

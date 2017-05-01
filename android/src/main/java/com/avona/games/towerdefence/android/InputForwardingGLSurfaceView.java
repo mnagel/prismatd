@@ -4,14 +4,14 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 import com.avona.games.towerdefence.core.V2;
-import com.avona.games.towerdefence.gfx.Display;
+import com.avona.games.towerdefence.gfx.PortableDisplay;
 import com.avona.games.towerdefence.input.InputActor;
 
 class InputForwardingGLSurfaceView extends GLSurfaceView {
 	private InputActor inputActor;
-	private Display display;
+	private PortableDisplay display;
 
-	public InputForwardingGLSurfaceView(Context context, InputActor inputActor, Display display) {
+	public InputForwardingGLSurfaceView(Context context, InputActor inputActor, PortableDisplay display) {
 		super(context);
 		this.inputActor = inputActor;
 		this.display = display;

@@ -4,6 +4,7 @@ import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.mission.MissionList;
 import com.avona.games.towerdefence.tower.Tower;
+import com.avona.games.towerdefence.util.FeatureFlags;
 import com.avona.games.towerdefence.util.Util;
 
 public class GameInputActor extends EmptyInputActor {
@@ -133,6 +134,8 @@ public class GameInputActor extends EmptyInputActor {
 			);
 		}
 		if (keyCode == 'd') {
+			FeatureFlags.SHOW_CONSOLE = !FeatureFlags.SHOW_CONSOLE;
+			game.eventDistributor.onMenuRebuild();
 			game.logDebugInfo();
 		}
 		if (keyCode == 'k') {
@@ -155,7 +158,7 @@ public class GameInputActor extends EmptyInputActor {
 		} else {
 			game.selectedObject = game.getEnemyWithinRadius(location, mouse.radius);
 		}
-		game.eventListener.onMenuRebuild();
+		game.eventDistributor.onMenuRebuild();
 	}
 
 	@Override
