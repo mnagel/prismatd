@@ -3,11 +3,11 @@ package com.avona.games.towerdefence.input;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.mission.GridCell;
 
-public class MenuButtonLayer extends Layer {
+class MenuButtonLayer extends Layer {
 	private final int buttonCount;
 	private final int myIndex;
 
-	public MenuButtonLayer(String name, int depth, Layer parent, int myIndex, int buttonCount) {
+	MenuButtonLayer(String name, int depth, Layer parent, int myIndex, int buttonCount) {
 		super(
 				name,
 				depth,
@@ -21,7 +21,7 @@ public class MenuButtonLayer extends Layer {
 		this.buttonCount = buttonCount;
 	}
 
-	public void adjustSize() {
+	void adjustSize() {
 		this.offset = new V2(parent.offset.x, parent.offset.y + parent.region.y - (myIndex + 1) * (parent.region.y / buttonCount));
 		this.region = new V2(parent.region.x, (parent.region.y / buttonCount));
 	}
