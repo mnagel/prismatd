@@ -8,6 +8,7 @@ import java.util.List;
 public class LayerHerder {
 	private static Layer DEFAULT_LAYER = new Layer(
 			"DEFAULTLAYER",
+			2,
 			null,
 			new V2(),
 			new V2(),
@@ -33,6 +34,7 @@ public class LayerHerder {
 
 	/**
 	 * Determines which layer the specified screen point falls into.
+	 * Lower depth gets served/returned first.
 	 *
 	 * @param point Screen position.
 	 * @return Returns the matching layer or DEFAULT_LAYER if none was found.

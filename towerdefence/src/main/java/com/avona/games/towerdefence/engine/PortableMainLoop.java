@@ -35,6 +35,7 @@ public abstract class PortableMainLoop implements Serializable {
 	protected void initWithGame() {
 		Layer gameLayer = new Layer(
 				GAME_LAYER_NAME,
+				1,
 				null,
 				new V2(),
 				new V2(),

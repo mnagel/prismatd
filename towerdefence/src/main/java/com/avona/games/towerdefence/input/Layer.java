@@ -27,10 +27,11 @@ public class Layer {
 	 * Defines the z order of the layer.
 	 */
 	int depth = 1;
-	private Layer parent = null;
+	protected Layer parent = null;
 
-	public Layer(String name, Layer parent, V2 offset, V2 region, V2 virtualRegion) {
+	public Layer(String name, int depth, Layer parent, V2 offset, V2 region, V2 virtualRegion) {
 		this.name = name;
+		this.depth = depth;
 		this.parent = parent;
 		this.offset = offset;
 		this.region = region;

@@ -16,6 +16,7 @@ public class MenuLayer extends Layer {
 	public MenuLayer(String name, Game game) {
 		super(
 				name,
+				1,
 				null,
 				new V2(),
 				new V2(),
@@ -43,6 +44,7 @@ public class MenuLayer extends Layer {
 
 		Layer res = new Layer(
 				"forButton" + b.toString(),
+				0,
 				this,
 				new V2(this.offset.x, this.offset.y + this.region.y - (index + 1) * ysize),
 				new V2(this.region.x, ysize),
