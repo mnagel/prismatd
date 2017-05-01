@@ -66,6 +66,10 @@ public class TimedCodeManager implements Serializable {
 		titer.add(newCode); // add as first element
 	}
 
+	public void clear() {
+		timedCode.clear();
+	}
+
 	public String toString() {
 		String s = "" + clock + ": ";
 		ListIterator<TimedCode> titer = timedCode.listIterator(0);

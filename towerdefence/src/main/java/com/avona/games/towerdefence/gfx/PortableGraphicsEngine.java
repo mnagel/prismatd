@@ -4,7 +4,6 @@ import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.engine.Game;
-import com.avona.games.towerdefence.engine.PortableMainLoop;
 import com.avona.games.towerdefence.input.*;
 import com.avona.games.towerdefence.mission.CellState;
 import com.avona.games.towerdefence.mission.GridCell;
@@ -42,14 +41,12 @@ public class PortableGraphicsEngine {
 			Display display,
 			Game game,
 			Mouse mouse,
-			LayerHerder layerHerder,
-			PortableMainLoop ml
+			LayerHerder layerHerder
 	) {
 		this.display = display;
 		this.game = game;
 		this.mouse = mouse;
 		this.layerHerder = layerHerder;
-		ml.eventDistributor.listeners.add(new ReloadOnMissionSwitch(this));
 	}
 
 	synchronized public void setTowerShader(Shader towerShader) {
@@ -128,8 +125,7 @@ public class PortableGraphicsEngine {
 				new RGB(1.0f, 1.0f, 1.0f), 1.0f);
 	}
 
-	private void createMission() {
-		freeMissionVertices();
+	private void renderMission() {
 		missionVertices = new VertexArray[game.mission.gridCells.length];
 
 		for (int i = 0; i < game.mission.gridCells.length; i++) {
@@ -143,18 +139,10 @@ public class PortableGraphicsEngine {
 			va.reserveBuffers();
 
 			if (i == 0) {
-				// TODO this is kinda fundamentally broken b/c there is only one binding of uniforms for all gridcells
 				if (gridcellShader == null) {
 					gridcellShader = display.allocateShader("gridcell");
 					gridcellShader.loadShaderProgramsByName("default.vert", "default.frag");
 				}
-
-//				gridcellShader.setUniform("selected", false);
-//				gridcellShader.setUniform("level", 1);
-//				gridcellShader.setUniform("clock", graphicsTime.clock);
-//				gridcellShader.setUniform("virtualLocation", c.center);
-//				gridcellShader.setUniform("physicalLocation", gameLayer.convertToPhysical(c.center));
-//				gridcellShader.setUniform("physicalRadius", gameLayer.scaleToPhysical(GridCell.size));
 			}
 
 			va.shader = gridcellShader;
@@ -171,30 +159,13 @@ public class PortableGraphicsEngine {
 					va
 			);
 
-			if (c.state == CellState.FREE) {
-				GeometryHelper.boxColoursAsTriangleStrip(0.2f, 0.2f, 0.2f, 1.0f, va);
-			} else if (c.state == CellState.WALL) {
+			if (c.state == CellState.WALL) {
 				GeometryHelper.boxColoursAsTriangleStrip(0.1f, 0.1f, 0.2f, 1.0f, va);
 			} else if (c.state == CellState.WAY) {
 				GeometryHelper.boxColoursAsTriangleStrip(0.0f, 0.0f, 0.0f, 1.0f, va);
+			} else {
+				GeometryHelper.boxColoursAsTriangleStrip(0.2f, 0.2f, 0.2f, 1.0f, va);
 			}
-
-		}
-	}
-
-	public synchronized void freeMissionVertices() {
-		if (missionVertices != null) {
-			// In case we're recreating the world, allow re-using of the buffers.
-			for (VertexArray va : missionVertices) {
-				va.freeBuffers();
-			}
-			missionVertices = null;
-		}
-	}
-
-	private void renderMission() {
-		if (missionVertices == null) {
-			createMission();
 		}
 
 		for (VertexArray va : missionVertices) {

@@ -5,6 +5,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Vibrator;
 import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.engine.PortableMainLoop;
+import com.avona.games.towerdefence.gfx.DisplayEventListener;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 
@@ -24,8 +25,17 @@ class AndroidMainLoop extends PortableMainLoop {
 		ResourceResolverRegistry.setInstance(new AndroidResourceResolver(activity.getResources()));
 
 		final AndroidDisplay display = new AndroidDisplay(activity, displayEventListener);
-		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder, this);
-		displayEventListener.add(ge);
+		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder);
+		displayEventListener.add(new DisplayEventListener() {
+			@Override
+			public void onReshapeScreen() {
+				layerHerder.onReshapeScreen(display.getSize());
+			}
+
+			@Override
+			public void onNewScreenContext() {
+			}
+		});
 
 		eventDistributor.listeners.add(new AndroidEventListener(vibrator));
 

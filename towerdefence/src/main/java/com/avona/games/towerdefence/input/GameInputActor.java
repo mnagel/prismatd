@@ -17,7 +17,9 @@ public class GameInputActor extends EmptyInputActor {
 
 	@Override
 	public void mouseBtn1DownAt(V2 location) {
-		if (game.selectedBuildTower != null) {
+		if (game.selectedBuildTower == null) {
+			checkMouseOverTower(location);
+		} else {
 			game.draggingTower = true;
 		}
 	}
@@ -32,7 +34,6 @@ public class GameInputActor extends EmptyInputActor {
 
 		game.selectedBuildTower = null;
 		game.draggingTower = false;
-		checkMouseOverTower(location);
 	}
 
 	@Override

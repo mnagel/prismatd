@@ -68,7 +68,7 @@ public class AwtMainLoop extends PortableMainLoop implements GLEventListener {
 		ResourceResolverRegistry.setInstance(new FileResourceResolver("gfx"));
 
 		final AwtDisplay display = new AwtDisplay(displayEventListener);
-		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder, this);
+		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder);
 		displayEventListener.add(new DisplayEventListener() {
 			@Override
 			public void onReshapeScreen() {
@@ -77,7 +77,6 @@ public class AwtMainLoop extends PortableMainLoop implements GLEventListener {
 
 			@Override
 			public void onNewScreenContext() {
-				ge.freeMissionVertices();
 			}
 		});
 		display.canvas.addGLEventListener(this);

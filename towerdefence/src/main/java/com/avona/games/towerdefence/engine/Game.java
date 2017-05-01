@@ -70,9 +70,16 @@ public class Game implements Serializable {
 		}
 
 		towers.clear();
+		enemies.clear();
+		particles.clear();
+		transients.clear();
+		timedCodeManager.clear();
+
 		lives = mission.getStartLives();
 		money = mission.getStartMoney();
+
 		selectedBuildTower = mission.buildableTowers[0];
+		selectedObject = null;
 
 		eventListener.onMissionSwitched(mission);
 	}
