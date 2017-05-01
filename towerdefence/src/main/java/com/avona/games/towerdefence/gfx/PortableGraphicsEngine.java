@@ -61,7 +61,7 @@ public class PortableGraphicsEngine {
 
 		display.prepareScreen();
 
-		display.prepareTransformationForLayer(gameLayer);
+		prepareTransformationForLayer(gameLayer);
 		renderMission();
 		renderMissionStatement();
 
@@ -99,6 +99,30 @@ public class PortableGraphicsEngine {
 			renderStats();
 		}
 		renderMouse();
+	}
+
+	private void prepareTransformationForLayer(Layer layer) {
+		display.prepareTransformationForLayer(layer);
+
+		if (FeatureFlags.OPENGL_DEBUG_LAYERS) {
+			final VertexArray va = new VertexArray();
+			va.hasColour = true;
+			va.numCoords = 4;
+			va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+			va.hasShader = false;
+			va.reserveBuffers();
+
+			GeometryHelper.boxVerticesAsTriangleStrip(0, 0, layer.virtualRegion.x, layer.virtualRegion.y, va);
+
+			RGB gfxcol = new RGB(layer.hashCode() % 3 / 3.0f, layer.hashCode() % 7 / 7.0f, layer.hashCode() % 11 / 11.0f);
+			va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
+			va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
+			va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
+			va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
+
+			display.drawVertexArray(va);
+			va.freeBuffers();
+		}
 	}
 
 	private void renderTransient(final Transient t, Layer layer) {
@@ -175,11 +199,11 @@ public class PortableGraphicsEngine {
 
 	private void renderMenu() {
 		MenuLayer menuLayer = layerHerder.menuLayer;
-		display.prepareTransformationForLayer(menuLayer);
+		prepareTransformationForLayer(menuLayer);
 
 		for (MenuButton b : Lists.reverse(menuLayer.buttons)) {
 			Layer layer = menuLayer.getButtonLayer(b);
-			display.prepareTransformationForLayer(layer);
+			prepareTransformationForLayer(layer);
 
 			switch (b.look) {
 				case BUILD_TOWER:
@@ -250,7 +274,7 @@ public class PortableGraphicsEngine {
 					int i = 0;
 					for (Enemy e : es) {
 						e.location = new V2(
-								e.radius + (GridCell.size - 2 * e.radius) / enemyCount * i,
+								GridCell.size / enemyCount * (i + 0.5f),
 								GridCell.size / 2
 						);
 						renderEnemy(e, layer);
@@ -476,7 +500,7 @@ public class PortableGraphicsEngine {
 
 	private void renderMouse() {
 		Layer l = layerHerder.gameLayer;
-		display.prepareTransformationForLayer(l);
+		prepareTransformationForLayer(l);
 		if (!mouse.onScreen) {
 			return;
 		}
