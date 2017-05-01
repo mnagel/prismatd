@@ -23,7 +23,7 @@ public class SlowDownTower extends Tower {
 
 	@Override
 	public String getName() {
-		return "Slow-down tower";
+		return "Slowdown Prisma";
 	}
 
 	@Override

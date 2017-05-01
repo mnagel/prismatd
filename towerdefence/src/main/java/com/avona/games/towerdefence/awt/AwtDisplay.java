@@ -76,7 +76,7 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	}
 
 	private void setupFrame() {
-		frame = new Frame("Towerdefence");
+		frame = new Frame("PrismaTD");
 		frame.add(canvas);
 		frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		frame.setBackground(Color.WHITE);

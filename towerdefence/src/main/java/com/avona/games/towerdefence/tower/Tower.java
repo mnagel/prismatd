@@ -78,6 +78,11 @@ public abstract class Tower extends LocationObject {
 	}
 
 	@Override
+	public String toString() {
+		return this.getName() + " Level " + level;
+	}
+
+	@Override
 	public void step(float dt) {
 	}
 

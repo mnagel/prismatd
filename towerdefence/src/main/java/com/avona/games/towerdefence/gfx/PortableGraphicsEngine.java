@@ -190,10 +190,33 @@ public class PortableGraphicsEngine {
 					display.drawText(layer, label, true, location, RGB.WHITE, 1.0f);
 					break;
 
-				case UPGRADE_TOWER:
+				case TOWER_INFO:
+					Tower t2 = (Tower)game.selectedObject;
+					display.drawText(
+							layer,
+							t2.toString(),
+							true,
+							new V2(GridCell.size / 2, GridCell.size / 2),
+							new RGB(1.0f, 1.0f, 1.0f),
+							1.0f
+					);
+					break;
+
+				case TOWER_UPGRADE:
 					display.drawText(
 							layer,
 							"Level up Tower",
+							true,
+							new V2(GridCell.size / 2, GridCell.size / 2),
+							new RGB(1.0f, 1.0f, 1.0f),
+							1.0f
+					);
+					break;
+
+				case DEBUG_INFO:
+					display.drawText(
+							layer,
+							String.format(Locale.US, "%.1f fps", graphicsTickRater.tickRate),
 							true,
 							new V2(GridCell.size / 2, GridCell.size / 2),
 							new RGB(1.0f, 1.0f, 1.0f),

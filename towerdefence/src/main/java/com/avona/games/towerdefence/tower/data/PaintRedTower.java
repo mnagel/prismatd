@@ -26,7 +26,7 @@ public class PaintRedTower extends Tower {
 	}
 
 	public String getName() {
-		return "Paint Red Tower";
+		return "Paint Red Prisma";
 	}
 
 	protected EnemySelectionPolicy getPolicyForLevel(int level) {

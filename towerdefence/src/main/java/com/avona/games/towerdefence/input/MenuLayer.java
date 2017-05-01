@@ -87,7 +87,18 @@ public class MenuLayer extends Layer {
 		}
 
 		if (game.selectedObject instanceof Tower) {
-			addButton(new MenuButton("Level Up Tower", MenuButtonLook.UPGRADE_TOWER) {
+			addButton(new MenuButton("Selected Tower Info", MenuButtonLook.TOWER_INFO) {
+				@Override
+				public void onClick() {
+				}
+
+				@Override
+				public Object getRenderExtra() {
+					return null;
+				}
+			});
+
+			addButton(new MenuButton("Level Up Tower", MenuButtonLook.TOWER_UPGRADE) {
 				@Override
 				public void onClick() {
 					if (game.selectedObject instanceof Tower) {
@@ -102,6 +113,17 @@ public class MenuLayer extends Layer {
 				}
 			});
 		}
+
+		addButton(new MenuButton("Debug Info", MenuButtonLook.DEBUG_INFO) {
+			@Override
+			public void onClick() {
+			}
+
+			@Override
+			public Object getRenderExtra() {
+				return null;
+			}
+		});
 
 		addButton(new MenuButton("Next Wave", MenuButtonLook.NEXT_WAVE) {
 			@Override
