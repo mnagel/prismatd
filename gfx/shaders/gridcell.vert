@@ -12,7 +12,7 @@ uniform float physicalRadius;
 varying float modifiedRadius;
 
 void main(void) {
-   v_color = a_color;
-   gl_Position = u_mvpMatrix * a_position;
-   modifiedRadius = physicalRadius;
+	v_color = a_color;
+	gl_Position = u_mvpMatrix * a_position;
+	modifiedRadius = physicalRadius;
 }

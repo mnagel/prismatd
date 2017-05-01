@@ -21,8 +21,8 @@ void main(void) {
 	// Modify size on selection
 	modifiedRadius = physicalRadius;
 	if (selected) {
-		// Pulsate +20% in size
-		float scalingFactor = 1.0 + 0.2 * abs(sin(4.0 * clock));
+		// Pulsate
+		float scalingFactor = 0.8 + 0.5 * abs(sin(4.0 * clock));
 
 		// Provide updated size for fragment shader
 		modifiedRadius *= scalingFactor;
