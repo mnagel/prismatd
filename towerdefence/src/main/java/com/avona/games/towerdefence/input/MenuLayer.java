@@ -2,11 +2,10 @@ package com.avona.games.towerdefence.input;
 
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.engine.Game;
+import com.avona.games.towerdefence.events.EmptyEventListener;
 import com.avona.games.towerdefence.events.EventDistributor;
-import com.avona.games.towerdefence.events.IEventListener;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.tower.Tower;
-import com.avona.games.towerdefence.util.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,79 +30,51 @@ public class MenuLayer extends Layer {
 		);
 		this.game = game;
 		this.layerHerder = layerHerder;
-		ed.listeners.add(new IEventListener() {
-			@Override
-			public void onBuildTower(Tower t) {
-
-			}
-
+		ed.listeners.add(new EmptyEventListener() {
 			@Override
 			public void onMenuRebuild() {
-				Util.log("rebuilding menu");
 				buildEntries();
 			}
 
 			@Override
 			public void onMissionSwitched(Mission mission) {
-				Util.log("missionswitch menulayer");
 				buildEntries();
-			}
-
-			@Override
-			public void onMissionCompleted(Mission mission) {
-
-			}
-
-			@Override
-			public void onGameCompleted(Game g) {
-
-			}
-
-			@Override
-			public void onGameOver(Game g) {
-
 			}
 		});
 
 	}
 
-	public void addButton(MenuButton b) {
-		buttons.add(b);
+	private void addButton(MenuButton button) {
+		buttons.add(button);
 	}
 
-	public MenuButtonLayer getButtonLayer(MenuButton b) {
-		return buttonLayers.get(b);
+	public MenuButtonLayer getButtonLayer(MenuButton button) {
+		return buttonLayers.get(button);
 	}
 
+	private MenuButtonLayer makeButtonLayer(MenuButton button) {
+		int index = buttons.indexOf(button);
 
-	private MenuButtonLayer makeButtonLayer(MenuButton b) {
-		int index = buttons.indexOf(b);
-
-
-		MenuButtonLayer res = new MenuButtonLayer(
-				"forButton" + b.toString(),
+		MenuButtonLayer result = new MenuButtonLayer(
+				"forButton" + button.toString(),
 				0,
 				this,
 				index,
 				buttons.size()
 		);
-		return res;
+		return result;
 	}
 
-	public void buildEntries() {
-		Util.log("build entries");
-		killEntries();
+	private void buildEntries() {
+		resetEntries();
 
-
-		// TODO handle these states in the menu
 		if (!(game.selectedObject instanceof Tower)) {
 			for (int i = 0; i < game.mission.buildableTowers.length; i++) {
 				final Tower t = game.mission.buildableTowers[i];
 
-				addButton(new MenuButton("tower" + i, MenuButton.MenuButtonLook.BUILD_TOWER) {
+				addButton(new MenuButton("Build Tower " + i, MenuButton.MenuButtonLook.BUILD_TOWER) {
 					@Override
 					public void onClick() {
-						Util.log("klicked tower button");
 						game.selectedBuildTower = t;
 					}
 
@@ -116,10 +87,9 @@ public class MenuLayer extends Layer {
 		}
 
 		if (game.selectedObject instanceof Tower) {
-			addButton(new MenuButton("levelup", MenuButton.MenuButtonLook.UPGRADE_TOWER) {
+			addButton(new MenuButton("Level Up Tower", MenuButton.MenuButtonLook.UPGRADE_TOWER) {
 				@Override
 				public void onClick() {
-					Util.log("klicked lvlup button");
 					if (game.selectedObject instanceof Tower) {
 						final Tower t = (Tower) game.selectedObject;
 						game.levelUpTower(t);
@@ -133,13 +103,10 @@ public class MenuLayer extends Layer {
 			});
 		}
 
-		addButton(new MenuButton("wave", MenuButton.MenuButtonLook.NEXT_WAVE) {
-
+		addButton(new MenuButton("Next Wave", MenuButton.MenuButtonLook.NEXT_WAVE) {
 			@Override
 			public void onClick() {
-				layerHerder.menuLayer.
-						rootInputActor.pressedOtherKey(' ');
-				Util.log("klicked wave button");
+				layerHerder.menuLayer.rootInputActor.pressedOtherKey(' ');
 			}
 
 			@Override
@@ -149,31 +116,26 @@ public class MenuLayer extends Layer {
 		});
 
 
-		for (MenuButton b : buttons) {
-			MenuButtonLayer x = makeButtonLayer(b);
-			Util.log(b.toString());
-			Util.log(x.toString());
-			buttonLayers.put(b, x);
-			layerHerder.addLayer(x);
-			//Util.log("telling root inp");
-			MenuButtonInputActor y = new MenuButtonInputActor(b);
-			Util.log("add input mapping from " + x + " to " + y);
-			rootInputActor.inputLayerMap.put(x, y);
+		for (MenuButton button : buttons) {
+			MenuButtonLayer layer = makeButtonLayer(button);
+			buttonLayers.put(button, layer);
+			layerHerder.addLayer(layer);
+			MenuButtonInputActor inputActor = new MenuButtonInputActor(button);
+			rootInputActor.inputLayerMap.put(layer, inputActor);
 		}
 	}
 
-	public void pushDownResize() {
-		for (MenuButton b : buttons) {
-			getButtonLayer(b).adjustSize();
+	void resizeChildren() {
+		for (MenuButton button : buttons) {
+			getButtonLayer(button).adjustSize();
 		}
 	}
 
-	public void killEntries() {
-		for (MenuButton b : buttons) {
-			Layer x = getButtonLayer(b);
-			//buttonLayers.add(x);
-			layerHerder.removeLayer(x);
-			rootInputActor.inputLayerMap.remove(x);
+	private void resetEntries() {
+		for (MenuButton button : buttons) {
+			Layer layer = getButtonLayer(button);
+			layerHerder.removeLayer(layer);
+			rootInputActor.inputLayerMap.remove(layer);
 		}
 		buttonLayers = new HashMap<>();
 		buttons = new ArrayList<>();

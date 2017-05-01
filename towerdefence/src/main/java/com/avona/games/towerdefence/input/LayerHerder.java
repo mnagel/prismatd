@@ -1,7 +1,6 @@
 package com.avona.games.towerdefence.input;
 
 import com.avona.games.towerdefence.core.V2;
-import com.avona.games.towerdefence.util.Util;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -61,7 +60,7 @@ public class LayerHerder {
 		menuLayer.offset.y = gameLayer.offset.y;
 		menuLayer.offset.x = gameLayer.offset.x + gameLayer.region.x;
 
-		menuLayer.pushDownResize();
+		menuLayer.resizeChildren();
 	}
 
 	public void addLayer(final Layer layer) {
