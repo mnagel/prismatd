@@ -25,6 +25,9 @@ import java.util.HashMap;
  */
 @SuppressWarnings("AccessStaticViaInstance")
 public class AwtDisplay extends PortableDisplay implements GLEventListener {
+	public static final int DEFAULT_HEIGHT = 480;
+	public static final int DEFAULT_WIDTH = 675;
+
 	// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
 	private final static int FONTSIZE = 12;
 	public Frame frame;
@@ -75,7 +78,7 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	private void setupFrame() {
 		frame = new Frame("Towerdefence");
 		frame.add(canvas);
-		frame.setSize(PortableGraphicsEngine.DEFAULT_WIDTH, PortableGraphicsEngine.DEFAULT_HEIGHT);
+		frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		frame.setBackground(Color.WHITE);
 		frame.setCursor(java.awt.Toolkit.getDefaultToolkit()
 				.createCustomCursor(

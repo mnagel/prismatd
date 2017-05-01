@@ -2,6 +2,7 @@ package com.avona.games.towerdefence.awt;
 
 import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.engine.PortableMainLoop;
+import com.avona.games.towerdefence.gfx.DisplayEventListener;
 import com.avona.games.towerdefence.gfx.PortableGraphicsEngine;
 import com.avona.games.towerdefence.input.AsyncInput;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
@@ -66,9 +67,19 @@ public class AwtMainLoop extends PortableMainLoop implements GLEventListener {
 
 		ResourceResolverRegistry.setInstance(new FileResourceResolver("gfx"));
 
-		AwtDisplay display = new AwtDisplay(displayEventListener);
+		final AwtDisplay display = new AwtDisplay(displayEventListener);
 		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder, this);
-		displayEventListener.add(ge);
+		displayEventListener.add(new DisplayEventListener() {
+			@Override
+			public void onReshapeScreen() {
+				layerHerder.onReshapeScreen(display.getSize());
+			}
+
+			@Override
+			public void onNewScreenContext() {
+				ge.freeMissionVertices();
+			}
+		});
 		display.canvas.addGLEventListener(this);
 
 		InputMangler input = new InputMangler(this, rootInputActor);

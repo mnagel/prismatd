@@ -15,32 +15,27 @@ import com.avona.games.towerdefence.time.TimeTrack;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.transients.Transient;
 import com.avona.games.towerdefence.util.FeatureFlags;
-import com.avona.games.towerdefence.util.Util;
 import com.google.common.collect.Lists;
 
 import java.util.Collection;
 import java.util.Locale;
 
-public class PortableGraphicsEngine implements DisplayEventListener {
-
-	public static final int DEFAULT_HEIGHT = 480;
-	public static final int DEFAULT_WIDTH = 675;
-	private static final String LEVEL_UP_TEXT = "Level up Tower";
-	//private MenuLayer menuLayer;
-	//private Layer gameLayer;
-	private LayerHerder layerHerder;
-
+public class PortableGraphicsEngine {
 	private TimeTrack graphicsTime = new TimeTrack();
 	private TickRater graphicsTickRater = new TickRater(graphicsTime);
+
 	private Display display;
 	private Game game;
 	private Mouse mouse;
+
+	private LayerHerder layerHerder;
 
 	private VertexArray[] missionVertices;
 	private Shader towerShader;
 	private Shader enemyShader;
 	private Shader particleShader;
 	private Shader gridcellShader;
+
 	private float textSize;
 
 	public PortableGraphicsEngine(
@@ -59,19 +54,6 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 
 	synchronized public void setTowerShader(Shader towerShader) {
 		this.towerShader = towerShader;
-	}
-
-	@Override
-	public void onReshapeScreen() {
-		Util.log("ge wants resize");
-		layerHerder.onReshapeScreen(display.getSize());
-	}
-
-	@Override
-	synchronized public void onNewScreenContext() {
-		// Make sure that the VertexArrays are cleared on a screen context reset.
-		// Otherwise, any preloaded texture wouldn't be reloaded again.
-		freeMissionVertices();
 	}
 
 	synchronized public void render(final float dt) {
@@ -200,7 +182,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 		}
 	}
 
-	synchronized void freeMissionVertices() {
+	public synchronized void freeMissionVertices() {
 		if (missionVertices != null) {
 			// In case we're recreating the world, allow re-using of the buffers.
 			for (VertexArray va : missionVertices) {
@@ -240,7 +222,7 @@ public class PortableGraphicsEngine implements DisplayEventListener {
 				case UPGRADE_TOWER:
 					display.drawText(
 							layer,
-							LEVEL_UP_TEXT,
+							"Level up Tower",
 							true,
 							new V2(GridCell.size / 2, GridCell.size / 2),
 							new RGB(1.0f, 1.0f, 1.0f),
