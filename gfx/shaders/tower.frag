@@ -1,7 +1,5 @@
-precision highp float;
-
 // all pixels
-uniform float clock;
+uniform highp float clock;
 uniform int level;
 uniform vec2 physicalLocation;
 uniform bool selected;

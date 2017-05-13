@@ -57,6 +57,10 @@ public class AwtShader extends Shader {
 						"#ifdef GL_ES \n" +
 						"  precision mediump float; \n" +
 						"  precision mediump int; \n" +
+						"#else\n" +
+						"  #define mediump\n" +
+						"  #define highp\n" +
+						"  #define lowp\n" +
 						"#endif \n" +
 						vertexSource.toString();
 
@@ -81,6 +85,10 @@ public class AwtShader extends Shader {
 						"#ifdef GL_ES \n" +
 						"  precision mediump float; \n" +
 						"  precision mediump int; \n" +
+						"#else\n" +
+						"  #define mediump\n" +
+						"  #define highp\n" +
+						"  #define lowp\n" +
 						"#endif \n" +
 						fragmentSource.toString();
 

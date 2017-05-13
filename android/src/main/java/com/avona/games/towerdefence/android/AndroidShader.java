@@ -48,12 +48,48 @@ public class AndroidShader extends Shader {
 
 	private int compileVertexShader(ShaderSource vertexShaderSource) {
 		vertexSource = vertexShaderSource;
-		return compileShader(vertexShaderSource.toString(), GLES20.GL_VERTEX_SHADER);
+
+		// Compatibility
+		String vertexShaderString =
+				"#if __VERSION__ >= 130\n" +
+						"  #define attribute in\n" +
+						"  #define varying out\n" +
+						"#endif\n" +
+						"#ifdef GL_ES \n" +
+						"  precision mediump float; \n" +
+						"  precision mediump int; \n" +
+						"#else\n" +
+						"  #define mediump\n" +
+						"  #define highp\n" +
+						"  #define lowp\n" +
+						"#endif \n" +
+						vertexSource.toString();
+
+		return compileShader(vertexShaderString, GLES20.GL_VERTEX_SHADER);
 	}
 
 	private int compileFragmentShader(ShaderSource fragmentShaderSource) {
 		fragmentSource = fragmentShaderSource;
-		return compileShader(fragmentShaderSource.toString(), GLES20.GL_FRAGMENT_SHADER);
+
+		// Compatibility
+		String fragmentShaderString =
+				"#if __VERSION__ >= 130\n" +
+						"  #define varying in\n" +
+						"  out vec4 mgl_FragColor;\n" +
+						"  #define texture2D texture\n" +
+						"  #define gl_FragColor mgl_FragColor\n" +
+						"#endif\n" +
+						"#ifdef GL_ES \n" +
+						"  precision mediump float; \n" +
+						"  precision mediump int; \n" +
+						"#else\n" +
+						"  #define mediump\n" +
+						"  #define highp\n" +
+						"  #define lowp\n" +
+						"#endif \n" +
+						fragmentSource.toString();
+
+		return compileShader(fragmentShaderString, GLES20.GL_FRAGMENT_SHADER);
 	}
 
 	@Override

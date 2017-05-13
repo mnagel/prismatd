@@ -1,12 +1,10 @@
-precision highp float;
-
 // Global
 varying vec4 v_color;
 uniform int level;
 
 // Local
 uniform vec2 physicalLocation;
-uniform float clock;
+uniform highp float clock;
 varying float modifiedRadius;
 
 const float pi = 3.14159;

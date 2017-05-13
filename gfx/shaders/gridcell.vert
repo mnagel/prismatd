@@ -6,7 +6,7 @@ varying vec4 v_color;
 
 // Local
 uniform bool selected;
-uniform float clock;
+uniform highp float clock;
 uniform vec2 virtualLocation;
 uniform float physicalRadius;
 varying float modifiedRadius;
