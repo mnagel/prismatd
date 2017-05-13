@@ -7,20 +7,16 @@ package com.android.texample2;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-public class SpriteBatch {
+class SpriteBatch {
+	private final static int VERTEX_SIZE = 5;                  // Vertex Size (in Components) ie. (X,Y,U,V,M), M is MVP matrix index
+	private final static int VERTICES_PER_SPRITE = 4;          // Vertices Per Sprite
+	private final static int INDICES_PER_SPRITE = 6;           // Indices Per Sprite
 
-	//--Constants--//
-	final static int VERTEX_SIZE = 5;                  // Vertex Size (in Components) ie. (X,Y,U,V,M), M is MVP matrix index
-	final static int VERTICES_PER_SPRITE = 4;          // Vertices Per Sprite
-	final static int INDICES_PER_SPRITE = 6;           // Indices Per Sprite
-	private static final String TAG = "SpriteBatch";
-
-	//--Members--//
-	Vertices vertices;                                 // Vertices Instance Used for Rendering
-	float[] vertexBuffer;                              // Vertex Buffer
-	int bufferIndex;                                   // Vertex Buffer Start Index
-	int maxSprites;                                    // Maximum Sprites Allowed in Buffer
-	int numSprites;                                    // Number of Sprites Currently in Buffer
+	private Vertices vertices;                                 // Vertices Instance Used for Rendering
+	private float[] vertexBuffer;
+	private int bufferIndex;                                   // Vertex Buffer Start Index
+	private int maxSprites;                                    // Maximum Sprites Allowed in Buffer
+	private int numSprites;                                    // Number of Sprites Currently in Buffer
 	private float[] mVpMatrix;                            // View and projection matrix specified at begin
 	private float[] uMvpMatrices = new float[GLText.CHAR_BATCH_SIZE * 16]; // MVP matrix array to pass to shader
 	private int mMvpMatricesHandle;                            // shader handle of the MVP matrix array
@@ -30,7 +26,7 @@ public class SpriteBatch {
 	// D: prepare the sprite batcher for specified maximum number of sprites
 	// A: maxSprites - the maximum allowed sprites per batch
 	//    program - program to use when drawing
-	public SpriteBatch(int maxSprites, int shaderProgramHandle) {
+	SpriteBatch(int maxSprites, int shaderProgramHandle) {
 		this.vertexBuffer = new float[maxSprites * VERTICES_PER_SPRITE * VERTEX_SIZE];  // Create Vertex Buffer
 		this.vertices = new Vertices(shaderProgramHandle, maxSprites * VERTICES_PER_SPRITE, maxSprites * INDICES_PER_SPRITE);  // Create Rendering Vertices
 		this.bufferIndex = 0;                           // Reset Buffer Index
@@ -41,18 +37,18 @@ public class SpriteBatch {
 		int len = indices.length;                       // Get Index Buffer Length
 		short j = 0;                                    // Counter
 		for (int i = 0; i < len; i += INDICES_PER_SPRITE, j += VERTICES_PER_SPRITE) {  // FOR Each Index Set (Per Sprite)
-			indices[i + 0] = (short) (j + 0);           // Calculate Index 0
+			indices[i] = j;           // Calculate Index 0
 			indices[i + 1] = (short) (j + 1);           // Calculate Index 1
 			indices[i + 2] = (short) (j + 2);           // Calculate Index 2
 			indices[i + 3] = (short) (j + 2);           // Calculate Index 3
 			indices[i + 4] = (short) (j + 3);           // Calculate Index 4
-			indices[i + 5] = (short) (j + 0);           // Calculate Index 5
+			indices[i + 5] = j;           // Calculate Index 5
 		}
 		vertices.setIndices(indices, 0, len);         // Set Index Buffer for Rendering
 		mMvpMatricesHandle = GLES20.glGetUniformLocation(shaderProgramHandle, "u_mvpMatrices");
 	}
 
-	public void beginBatch(float[] vpMatrix) {
+	void beginBatch(float[] vpMatrix) {
 		numSprites = 0;                                 // Empty Sprite Counter
 		bufferIndex = 0;                                // Reset Buffer Index (Empty)
 		mVpMatrix = vpMatrix;
@@ -60,9 +56,7 @@ public class SpriteBatch {
 
 	//--End Batch--//
 	// D: signal the end of a batch. render the batched sprites
-	// A: [none]
-	// R: [none]
-	public void endBatch() {
+	void endBatch() {
 		if (numSprites > 0) {                        // IF Any Sprites to Render
 			// bind MVP matrices array to shader
 			GLES20.glUniformMatrix4fv(mMvpMatricesHandle, numSprites, false, uMvpMatrices, 0);
@@ -84,8 +78,7 @@ public class SpriteBatch {
 	//    width, height - the width and height of the sprite
 	//    region - the texture region to use for sprite
 	//    modelMatrix - the model matrix to assign to the sprite
-	// R: [none]
-	public void drawSprite(float x, float y, float width, float height, TextureRegion region, float[] modelMatrix) {
+	void drawSprite(float x, float y, float width, float height, TextureRegion region, float[] modelMatrix) {
 		if (numSprites == maxSprites) {              // IF Sprite Buffer is Full
 			endBatch();                                  // End Batch
 			// NOTE: leave current texture bound!!
@@ -129,9 +122,7 @@ public class SpriteBatch {
 		Matrix.multiplyMM(mMvpMatrix, 0, mVpMatrix, 0, modelMatrix, 0);
 
 		//TODO: make sure numSprites < 24
-		for (int i = 0; i < 16; ++i) {
-			uMvpMatrices[numSprites * 16 + i] = mMvpMatrix[i];
-		}
+		System.arraycopy(mMvpMatrix, 0, uMvpMatrices, numSprites * 16, 16);
 
 		numSprites++;                                   // Increment Sprite Count
 	}
