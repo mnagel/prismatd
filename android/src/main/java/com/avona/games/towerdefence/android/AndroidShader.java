@@ -119,6 +119,11 @@ public class AndroidShader extends Shader {
 
 		GLES20.glBindAttribLocation(program, 0, "a_position");
 		GLES20.glBindAttribLocation(program, 1, "a_color");
+		GLES20.glBindAttribLocation(program, 2, "a_texCoordinate");
+
+		if (name.equals("text")) {
+			GLES20.glBindAttribLocation(program, 3, "a_mvpMatrixIndex");
+		}
 
 		GLES20.glLinkProgram(program);
 

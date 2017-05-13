@@ -6,7 +6,7 @@ public abstract class Shader {
 	private static final String EXT_VERTEX_SHADER = ".vert";
 	private static final String EXT_FRAGMENT_SHADER = ".frag";
 	protected int program = -1;
-	private String name;
+	protected String name;
 	private HashMap<String, Variable> uniforms = new HashMap<>();
 
 	public Shader(String name) {

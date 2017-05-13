@@ -71,17 +71,17 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 
 	@Override
 	public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
-		glText = new GLText(assetManager);
-		glText.load("Roboto-Regular.ttf", FONTSIZE, 2, 2);
-		myinit();
-	}
-
-	public void myinit() {
 		GLES20.glEnable(GLES20.GL_BLEND);
 		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		defaultShader = allocateShader("default");
 		defaultShader.loadShaderProgramFromFile("default");
+
+		Shader textShader = allocateShader("text");
+		textShader.loadShaderProgramFromFile("text");
+
+		glText = new GLText(textShader.getProgram(), assetManager);
+		glText.load("Roboto-Regular.ttf", FONTSIZE, 2, 2);
 
 		eventListener.onNewScreenContext();
 		checkGLError("after onSurfaceCreated");

@@ -33,15 +33,15 @@ public class Vertices {
 	final int[] tmpBuffer;                             // Temp Buffer for Vertex Conversion
 	public int numVertices;                            // Number of Vertices in Buffer
 	public int numIndices;                             // Number of Indices in Buffer
-	private int mTextureCoordinateHandle;
+	private int mTexCoordinateHandle;
 	private int mPositionHandle;
-	private int mMVPIndexHandle;
+	private int mMvpIndexHandle;
 
 	//--Constructor--//
 	// D: create the vertices/indices as specified (for 2d/3d)
 	// A: maxVertices - maximum vertices allowed in buffer
 	//    maxIndices - maximum indices allowed in buffer
-	public Vertices(int maxVertices, int maxIndices) {
+	public Vertices(int shaderProgramHandle, int maxVertices, int maxIndices) {
 		//      this.gl = gl;                                   // Save GL Instance
 		this.positionCnt = POSITION_CNT_2D;  // Set Position Component Count
 		this.vertexStride = this.positionCnt + TEXCOORD_CNT + MVP_MATRIX_INDEX_CNT;  // Calculate Vertex Stride
@@ -66,9 +66,9 @@ public class Vertices {
 		this.tmpBuffer = new int[maxVertices * vertexSize / 4];  // Create Temp Buffer
 
 		// initialize the shader attribute handles
-		mTextureCoordinateHandle = AttribVariable.A_TexCoordinate.getHandle();
-		mMVPIndexHandle = AttribVariable.A_MVPMatrixIndex.getHandle();
-		mPositionHandle = AttribVariable.A_Position.getHandle();
+		mTexCoordinateHandle = GLES20.glGetAttribLocation(shaderProgramHandle, "a_texCoordinate");
+		mPositionHandle = GLES20.glGetAttribLocation(shaderProgramHandle, "a_position");
+		mMvpIndexHandle = GLES20.glGetAttribLocation(shaderProgramHandle, "a_mvpMatrixIndex");
 	}
 
 	//--Set Vertices--//
@@ -112,21 +112,18 @@ public class Vertices {
 	public void bind() {
 		// bind vertex position pointer
 		vertices.position(0);                         // Set Vertex Buffer to Position
-		GLES20.glVertexAttribPointer(mPositionHandle, positionCnt,
-				GLES20.GL_FLOAT, false, vertexSize, vertices);
+		GLES20.glVertexAttribPointer(mPositionHandle, positionCnt, GLES20.GL_FLOAT, false, vertexSize, vertices);
 		GLES20.glEnableVertexAttribArray(mPositionHandle);
 
 		// bind texture position pointer
 		vertices.position(positionCnt);  // Set Vertex Buffer to Texture Coords (NOTE: position based on whether color is also specified)
-		GLES20.glVertexAttribPointer(mTextureCoordinateHandle, TEXCOORD_CNT,
-				GLES20.GL_FLOAT, false, vertexSize, vertices);
-		GLES20.glEnableVertexAttribArray(mTextureCoordinateHandle);
+		GLES20.glVertexAttribPointer(mTexCoordinateHandle, TEXCOORD_CNT, GLES20.GL_FLOAT, false, vertexSize, vertices);
+		GLES20.glEnableVertexAttribArray(mTexCoordinateHandle);
 
 		// bind MVP Matrix index position handle
 		vertices.position(positionCnt + TEXCOORD_CNT);
-		GLES20.glVertexAttribPointer(mMVPIndexHandle, MVP_MATRIX_INDEX_CNT,
-				GLES20.GL_FLOAT, false, vertexSize, vertices);
-		GLES20.glEnableVertexAttribArray(mMVPIndexHandle);
+		GLES20.glVertexAttribPointer(mMvpIndexHandle, MVP_MATRIX_INDEX_CNT, GLES20.GL_FLOAT, false, vertexSize, vertices);
+		GLES20.glEnableVertexAttribArray(mMvpIndexHandle);
 	}
 
 	//--Draw--//
@@ -154,6 +151,6 @@ public class Vertices {
 	// A: [none]
 	// R: [none]
 	public void unbind() {
-		GLES20.glDisableVertexAttribArray(mTextureCoordinateHandle);
+		GLES20.glDisableVertexAttribArray(mTexCoordinateHandle);
 	}
 }

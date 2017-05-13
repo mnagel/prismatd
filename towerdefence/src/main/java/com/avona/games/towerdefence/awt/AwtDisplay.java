@@ -192,16 +192,15 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		checkGLError("after a_color");
 
 		if (array.hasTexture) {
-			int textureLoc = GLES20.glGetUniformLocation(program, "u_texture");
-			int texCoordinateLoc = GLES20.glGetAttribLocation(program, "a_texCoordinate");
-
 			GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, array.texture.textureId);
+			int textureLoc = GLES20.glGetUniformLocation(program, "u_texture");
 			GLES20.glUniform1i(textureLoc, 0);
 
 			array.textureBuffer.position(0);
-			GLES20.glVertexAttribPointer(texCoordinateLoc, 2, GLES20.GL_FLOAT, false, 0, array.textureBuffer);
-			GLES20.glEnableVertexAttribArray(texCoordinateLoc);
+			int texCoordinateAttrib = GLES20.glGetAttribLocation(program, "a_texCoordinate");
+			GLES20.glVertexAttribPointer(texCoordinateAttrib, 2, GLES20.GL_FLOAT, false, 0, array.textureBuffer);
+			GLES20.glEnableVertexAttribArray(texCoordinateAttrib);
 			checkGLError("after u_texture");
 		}
 
@@ -219,8 +218,8 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		checkGLError("after glDrawArrays");
 
 		if (array.hasTexture) {
-			int texCoordinateLoc = GLES20.glGetAttribLocation(program, "a_texCoordinate");
-			GLES20.glDisableVertexAttribArray(texCoordinateLoc);
+			int texCoordinateAttrib = GLES20.glGetAttribLocation(program, "a_texCoordinate");
+			GLES20.glDisableVertexAttribArray(texCoordinateAttrib);
 		}
 
 		GLES20.glDisableVertexAttribArray(posAttrib);
