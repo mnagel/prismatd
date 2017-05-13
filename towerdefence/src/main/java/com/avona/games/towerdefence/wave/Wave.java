@@ -29,11 +29,26 @@ public class Wave extends TimedCode implements EnemyEventListener {
 		this.timedCodeManager = timedCodeManager;
 		this.enemies = enemies;
 
-		spawnEnemy();
+		spawnNextEnemy();
 	}
 
 	public boolean isFullyDeployed() {
 		return fullyDeployed;
+	}
+
+	@Override
+	public void execute() {
+		spawnNextEnemy();
+	}
+
+	private void spawnNextEnemy() {
+		spawnEnemy();
+
+		if (moreEnemiesSpawnable()) {
+			scheduleNextEnemySpawn();
+		} else {
+			onWaveFullyDeployed();
+		}
 	}
 
 	private void spawnEnemy() {
@@ -45,17 +60,21 @@ public class Wave extends TimedCode implements EnemyEventListener {
 		++curEnemy;
 		++activeEnemies;
 		game.onEnemySpawned(e);
-		timedCodeManager.addCode(we.delayAfter, this);
 	}
 
-	@Override
-	public void execute() {
-		if (curEnemy < enemies.length) {
-			spawnEnemy();
-		} else {
-			fullyDeployed = true;
-			mission.waveTracker.onWaveFullyDeployed(this);
-		}
+	private boolean moreEnemiesSpawnable() {
+		return curEnemy < enemies.length;
+	}
+
+	private void onWaveFullyDeployed() {
+		fullyDeployed = true;
+		mission.waveTracker.onWaveFullyDeployed(this);
+		checkEnemiesDone();
+	}
+
+	private void scheduleNextEnemySpawn() {
+		WaveEnemyConfig we = enemies[curEnemy];
+		timedCodeManager.addCode(we.delayAfter, this);
 	}
 
 	private void checkEnemiesDone() {
