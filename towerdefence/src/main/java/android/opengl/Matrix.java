@@ -462,13 +462,13 @@ public class Matrix {
 	 * @param y        scale factor y
 	 * @param z        scale factor z
 	 */
-//	public static void rotateM(float[] rm, int rmOffset,
-//							   float[] m, int mOffset,
-//							   float a, float x, float y, float z) {
-//		float[] r = new float[16];
-//		setRotateM(r, 0, a, x, y, z);
-//		multiplyMM(rm, rmOffset, m, mOffset, r, 0);
-//	}
+	public static void rotateM(float[] rm, int rmOffset,
+							   float[] m, int mOffset,
+							   float a, float x, float y, float z) {
+		float[] r = new float[16];
+		setRotateM(r, 0, a, x, y, z);
+		multiplyMM(rm, rmOffset, m, mOffset, r, 0);
+	}
 
 	/**
 	 * Rotates matrix m in place by angle a (in degrees)
@@ -481,13 +481,13 @@ public class Matrix {
 	 * @param y       scale factor y
 	 * @param z       scale factor z
 	 */
-//	public static void rotateM(float[] m, int mOffset,
-//							   float a, float x, float y, float z) {
-//		float[] temp = new float[32];
-//		setRotateM(temp, 0, a, x, y, z);
-//		multiplyMM(temp, 16, m, mOffset, temp, 0);
-//		System.arraycopy(temp, 16, m, mOffset, 16);
-//	}
+	public static void rotateM(float[] m, int mOffset,
+							   float a, float x, float y, float z) {
+		float[] temp = new float[32];
+		setRotateM(temp, 0, a, x, y, z);
+		multiplyMM(temp, 16, m, mOffset, temp, 0);
+		System.arraycopy(temp, 16, m, mOffset, 16);
+	}
 
 	/**
 	 * Rotates matrix m by angle a (in degrees) around the axis (x, y, z)
