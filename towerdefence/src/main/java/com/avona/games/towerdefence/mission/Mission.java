@@ -3,8 +3,8 @@ package com.avona.games.towerdefence.mission;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.engine.Game;
+import com.avona.games.towerdefence.engine.MissionStatus;
 import com.avona.games.towerdefence.tower.Tower;
-import com.avona.games.towerdefence.util.Util;
 import com.avona.games.towerdefence.wave.Wave;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 import com.avona.games.towerdefence.wave.WaveSender;
@@ -14,26 +14,22 @@ import java.io.Serializable;
 import java.util.*;
 
 public abstract class Mission implements Serializable, WaveSender {
-	public final static float ORIGIN_X = 0;
 	public final static float WIDTH = 675;
-	public final static float ORIGIN_Y = 0;
 	public final static float HEIGHT = 480;
 	private static final long serialVersionUID = 1L;
-	public final float WAYPOINT_WIDTH = 4.0f;
 	public final Tower[] buildableTowers;
 	private final WaveEnemyConfig[][] enemyWaves;
 	public GridCell[] waypoints;
 	public String missionName;
 	public MissionStatementText[] missionStatementTexts;
 	public WaveTracker waveTracker = new WaveTracker(this);
-	public boolean completed = false;
+
 	public GridCell[][] gridCells2d;
 	public GridCell[] gridCells;
-	public int gridCellCountX;
-	public int gridCellCountY;
-
 	// TODO: make independent of game
 	protected Game game;
+	private int gridCellCountX;
+	private int gridCellCountY;
 
 	public Mission(final Game game) {
 		String l = this.getMissionDefinitionString();
@@ -57,7 +53,7 @@ public abstract class Mission implements Serializable, WaveSender {
 		}
 	}
 
-	public void parseMissionDefinition(String missionDefinition) {
+	private void parseMissionDefinition(String missionDefinition) {
 		gridCellCountX = 16;
 		gridCellCountY = 12;
 		gridCells2d = new GridCell[gridCellCountX][gridCellCountY];
@@ -127,8 +123,7 @@ public abstract class Mission implements Serializable, WaveSender {
 
 	@Override
 	public void onAllWavesCompleted() {
-		Util.log("All waves completed -> mission completed");
-		completed = true;
+		game.missionStatus = MissionStatus.WON;
 		game.eventDistributor.onMissionCompleted(this);
 	}
 
@@ -158,7 +153,7 @@ public abstract class Mission implements Serializable, WaveSender {
 	 */
 	protected abstract Tower[] loadBuildableTowers();
 
-	protected String getMissionName() {
+	private String getMissionName() {
 		return this.getClass().getAnnotation(MissionName.class).value();
 	}
 

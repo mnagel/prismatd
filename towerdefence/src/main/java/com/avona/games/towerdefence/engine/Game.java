@@ -38,6 +38,8 @@ public class Game implements Serializable {
 	public TimedCodeManager timedCodeManager = new TimedCodeManager();
 	public EventDistributor eventDistributor;
 	public Mission mission;
+	public MissionStatus missionStatus = MissionStatus.ALLOCATED;
+
 	public int killed = 0;
 	public int lives;
 	public int money;
@@ -64,7 +66,8 @@ public class Game implements Serializable {
 	private void loadMission(Class<Mission> klass) {
 		try {
 			Constructor<Mission> ctor = klass.getConstructor(Game.class);
-			this.mission = ctor.newInstance(this);
+			mission = ctor.newInstance(this);
+			missionStatus = MissionStatus.ACTIVE;
 		} catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
 			throw new RuntimeException("died horribly in mission list hackery", e);
 		}
@@ -82,6 +85,7 @@ public class Game implements Serializable {
 		selectedObject = null;
 
 		eventDistributor.onMissionSwitched(mission);
+		unpause();
 	}
 
 	public void loadMission(int missionIdx) {
@@ -95,15 +99,11 @@ public class Game implements Serializable {
 			return;
 		}
 		--lives;
-		if (isGameOver()) {
-			// FIXME add some game over logic here...
-			Util.log("you should die now...");
+		if (lives <= 0) {
+			pause();
+			missionStatus = MissionStatus.LOST;
 			eventDistributor.onGameOver(this);
 		}
-	}
-
-	private boolean isGameOver() {
-		return lives == 0;
 	}
 
 	/**
@@ -189,7 +189,7 @@ public class Game implements Serializable {
 		gameTime.startClock();
 	}
 
-	public boolean isPaused() {
+	boolean isPaused() {
 		return !gameTime.isRunning();
 	}
 

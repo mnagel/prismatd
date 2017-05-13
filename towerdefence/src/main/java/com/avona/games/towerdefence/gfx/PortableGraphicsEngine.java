@@ -106,23 +106,8 @@ public class PortableGraphicsEngine {
 		display.prepareTransformationForLayer(layer);
 
 		if (FeatureFlags.OPENGL_DEBUG_LAYERS) {
-			final VertexArray va = new VertexArray();
-			va.hasColour = true;
-			va.numCoords = 4;
-			va.mode = VertexArray.Mode.TRIANGLE_STRIP;
-			va.hasShader = false;
-			va.reserveBuffers();
-
-			GeometryHelper.boxVerticesAsTriangleStrip(0, 0, layer.virtualRegion.x, layer.virtualRegion.y, va);
-
 			RGB gfxcol = new RGB(layer.hashCode() % 3 / 3.0f, layer.hashCode() % 7 / 7.0f, layer.hashCode() % 11 / 11.0f);
-			va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
-			va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
-			va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
-			va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
-
-			display.drawVertexArray(va);
-			va.freeBuffers();
+			renderFilledRect(new V2(0, 0), layer.virtualRegion, gfxcol); // 0,0 because already transformed
 		}
 	}
 
@@ -220,7 +205,7 @@ public class PortableGraphicsEngine {
 					break;
 
 				case TOWER_INFO:
-					Tower t2 = (Tower)game.selectedObject;
+					Tower t2 = (Tower) game.selectedObject;
 					display.drawText(
 							layer,
 							t2.toString(),
@@ -286,12 +271,27 @@ public class PortableGraphicsEngine {
 						i++;
 					}
 
-					String waveButtonText = "Send Wave #" + (wavenr + 2);
-					if (wavenr + 1 >= game.mission.getWaveCount()) {
-						waveButtonText = "Final Wave!";
-					}
-					if (game.mission.completed) {
-						waveButtonText = "Mission Done!";
+					String waveButtonText;
+					switch (game.missionStatus) {
+						default:
+						case ALLOCATED:
+							waveButtonText = "fishy attempt to render mission that is only in allocated status";
+							Util.log(waveButtonText);
+							break;
+						case ACTIVE:
+							waveButtonText = "Send Wave #" + (wavenr + 2);
+							if (wavenr + 1 >= game.mission.getWaveCount()) {
+								waveButtonText = "Final Wave!";
+							}
+							break;
+						case WON:
+							renderFilledRect(new V2(0, 0), layer.virtualRegion, new RGB(0, 1, 0));
+							waveButtonText = "Mission Won!";
+							break;
+						case LOST:
+							renderFilledRect(new V2(0, 0), layer.virtualRegion, new RGB(1, 0, 0));
+							waveButtonText = "Mission Lost!";
+							break;
 					}
 
 					display.drawText(
@@ -538,6 +538,7 @@ public class PortableGraphicsEngine {
 		return va;
 	}
 
+	@SuppressWarnings("SameParameterValue")
 	private void drawCircle(final float x, final float y, final float radius,
 							final float colR, final float colG, final float colB, final float colA) {
 
@@ -549,6 +550,7 @@ public class PortableGraphicsEngine {
 		va.freeBuffers();
 	}
 
+	@SuppressWarnings("SameParameterValue")
 	private void drawFilledCircle(final float x, final float y, final float radius,
 								  final float colR, final float colG, final float colB, final float colA) {
 
@@ -558,6 +560,26 @@ public class PortableGraphicsEngine {
 
 		va.addCoord(x, y);
 		va.addColour(colR, colG, colB, colA);
+
+		display.drawVertexArray(va);
+		va.freeBuffers();
+	}
+
+	private void renderFilledRect(V2 offset, V2 size, RGB gfxcol) {
+		final VertexArray va = new VertexArray();
+		va.hasColour = true;
+		va.numCoords = 4;
+		va.mode = VertexArray.Mode.TRIANGLE_STRIP;
+		va.hasShader = false;
+		va.reserveBuffers();
+
+		GeometryHelper.boxVerticesAsTriangleStrip(offset.x, offset.y, size.x, size.y, va);
+
+
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
+		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
 
 		display.drawVertexArray(va);
 		va.freeBuffers();

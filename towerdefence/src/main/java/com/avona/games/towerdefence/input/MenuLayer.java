@@ -2,6 +2,7 @@ package com.avona.games.towerdefence.input;
 
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.engine.Game;
+import com.avona.games.towerdefence.engine.MissionStatus;
 import com.avona.games.towerdefence.events.EmptyEventListener;
 import com.avona.games.towerdefence.events.EventDistributor;
 import com.avona.games.towerdefence.mission.Mission;
@@ -69,37 +70,39 @@ public class MenuLayer extends Layer {
 	private void buildEntries() {
 		resetEntries();
 
-		if (!(game.selectedObject instanceof Tower)) {
-			for (int i = 0; i < game.mission.buildableTowers.length; i++) {
-				final Tower t = game.mission.buildableTowers[i];
+		if (game.missionStatus == MissionStatus.ACTIVE) {
+			if (!(game.selectedObject instanceof Tower)) {
+				for (int i = 0; i < game.mission.buildableTowers.length; i++) {
+					final Tower t = game.mission.buildableTowers[i];
 
-				addButton(new MenuButton("Build Tower " + i, MenuButtonLook.BUILD_TOWER) {
+					addButton(new MenuButton("Build Tower " + i, MenuButtonLook.BUILD_TOWER) {
+						@Override
+						public void mouseBtn1DownAt(V2 location) {
+							game.selectedBuildTower = t;
+						}
+
+						@Override
+						public Object getRenderExtra() {
+							return t;
+						}
+					});
+				}
+			}
+
+			if (game.selectedObject instanceof Tower) {
+				addButton(new MenuButton("Selected Tower Info", MenuButtonLook.TOWER_INFO) {
+				});
+
+				addButton(new MenuButton("Level Up Tower", MenuButtonLook.TOWER_UPGRADE) {
 					@Override
 					public void mouseBtn1DownAt(V2 location) {
-						game.selectedBuildTower = t;
-					}
-
-					@Override
-					public Object getRenderExtra() {
-						return t;
+						if (game.selectedObject instanceof Tower) {
+							final Tower t = (Tower) game.selectedObject;
+							game.levelUpTower(t);
+						}
 					}
 				});
 			}
-		}
-
-		if (game.selectedObject instanceof Tower) {
-			addButton(new MenuButton("Selected Tower Info", MenuButtonLook.TOWER_INFO) {
-			});
-
-			addButton(new MenuButton("Level Up Tower", MenuButtonLook.TOWER_UPGRADE) {
-				@Override
-				public void mouseBtn1DownAt(V2 location) {
-					if (game.selectedObject instanceof Tower) {
-						final Tower t = (Tower) game.selectedObject;
-						game.levelUpTower(t);
-					}
-				}
-			});
 		}
 
 		if (FeatureFlags.SHOW_CONSOLE) {

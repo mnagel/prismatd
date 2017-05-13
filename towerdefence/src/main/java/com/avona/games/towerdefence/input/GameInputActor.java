@@ -2,6 +2,7 @@ package com.avona.games.towerdefence.input;
 
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.engine.Game;
+import com.avona.games.towerdefence.engine.MissionStatus;
 import com.avona.games.towerdefence.mission.MissionList;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.util.FeatureFlags;
@@ -43,10 +44,10 @@ public class GameInputActor extends EmptyInputActor {
 	}
 
 	private void pressForwardButton() {
-		if (game.mission.completed) {
-			loadMissionInteractive();
-		} else {
+		if (game.missionStatus == MissionStatus.ACTIVE) {
 			game.mission.waveTracker.startNextWave();
+		} else {
+			loadMissionInteractive();
 		}
 	}
 
