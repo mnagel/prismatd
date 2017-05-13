@@ -114,6 +114,7 @@ public class GameInputActor extends EmptyInputActor {
 							"Go Back to my game.",
 							"Log Debug Info.",
 							"Kill All Enemies.",
+							"Get 10000 Money.",
 					},
 					new IAsyncInput.MyRunnable() {
 						@Override
@@ -127,6 +128,9 @@ public class GameInputActor extends EmptyInputActor {
 									break;
 								case 2:
 									pressedOtherKey('k');
+									break;
+								case 3:
+									game.money = 10000;
 									break;
 							}
 						}
