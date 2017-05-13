@@ -206,9 +206,11 @@ public class PortableGraphicsEngine {
 
 				case TOWER_INFO:
 					Tower t2 = (Tower) game.selectedObject;
+					V2 location2 = layer.virtualRegion.clone2().mult(0.5f);
+					renderTower(t2, location2, layer, true);
 					display.drawText(
 							layer,
-							t2.toString(),
+							" L" + t2.level,
 							true,
 							new V2(GridCell.size / 2, GridCell.size / 2),
 							new RGB(1.0f, 1.0f, 1.0f),
@@ -219,7 +221,7 @@ public class PortableGraphicsEngine {
 				case TOWER_UPGRADE:
 					display.drawText(
 							layer,
-							"Level up Tower",
+							"Level up Prisma",
 							true,
 							new V2(GridCell.size / 2, GridCell.size / 2),
 							new RGB(1.0f, 1.0f, 1.0f),
@@ -514,10 +516,10 @@ public class PortableGraphicsEngine {
 		drawFilledCircle(p.x, p.y, mouse.radius, 1.0f, 1.0f, 1.0f, col);
 	}
 
-	private VertexArray createCircleVa(final float x, final float y, final float radius,
-									   final float colR, final float colG, final float colB,
-									   final float colA, final int segments) {
-
+	private VertexArray createCircleVa(
+			final float x, final float y, final float radius,
+			final float colR, final float colG, final float colB,
+			final float colA, final int segments) {
 		VertexArray va = new VertexArray();
 		va.hasColour = true;
 		va.numCoords = segments + 1;
@@ -539,9 +541,9 @@ public class PortableGraphicsEngine {
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	private void drawCircle(final float x, final float y, final float radius,
-							final float colR, final float colG, final float colB, final float colA) {
-
+	private void drawCircle(
+			final float x, final float y, final float radius,
+			final float colR, final float colG, final float colB, final float colA) {
 		final int segments = 100;
 		VertexArray va = createCircleVa(x, y, radius, colR, colG, colB, colA, segments);
 		va.mode = VertexArray.Mode.LINE_STRIP;
@@ -551,9 +553,9 @@ public class PortableGraphicsEngine {
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	private void drawFilledCircle(final float x, final float y, final float radius,
-								  final float colR, final float colG, final float colB, final float colA) {
-
+	private void drawFilledCircle(
+			final float x, final float y, final float radius,
+			final float colR, final float colG, final float colB, final float colA) {
 		final int segments = 100;
 		VertexArray va = createCircleVa(x, y, radius, colR, colG, colB, colA, segments);
 		va.mode = VertexArray.Mode.TRIANGLE_FAN;
@@ -574,8 +576,6 @@ public class PortableGraphicsEngine {
 		va.reserveBuffers();
 
 		GeometryHelper.boxVerticesAsTriangleStrip(offset.x, offset.y, size.x, size.y, va);
-
-
 		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
 		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
 		va.addColour(gfxcol.R, gfxcol.G, gfxcol.B, 0.7f);
