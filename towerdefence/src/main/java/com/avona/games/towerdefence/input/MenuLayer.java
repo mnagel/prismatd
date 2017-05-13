@@ -78,7 +78,11 @@ public class MenuLayer extends Layer {
 					addButton(new MenuButton("Build Tower " + i, MenuButtonLook.BUILD_TOWER) {
 						@Override
 						public void mouseBtn1DownAt(V2 location) {
-							game.selectedBuildTower = t;
+							if (t != game.selectedBuildTower) {
+								game.selectedBuildTower = t;
+							} else {
+								game.selectedBuildTower = null;
+							}
 						}
 
 						@Override
