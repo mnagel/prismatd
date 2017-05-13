@@ -11,16 +11,16 @@ import com.avona.games.towerdefence.input.IAsyncInput;
 // TODO FIX ... THIS
 public class AndroidIAsyncInput implements IAsyncInput {
 
-	private static final String TAG = "AsyncIn";
+	private static final String TAG = "AndroidIAsyncInput";
 
 	private final Context context;
 
-	public AndroidIAsyncInput(Context context) {
+	AndroidIAsyncInput(Context context) {
 		this.context = context;
 	}
 
 	@Override
-	public void runnableChooser(final String title, final String[] options, final MyRunnable callback) {
+	public void chooseRunnable(final String title, final String[] options, final boolean isCancelAllowed, final MyRunnable callback) {
 		final Handler guiMQ = new Handler(Looper.getMainLooper());
 		final boolean guitarget = Looper.myLooper() == Looper.getMainLooper();
 
@@ -30,7 +30,7 @@ public class AndroidIAsyncInput implements IAsyncInput {
 			public void run() {
 				final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setTitle(title);
-				builder.setCancelable(false);
+				builder.setCancelable(isCancelAllowed);
 				builder.setItems(options, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, final int which) {

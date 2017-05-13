@@ -7,7 +7,7 @@ public class AsyncInput {
 		instance = iAsyncInput;
 	}
 
-	public static void runnableChooser(String title, String[] options, IAsyncInput.MyRunnable callback) {
-		instance.runnableChooser(title, options, callback);
+	static void chooseRunnable(String title, String[] options, boolean isCancelAllowed, IAsyncInput.MyRunnable callback) {
+		instance.chooseRunnable(title, options, isCancelAllowed, callback);
 	}
 }

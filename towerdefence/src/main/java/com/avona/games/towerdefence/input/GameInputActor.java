@@ -54,7 +54,7 @@ public class GameInputActor extends EmptyInputActor {
 	private void loadMissionInteractive() {
 		Util.log("loadMissionInteractive");
 		String[] missions = MissionList.getAvailableMissionNames();
-		AsyncInput.runnableChooser("Load Mission", missions, new IAsyncInput.MyRunnable() {
+		AsyncInput.chooseRunnable("Load Mission", missions, true, new IAsyncInput.MyRunnable() {
 			@Override
 			public void run(int selectedOption) {
 				Util.log("run");
@@ -79,7 +79,7 @@ public class GameInputActor extends EmptyInputActor {
 		}
 		if (keyCode == 'b') {
 			//pause();
-			AsyncInput.runnableChooser(
+			AsyncInput.chooseRunnable(
 					"What do you want to do?",
 					new String[]{
 							"Go Back to my game.",
@@ -87,6 +87,7 @@ public class GameInputActor extends EmptyInputActor {
 							"Cheat...",
 							"Quit the game."
 					},
+					true,
 					new IAsyncInput.MyRunnable() {
 						@Override
 						public void run(int selectedOption) {
@@ -109,7 +110,7 @@ public class GameInputActor extends EmptyInputActor {
 			);
 		}
 		if (keyCode == 'c') {
-			AsyncInput.runnableChooser(
+			AsyncInput.chooseRunnable(
 					"Pick your cheat:",
 					new String[]{
 							"Go Back to my game.",
@@ -117,6 +118,7 @@ public class GameInputActor extends EmptyInputActor {
 							"Kill All Enemies.",
 							"Get 10000 Money.",
 					},
+					true,
 					new IAsyncInput.MyRunnable() {
 						@Override
 						public void run(int selectedOption) {

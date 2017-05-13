@@ -6,8 +6,16 @@ import javax.swing.*;
 import java.util.Arrays;
 
 public class AwtIAsyncInput implements IAsyncInput {
-	public static int userSelectsAString(String title, String message, String[] strings) {
-		String s = (String) JOptionPane.showInputDialog(null, message, title, JOptionPane.QUESTION_MESSAGE, null, strings, strings[0]);
+	private static int userSelectsAString(String title, String message, String[] strings) {
+		String s = (String) JOptionPane.showInputDialog(
+				null,
+				message,
+				title,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				strings,
+				strings[0]
+		);
 		if (s == null) {
 			return -1;
 		}
@@ -17,8 +25,15 @@ public class AwtIAsyncInput implements IAsyncInput {
 	}
 
 	@Override
-	public void runnableChooser(String title, String[] options, MyRunnable callback) {
-		int index = userSelectsAString(title, title, options);
-		callback.run(index);
+	public void chooseRunnable(String title, String[] options, boolean isCancelAllowed, MyRunnable callback) {
+		int index;
+		do {
+			index = userSelectsAString(title, title, options);
+		}
+		while (!isCancelAllowed && index == -1);
+
+		if (index != -1) {
+			callback.run(index);
+		}
 	}
 }
