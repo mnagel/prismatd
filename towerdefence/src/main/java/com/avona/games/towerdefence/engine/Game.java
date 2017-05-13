@@ -78,7 +78,7 @@ public class Game implements Serializable {
 		lives = mission.getStartLives();
 		money = mission.getStartMoney();
 
-		selectedBuildTower = mission.buildableTowers[0];
+		selectedBuildTower = null;
 		selectedObject = null;
 
 		eventDistributor.onMissionSwitched(mission);
