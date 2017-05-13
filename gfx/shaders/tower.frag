@@ -21,7 +21,7 @@ void main(void) {
 
 	// more shader gfx config
 	float tailcount = min(float(level), 3.0);
-	float n = 55.0 * float(level);
+	float n = 55.0 * float(tailcount);
 	const float f1 = 5.0;
 	const float f2 = 1.0;
 
