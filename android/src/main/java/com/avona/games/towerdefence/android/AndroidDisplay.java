@@ -218,8 +218,12 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 
 	@Override
 	public void drawText(final Layer layer, String text, boolean centeredHorizontal, boolean centeredVertical, final V2 location, final RGB color, float alpha) {
-		V2 loc = location.clone2();
-		loc = layer.convertToPhysical(loc);
+		V2 loc;
+		if (layer != null) {
+			loc = layer.convertToPhysical(location);
+		} else {
+			loc = location.clone2();
+		}
 		V2 textBounds = null;
 		if (centeredHorizontal || centeredVertical) {
 			textBounds = getTextBounds(text);
