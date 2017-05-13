@@ -1,7 +1,5 @@
 package com.avona.games.towerdefence.input;
 
-import com.avona.games.towerdefence.awt.AwtReplShader;
-import com.avona.games.towerdefence.awt.ReplShaderGui;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.engine.PortableMainLoop;
 import com.avona.games.towerdefence.util.Util;
@@ -128,11 +126,6 @@ public class LayeredInputActor implements InputActor {
 
 	@Override
 	public void pressedOtherKey(char keyCode) {
-		if (keyCode == 'x') { // not pretty, but works
-			ReplShaderGui.main2();
-			ml.ge.setTowerShader(AwtReplShader.getInstance());
-		}
-
 		// forward to game - in the hope that layer can handle it
 		final Layer layer = layerHerder.findLayerByName(PortableMainLoop.GAME_LAYER_NAME);
 		final InputActor inputActor = inputLayerMap.get(layer);

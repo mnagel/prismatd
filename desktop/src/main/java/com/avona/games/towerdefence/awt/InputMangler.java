@@ -54,8 +54,17 @@ class InputMangler implements KeyListener, MouseListener, MouseMotionListener {
 				ml.serialize();
 				break;
 			default:
-				actor.pressedOtherKey(e.getKeyChar());
+				pressedOtherKey(e);
 		}
+	}
+
+	private void pressedOtherKey(KeyEvent e) {
+		char keyCode = e.getKeyChar();
+		if (keyCode == 'x') {
+			ReplShaderGui.main2();
+			ml.ge.setTowerShader(AwtReplShader.getInstance());
+		}
+		actor.pressedOtherKey(keyCode);
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -81,12 +90,10 @@ class InputMangler implements KeyListener, MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseEntered(MouseEvent mouseEvent) {
-
 	}
 
 	@Override
 	public void mouseExited(MouseEvent mouseEvent) {
-
 	}
 
 	public void mouseClicked(MouseEvent e) {
