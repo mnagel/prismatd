@@ -6,6 +6,7 @@ import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.jogamp.opengl.GL2;
 
 import java.io.InputStream;
+import java.util.Locale;
 
 public class AwtShader extends Shader {
 	private final GL2 gl;
@@ -20,7 +21,7 @@ public class AwtShader extends Shader {
 		this.gl = gl;
 	}
 
-	private static int compileShader(GL2 gl, String shaderString, int shaderType) {
+	private int compileShader(GL2 gl, String shaderString, int shaderType) {
 		int program = gl.glCreateShader(shaderType);
 
 		String[] lines = new String[]{shaderString};
@@ -38,7 +39,7 @@ public class AwtShader extends Shader {
 			byte[] log = new byte[logLength[0]];
 			gl.glGetShaderInfoLog(program, logLength[0], logLength, 0, log, 0);
 
-			throw new RuntimeException("Error compiling shader: " + new String(log, 0, logLength[0]));
+			throw new RuntimeException(String.format(Locale.US, "Error compiling shader %s in format 0:$LINE(...) %s, %s, %d", getName(), new String(log, 0, logLength[0]), shaderString, shaderType));
 		}
 
 		return program;
