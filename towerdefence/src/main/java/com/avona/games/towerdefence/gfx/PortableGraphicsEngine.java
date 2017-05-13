@@ -36,8 +36,6 @@ public class PortableGraphicsEngine {
 	private Shader particleShader;
 	private Shader gridcellShader;
 
-	private float textSize;
-
 	public PortableGraphicsEngine(
 			PortableDisplay display,
 			Game game,
@@ -60,8 +58,6 @@ public class PortableGraphicsEngine {
 		Layer gameLayer = layerHerder.gameLayer;
 		graphicsTime.updateTick(dt);
 		graphicsTickRater.updateTickRate();
-
-		textSize = display.getTextBounds("#XM|p").y;
 
 		display.prepareScreen();
 
@@ -274,7 +270,7 @@ public class PortableGraphicsEngine {
 					for (Enemy e : es) {
 						e.location = new V2(
 								GridCell.size / enemyCount * (i + 0.5f),
-								GridCell.size / 2
+								3 * GridCell.size / 5
 						);
 						renderEnemy(e, layer);
 						i++;
@@ -307,7 +303,7 @@ public class PortableGraphicsEngine {
 							layer,
 							waveButtonText,
 							true,
-							new V2(GridCell.size / 2, 0),
+							new V2(GridCell.size / 2, GridCell.size / 5),
 							new RGB(1.0f, 1.0f, 1.0f),
 							1.0f
 					);
@@ -323,7 +319,8 @@ public class PortableGraphicsEngine {
 					layerHerder.gameLayer,
 					t.text,
 					false,
-					game.mission.gridCells2d[t.x][t.y].center.clone2().sub(0, textSize / 2),
+					true,
+					game.mission.gridCells2d[t.x][t.y].center,
 					new RGB(1, 1, 1),
 					1
 			);

@@ -29,7 +29,6 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	public static final int DEFAULT_WIDTH = 675;
 
 	// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
-	private final static int FONTSIZE = 12;
 	public Frame frame;
 	public GLCanvas canvas;
 	private Shader defaultShader;
@@ -41,7 +40,6 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	public AwtDisplay(DisplayEventListener eventListener) {
 		this.eventListener = eventListener;
 		// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
-		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, FONTSIZE), true, true);
 		setupGlCanvas();
 		setupFrame();
 	}
@@ -110,6 +108,12 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		GLES20.glViewport(0, 0, (int) size.x, (int) size.y);
 
 		initializeMatrices(width, height);
+
+		float ratio = 800.0f / 480.0f;
+		int ratioHeight = (int) ((float) width / ratio);
+		ratioHeight = Math.min(height, ratioHeight);
+		int fontSize = (int) ((float) ratioHeight * FONT_SIZE_RATIO_HEIGHT_FACTOR + 0.5f);
+		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, fontSize), true, true);
 
 		eventListener.onReshapeScreen();
 	}
@@ -259,16 +263,21 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	}
 
 	@Override
-	public void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha) {
+	public void drawText(final Layer layer, String text, boolean centeredHorizontal, boolean centeredVertical, final V2 location, final RGB color, float alpha) {
 		V2 loc;
 		if (layer != null) {
 			loc = layer.convertToPhysical(location);
 		} else {
 			loc = location.clone2();
 		}
-		if (centered) {
-			final V2 textBounds = getTextBounds(text);
+		V2 textBounds = null;
+		if (centeredHorizontal || centeredVertical) {
+			textBounds = getTextBounds(text);
+		}
+		if (centeredHorizontal) {
 			loc.x -= textBounds.x / 2;
+		}
+		if (centeredVertical) {
 			loc.y -= textBounds.y / 2;
 		}
 

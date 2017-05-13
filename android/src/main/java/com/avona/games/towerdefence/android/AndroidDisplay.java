@@ -20,8 +20,6 @@ import java.util.HashMap;
  * This class provides all basic drawing primitives for the Android platform.
  */
 public class AndroidDisplay extends PortableDisplay implements Renderer {
-	// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
-	private final static int FONTSIZE = 14;
 	private Shader defaultShader;
 	private GLText glText;
 	private V2 size;
@@ -61,6 +59,12 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 
 		initializeMatrices(width, height);
 
+		float ratio = 800.0f / 480.0f;
+		int ratioHeight = (int) ((float) width / ratio);
+		ratioHeight = Math.min(height, ratioHeight);
+		int fontSize = (int) ((float) ratioHeight * FONT_SIZE_RATIO_HEIGHT_FACTOR + 0.5f);
+		glText.load("Roboto-Regular.ttf", fontSize, 2, 2);
+
 		eventListener.onReshapeScreen();
 	}
 
@@ -81,7 +85,6 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		textShader.loadShaderProgramFromFile("text");
 
 		glText = new GLText(textShader.getProgram(), assetManager);
-		glText.load("Roboto-Regular.ttf", FONTSIZE, 2, 2);
 
 		eventListener.onNewScreenContext();
 		checkGLError("after onSurfaceCreated");
@@ -214,15 +217,21 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 	}
 
 	@Override
-	public void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha) {
+	public void drawText(final Layer layer, String text, boolean centeredHorizontal, boolean centeredVertical, final V2 location, final RGB color, float alpha) {
 		V2 loc = location.clone2();
-		if (centered) {
-			final V2 textBounds = getTextBounds(text);
+		loc = layer.convertToPhysical(loc);
+		V2 textBounds = null;
+		if (centeredHorizontal || centeredVertical) {
+			textBounds = getTextBounds(text);
+		}
+		if (centeredHorizontal) {
 			loc.x -= textBounds.x / 2;
+		}
+		if (centeredVertical) {
 			loc.y -= textBounds.y / 2;
 		}
 
-		glText.begin(color.R, color.G, color.B, alpha, getMvpMatrix());
+		glText.begin(color.R, color.G, color.B, alpha, getViewProjectionMatrix());
 		glText.draw(text, loc.x, loc.y);
 		glText.end();
 		checkGLError("after drawText");

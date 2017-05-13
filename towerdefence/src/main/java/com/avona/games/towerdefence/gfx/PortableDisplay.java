@@ -6,9 +6,12 @@ import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.input.Layer;
 
 public abstract class PortableDisplay {
+	// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
+	protected final static float FONT_SIZE_RATIO_HEIGHT_FACTOR = 0.5f / 12.0f;
 	private float[] modelMatrix = new float[16];
 	private float[] viewMatrix = new float[16];
 	private float[] modelViewMatrix = new float[16];
+	private float[] viewProjectionMatrix = new float[16];
 	private float[] projectionMatrix = new float[16];
 	private float[] mvpMatrix = new float[16];
 
@@ -52,6 +55,11 @@ public abstract class PortableDisplay {
 		return modelViewMatrix;
 	}
 
+	protected float[] getViewProjectionMatrix() {
+		Matrix.multiplyMM(viewProjectionMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
+		return viewProjectionMatrix;
+	}
+
 	protected float[] getMvpMatrix() {
 		updateMvpMatrix();
 		return mvpMatrix;
@@ -67,7 +75,11 @@ public abstract class PortableDisplay {
 
 	public abstract void drawVertexArray(final VertexArray array);
 
-	public abstract void drawText(final Layer layer, String text, boolean centered, final V2 location, final RGB color, float alpha);
+	public void drawText(final Layer layer, String text, boolean centeredBoth, final V2 location, final RGB color, float alpha) {
+		drawText(layer, text, centeredBoth, centeredBoth, location, color, alpha);
+	}
+
+	public abstract void drawText(final Layer layer, String text, boolean centeredHorizontal, boolean centeredVertical, final V2 location, final RGB color, float alpha);
 
 	public abstract V2 getTextBounds(final String text);
 

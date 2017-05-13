@@ -55,14 +55,10 @@ public class MenuLayer extends Layer {
 	}
 
 	private MenuButtonLayer makeButtonLayer(MenuButton button) {
-		int index = buttons.indexOf(button);
-
 		MenuButtonLayer result = new MenuButtonLayer(
 				"forButton" + button.toString(),
 				0,
-				this,
-				index,
-				buttons.size()
+				this
 		);
 		return result;
 	}
@@ -124,9 +120,9 @@ public class MenuLayer extends Layer {
 			}
 		});
 
-
 		for (MenuButton button : buttons) {
 			MenuButtonLayer layer = makeButtonLayer(button);
+			resizeButton(button, layer);
 			buttonLayers.put(button, layer);
 			layerHerder.addLayer(layer);
 			rootInputActor.inputLayerMap.put(layer, button);
@@ -135,8 +131,15 @@ public class MenuLayer extends Layer {
 
 	void resizeChildren() {
 		for (MenuButton button : buttons) {
-			getButtonLayer(button).adjustSize();
+			resizeButton(button, getButtonLayer(button));
 		}
+	}
+
+	private void resizeButton(MenuButton button, MenuButtonLayer layer) {
+		layer.adjustSize(
+				new V2(offset.x, offset.y + region.y - (buttons.indexOf(button) + 1) * (region.y / buttons.size())),
+				new V2(region.x, (region.y / buttons.size()))
+		);
 	}
 
 	private void resetEntries() {
