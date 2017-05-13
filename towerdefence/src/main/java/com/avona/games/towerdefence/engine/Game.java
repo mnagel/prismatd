@@ -59,13 +59,12 @@ public class Game implements Serializable {
 
 	public Game(EventDistributor eventDistributor) {
 		this.eventDistributor = eventDistributor;
-		//noinspection unchecked
-		loadMission((Class) _000_Empty_Mission.class);
+		loadMission(_000_Empty_Mission.class);
 	}
 
-	private void loadMission(Class<Mission> klass) {
+	private void loadMission(Class<? extends Mission> klass) {
 		try {
-			Constructor<Mission> ctor = klass.getConstructor(Game.class);
+			Constructor<? extends Mission> ctor = klass.getConstructor(Game.class);
 			mission = ctor.newInstance(this);
 			missionStatus = MissionStatus.ACTIVE;
 		} catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
