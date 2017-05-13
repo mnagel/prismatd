@@ -3,17 +3,28 @@ package com.avona.games.towerdefence.gfx;
 import java.util.HashMap;
 
 public abstract class Shader {
+	private static final String EXT_VERTEX_SHADER = ".vert";
+	private static final String EXT_FRAGMENT_SHADER = ".frag";
 	protected int program = -1;
+	private String name;
 	private HashMap<String, Variable> uniforms = new HashMap<>();
 
-	abstract public String getShaderProgram(String shaderProgramName);
+	public Shader(String name) {
+		this.name = name;
+	}
 
-	abstract public void loadShaderPrograms(String vertexShaderProgram, String fragmentShaderProgram);
+	public String getName() {
+		return name;
+	}
 
-	public void loadShaderProgramsByName(String vertexShaderProgramName, String fragmentShaderProgramName) {
-		String vertexShaderProgram = getShaderProgram(vertexShaderProgramName);
-		String fragmentShaderProgram = getShaderProgram(fragmentShaderProgramName);
-		loadShaderPrograms(vertexShaderProgram, fragmentShaderProgram);
+	abstract public ShaderSource getShaderSource(String filename);
+
+	abstract public void loadShaderProgramFromSource(ShaderSource vertexShaderSource, ShaderSource fragmentShaderSource);
+
+	public void loadShaderProgramFromFile(String filename) {
+		ShaderSource vertexShaderSource = getShaderSource(filename + EXT_VERTEX_SHADER);
+		ShaderSource fragmentShaderSource = getShaderSource(filename + EXT_FRAGMENT_SHADER);
+		loadShaderProgramFromSource(vertexShaderSource, fragmentShaderSource);
 	}
 
 	abstract public void unloadShaderProgram();
@@ -26,11 +37,9 @@ public abstract class Shader {
 		return program;
 	}
 
-	public abstract String getName();
+	public abstract ShaderSource getVertexSource();
 
-	public abstract String getVertexSource();
-
-	public abstract String getFragmentSource();
+	public abstract ShaderSource getFragmentSource();
 
 	protected abstract int getUniformLocation(String name);
 

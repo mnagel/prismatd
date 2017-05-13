@@ -1,5 +1,7 @@
 package com.avona.games.towerdefence.awt;
 
+import com.avona.games.towerdefence.gfx.ShaderSource;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,8 +13,8 @@ public class ReplShaderGui extends JPanel {
 	public ReplShaderGui() {
 		setLayout(new BorderLayout());
 
-		String s = new AwtShader(null, null).getShaderProgram("default.frag");
-		final JTextArea textArea = new JTextArea(s);
+		ShaderSource shaderSource = new AwtShader(null, null).getShaderSource("default.frag");
+		final JTextArea textArea = new JTextArea(shaderSource.toString());
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 
@@ -23,10 +25,10 @@ public class ReplShaderGui extends JPanel {
 		b1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
-				String vertShader = new AwtShader(null, null).getShaderProgram("default.vert");
-				String fracShader = textArea.getText();
+				ShaderSource vertShader = new AwtShader(null, null).getShaderSource("default.vert");
+				ShaderSource fragShader = new ShaderSource(textArea.getText());
 
-				AwtReplShader.getInstance().setPrograms(vertShader, fracShader);
+				AwtReplShader.getInstance().setPrograms(vertShader, fragShader);
 			}
 		});
 

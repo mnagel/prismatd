@@ -81,7 +81,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		defaultShader = allocateShader("default");
-		defaultShader.loadShaderProgramsByName("default.vert", "default.frag");
+		defaultShader.loadShaderProgramFromFile("default");
 
 		eventListener.onNewScreenContext();
 		checkGLError("after onSurfaceCreated");

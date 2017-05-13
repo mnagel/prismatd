@@ -126,10 +126,10 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		defaultShader = allocateShader("default");
-		defaultShader.loadShaderProgramsByName("default.vert", "default.frag");
+		defaultShader.loadShaderProgramFromFile("default");
 
 		AwtReplShader awtReplShader = new AwtReplShader(GLES20, "repl shader hack");
-		awtReplShader.loadShaderProgramsByName("default.vert", "default.frag");
+		awtReplShader.loadShaderProgramFromFile("default");
 		AwtReplShader.setInstance(awtReplShader);
 
 		eventListener.onNewScreenContext();

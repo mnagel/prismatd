@@ -2,34 +2,30 @@ package com.avona.games.towerdefence.android;
 
 import android.opengl.GLES20;
 import com.avona.games.towerdefence.gfx.Shader;
+import com.avona.games.towerdefence.gfx.ShaderSource;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.avona.games.towerdefence.util.FeatureFlags;
 
 import java.io.InputStream;
 
 public class AndroidShader extends Shader {
-	private String name;
 	private int vertexShader = -1;
-	private String vertexSource;
+	private ShaderSource vertexSource;
 	private int fragmentShader = -1;
-	private String fragmentSource;
+	private ShaderSource fragmentSource;
 
 	public AndroidShader(String name) {
-		this.name = name;
+		super(name);
 	}
 
-	@Override
-	public String getName() {
-		return name;
-	}
 
 	@Override
-	public String getVertexSource() {
+	public ShaderSource getVertexSource() {
 		return vertexSource;
 	}
 
 	@Override
-	public String getFragmentSource() {
+	public ShaderSource getFragmentSource() {
 		return fragmentSource;
 	}
 
@@ -50,38 +46,38 @@ public class AndroidShader extends Shader {
 		return program;
 	}
 
-	private int compileVertexShader(String vertexShaderString) {
-		vertexSource = vertexShaderString;
-		return compileShader(vertexShaderString, GLES20.GL_VERTEX_SHADER);
+	private int compileVertexShader(ShaderSource vertexShaderSource) {
+		vertexSource = vertexShaderSource;
+		return compileShader(vertexShaderSource.toString(), GLES20.GL_VERTEX_SHADER);
 	}
 
-	private int compileFragmentShader(String fragmentShaderString) {
-		fragmentSource = fragmentShaderString;
-		return compileShader(fragmentShaderString, GLES20.GL_FRAGMENT_SHADER);
+	private int compileFragmentShader(ShaderSource fragmentShaderSource) {
+		fragmentSource = fragmentShaderSource;
+		return compileShader(fragmentShaderSource.toString(), GLES20.GL_FRAGMENT_SHADER);
 	}
 
 	@Override
-	public String getShaderProgram(String shaderProgramName) {
+	public ShaderSource getShaderSource(String filename) {
 		final String baseDir = "";
-		final InputStream is = ResourceResolverRegistry.getInstance().getRawResource(baseDir + shaderProgramName);
+		final InputStream is = ResourceResolverRegistry.getInstance().getRawResource(baseDir + filename);
 
 		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-		return s.hasNext() ? s.next() : "";
+		return new ShaderSource(s.hasNext() ? s.next() : "");
 	}
 
 	@Override
-	public void loadShaderPrograms(String vertexShaderProgram, String fragmentShaderProgram) {
+	public void loadShaderProgramFromSource(ShaderSource vertexShaderSource, ShaderSource fragmentShaderSource) {
 		unloadShaderProgram();
 
 		program = GLES20.glCreateProgram();
 
-		if (vertexShaderProgram != null) {
-			vertexShader = compileVertexShader(vertexShaderProgram);
+		if (vertexShaderSource != null) {
+			vertexShader = compileVertexShader(vertexShaderSource);
 			GLES20.glAttachShader(program, vertexShader);
 		}
 
-		if (fragmentShaderProgram != null) {
-			fragmentShader = compileFragmentShader(fragmentShaderProgram);
+		if (fragmentShaderSource != null) {
+			fragmentShader = compileFragmentShader(fragmentShaderSource);
 			GLES20.glAttachShader(program, fragmentShader);
 		}
 

@@ -151,7 +151,7 @@ public class PortableGraphicsEngine {
 			if (i == 0) {
 				if (gridcellShader == null) {
 					gridcellShader = display.allocateShader("gridcell");
-					gridcellShader.loadShaderProgramsByName("default.vert", "default.frag");
+					gridcellShader.loadShaderProgramFromFile("default");
 				}
 			}
 
@@ -343,7 +343,7 @@ public class PortableGraphicsEngine {
 
 		if (enemyShader == null) {
 			enemyShader = display.allocateShader("enemy");
-			enemyShader.loadShaderProgramsByName("enemy.vert", "enemy.frag");
+			enemyShader.loadShaderProgramFromFile("enemy");
 		}
 
 		enemyShader.setUniform("selected", false);
@@ -434,7 +434,7 @@ public class PortableGraphicsEngine {
 
 		if (towerShader == null) {
 			towerShader = display.allocateShader("tower");
-			towerShader.loadShaderProgramsByName("tower.vert", "tower.frag");
+			towerShader.loadShaderProgramFromFile("tower");
 		}
 
 		towerShader.setUniform("level", t.level);
@@ -477,7 +477,7 @@ public class PortableGraphicsEngine {
 
 		if (particleShader == null) {
 			particleShader = display.allocateShader("particle");
-			particleShader.loadShaderProgramsByName("particle.vert", "particle.frag");
+			particleShader.loadShaderProgramFromFile("particle");
 		}
 
 		particleShader.setUniform("selected", false);

@@ -1,12 +1,13 @@
 package com.avona.games.towerdefence.awt;
 
+import com.avona.games.towerdefence.gfx.ShaderSource;
 import com.avona.games.towerdefence.util.Util;
 import com.jogamp.opengl.GL2;
 
 public class AwtReplShader extends AwtShader {
 	private static AwtReplShader instance;
-	private String vertexShaderProgram;
-	private String fragmentShaderProgram;
+	private ShaderSource vertexShaderSource;
+	private ShaderSource fragmentShaderSource;
 
 	private boolean needsRecompile = false;
 
@@ -23,17 +24,17 @@ public class AwtReplShader extends AwtShader {
 	}
 
 	// TODO "mostly threadsafe..."
-	void setPrograms(String vertexShaderProgram, String fragmentShaderProgram) {
-		this.vertexShaderProgram = vertexShaderProgram;
-		this.fragmentShaderProgram = fragmentShaderProgram;
+	void setPrograms(ShaderSource vertexShaderSource, ShaderSource fragmentShaderSource) {
+		this.vertexShaderSource = vertexShaderSource;
+		this.fragmentShaderSource = fragmentShaderSource;
 		this.needsRecompile = true;
 	}
 
 	public void recompileIfNeeded() {
 		if (needsRecompile) {
-			Util.log("compiling shaders vertexShaderProgram: " + vertexShaderProgram);
-			Util.log("compiling shaders fragmentShaderProgram: " + fragmentShaderProgram);
-			this.loadShaderPrograms(vertexShaderProgram, fragmentShaderProgram);
+			Util.log("compiling shader vertexShaderSource: " + vertexShaderSource);
+			Util.log("compiling shader fragmentShaderSource: " + fragmentShaderSource);
+			this.loadShaderProgramFromSource(vertexShaderSource, fragmentShaderSource);
 		}
 		needsRecompile = false;
 	}
