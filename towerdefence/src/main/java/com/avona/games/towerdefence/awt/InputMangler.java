@@ -79,12 +79,14 @@ class InputMangler implements KeyListener, MouseListener, MouseMotionListener {
 		}
 	}
 
-	public void mouseEntered(MouseEvent e) {
-		actor.mouseEntered();
+	@Override
+	public void mouseEntered(MouseEvent mouseEvent) {
+
 	}
 
-	public void mouseExited(MouseEvent e) {
-		actor.mouseExited();
+	@Override
+	public void mouseExited(MouseEvent mouseEvent) {
+
 	}
 
 	public void mouseClicked(MouseEvent e) {

@@ -25,14 +25,6 @@ class EmptyInputActor implements InputActor {
 	}
 
 	@Override
-	public void mouseEntered() {
-	}
-
-	@Override
-	public void mouseExited() {
-	}
-
-	@Override
 	public void mouseMovedTo(V2 location) {
 	}
 

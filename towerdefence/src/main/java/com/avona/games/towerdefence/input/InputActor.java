@@ -23,10 +23,6 @@ public interface InputActor {
 
 	void mouseBtn2UpAt(V2 location);
 
-	void mouseEntered();
-
-	void mouseExited();
-
 	void mouseMovedTo(V2 location);
 
 	void mouseDraggedTo(V2 location);

@@ -68,7 +68,7 @@ public class AwtMainLoop extends PortableMainLoop implements GLEventListener {
 		ResourceResolverRegistry.setInstance(new FileResourceResolver("gfx"));
 
 		final AwtDisplay display = new AwtDisplay(displayEventListener);
-		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder);
+		ge = new PortableGraphicsEngine(display, game, mouse, true, layerHerder);
 		displayEventListener.add(new DisplayEventListener() {
 			@Override
 			public void onReshapeScreen() {

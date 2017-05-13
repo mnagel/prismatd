@@ -151,11 +151,6 @@ public class GameInputActor extends EmptyInputActor {
 		}
 	}
 
-	@Override
-	public void mouseExited() {
-		game.draggingTower = false;
-	}
-
 	private void checkMouseOverTower(V2 location) {
 		final Tower t = game.getTowerWithinRadius(location, mouse.radius);
 		if (t != null) {

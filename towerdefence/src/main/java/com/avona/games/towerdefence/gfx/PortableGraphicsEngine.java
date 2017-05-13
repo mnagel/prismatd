@@ -27,6 +27,7 @@ public class PortableGraphicsEngine {
 	private PortableDisplay display;
 	private Game game;
 	private Mouse mouse;
+	private boolean showMouse;
 
 	private LayerHerder layerHerder;
 
@@ -41,11 +42,13 @@ public class PortableGraphicsEngine {
 			PortableDisplay display,
 			Game game,
 			Mouse mouse,
+			boolean showMouse,
 			LayerHerder layerHerder
 	) {
 		this.display = display;
 		this.game = game;
 		this.mouse = mouse;
+		this.showMouse = showMouse;
 		this.layerHerder = layerHerder;
 	}
 
@@ -100,7 +103,10 @@ public class PortableGraphicsEngine {
 		if (FeatureFlags.SHOW_CONSOLE) {
 			renderStats();
 		}
-		renderMouse();
+
+		if (showMouse) {
+			renderMouse();
+		}
 	}
 
 	private void prepareTransformationForLayer(Layer layer) {
@@ -509,9 +515,6 @@ public class PortableGraphicsEngine {
 	private void renderMouse() {
 		Layer l = layerHerder.gameLayer;
 		prepareTransformationForLayer(l);
-		if (!mouse.onScreen) {
-			return;
-		}
 		final V2 p = l.convertToVirtual(mouse.physicalLocation);
 		final float col = 0.5f + 0.3f * (float) Math.abs(Math.sin(4 * graphicsTime.clock));
 		drawFilledCircle(p.x, p.y, mouse.radius, 1.0f, 1.0f, 1.0f, col);

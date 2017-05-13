@@ -25,7 +25,7 @@ class AndroidMainLoop extends PortableMainLoop {
 		ResourceResolverRegistry.setInstance(new AndroidResourceResolver(activity.getResources()));
 
 		final AndroidDisplay display = new AndroidDisplay(activity, displayEventListener);
-		ge = new PortableGraphicsEngine(display, game, mouse, layerHerder);
+		ge = new PortableGraphicsEngine(display, game, mouse, false, layerHerder);
 		displayEventListener.add(new DisplayEventListener() {
 			@Override
 			public void onReshapeScreen() {
