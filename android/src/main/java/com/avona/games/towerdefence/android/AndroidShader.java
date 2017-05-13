@@ -42,8 +42,9 @@ public class AndroidShader extends Shader {
 		int[] compiled = new int[1];
 		GLES20.glGetShaderiv(program, GLES20.GL_COMPILE_STATUS, compiled, 0);
 		if (compiled[0] == 0) {
+			String shaderInfoLog = GLES20.glGetShaderInfoLog(program);
 			GLES20.glDeleteProgram(program);
-			throw new RuntimeException("Error compiling shader: " + this.getName() + ": " + GLES20.glGetShaderInfoLog(program));
+			throw new RuntimeException("Error compiling shader: " + this.getName() + ": " + shaderInfoLog);
 		}
 
 		return program;
@@ -92,8 +93,9 @@ public class AndroidShader extends Shader {
 		int[] linked = new int[1];
 		GLES20.glGetProgramiv(program, GLES20.GL_LINK_STATUS, linked, 0);
 		if (linked[0] == 0) {
+			String programInfoLog = GLES20.glGetProgramInfoLog(program);
 			GLES20.glDeleteProgram(program);
-			throw new RuntimeException("Error linking shader: " + GLES20.glGetProgramInfoLog(program));
+			throw new RuntimeException("Error linking shader: " + programInfoLog);
 		}
 	}
 
