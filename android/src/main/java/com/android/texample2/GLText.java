@@ -20,6 +20,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import com.avona.games.towerdefence.gfx.Shader;
 
 public class GLText {
 	final static int CHAR_BATCH_SIZE = 24;     // Number of Characters to Render Per Batch, must be the same as the size of u_mvpMatrices, in BatchTextProgram
@@ -55,11 +56,11 @@ public class GLText {
 
 	//--Constructor--//
 	// D: save program + asset manager, create arrays, and initialize the members
-	public GLText(int shaderProgramHandle, AssetManager assets) {
+	public GLText(Shader shader, AssetManager assets) {
 		this.assets = assets;                           // Save the Asset Manager Instance
-		this.mShaderProgramHandle = shaderProgramHandle;
+		this.mShaderProgramHandle = shader.getProgram();
 
-		batch = new SpriteBatch(CHAR_BATCH_SIZE, shaderProgramHandle);  // Create Sprite Batch (with Defined Size)
+		batch = new SpriteBatch(CHAR_BATCH_SIZE, shader);  // Create Sprite Batch (with Defined Size)
 
 		charWidths = new float[CHAR_CNT];               // Create the Array of Character Widths
 		charRgn = new TextureRegion[CHAR_CNT];          // Create the Array of Character Regions
@@ -86,8 +87,8 @@ public class GLText {
 		spaceX = 0.0f;
 
 		// Initialize the color and texture handles
-		mColorHandle = GLES20.glGetUniformLocation(shaderProgramHandle, "u_color");
-		mTextureUniformHandle = GLES20.glGetUniformLocation(shaderProgramHandle, "u_texture");
+		mColorHandle = shader.getUniformLocation("u_color");
+		mTextureUniformHandle = shader.getUniformLocation("u_texture");
 	}
 
 	//--Load Font--//

@@ -86,7 +86,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		Shader textShader = allocateShader("text");
 		textShader.loadShaderProgramFromFile("text");
 
-		glText = new GLText(textShader.getProgram(), assetManager);
+		glText = new GLText(textShader, assetManager);
 
 		eventListener.onNewScreenContext();
 		checkGLError("after onSurfaceCreated");

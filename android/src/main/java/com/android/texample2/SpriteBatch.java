@@ -6,6 +6,7 @@ package com.android.texample2;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import com.avona.games.towerdefence.gfx.Shader;
 
 class SpriteBatch {
 	private final static int VERTEX_SIZE = 5;                  // Vertex Size (in Components) ie. (X,Y,U,V,M), M is MVP matrix index
@@ -26,9 +27,9 @@ class SpriteBatch {
 	// D: prepare the sprite batcher for specified maximum number of sprites
 	// A: maxSprites - the maximum allowed sprites per batch
 	//    program - program to use when drawing
-	SpriteBatch(int maxSprites, int shaderProgramHandle) {
+	SpriteBatch(int maxSprites, Shader shader) {
 		this.vertexBuffer = new float[maxSprites * VERTICES_PER_SPRITE * VERTEX_SIZE];  // Create Vertex Buffer
-		this.vertices = new Vertices(shaderProgramHandle, maxSprites * VERTICES_PER_SPRITE, maxSprites * INDICES_PER_SPRITE);  // Create Rendering Vertices
+		this.vertices = new Vertices(shader, maxSprites * VERTICES_PER_SPRITE, maxSprites * INDICES_PER_SPRITE);  // Create Rendering Vertices
 		this.bufferIndex = 0;                           // Reset Buffer Index
 		this.maxSprites = maxSprites;                   // Save Maximum Sprites
 		this.numSprites = 0;                            // Clear Sprite Counter
@@ -45,7 +46,7 @@ class SpriteBatch {
 			indices[i + 5] = j;           // Calculate Index 5
 		}
 		vertices.setIndices(indices, 0, len);         // Set Index Buffer for Rendering
-		mMvpMatricesHandle = GLES20.glGetUniformLocation(shaderProgramHandle, "u_mvpMatrices");
+		mMvpMatricesHandle = shader.getUniformLocation("u_mvpMatrices");
 	}
 
 	void beginBatch(float[] vpMatrix) {

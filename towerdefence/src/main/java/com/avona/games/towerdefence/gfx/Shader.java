@@ -41,7 +41,9 @@ public abstract class Shader {
 
 	public abstract ShaderSource getFragmentSource();
 
-	protected abstract int getUniformLocation(String name);
+	public abstract int getUniformLocation(String name);
+
+	public abstract int getAttribLocation(String name);
 
 	public void setUniform(String name, Object value) {
 		if (!uniforms.containsKey(name)) {

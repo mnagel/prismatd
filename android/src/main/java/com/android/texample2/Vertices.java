@@ -5,6 +5,7 @@ package com.android.texample2;
 // Licensed under CC0 1.0 Public Domain.
 
 import android.opengl.GLES20;
+import com.avona.games.towerdefence.gfx.Shader;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -29,7 +30,7 @@ class Vertices {
 	// D: create the vertices/indices as specified (for 2d/3d)
 	// A: maxVertices - maximum vertices allowed in buffer
 	//    maxIndices - maximum indices allowed in buffer
-	Vertices(int shaderProgramHandle, int maxVertices, int maxIndices) {
+	Vertices(Shader shader, int maxVertices, int maxIndices) {
 		int vertexStride = POSITION_CNT + TEXCOORD_CNT + MVP_MATRIX_INDEX_CNT;
 		this.vertexSize = vertexStride * 4;        // Calculate Vertex Byte Size
 
@@ -49,9 +50,9 @@ class Vertices {
 		this.tmpBuffer = new int[maxVertices * vertexSize / 4];  // Create Temp Buffer
 
 		// initialize the shader attribute handles
-		mTexCoordinateHandle = GLES20.glGetAttribLocation(shaderProgramHandle, "a_texCoordinate");
-		mPositionHandle = GLES20.glGetAttribLocation(shaderProgramHandle, "a_position");
-		mMvpIndexHandle = GLES20.glGetAttribLocation(shaderProgramHandle, "a_mvpMatrixIndex");
+		mTexCoordinateHandle = shader.getAttribLocation("a_texCoordinate");
+		mPositionHandle = shader.getAttribLocation("a_position");
+		mMvpIndexHandle = shader.getAttribLocation("a_mvpMatrixIndex");
 	}
 
 	//--Set Vertices--//
