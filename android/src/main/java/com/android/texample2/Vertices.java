@@ -12,12 +12,11 @@ import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
 class Vertices {
-	private final static int POSITION_CNT_2D = 2;              // Number of Components in Vertex Position for 2D
+	private final static int POSITION_CNT = 2;              // Number of Components in Vertex Position for 2D
 	private final static int TEXCOORD_CNT = 2;                 // Number of Components in Vertex Texture Coords
 	private final static int INDEX_SIZE = Short.SIZE / 8;      // Index Byte Size (Short.SIZE = bits)
 	private static final int MVP_MATRIX_INDEX_CNT = 1; // Number of Components in MVP matrix index
 
-	private final int positionCnt;                      // Number of Position Components (2=2D, 3=3D)
 	private final int vertexSize;                       // Bytesize of a Single Vertex
 	private final IntBuffer vertices;                          // Vertex Buffer
 	private final ShortBuffer indices;                         // Index Buffer
@@ -31,8 +30,7 @@ class Vertices {
 	// A: maxVertices - maximum vertices allowed in buffer
 	//    maxIndices - maximum indices allowed in buffer
 	Vertices(int shaderProgramHandle, int maxVertices, int maxIndices) {
-		this.positionCnt = POSITION_CNT_2D;  // Set Position Component Count
-		int vertexStride = this.positionCnt + TEXCOORD_CNT + MVP_MATRIX_INDEX_CNT;
+		int vertexStride = POSITION_CNT + TEXCOORD_CNT + MVP_MATRIX_INDEX_CNT;
 		this.vertexSize = vertexStride * 4;        // Calculate Vertex Byte Size
 
 		ByteBuffer buffer = ByteBuffer.allocateDirect(maxVertices * vertexSize);  // Allocate Buffer for Vertices (Max)
@@ -91,16 +89,16 @@ class Vertices {
 	void bind() {
 		// bind vertex position pointer
 		vertices.position(0);                         // Set Vertex Buffer to Position
-		GLES20.glVertexAttribPointer(mPositionHandle, positionCnt, GLES20.GL_FLOAT, false, vertexSize, vertices);
+		GLES20.glVertexAttribPointer(mPositionHandle, POSITION_CNT, GLES20.GL_FLOAT, false, vertexSize, vertices);
 		GLES20.glEnableVertexAttribArray(mPositionHandle);
 
 		// bind texture position pointer
-		vertices.position(positionCnt);  // Set Vertex Buffer to Texture Coords (NOTE: position based on whether color is also specified)
+		vertices.position(POSITION_CNT);  // Set Vertex Buffer to Texture Coords (NOTE: position based on whether color is also specified)
 		GLES20.glVertexAttribPointer(mTexCoordinateHandle, TEXCOORD_CNT, GLES20.GL_FLOAT, false, vertexSize, vertices);
 		GLES20.glEnableVertexAttribArray(mTexCoordinateHandle);
 
 		// bind MVP Matrix index position handle
-		vertices.position(positionCnt + TEXCOORD_CNT);
+		vertices.position(POSITION_CNT + TEXCOORD_CNT);
 		GLES20.glVertexAttribPointer(mMvpIndexHandle, MVP_MATRIX_INDEX_CNT, GLES20.GL_FLOAT, false, vertexSize, vertices);
 		GLES20.glEnableVertexAttribArray(mMvpIndexHandle);
 	}
