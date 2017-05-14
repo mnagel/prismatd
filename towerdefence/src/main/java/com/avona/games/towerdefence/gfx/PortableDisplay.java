@@ -20,20 +20,17 @@ public abstract class PortableDisplay {
 		Matrix.setIdentityM(viewMatrix, 0);
 		Matrix.orthoM(projectionMatrix, 0, 0, width, 0, height, -1, 1);
 
-		updateMvpMatrix();
+		refreshMatrices();
 	}
 
-	private void updateModelViewMatrix() {
+	private void refreshMatrices() {
 		Matrix.multiplyMM(modelViewMatrix, 0, viewMatrix, 0, modelMatrix, 0);
-	}
-
-	private void updateMvpMatrix() {
-		updateModelViewMatrix();
 		Matrix.multiplyMM(mvpMatrix, 0, projectionMatrix, 0, modelViewMatrix, 0);
+
+		Matrix.multiplyMM(viewProjectionMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
 	}
 
 	public void prepareTransformationForLayer(Layer layer) {
-		// TODO hook Layer Debug Code here
 		float localTransX = layer.offset.x;
 		float localTransY = layer.offset.y;
 
@@ -43,25 +40,15 @@ public abstract class PortableDisplay {
 		Matrix.setIdentityM(modelMatrix, 0);
 		Matrix.translateM(modelMatrix, 0, localTransX, localTransY, 0);
 		Matrix.scaleM(modelMatrix, 0, localScaleX, localScaleY, 1);
-		updateModelViewMatrix();
-	}
 
-	protected float[] getProjectionMatrix() {
-		return projectionMatrix;
-	}
-
-	protected float[] getModelViewMatrix() {
-		updateModelViewMatrix();
-		return modelViewMatrix;
+		refreshMatrices();
 	}
 
 	protected float[] getViewProjectionMatrix() {
-		Matrix.multiplyMM(viewProjectionMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
 		return viewProjectionMatrix;
 	}
 
 	protected float[] getMvpMatrix() {
-		updateMvpMatrix();
 		return mvpMatrix;
 	}
 
