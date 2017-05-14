@@ -48,7 +48,9 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 
 	@Override
 	public void checkGLError(String trace) {
-		checkGLError_static(trace);
+		if (FeatureFlags.CHECK_FOR_GL_ERROR) {
+			checkGLError_static(trace);
+		}
 	}
 
 	@Override

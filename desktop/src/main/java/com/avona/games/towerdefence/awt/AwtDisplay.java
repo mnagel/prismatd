@@ -61,7 +61,9 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 
 	@Override
 	public void checkGLError(String trace) {
-		checkGLError_static(trace, GLES20);
+		if (FeatureFlags.CHECK_FOR_GL_ERROR) {
+			checkGLError_static(trace, GLES20);
+		}
 	}
 
 	private void setupGlCanvas() {
