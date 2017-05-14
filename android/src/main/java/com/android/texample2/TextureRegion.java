@@ -5,13 +5,19 @@ package com.android.texample2;
 // Licensed under CC0 1.0 Public Domain.
 
 class TextureRegion {
-	float u1, v1; // Top/Left
-	float u2, v2; // Bottom/Right
+	float u1, v1; // Top left
+	float u2, v2; // Bottom right
 
-	// D: calculate U,V coordinates from specified texture coordinates
-	// A: texWidth, texHeight - the width and height of the texture the region is for
-	//    x, y - the top/left (x,y) of the region on the texture (in pixels)
-	//    width, height - the width and height of the region on the texture (in pixels)
+	/**
+	 * calculate u and v coordinates from specified texture coordinates
+	 *
+	 * @param texWidth  width of texture region
+	 * @param texHeight height of texture region
+	 * @param x         left of region on texture (in pixels)
+	 * @param y         top of region on texture (in pixels)
+	 * @param width     width of region on texture (in pixels)
+	 * @param height    height of region on texture (in pixels)
+	 */
 	TextureRegion(float texWidth, float texHeight, float x, float y, float width, float height) {
 		this.u1 = x / texWidth;
 		this.v1 = y / texHeight;
