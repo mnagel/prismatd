@@ -4,9 +4,11 @@ import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.engine.Game;
+import com.avona.games.towerdefence.events.EmptyEventListener;
 import com.avona.games.towerdefence.input.*;
 import com.avona.games.towerdefence.mission.CellState;
 import com.avona.games.towerdefence.mission.GridCell;
+import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.mission.MissionStatementText;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.time.TickRater;
@@ -35,6 +37,8 @@ public class PortableGraphicsEngine {
 	private Shader enemyShader;
 	private Shader particleShader;
 	private Shader gridcellShader;
+	private VertexArray[] missionVertices = {};
+	private boolean missionSwitched = true;
 
 	public PortableGraphicsEngine(
 			PortableDisplay display,
@@ -48,6 +52,13 @@ public class PortableGraphicsEngine {
 		this.mouse = mouse;
 		this.showMouse = showMouse;
 		this.layerHerder = layerHerder;
+
+		game.eventDistributor.listeners.add(new EmptyEventListener() {
+			@Override
+			public void onMissionSwitched(Mission mission) {
+				missionSwitched = true;
+			}
+		});
 	}
 
 	synchronized public void setTowerShader(Shader towerShader) {
@@ -138,8 +149,8 @@ public class PortableGraphicsEngine {
 				new RGB(1.0f, 1.0f, 1.0f), 1.0f);
 	}
 
-	private void renderMission() {
-		VertexArray[] missionVertices = new VertexArray[game.mission.gridCells.length];
+	private void createMissionVertices() {
+		missionVertices = new VertexArray[game.mission.gridCells.length];
 
 		for (int i = 0; i < game.mission.gridCells.length; i++) {
 			GridCell c = game.mission.gridCells[i];
@@ -179,6 +190,13 @@ public class PortableGraphicsEngine {
 			} else {
 				GeometryHelper.boxColoursAsTriangleStrip(0.2f, 0.2f, 0.2f, 1.0f, va);
 			}
+		}
+	}
+
+	private void renderMission() {
+		if (missionSwitched) {
+			missionSwitched = false;
+			createMissionVertices();
 		}
 
 		for (VertexArray va : missionVertices) {
