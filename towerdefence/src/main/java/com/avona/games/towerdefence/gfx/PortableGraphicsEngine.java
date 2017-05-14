@@ -231,20 +231,17 @@ public class PortableGraphicsEngine {
 					renderTower(t2, location2, layer, true);
 					display.drawText(
 							layer,
-							" L" + t2.level,
+							"Upgrade Prisma",
 							true,
-							new V2(GridCell.size / 2, GridCell.size / 2),
+							new V2(GridCell.size / 2, GridCell.size * 0.6f),
 							new RGB(1.0f, 1.0f, 1.0f),
 							1.0f
 					);
-					break;
-
-				case TOWER_UPGRADE:
 					display.drawText(
 							layer,
-							"Level up Prisma",
+							"$" + t2.getLevelUpPrice(),
 							true,
-							new V2(GridCell.size / 2, GridCell.size / 2),
+							new V2(GridCell.size / 2, GridCell.size * 0.4f),
 							new RGB(1.0f, 1.0f, 1.0f),
 							1.0f
 					);

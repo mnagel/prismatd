@@ -66,6 +66,19 @@ public class MenuLayer extends Layer {
 	private void buildEntries() {
 		resetEntries();
 
+		addButton(
+				new MenuButton(
+						"Game Info",
+						MenuButtonLook.GAME_INFO,
+						0.33f
+				) {
+		});
+
+		if (FeatureFlags.SHOW_CONSOLE) {
+			addButton(new MenuButton("Debug Info", MenuButtonLook.DEBUG_INFO, 0.166f) {
+			});
+		}
+
 		if (game.missionStatus == MissionStatus.ACTIVE) {
 			if (!(game.selectedObject instanceof Tower)) {
 				for (int i = 0; i < game.mission.buildableTowers.length; i++) {
@@ -87,31 +100,18 @@ public class MenuLayer extends Layer {
 						}
 					});
 				}
-			}
-
-			if (game.selectedObject instanceof Tower) {
+			} else {
+				final Tower t = (Tower) game.selectedObject;
 				addButton(new MenuButton("Selected Tower Info", MenuButtonLook.TOWER_INFO) {
-				});
-
-				addButton(new MenuButton("Level Up Tower", MenuButtonLook.TOWER_UPGRADE) {
 					@Override
 					public void mouseBtn1DownAt(V2 location) {
 						if (game.selectedObject instanceof Tower) {
-							final Tower t = (Tower) game.selectedObject;
 							game.levelUpTower(t);
 						}
 					}
 				});
 			}
 		}
-
-		if (FeatureFlags.SHOW_CONSOLE) {
-			addButton(new MenuButton("Debug Info", MenuButtonLook.DEBUG_INFO) {
-			});
-		}
-
-		addButton(new MenuButton("Game Info", MenuButtonLook.GAME_INFO) {
-		});
 
 		addButton(new MenuButton("Next Wave", MenuButtonLook.NEXT_WAVE) {
 			@Override
@@ -136,10 +136,23 @@ public class MenuLayer extends Layer {
 	}
 
 	private void resizeButton(MenuButton button, MenuButtonLayer layer) {
-		layer.adjustSize(
-				new V2(offset.x, offset.y + region.y - (buttons.indexOf(button) + 1) * (region.y / buttons.size())),
-				new V2(region.x, (region.y / buttons.size()))
-		);
+		float totalWeight = 0;
+		for (MenuButton b : buttons) {
+			totalWeight += b.weight;
+		}
+		float prequelWeight = 0;
+		for (MenuButton b : buttons) {
+			prequelWeight += b.weight;
+			if (b == button) {
+				break;
+			}
+		}
+		prequelWeight = totalWeight - prequelWeight;
+
+		float height = region.y * button.weight / totalWeight;
+		V2 off = new V2(offset.x, offset.y + region.y * (prequelWeight / totalWeight));
+		V2 size = new V2(region.x, height);
+		layer.adjustSize(off, size);
 	}
 
 	private void resetEntries() {
