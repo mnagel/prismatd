@@ -47,9 +47,9 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 	}
 
 	@Override
-	public void checkGLError(String trace) {
+	public void checkGLError(String format, Object... args) {
 		if (FeatureFlags.CHECK_FOR_GL_ERROR) {
-			checkGLError_static(trace);
+			checkGLError_static(String.format(format, args));
 		}
 	}
 
@@ -124,7 +124,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 					V2 v = (V2) variable.value;
 					GLES20.glUniform2f(variable.uniformLocation, v.x, v.y);
 				}
-				checkGLError(String.format("shader: %s, variable: %s, value: %s", array.shader.getName(), variable.name, variable.value));
+				checkGLError("shader: %s, variable: %s, value: %s", array.shader.getName(), variable.name, variable.value);
 			}
 		} else {
 			program = defaultShader.getProgram();

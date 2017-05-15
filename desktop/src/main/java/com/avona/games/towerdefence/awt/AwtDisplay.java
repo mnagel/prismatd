@@ -60,9 +60,9 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	}
 
 	@Override
-	public void checkGLError(String trace) {
+	public void checkGLError(String format, Object... args) {
 		if (FeatureFlags.CHECK_FOR_GL_ERROR) {
-			checkGLError_static(trace, GLES20);
+			checkGLError_static(String.format(format, args), GLES20);
 		}
 	}
 
