@@ -51,7 +51,7 @@ public class PaintRedTower extends Tower {
 	public RGB getDamage() {
 		return new RGB(
 				0,
-				500 * (level + 1),
+				10 + 2 * (level - 1),
 				0
 		);
 	}
