@@ -18,6 +18,7 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.transients.Transient;
 import com.avona.games.towerdefence.transients.TransientText;
 import com.avona.games.towerdefence.util.Util;
+import com.google.common.base.Joiner;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -274,12 +275,8 @@ public class Game implements Serializable {
 	}
 
 	public void logDebugInfo() {
-		StringBuilder sb = new StringBuilder();
-		for (Enemy e : enemies) {
-			sb.append(e.toString()).append("\n");
-		}
-
-		Util.log(sb.toString());
+		String s = Joiner.on("\n").join(enemies);
+		Util.log(s);
 	}
 
 	private void addTransient(Transient newT) {
