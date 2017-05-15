@@ -170,7 +170,12 @@ public class AwtShader extends Shader {
 	}
 
 	@Override
-	protected int getUniformLocation(String name) {
+	public int getUniformLocation(String name) {
 		return gl.glGetUniformLocation(program, name);
+	}
+
+	@Override
+	public int getAttribLocation(String name) {
+		return gl.glGetAttribLocation(program, name);
 	}
 }

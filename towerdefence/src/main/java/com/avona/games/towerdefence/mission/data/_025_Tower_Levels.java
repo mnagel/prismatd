@@ -42,8 +42,8 @@ public class _025_Tower_Levels extends Mission {
 		l += "###x############\n"; // 1
 		l += "###x############\n"; // 2
 		l += "###x############\n"; // 3
-		l += "###x############\n"; // 4
-		l += "##.x############\n"; // 5
+		l += "##.x############\n"; // 4
+		l += "###x############\n"; // 5
 		l += "###x.###########\n"; // 6
 		l += "###x############\n"; // 7
 		l += "###x############\n"; // 8
@@ -58,7 +58,9 @@ public class _025_Tower_Levels extends Mission {
 		return new MissionStatementText[]{
 				new MissionStatementText(9, 1, "Red Prismas hit Red Pixels"),
 				new MissionStatementText(9, 3, "Blue Prismas hit Blue Pixels"),
-				new MissionStatementText(4, 10, "Stop the Pixels from escaping!"),
+				new MissionStatementText(4, 5, "Select a Prisma to upgrade it!"),
+				new MissionStatementText(7, 8, "Prismas cannot be placed on blue walls"),
+				new MissionStatementText(4, 11, "Stop the Pixels from escaping!"),
 		};
 	}
 
@@ -66,7 +68,6 @@ public class _025_Tower_Levels extends Mission {
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
 				new RedTower(game.timedCodeManager, 1),
-				new RedTower(game.timedCodeManager, 3),
 				new BlueTower(game.timedCodeManager, 1)
 		};
 	}

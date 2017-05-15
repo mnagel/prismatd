@@ -70,5 +70,5 @@ public abstract class PortableDisplay {
 
 	public abstract V2 getTextBounds(final String text);
 
-	public abstract void checkGLError(String trace);
+	public abstract void checkGLError(String format, Object... args);
 }

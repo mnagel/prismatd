@@ -6,124 +6,124 @@ package com.android.texample2;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import com.avona.games.towerdefence.gfx.Shader;
 
 class SpriteBatch {
-	private final static int VERTEX_SIZE = 5;                  // Vertex Size (in Components) ie. (X,Y,U,V,M), M is MVP matrix index
-	private final static int VERTICES_PER_SPRITE = 4;          // Vertices Per Sprite
-	private final static int INDICES_PER_SPRITE = 6;           // Indices Per Sprite
+	private final static int VERTEX_SIZE = 5; // Vertex Size (in Components) ie. (X,Y,U,V,M), M is MVP matrix index
+	private final static int VERTICES_PER_SPRITE = 4;
+	private final static int INDICES_PER_SPRITE = 6;
 
-	private Vertices vertices;                                 // Vertices Instance Used for Rendering
-	private float[] vertexBuffer;
-	private int bufferIndex;                                   // Vertex Buffer Start Index
-	private int maxSprites;                                    // Maximum Sprites Allowed in Buffer
-	private int numSprites;                                    // Number of Sprites Currently in Buffer
-	private float[] mVpMatrix;                            // View and projection matrix specified at begin
-	private float[] uMvpMatrices = new float[GLText.CHAR_BATCH_SIZE * 16]; // MVP matrix array to pass to shader
-	private int mMvpMatricesHandle;                            // shader handle of the MVP matrix array
-	private float[] mMvpMatrix = new float[16];                // used to calculate MVP matrix of each sprite
+	private final float[] mvpMatrices = new float[GLText.CHAR_BATCH_SIZE * 16];
+	private final float[] mvpMatrix = new float[16];
+	private final float[] vertexBuffer;
+	private final Vertices vertices;
+	private final int maxSprites;
+	private final int mvpMatricesHandle;
+	private int bufferIndex;
+	private int numSprites;
+	private float[] vpMatrix;
 
-	//--Constructor--//
-	// D: prepare the sprite batcher for specified maximum number of sprites
-	// A: maxSprites - the maximum allowed sprites per batch
-	//    program - program to use when drawing
-	SpriteBatch(int maxSprites, int shaderProgramHandle) {
-		this.vertexBuffer = new float[maxSprites * VERTICES_PER_SPRITE * VERTEX_SIZE];  // Create Vertex Buffer
-		this.vertices = new Vertices(shaderProgramHandle, maxSprites * VERTICES_PER_SPRITE, maxSprites * INDICES_PER_SPRITE);  // Create Rendering Vertices
-		this.bufferIndex = 0;                           // Reset Buffer Index
-		this.maxSprites = maxSprites;                   // Save Maximum Sprites
-		this.numSprites = 0;                            // Clear Sprite Counter
-
-		short[] indices = new short[maxSprites * INDICES_PER_SPRITE];  // Create Temp Index Buffer
-		int len = indices.length;                       // Get Index Buffer Length
-		short j = 0;                                    // Counter
-		for (int i = 0; i < len; i += INDICES_PER_SPRITE, j += VERTICES_PER_SPRITE) {  // FOR Each Index Set (Per Sprite)
-			indices[i] = j;           // Calculate Index 0
-			indices[i + 1] = (short) (j + 1);           // Calculate Index 1
-			indices[i + 2] = (short) (j + 2);           // Calculate Index 2
-			indices[i + 3] = (short) (j + 2);           // Calculate Index 3
-			indices[i + 4] = (short) (j + 3);           // Calculate Index 4
-			indices[i + 5] = j;           // Calculate Index 5
+	/**
+	 * Prepare the sprite batcher for specified maximum number of sprites
+	 *
+	 * @param maxSprites maximum allowed sprites per batch
+	 * @param shader     shader used for text rendering
+	 */
+	SpriteBatch(int maxSprites, Shader shader) {
+		this.vertexBuffer = new float[maxSprites * VERTICES_PER_SPRITE * VERTEX_SIZE];
+		this.vertices = new Vertices(shader, maxSprites * VERTICES_PER_SPRITE, maxSprites * INDICES_PER_SPRITE);
+		short[] indices = new short[maxSprites * INDICES_PER_SPRITE];
+		short j = 0;
+		for (int i = 0; i < indices.length; i += INDICES_PER_SPRITE, j += VERTICES_PER_SPRITE) {
+			indices[i] = j;
+			indices[i + 1] = (short) (j + 1);
+			indices[i + 2] = (short) (j + 2);
+			indices[i + 3] = (short) (j + 2);
+			indices[i + 4] = (short) (j + 3);
+			indices[i + 5] = j;
 		}
-		vertices.setIndices(indices, 0, len);         // Set Index Buffer for Rendering
-		mMvpMatricesHandle = GLES20.glGetUniformLocation(shaderProgramHandle, "u_mvpMatrices");
+		this.vertices.setIndices(indices, 0, indices.length);
+		this.maxSprites = maxSprites;
+		this.mvpMatricesHandle = shader.getUniformLocation("u_mvpMatrices");
+
+		this.bufferIndex = 0;
+		this.numSprites = 0;
 	}
 
 	void beginBatch(float[] vpMatrix) {
-		numSprites = 0;                                 // Empty Sprite Counter
-		bufferIndex = 0;                                // Reset Buffer Index (Empty)
-		mVpMatrix = vpMatrix;
+		numSprites = 0;
+		bufferIndex = 0;
+		this.vpMatrix = vpMatrix;
 	}
 
-	//--End Batch--//
-	// D: signal the end of a batch. render the batched sprites
+	/**
+	 * Signal the end of a batch. Render the batched sprites.
+	 */
 	void endBatch() {
-		if (numSprites > 0) {                        // IF Any Sprites to Render
-			// bind MVP matrices array to shader
-			GLES20.glUniformMatrix4fv(mMvpMatricesHandle, numSprites, false, uMvpMatrices, 0);
-			GLES20.glEnableVertexAttribArray(mMvpMatricesHandle);
-
-			vertices.setVertices(vertexBuffer, 0, bufferIndex);  // Set Vertices from Buffer
-			vertices.bind();                             // Bind Vertices
-			vertices.draw(GLES20.GL_TRIANGLES, 0, numSprites * INDICES_PER_SPRITE);  // Render Batched Sprites
-			vertices.unbind();                           // Unbind Vertices
+		if (numSprites == 0) {
+			return;
 		}
+
+		GLES20.glUniformMatrix4fv(mvpMatricesHandle, numSprites, false, mvpMatrices, 0);
+		GLES20.glEnableVertexAttribArray(mvpMatricesHandle);
+
+		vertices.setVertices(vertexBuffer, 0, bufferIndex);
+		vertices.draw(GLES20.GL_TRIANGLES, 0, numSprites * INDICES_PER_SPRITE);
 	}
 
-	//--Draw Sprite to Batch--//
-	// D: batch specified sprite to batch. adds vertices for sprite to vertex buffer
-	//    NOTE: MUST be called after beginBatch(), and before endBatch()!
-	//    NOTE: if the batch overflows, this will render the current batch, restart it,
-	//          and then batch this sprite.
-	// A: x, y - the x,y position of the sprite (center)
-	//    width, height - the width and height of the sprite
-	//    region - the texture region to use for sprite
-	//    modelMatrix - the model matrix to assign to the sprite
+	/**
+	 * Batch specified sprite to batch. Adds vertices for sprite to vertex buffer.
+	 * NOTE: MUST be called after beginBatch() and before endBatch()
+	 * NOTE if the batch overflows, this will render the current batch, restart it, then batch this sprite.
+	 *
+	 * @param x           position of sprite (center)
+	 * @param y           position of sprite (center)
+	 * @param width       width of sprite
+	 * @param height      height of sprite
+	 * @param region      texture region to use for sprite
+	 * @param modelMatrix model matrix to assign to sprite
+	 */
 	void drawSprite(float x, float y, float width, float height, TextureRegion region, float[] modelMatrix) {
-		if (numSprites == maxSprites) {              // IF Sprite Buffer is Full
-			endBatch();                                  // End Batch
-			// NOTE: leave current texture bound!!
-			numSprites = 0;                              // Empty Sprite Counter
-			bufferIndex = 0;                             // Reset Buffer Index (Empty)
+		if (numSprites == maxSprites) {
+			endBatch();
+			numSprites = 0;
+			bufferIndex = 0;
 		}
 
-		float halfWidth = width / 2.0f;                 // Calculate Half Width
-		float halfHeight = height / 2.0f;               // Calculate Half Height
-		float x1 = x - halfWidth;                       // Calculate Left X
-		float y1 = y - halfHeight;                      // Calculate Bottom Y
-		float x2 = x + halfWidth;                       // Calculate Right X
-		float y2 = y + halfHeight;                      // Calculate Top Y
+		float halfWidth = width / 2.0f;
+		float halfHeight = height / 2.0f;
+		float x1 = x - halfWidth;
+		float y1 = y - halfHeight;
+		float x2 = x + halfWidth;
+		float y2 = y + halfHeight;
 
-		vertexBuffer[bufferIndex++] = x1;               // Add X for Vertex 0
-		vertexBuffer[bufferIndex++] = y1;               // Add Y for Vertex 0
-		vertexBuffer[bufferIndex++] = region.u1;        // Add U for Vertex 0
-		vertexBuffer[bufferIndex++] = region.v2;        // Add V for Vertex 0
+		vertexBuffer[bufferIndex++] = x1;
+		vertexBuffer[bufferIndex++] = y1;
+		vertexBuffer[bufferIndex++] = region.u1;
+		vertexBuffer[bufferIndex++] = region.v2;
 		vertexBuffer[bufferIndex++] = numSprites;
 
-		vertexBuffer[bufferIndex++] = x2;               // Add X for Vertex 1
-		vertexBuffer[bufferIndex++] = y1;               // Add Y for Vertex 1
-		vertexBuffer[bufferIndex++] = region.u2;        // Add U for Vertex 1
-		vertexBuffer[bufferIndex++] = region.v2;        // Add V for Vertex 1
+		vertexBuffer[bufferIndex++] = x2;
+		vertexBuffer[bufferIndex++] = y1;
+		vertexBuffer[bufferIndex++] = region.u2;
+		vertexBuffer[bufferIndex++] = region.v2;
 		vertexBuffer[bufferIndex++] = numSprites;
 
-		vertexBuffer[bufferIndex++] = x2;               // Add X for Vertex 2
-		vertexBuffer[bufferIndex++] = y2;               // Add Y for Vertex 2
-		vertexBuffer[bufferIndex++] = region.u2;        // Add U for Vertex 2
-		vertexBuffer[bufferIndex++] = region.v1;        // Add V for Vertex 2
+		vertexBuffer[bufferIndex++] = x2;
+		vertexBuffer[bufferIndex++] = y2;
+		vertexBuffer[bufferIndex++] = region.u2;
+		vertexBuffer[bufferIndex++] = region.v1;
 		vertexBuffer[bufferIndex++] = numSprites;
 
-		vertexBuffer[bufferIndex++] = x1;               // Add X for Vertex 3
-		vertexBuffer[bufferIndex++] = y2;               // Add Y for Vertex 3
-		vertexBuffer[bufferIndex++] = region.u1;        // Add U for Vertex 3
-		vertexBuffer[bufferIndex++] = region.v1;        // Add V for Vertex 3
+		vertexBuffer[bufferIndex++] = x1;
+		vertexBuffer[bufferIndex++] = y2;
+		vertexBuffer[bufferIndex++] = region.u1;
+		vertexBuffer[bufferIndex++] = region.v1;
 		vertexBuffer[bufferIndex++] = numSprites;
 
-		// add the sprite mvp matrix to uMvpMatrices array
+		Matrix.multiplyMM(mvpMatrix, 0, vpMatrix, 0, modelMatrix, 0);
+		System.arraycopy(mvpMatrix, 0, mvpMatrices, numSprites * 16, 16);
 
-		Matrix.multiplyMM(mMvpMatrix, 0, mVpMatrix, 0, modelMatrix, 0);
-
-		//TODO: make sure numSprites < 24
-		System.arraycopy(mMvpMatrix, 0, uMvpMatrices, numSprites * 16, 16);
-
-		numSprites++;                                   // Increment Sprite Count
+		numSprites++;
 	}
 }

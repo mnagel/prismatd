@@ -57,9 +57,10 @@ public class _020_About_Colors extends Mission {
 	@Override
 	protected MissionStatementText[] getMissionStatementTexts() {
 		return new MissionStatementText[]{
-				new MissionStatementText(9, 1, "Red Prismas hit Red Pixels"),
-				new MissionStatementText(9, 3, "Blue Prismas hit Blue Pixels"),
-				new MissionStatementText(4, 10, "Stop the Pixels from escaping!"),
+				new MissionStatementText(9, 2, "Red Prismas hit Red Pixels"),
+				new MissionStatementText(9, 5, "Blue Prismas hit Blue Pixels"),
+				new MissionStatementText(6, 9, "Note the preview of Pixels in the next Wave."),
+				new MissionStatementText(4, 11, "Stop the Pixels from escaping!"),
 		};
 	}
 

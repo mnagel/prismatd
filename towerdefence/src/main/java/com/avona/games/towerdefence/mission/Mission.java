@@ -137,9 +137,9 @@ public abstract class Mission implements Serializable, WaveSender {
 			return new ArrayList<>();
 		}
 
-		LinkedHashMap<String, Enemy> col = new LinkedHashMap<>(); // keep insertion order
+		LinkedHashMap<Class, Enemy> col = new LinkedHashMap<>(); // keep insertion order
 		for (WaveEnemyConfig we : this.enemyWaves[waveId]) {
-			col.put(we.enemy.getClass().getSimpleName(), we.enemy);
+			col.put(we.enemy.getClass(), we.enemy);
 		}
 		return col.values();
 	}

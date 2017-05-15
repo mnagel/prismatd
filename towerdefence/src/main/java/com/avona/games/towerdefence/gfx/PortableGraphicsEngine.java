@@ -37,7 +37,7 @@ public class PortableGraphicsEngine {
 	private Shader enemyShader;
 	private Shader particleShader;
 	private Shader gridcellShader;
-	private VertexArray[] missionVertices = {};
+	private VertexArray missionVertices = new VertexArray();
 	private boolean missionSwitched = true;
 
 	public PortableGraphicsEngine(
@@ -150,32 +150,28 @@ public class PortableGraphicsEngine {
 	}
 
 	private void createMissionVertices() {
-		missionVertices = new VertexArray[game.mission.gridCells.length];
+		missionVertices = new VertexArray();
+		final VertexArray va = missionVertices;
+		va.mode = VertexArray.Mode.TRIANGLES;
+		va.hasColour = true;
+		va.numCoords = GeometryHelper.COORD_COUNT_BOX_VERTICES_AS_TRIANGLES * game.mission.gridCells.length;
+		va.numIndexes = GeometryHelper.INDEX_COUNT_BOX_VERTICES_AS_TRIANGLES * game.mission.gridCells.length;
+		va.reserveBuffers();
+
+		if (gridcellShader == null) {
+			gridcellShader = display.allocateShader("gridcell");
+			gridcellShader.loadShaderProgramFromFile("default");
+		}
+		va.shader = gridcellShader;
+		va.hasShader = true;
 
 		for (int i = 0; i < game.mission.gridCells.length; i++) {
 			GridCell c = game.mission.gridCells[i];
-			VertexArray va = new VertexArray();
-			missionVertices[i] = va;
-
-			va.mode = VertexArray.Mode.TRIANGLE_STRIP;
-			va.hasColour = true;
-			va.numCoords = 4;
-			va.reserveBuffers();
-
-			if (i == 0) {
-				if (gridcellShader == null) {
-					gridcellShader = display.allocateShader("gridcell");
-					gridcellShader.loadShaderProgramFromFile("default");
-				}
-			}
-
-			va.shader = gridcellShader;
-			va.hasShader = true;
 
 			final float padding = 0.05f;
 			final float cellScaling = 1.0f - 2.0f * padding;
 
-			GeometryHelper.boxVerticesAsTriangleStrip(
+			GeometryHelper.boxVerticesAsTriangles(
 					(c.x + padding) * GridCell.size,
 					(c.y + padding) * GridCell.size,
 					GridCell.size * cellScaling,
@@ -184,11 +180,11 @@ public class PortableGraphicsEngine {
 			);
 
 			if (c.state == CellState.WALL) {
-				GeometryHelper.boxColoursAsTriangleStrip(0.1f, 0.1f, 0.2f, 1.0f, va);
+				GeometryHelper.boxColoursAsTriangles(0.1f, 0.1f, 0.2f, 1.0f, va);
 			} else if (c.state == CellState.WAY) {
-				GeometryHelper.boxColoursAsTriangleStrip(0.0f, 0.0f, 0.0f, 1.0f, va);
+				GeometryHelper.boxColoursAsTriangles(0.0f, 0.0f, 0.0f, 1.0f, va);
 			} else {
-				GeometryHelper.boxColoursAsTriangleStrip(0.2f, 0.2f, 0.2f, 1.0f, va);
+				GeometryHelper.boxColoursAsTriangles(0.2f, 0.2f, 0.2f, 1.0f, va);
 			}
 		}
 	}
@@ -198,10 +194,7 @@ public class PortableGraphicsEngine {
 			missionSwitched = false;
 			createMissionVertices();
 		}
-
-		for (VertexArray va : missionVertices) {
-			display.drawVertexArray(va);
-		}
+		display.drawVertexArray(missionVertices);
 	}
 
 	private void renderMenu() {
