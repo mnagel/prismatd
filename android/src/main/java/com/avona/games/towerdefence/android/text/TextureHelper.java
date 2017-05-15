@@ -1,4 +1,4 @@
-package com.android.texample2;
+package com.avona.games.towerdefence.android.text;
 
 // NOTE: This was copied from https://github.com/d3alek/Texample2/blob/master/Texample2/src/com/android/texample2/TextureHelper.java
 // Revision 8b69e4f6cad45a6de14b9c99d2e4a705457cbcad
@@ -8,8 +8,9 @@ import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
-class TextureHelper {
-	static int loadTexture(Bitmap bitmap) {
+// TODO merge with AndroidDisplay.allocateTexture()
+public class TextureHelper {
+	public static int loadTexture(Bitmap bitmap) {
 		final int[] textureHandle = new int[1];
 
 		GLES20.glGenTextures(1, textureHandle, 0);

@@ -1,7 +1,9 @@
-package com.android.texample2;
+package com.avona.games.towerdefence.gfx.text;
 
+// NOTE: This was copied from https://github.com/d3alek/Texample2/blob/master/Texample2/src/com/android/texample2/TextureHelper.java
+// Revision 8b69e4f6cad45a6de14b9c99d2e4a705457cbcad
+// Licensed under CC0 1.0 Public Domain.
 
-import android.opengl.GLES20;
 import com.avona.games.towerdefence.gfx.Shader;
 
 import java.nio.ByteBuffer;
@@ -9,19 +11,20 @@ import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
-class Vertices {
-	private static final int POSITION_CNT = 2;
-	private static final int TEXCOORD_CNT = 2;
+// TODO merge with VertexArray
+public abstract class Vertices {
+	protected static final int POSITION_CNT = 2;
+	protected static final int TEXCOORD_CNT = 2;
+	protected static final int MVP_MATRIX_INDEX_CNT = 1;
 	private static final int INDEX_SIZE = Short.SIZE / 8;
-	private static final int MVP_MATRIX_INDEX_CNT = 1;
 
-	private final int vertexSize;
-	private final IntBuffer vertices;
-	private final ShortBuffer indices;
+	protected final int texCoordinateHandle;
+	protected final int positionHandle;
+	protected final int mvpMatrixIndexHandle;
+	protected final int vertexSize;
+	protected final IntBuffer vertices;
+	protected final ShortBuffer indices;
 	private final int[] verticesBuffer;
-	private final int texCoordinateHandle;
-	private final int positionHandle;
-	private final int mvpMatrixIndexHandle;
 
 	/**
 	 * Create the vertices/indices as specified
@@ -30,7 +33,7 @@ class Vertices {
 	 * @param maxVertices maximum vertices allowed in buffer
 	 * @param maxIndices  maximum indices allowed in buffer
 	 */
-	Vertices(Shader shader, int maxVertices, int maxIndices) {
+	public Vertices(Shader shader, int maxVertices, int maxIndices) {
 		int vertexStride = POSITION_CNT + TEXCOORD_CNT + MVP_MATRIX_INDEX_CNT;
 		this.vertexSize = vertexStride * 4;
 
@@ -60,7 +63,7 @@ class Vertices {
 	 * @param offset   offset to first vertex in array
 	 * @param length   number of floats in the vertex array (total) for easy setting use: vtx_cnt * (this.vertexSize / 4)
 	 */
-	void setVertices(float[] vertices, int offset, int length) {
+	public void setVertices(float[] vertices, int offset, int length) {
 		this.vertices.clear();
 		int last = offset + length;
 		for (int i = offset, j = 0; i < last; i++, j++) {
@@ -90,29 +93,5 @@ class Vertices {
 	 * @param offset        offset in vertex / index buffer to start at
 	 * @param numVertices   number of vertices (indices) to draw
 	 */
-	void draw(int primitiveType, int offset, int numVertices) {
-		// Perform all required binding/state changes before rendering batches
-		vertices.position(0);
-		GLES20.glVertexAttribPointer(positionHandle, POSITION_CNT, GLES20.GL_FLOAT, false, vertexSize, vertices);
-		GLES20.glEnableVertexAttribArray(positionHandle);
-
-		vertices.position(POSITION_CNT);
-		GLES20.glVertexAttribPointer(texCoordinateHandle, TEXCOORD_CNT, GLES20.GL_FLOAT, false, vertexSize, vertices);
-		GLES20.glEnableVertexAttribArray(texCoordinateHandle);
-
-		vertices.position(POSITION_CNT + TEXCOORD_CNT);
-		GLES20.glVertexAttribPointer(mvpMatrixIndexHandle, MVP_MATRIX_INDEX_CNT, GLES20.GL_FLOAT, false, vertexSize, vertices);
-		GLES20.glEnableVertexAttribArray(mvpMatrixIndexHandle);
-
-		// Draw the currently bound vertices in the vertex/index buffers
-		if (indices != null) {
-			indices.position(offset);
-			GLES20.glDrawElements(primitiveType, numVertices, GLES20.GL_UNSIGNED_SHORT, indices);
-		} else {
-			GLES20.glDrawArrays(primitiveType, offset, numVertices);
-		}
-
-		// Clear binding states when done rendering batches
-		GLES20.glDisableVertexAttribArray(texCoordinateHandle);
-	}
+	public abstract void draw(int primitiveType, int offset, int numVertices);
 }

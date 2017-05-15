@@ -4,10 +4,11 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView.Renderer;
-import com.android.texample2.GLText;
+import com.avona.games.towerdefence.android.text.AndroidDisplayText;
 import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.gfx.*;
+import com.avona.games.towerdefence.gfx.text.DisplayText;
 import com.avona.games.towerdefence.input.Layer;
 import com.avona.games.towerdefence.util.FeatureFlags;
 import com.avona.games.towerdefence.util.Util;
@@ -21,7 +22,7 @@ import java.util.HashMap;
  */
 public class AndroidDisplay extends PortableDisplay implements Renderer {
 	private Shader defaultShader;
-	private GLText glText;
+	private DisplayText displayText;
 	private V2 size;
 	private DisplayEventListener eventListener;
 	private AssetManager assetManager;
@@ -65,7 +66,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		int ratioHeight = (int) ((float) width / ratio);
 		ratioHeight = Math.min(height, ratioHeight);
 		int fontSize = (int) ((float) ratioHeight * FONT_SIZE_RATIO_HEIGHT_FACTOR + 0.5f);
-		glText.load("Roboto-Regular.ttf", fontSize, 2, 2);
+		displayText.loadFont("Roboto-Regular.ttf", fontSize, 2, 2);
 
 		eventListener.onReshapeScreen();
 	}
@@ -86,7 +87,7 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		Shader textShader = allocateShader("text");
 		textShader.loadShaderProgramFromFile("text");
 
-		glText = new GLText(textShader, assetManager);
+		displayText = new AndroidDisplayText(textShader, assetManager);
 
 		eventListener.onNewScreenContext();
 		checkGLError("after onSurfaceCreated");
@@ -237,16 +238,16 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 			loc.y -= textBounds.y / 2;
 		}
 
-		glText.begin(color.R, color.G, color.B, alpha, getViewProjectionMatrix());
-		glText.draw(text, loc.x, loc.y);
-		glText.end();
+		displayText.begin(color.R, color.G, color.B, alpha, getViewProjectionMatrix());
+		displayText.draw(text, loc.x, loc.y);
+		displayText.end();
 		checkGLError("after drawText");
 	}
 
 	@Override
 	public V2 getTextBounds(final String text) {
-		float height = glText.getHeight();
-		float width = glText.getLength(text);
+		float height = displayText.getHeight();
+		float width = displayText.getLength(text);
 		return new V2(width, height);
 	}
 }
