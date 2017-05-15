@@ -48,17 +48,22 @@ public class PaintRedTower extends Tower {
 	}
 
 	@Override
+	public RGB getDamage() {
+		return new RGB(
+				0,
+				500 * (level + 1),
+				0
+		);
+	}
+
+	@Override
 	public Particle makeParticle(final Enemy e) {
 		return new PaintballParticle(
 				location,
 				e,
 				enemyParticleColliderPolicy,
 				150 + 2 * (level - 1),
-				new RGB(
-						0,
-						500 * (level + 1),
-						0
-				),
+				getDamage(),
 				particleMask
 		);
 	}

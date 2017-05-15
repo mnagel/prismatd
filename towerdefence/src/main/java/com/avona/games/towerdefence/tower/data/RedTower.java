@@ -40,17 +40,22 @@ public class RedTower extends Tower {
 	}
 
 	@Override
+	public RGB getDamage() {
+		return new RGB(
+				10 + 2 * (level - 1),
+				0,
+				0
+		);
+	}
+
+	@Override
 	public Particle makeParticle(Enemy e) {
 		return new Particle(
 				location,
 				e,
 				enemyParticleColliderPolicy,
 				150 + 2 * (level - 1),
-				new RGB(
-						10 + 2 * (level - 1),
-						0,
-						0
-				)
+				getDamage()
 		);
 	}
 }

@@ -59,6 +59,8 @@ public abstract class Tower extends LocationObject {
 
 	public abstract Tower clone2();
 
+	public abstract RGB getDamage();
+
 	public abstract Particle makeParticle(Enemy e);
 
 	public void setLevel(int level) {

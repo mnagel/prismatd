@@ -32,13 +32,18 @@ public class SlowDownTower extends Tower {
 	}
 
 	@Override
+	public RGB getDamage() {
+		return new RGB(0.0f, 0.0f, 0.0f);
+	}
+
+	@Override
 	public Particle makeParticle(Enemy e) {
 		return new SlowDownParticle(
 				location,
 				e,
 				enemyParticleColliderPolicy,
 				150 + 2 * (level - 1),
-				new RGB(1.0f, 1.0f, 1.0f),
+				getDamage(),
 				10
 		);
 	}

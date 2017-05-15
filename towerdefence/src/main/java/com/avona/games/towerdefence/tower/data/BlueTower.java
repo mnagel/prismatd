@@ -40,17 +40,22 @@ public class BlueTower extends Tower {
 	}
 
 	@Override
+	public RGB getDamage() {
+		return new RGB(
+				0,
+				0,
+				10 + 2 * (level - 1)
+		);
+	}
+
+	@Override
 	public Particle makeParticle(Enemy e) {
 		return new Particle(
 				location,
 				e,
 				enemyParticleColliderPolicy,
 				150 + 2 * (level - 1),
-				new RGB(
-						0,
-						0,
-						10 + 2 * (level - 1)
-				)
+				getDamage()
 		);
 	}
 }
