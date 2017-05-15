@@ -218,7 +218,7 @@ public class PortableGraphicsEngine {
 					display.drawText(layer, label, true, location, RGB.WHITE, 1.0f);
 					break;
 
-				case TOWER_INFO:
+				case TOWER_UPGRADE:
 					Tower t2 = (Tower) game.selectedObject;
 					V2 location2 = layer.virtualRegion.clone2().mult(0.5f);
 					renderTower(t2, location2, layer, true);
@@ -235,6 +235,44 @@ public class PortableGraphicsEngine {
 							"$" + t2.getLevelUpPrice(),
 							true,
 							new V2(GridCell.size / 2, GridCell.size * 0.4f),
+							new RGB(1.0f, 1.0f, 1.0f),
+							1.0f
+					);
+					break;
+
+				case TOWER_INFO:
+					Tower t3 = (Tower) game.selectedObject;
+					V2 location3 = layer.virtualRegion.clone2().mult(0.5f);
+//					renderTower(t3, location3, layer, true);
+					display.drawText(
+							layer,
+							t3.getName(),
+							true,
+							new V2(GridCell.size / 2, GridCell.size * 0.9f),
+							new RGB(1.0f, 1.0f, 1.0f),
+							1.0f
+					);
+					display.drawText(
+							layer,
+							"Level " + t3.level,
+							true,
+							new V2(GridCell.size / 2, GridCell.size * 0.7f),
+							new RGB(1.0f, 1.0f, 1.0f),
+							1.0f
+					);
+					display.drawText(
+							layer,
+							"D: " + t3.getDamage(),
+							true,
+							new V2(GridCell.size / 2, GridCell.size * 0.5f),
+							new RGB(1.0f, 1.0f, 1.0f),
+							1.0f
+					);
+					display.drawText(
+							layer,
+							String.format(Locale.US, "Range: %.1f", +t3.getRange() / GridCell.size),
+							true,
+							new V2(GridCell.size / 2, GridCell.size * 0.3f),
 							new RGB(1.0f, 1.0f, 1.0f),
 							1.0f
 					);

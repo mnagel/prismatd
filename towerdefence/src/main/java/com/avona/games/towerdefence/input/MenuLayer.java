@@ -72,7 +72,7 @@ public class MenuLayer extends Layer {
 						MenuButtonLook.GAME_INFO,
 						0.33f
 				) {
-		});
+				});
 
 		if (FeatureFlags.SHOW_CONSOLE) {
 			addButton(new MenuButton("Debug Info", MenuButtonLook.DEBUG_INFO, 0.166f) {
@@ -102,13 +102,16 @@ public class MenuLayer extends Layer {
 				}
 			} else {
 				final Tower t = (Tower) game.selectedObject;
-				addButton(new MenuButton("Selected Tower Info", MenuButtonLook.TOWER_INFO) {
+				addButton(new MenuButton("Tower Upgrade", MenuButtonLook.TOWER_UPGRADE) {
 					@Override
 					public void mouseBtn1DownAt(V2 location) {
 						if (game.selectedObject instanceof Tower) {
 							game.levelUpTower(t);
 						}
 					}
+				});
+
+				addButton(new MenuButton("Tower Info", MenuButtonLook.TOWER_INFO) {
 				});
 			}
 		}
