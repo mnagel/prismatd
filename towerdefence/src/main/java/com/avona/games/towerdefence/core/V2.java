@@ -137,8 +137,13 @@ public final class V2 implements Serializable {
 		return (float) Math.sqrt(x * x + y * y);
 	}
 
-	public V2 setLength(float length) {
-		float f = length / length();
+	public V2 setLength(float targetLength) {
+		if (Math.abs(targetLength) < 1e-5) {
+			x = y = 0;
+			return this;
+		}
+
+		float f = targetLength / length();
 		return this.mult(f);
 	}
 

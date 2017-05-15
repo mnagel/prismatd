@@ -19,11 +19,8 @@ public class SlowDownParticle extends Particle {
 			return;
 		}
 
-		int speed = (int) e.getVelocity().length() - speedPenalty;
-		// XXX: Enemies seem to die with a speed <= 0. TBD why.
-		if (speed < 1) {
-			speed = 1;
-		}
+		float speed = e.getVelocity().length() - speedPenalty;
+		speed = Math.max(speed, 0);
 		e.getVelocity().setLength(speed);
 
 		dead = true;

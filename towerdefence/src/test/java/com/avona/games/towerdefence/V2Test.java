@@ -23,4 +23,45 @@ public class V2Test {
 		assertThat(r2.toString(), is(new V2(1, 1).toString()));
 	}
 
+	@Test
+	public void setLength() throws Exception {
+		V2 v11 = new V2(3, 4);
+		v11.setLength(10);
+		assertThat(v11.x, is(6.0f));
+		assertThat(v11.y, is(8.0f));
+	}
+
+	@Test
+	public void setLengthIdem() throws Exception {
+		V2 v11 = new V2(3, 4);
+		v11.setLength(5);
+		assertThat(v11.x, is(3.0f));
+		assertThat(v11.y, is(4.0f));
+
+		// again
+		v11.setLength(5);
+		assertThat(v11.x, is(3.0f));
+		assertThat(v11.y, is(4.0f));
+	}
+
+	@Test
+	public void setLengthIdem0() throws Exception {
+		V2 v11 = new V2(3, 4);
+		v11.setLength(0);
+		assertThat(v11.x, is(0.0f));
+		assertThat(v11.y, is(0.0f));
+
+		// again
+		v11.setLength(0);
+		assertThat(v11.x, is(0.0f));
+		assertThat(v11.y, is(0.0f));
+	}
+
+	@Test
+	public void setLengthNeg() throws Exception {
+		V2 v11 = new V2(3, 4);
+		v11.setLength(-5);
+		assertThat(v11.x, is(-3.0f));
+		assertThat(v11.y, is(-4.0f));
+	}
 }
