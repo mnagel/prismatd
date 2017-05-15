@@ -1,6 +1,7 @@
 package com.avona.games.towerdefence.gfx;
 
 import com.avona.games.towerdefence.core.V2;
+import com.avona.games.towerdefence.util.Util;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -11,6 +12,7 @@ final public class VertexArray {
 	public final static int CHAR_SIZE = 2;
 	public int numCoords;
 	public FloatBuffer coordBuffer;
+	private int coordCount;
 	public FloatBuffer colourBuffer;
 	public boolean hasColour;
 	public FloatBuffer textureBuffer;
@@ -31,6 +33,7 @@ final public class VertexArray {
 		coordByteBuffer = bc.retrieveBuffer(numCoords * FLOAT_SIZE * 2);
 		coordBuffer = coordByteBuffer.asFloatBuffer();
 		coordBuffer.position(0);
+		coordCount = 0;
 		if (hasColour) {
 			colourByteBuffer = bc.retrieveBuffer(numCoords * FLOAT_SIZE * 4);
 			colourBuffer = colourByteBuffer.asFloatBuffer();
@@ -54,6 +57,7 @@ final public class VertexArray {
 			bc.storeBuffer(coordByteBuffer);
 			coordByteBuffer = null;
 			coordBuffer = null;
+			coordCount = 0;
 		}
 		if (colourByteBuffer != null) {
 			bc.storeBuffer(colourByteBuffer);
@@ -72,19 +76,22 @@ final public class VertexArray {
 		}
 	}
 
-	public void addCoord(final float x, final float y) {
+	public int addCoord(final float x, final float y) {
 		coordBuffer.put(x);
 		coordBuffer.put(y);
+		return coordCount++;
 	}
 
-	public void addCoord(final double x, final double y) {
+	public int addCoord(final double x, final double y) {
 		coordBuffer.put((float) x);
 		coordBuffer.put((float) y);
+		return coordCount++;
 	}
 
-	public void addCoord(final V2 p) {
+	public int addCoord(final V2 p) {
 		coordBuffer.put(p.x);
 		coordBuffer.put(p.y);
+		return coordCount++;
 	}
 
 	// rotate the whole VertexArray.
