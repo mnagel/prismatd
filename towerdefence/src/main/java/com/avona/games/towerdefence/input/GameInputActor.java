@@ -48,8 +48,28 @@ public class GameInputActor extends EmptyInputActor {
 	private void pressForwardButton() {
 		if (game.missionStatus == MissionStatus.ACTIVE) {
 			game.mission.waveTracker.startNextWave();
-		} else {
+		} else if (game.missionStatus == MissionStatus.WON) {
 			loadMissionInteractive();
+		} else {
+			LinkedHashMap<String, Runnable> options = new LinkedHashMap<>();
+			options.put("Go Back to my game.", new Runnable() {
+				@Override
+				public void run() {
+				}
+			});
+			options.put("Restart the current mission.", new Runnable() {
+				@Override
+				public void run() {
+					game.reloadMission();
+				}
+			});
+			options.put("Start another mission...", new Runnable() {
+				@Override
+				public void run() {
+					loadMissionInteractive();
+				}
+			});
+			AsyncInput.chooseNamedRunnable("What do you want to do?", true, options);
 		}
 	}
 
@@ -84,6 +104,12 @@ public class GameInputActor extends EmptyInputActor {
 			options.put("Go Back to my game.", new Runnable() {
 				@Override
 				public void run() {
+				}
+			});
+			options.put("Restart the current mission.", new Runnable() {
+				@Override
+				public void run() {
+					game.reloadMission();
 				}
 			});
 			options.put("Start another mission...", new Runnable() {

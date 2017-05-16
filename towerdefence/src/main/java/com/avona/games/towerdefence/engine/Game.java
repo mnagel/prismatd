@@ -94,6 +94,10 @@ public class Game implements Serializable {
 		loadMission(klass);
 	}
 
+	public void reloadMission() {
+		loadMission(this.mission.getClass());
+	}
+
 	public void looseLife() {
 		if (lives <= 0) {
 			return;
