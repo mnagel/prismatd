@@ -8,6 +8,8 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.util.FeatureFlags;
 import com.avona.games.towerdefence.util.Util;
 
+import java.util.LinkedHashMap;
+
 public class GameInputActor extends EmptyInputActor {
 	private Game game;
 	private Mouse mouse;
@@ -78,67 +80,58 @@ public class GameInputActor extends EmptyInputActor {
 			}
 		}
 		if (keyCode == 'b') {
-			//pause();
-			AsyncInput.chooseRunnable(
-					"What do you want to do?",
-					new String[]{
-							"Go Back to my game.",
-							"Start another mission...",
-							"Cheat...",
-							"Quit the game."
-					},
-					true,
-					new IAsyncInput.MyRunnable() {
-						@Override
-						public void run(int selectedOption) {
-							switch (selectedOption) {
-								default:
-								case 0:
-									break;
-								case 1:
-									loadMissionInteractive();
-									break;
-								case 2:
-									pressedOtherKey('c');
-									break;
-								case 3:
-									game.isTerminated = true;
-									break;
-							}
-						}
-					}
-			);
+			LinkedHashMap<String, Runnable> options = new LinkedHashMap<>();
+			options.put("Go Back to my game.", new Runnable() {
+				@Override
+				public void run() {
+				}
+			});
+			options.put("Start another mission...", new Runnable() {
+				@Override
+				public void run() {
+					loadMissionInteractive();
+				}
+			});
+			options.put("Cheat...", new Runnable() {
+				@Override
+				public void run() {
+					pressedOtherKey('c');
+				}
+			});
+			options.put("Quit the game.", new Runnable() {
+				@Override
+				public void run() {
+					game.isTerminated = true;
+				}
+			});
+			AsyncInput.chooseNamedRunnable("What do you want to do?", true, options);
 		}
 		if (keyCode == 'c') {
-			AsyncInput.chooseRunnable(
-					"Pick your cheat:",
-					new String[]{
-							"Go Back to my game.",
-							"Log Debug Info.",
-							"Kill All Enemies.",
-							"Get 10000 Money.",
-					},
-					true,
-					new IAsyncInput.MyRunnable() {
-						@Override
-						public void run(int selectedOption) {
-							switch (selectedOption) {
-								default:
-								case 0:
-									break;
-								case 1:
-									pressedOtherKey('d');
-									break;
-								case 2:
-									pressedOtherKey('k');
-									break;
-								case 3:
-									game.money = 10000;
-									break;
-							}
-						}
-					}
-			);
+			LinkedHashMap<String, Runnable> options = new LinkedHashMap<>();
+			options.put("Go Back to my game.", new Runnable() {
+				@Override
+				public void run() {
+				}
+			});
+			options.put("Log Debug Info.", new Runnable() {
+				@Override
+				public void run() {
+					pressedOtherKey('d');
+				}
+			});
+			options.put("Kill All Enemies.", new Runnable() {
+				@Override
+				public void run() {
+					pressedOtherKey('k');
+				}
+			});
+			options.put("Get 10000 Money.", new Runnable() {
+				@Override
+				public void run() {
+					game.money = 10000;
+				}
+			});
+			AsyncInput.chooseNamedRunnable("Pick your cheat:", true, options);
 		}
 		if (keyCode == 'd') {
 			FeatureFlags.SHOW_CONSOLE = !FeatureFlags.SHOW_CONSOLE;
