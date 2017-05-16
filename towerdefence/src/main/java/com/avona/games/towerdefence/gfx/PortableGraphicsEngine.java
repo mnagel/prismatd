@@ -330,7 +330,7 @@ public class PortableGraphicsEngine {
 							Util.log(waveButtonText);
 							break;
 						case ACTIVE:
-							waveButtonText = "Send Wave #" + (wavenr + 2);
+							waveButtonText = String.format(Locale.US,"> Wave %d/%d", + (wavenr + 2), game.mission.getWaveCount());
 							if (wavenr + 1 >= game.mission.getWaveCount()) {
 								waveButtonText = "Final Wave!";
 							}
