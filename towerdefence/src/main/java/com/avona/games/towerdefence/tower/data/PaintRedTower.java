@@ -57,6 +57,11 @@ public class PaintRedTower extends Tower {
 	}
 
 	@Override
+	public float getReloadTime() {
+		return 0.3f;
+	}
+
+	@Override
 	public Particle makeParticle(final Enemy e) {
 		return new PaintballParticle(
 				location,

@@ -74,7 +74,7 @@ public class _100_Mission extends Mission {
 	}
 
 	@Override
-	protected WaveEnemyConfig[][] loadEnemyWaves() {
+	public WaveEnemyConfig[][] loadEnemyWaves() {
 		return new WaveEnemyConfig[][]{
 				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f),

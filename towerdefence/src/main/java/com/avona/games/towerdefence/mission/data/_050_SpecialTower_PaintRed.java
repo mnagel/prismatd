@@ -72,7 +72,7 @@ public class _050_SpecialTower_PaintRed extends Mission {
 	}
 
 	@Override
-	protected WaveEnemyConfig[][] loadEnemyWaves() {
+	public WaveEnemyConfig[][] loadEnemyWaves() {
 		return new WaveEnemyConfig[][]{
 				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),

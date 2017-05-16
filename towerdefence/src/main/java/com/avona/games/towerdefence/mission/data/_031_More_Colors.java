@@ -74,7 +74,7 @@ public class _031_More_Colors extends Mission {
 	}
 
 	@Override
-	protected WaveEnemyConfig[][] loadEnemyWaves() {
+	public WaveEnemyConfig[][] loadEnemyWaves() {
 		return new WaveEnemyConfig[][]{
 				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),

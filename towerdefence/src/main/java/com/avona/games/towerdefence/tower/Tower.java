@@ -21,14 +21,13 @@ public abstract class Tower extends LocationObject {
 	// The color the tower will be drawn with.
 	public RGB color;
 	protected RechargeTimer timer;
-	protected int price;
 
 	public Tower(TimedCodeManager timedCodeManager, ParticleColliderPolicy enemyParticleColliderPolicy, int level) {
 		super(null, GridCell.size / 2);
 		this.enemySelectionPolicy = getPolicyForLevel(level);
 		this.enemyParticleColliderPolicy = enemyParticleColliderPolicy;
 		this.level = level;
-		timer = new RechargeTimer(timedCodeManager, 0.3f);
+		timer = new RechargeTimer(timedCodeManager, getReloadTime());
 	}
 
 	public Tower(final Tower t) {
@@ -37,14 +36,24 @@ public abstract class Tower extends LocationObject {
 		enemyParticleColliderPolicy = t.enemyParticleColliderPolicy;
 		level = t.level;
 		timer = t.timer.clone2();
-		price = t.price;
 		color = t.color;
 	}
 
 	abstract public String getName();
 
+	// cumulative (incl. all upgrades)
+	public int getPrice(int lvl) {
+		return 10 * lvl * lvl;
+	}
+
+	// cumulative (incl. all upgrades)
 	public int getPrice() {
-		return 10 + 2 * (level - 1);
+		return getPrice(level);
+	}
+
+	// cumulative (incl. all upgrades)
+	public int getUpgradePrice() {
+		return getPrice(level+1) - getPrice(level);
 	}
 
 	public float getRange() {
@@ -53,13 +62,11 @@ public abstract class Tower extends LocationObject {
 		return GridCell.size * (base + perLevel * (this.level - 1));
 	}
 
-	public int getLevelUpPrice() {
-		return 5 + 2 * (level - 1);
-	}
-
 	public abstract Tower clone2();
 
 	public abstract RGB getDamage();
+
+	public abstract float getReloadTime();
 
 	public abstract Particle makeParticle(Enemy e);
 

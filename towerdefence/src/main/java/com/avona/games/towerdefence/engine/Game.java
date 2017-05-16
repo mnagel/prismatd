@@ -148,7 +148,7 @@ public class Game implements Serializable {
 	}
 
 	public void levelUpTower(Tower t) {
-		final int price = t.getLevelUpPrice();
+		final int price = t.getUpgradePrice();
 		if (money < price) {
 			return;
 		}

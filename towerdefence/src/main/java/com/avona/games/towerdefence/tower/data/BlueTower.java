@@ -49,6 +49,11 @@ public class BlueTower extends Tower {
 	}
 
 	@Override
+	public float getReloadTime() {
+		return 0.3f;
+	}
+
+	@Override
 	public Particle makeParticle(Enemy e) {
 		return new Particle(
 				location,

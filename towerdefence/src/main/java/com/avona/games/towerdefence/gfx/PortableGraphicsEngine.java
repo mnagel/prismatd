@@ -232,7 +232,7 @@ public class PortableGraphicsEngine {
 					);
 					display.drawText(
 							layer,
-							"$" + t2.getLevelUpPrice(),
+							"$" + t2.getUpgradePrice(),
 							true,
 							new V2(GridCell.size / 2, GridCell.size * 0.4f),
 							new RGB(1.0f, 1.0f, 1.0f),

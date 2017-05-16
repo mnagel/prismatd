@@ -77,7 +77,7 @@ public class _040_About_Money extends Mission {
 	}
 
 	@Override
-	protected WaveEnemyConfig[][] loadEnemyWaves() {
+	public WaveEnemyConfig[][] loadEnemyWaves() {
 		return new WaveEnemyConfig[][]{
 				new WaveEnemyConfig[]{
 						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),

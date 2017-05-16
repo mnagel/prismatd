@@ -14,7 +14,6 @@ public class SlowDownTower extends Tower {
 	public SlowDownTower(final TimedCodeManager timedCodeManager, final int level) {
 		super(timedCodeManager, new NearestEnemyColliderPolicy(), level);
 		color = new RGB(1.0f, 1.0f, 1.0f);
-		timer.time = 1.0f;
 	}
 
 	public SlowDownTower(final SlowDownTower other) {
@@ -34,6 +33,11 @@ public class SlowDownTower extends Tower {
 	@Override
 	public RGB getDamage() {
 		return new RGB(0.0f, 0.0f, 0.0f);
+	}
+
+	@Override
+	public float getReloadTime() {
+		return 1.0f;
 	}
 
 	@Override

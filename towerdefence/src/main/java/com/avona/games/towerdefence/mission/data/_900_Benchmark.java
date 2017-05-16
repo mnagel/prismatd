@@ -102,7 +102,7 @@ public class _900_Benchmark extends Mission {
 	}
 
 	@Override
-	protected WaveEnemyConfig[][] loadEnemyWaves() {
+	public WaveEnemyConfig[][] loadEnemyWaves() {
 		int lvl = 10000;
 		Enemy[] prototype = new Enemy[]{
 				new RedEnemy(this, lvl),

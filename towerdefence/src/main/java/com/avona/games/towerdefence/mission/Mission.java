@@ -146,7 +146,7 @@ public abstract class Mission implements Serializable, WaveSender {
 
 	protected abstract String getMissionDefinitionString();
 
-	protected abstract WaveEnemyConfig[][] loadEnemyWaves();
+	public abstract WaveEnemyConfig[][] loadEnemyWaves();
 
 	/**
 	 * @return A list of towers that can be built in this mission.

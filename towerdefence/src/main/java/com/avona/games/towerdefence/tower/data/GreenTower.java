@@ -49,6 +49,11 @@ public class GreenTower extends Tower {
 	}
 
 	@Override
+	public float getReloadTime() {
+		return 0.3f;
+	}
+
+	@Override
 	public Particle makeParticle(final Enemy e) {
 		return new Particle(
 				location,
