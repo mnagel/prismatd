@@ -397,7 +397,7 @@ public class PortableGraphicsEngine {
 		}
 
 		enemyShader.setUniform("selected", false);
-		enemyShader.setUniform("level", e.levelNum);
+		enemyShader.setUniform("level", e.level);
 		enemyShader.setUniform("clock", graphicsTime.clock + e.seed);
 		enemyShader.setUniform("virtualLocation", location);
 		enemyShader.setUniform("physicalLocation", layer.convertToPhysical(location));
@@ -434,7 +434,7 @@ public class PortableGraphicsEngine {
 						.format(
 								Locale.US,
 								"enemy lvl %d, health R%.0f G%.0f B%.0f  /  R%.0f G%.0f B%.0f | ",
-								e.levelNum, e.life.R, e.life.G, e.life.B,
+								e.level, e.life.R, e.life.G, e.life.B,
 								e.maxLife.R, e.maxLife.G, e.maxLife.B);
 			}
 		}

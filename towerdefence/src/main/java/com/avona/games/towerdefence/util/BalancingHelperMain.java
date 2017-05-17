@@ -16,29 +16,31 @@ import java.util.Locale;
 
 public class BalancingHelperMain {
 	public static void main(String... args) {
-		new BalancingHelperMain().rateTowers();
-		new BalancingHelperMain().rateEnemies();
-		new BalancingHelperMain().rateMissions();
-		new BalancingHelperMain().rateWaves();
+		BalancingHelperMain m = new BalancingHelperMain();
+		m.rateTowers();
+		m.rateEnemies();
+		m.rateMissions();
+		m.rateWaves();
 	}
 
-	public void rateTowers() {
+	private void rateTowers() {
 		System.out.println("Name\tLevel\tPrice\tRange\tDamage\tDamage Combined\tReload Time\tDPS\tSingle Enemy Damage\tDPSP$");
 
-		for (int level : new int[]{1, 2, 3}) {
-			for (Tower t : new Tower[]{
-					new RedTower(null, level),
-					new GreenTower(null, level),
-					new BlueTower(null, level),
-					new PaintRedTower(null, level),
-					new SlowDownTower(null, level)
-			}) {
+		for (Tower t : new Tower[]{
+				new RedTower(null, 0),
+				new GreenTower(null, 0),
+				new BlueTower(null, 0),
+				new PaintRedTower(null, 0),
+				new SlowDownTower(null, 0)
+		}) {
+			for (int level : new int[]{1, 2, 3}) {
+				t.setLevel(level);
 				rateTower(t);
 			}
 		}
 	}
 
-	public void rateTower(Tower t) {
+	private void rateTower(Tower t) {
 		System.out.println(
 				String.format(
 						Locale.US,
@@ -57,31 +59,33 @@ public class BalancingHelperMain {
 		);
 	}
 
-	public void rateEnemies() {
+	private void rateEnemies() {
 		System.out.println("Name\tLevel\tPrice\tDamage\tDamage Combined\tSpeed\tDPS Required\tDPSP$");
 
-		for (int level : new int[]{1, 2, 3}) {
-			for (Enemy e : new Enemy[]{
-					new RedEnemy(null, level),
-					new GreenEnemy(null, level),
-					new BlueEnemy(null, level),
-					new PurpleEnemy(null, level),
-					new YellowEnemy(null, level),
-					new WhiteEnemy(null, level),
-					new RainbowEnemy(null, level),
-			}) {
+
+		for (Enemy e : new Enemy[]{
+				new RedEnemy(0),
+				new GreenEnemy(0),
+				new BlueEnemy(0),
+				new PurpleEnemy(0),
+				new YellowEnemy(0),
+				new WhiteEnemy(0),
+				new RainbowEnemy(0),
+		}) {
+			for (int level : new int[]{1, 2, 3}) {
+				e.level = level;
 				rateEnemy(e);
 			}
 		}
 	}
 
-	public void rateEnemy(Enemy e) {
+	private void rateEnemy(Enemy e) {
 		System.out.println(
 				String.format(
 						Locale.US,
 						"%s\t%d\t%d\t%s\t%.1f\t%.1f\t%.1f\t%.1f",
 						e.getClass().getSimpleName(), // TODO getter
-						e.levelNum, // TODO level
+						e.level, // TODO level
 						e.worth,
 						e.maxLife,
 						e.maxLife.length(),
@@ -92,7 +96,7 @@ public class BalancingHelperMain {
 		);
 	}
 
-	public void rateMissions() {
+	private void rateMissions() {
 		System.out.println("Name\tWave Count\tLength of Path\tWayFields/TowerField for relevant fields");
 
 		for (Class<Mission> mc : MissionList.availableMissions) {
@@ -107,7 +111,7 @@ public class BalancingHelperMain {
 		}
 	}
 
-	public void rateMission(Mission m) {
+	private void rateMission(Mission m) {
 		System.out.println(
 				String.format(
 						Locale.US,
@@ -120,7 +124,7 @@ public class BalancingHelperMain {
 		);
 	}
 
-	public void rateWaves() {
+	private void rateWaves() {
 		System.out.println("Mission\twaveNr\tEnemy Count\tEnemy HP\tEnemy Worth\tEnemy HP/Worth\tDuration\tHP/s\tHP/s/$");
 
 		for (Class<Mission> mc : MissionList.availableMissions) {
@@ -135,7 +139,7 @@ public class BalancingHelperMain {
 		}
 	}
 
-	public void rateWaves(Mission m) {
+	private void rateWaves(Mission m) {
 		for (int waveNr = 0; waveNr < m.getWaveCount(); waveNr++) {
 			WaveEnemyConfig[] wave = m.loadEnemyWaves()[waveNr];
 			rateWave(m.missionName, waveNr, wave);
@@ -143,7 +147,7 @@ public class BalancingHelperMain {
 	}
 
 
-	public void rateWave(String mission, int waveNr, WaveEnemyConfig[] wave) {
+	private void rateWave(String mission, int waveNr, WaveEnemyConfig[] wave) {
 		System.out.println(
 				String.format(
 						Locale.US,

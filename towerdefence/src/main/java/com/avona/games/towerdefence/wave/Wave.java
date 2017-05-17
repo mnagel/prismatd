@@ -32,7 +32,7 @@ public class Wave extends TimedCode implements EnemyEventListener {
 		spawnNextEnemy();
 	}
 
-	public boolean isFullyDeployed() {
+	boolean isFullyDeployed() {
 		return fullyDeployed;
 	}
 
@@ -53,10 +53,11 @@ public class Wave extends TimedCode implements EnemyEventListener {
 
 	private void spawnEnemy() {
 		final V2 location = mission.waypoints[0].center.clone2();
+		final V2 target = mission.waypoints[1].center.clone2();
 		WaveEnemyConfig we = enemies[curEnemy];
 		Enemy e = we.enemy.clone2();
 		e.eventListeners.add(this);
-		e.setInitialLocation(location);
+		e.setInitialLocation(location, target);
 		++curEnemy;
 		++activeEnemies;
 		game.onEnemySpawned(e);

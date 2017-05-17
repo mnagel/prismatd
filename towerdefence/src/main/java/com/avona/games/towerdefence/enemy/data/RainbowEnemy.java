@@ -8,17 +8,16 @@ public class RainbowEnemy extends Enemy {
 	private static final long serialVersionUID = 3102974973240386039L;
 	private float localAge = 0;
 
-	public RainbowEnemy(Mission mission, int levelNum) {
+	public RainbowEnemy(int level) {
 		super(
-				mission,
-				levelNum,
-				3 + (levelNum - 1),
+				level,
+				3 + (level - 1),
 				new RGB(
-						50 * levelNum + 10,
+						50 * level + 10,
 						0,
 						0
 				),
-				80 + 3 * (levelNum - 1)
+				80 + 3 * (level - 1)
 		);
 	}
 

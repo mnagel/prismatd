@@ -82,29 +82,29 @@ public class _030_Mixing_Colors extends Mission {
 	public WaveEnemyConfig[][] loadEnemyWaves() {
 		return new WaveEnemyConfig[][]{
 				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
 				},
 				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.7f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.7f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.7f),
+						new WaveEnemyConfig(new PurpleEnemy(1), 0.7f),
+						new WaveEnemyConfig(new PurpleEnemy(1), 0.7f),
+						new WaveEnemyConfig(new PurpleEnemy(1), 0.7f),
 				},
 				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
+						new WaveEnemyConfig(new PurpleEnemy(1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
 				},
 				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(this, 1), 0.35f), // MUHAHA cannot be killed ... take that 100% gamers!
+						new WaveEnemyConfig(new PurpleEnemy(1), 0.35f),
+						new WaveEnemyConfig(new PurpleEnemy(1), 0.35f),
+						new WaveEnemyConfig(new PurpleEnemy(1), 0.35f),
+						new WaveEnemyConfig(new GreenEnemy(1), 0.35f), // MUHAHA cannot be killed ... take that 100% gamers!
 				},
 		};
 	}

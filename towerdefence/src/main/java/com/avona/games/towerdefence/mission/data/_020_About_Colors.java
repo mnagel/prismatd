@@ -76,22 +76,22 @@ public class _020_About_Colors extends Mission {
 	public WaveEnemyConfig[][] loadEnemyWaves() {
 		return new WaveEnemyConfig[][]{
 				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
 				},
 				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
 				},
 				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(this, 1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(this, 1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
+						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
+						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
 				}
 		};
 	}

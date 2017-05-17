@@ -263,8 +263,12 @@ public class Game implements Serializable {
 			if (overshoot >= 0) {
 				// Position exactly on waypoint for correct direction calculation
 				e.location = currentWp.clone2();
-				e.setWPID(e.waypointId + 1);
-				if (e.escaped) {
+
+				if (e.waypointId + 1 < mission.waypoints.length) {
+					V2 wp = mission.waypoints[e.waypointId + 1].center;
+					e.setTargetWaypoint(e.waypointId + 1, wp);
+				} else {
+					e.escape();
 					eiter.remove();
 					continue;
 				}

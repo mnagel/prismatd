@@ -5,28 +5,28 @@ import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyEventListener;
 import com.avona.games.towerdefence.engine.MovingObject;
 import com.avona.games.towerdefence.mission.GridCell;
-import com.avona.games.towerdefence.mission.Mission;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Enemy extends MovingObject {
-	public static final float ENEMY_RADIUS = GridCell.size / 3;
+	private static final float ENEMY_RADIUS = GridCell.size / 3;
 
-	public Mission mission;
-	public int levelNum;
+	public int level;
+
+	public V2 target;
 	public int waypointId = 1;
 	public boolean escaped = false;
-	public int worth;
-	public List<EnemyEventListener> eventListeners = new LinkedList<>();
-	public V2 target;
+
 	public RGB life;
 	public RGB maxLife;
+	public int worth;
 
-	public Enemy(Mission mission, int levelNum, int worth, RGB maxLife, int speed) {
+	public List<EnemyEventListener> eventListeners = new LinkedList<>();
+
+	public Enemy(int level, int worth, RGB maxLife, int speed) {
 		super(null, ENEMY_RADIUS);
-		this.mission = mission;
-		this.levelNum = levelNum;
+		this.level = level;
 		this.worth = worth;
 		this.maxLife = maxLife;
 		this.getVelocity().setLength(speed);
@@ -35,8 +35,7 @@ public abstract class Enemy extends MovingObject {
 
 	public Enemy(Enemy other) {
 		super(other);
-		mission = other.mission;
-		levelNum = other.levelNum;
+		level = other.level;
 		waypointId = other.waypointId;
 		escaped = other.escaped;
 		worth = other.worth;
@@ -45,21 +44,17 @@ public abstract class Enemy extends MovingObject {
 		maxLife = other.maxLife;
 	}
 
-	public void setInitialLocation(V2 location) {
+	public void setInitialLocation(V2 location, V2 target) {
 		this.location = location.clone2();
-		setWPID(1);
+		setTargetWaypoint(1, target);
 	}
 
 	public abstract Enemy clone2();
 
-	public void setWPID(int waypointId) {
+	public void setTargetWaypoint(int waypointId, V2 waypoint) {
 		this.waypointId = waypointId;
-		if (waypointId < mission.waypoints.length) {
-			target = mission.waypoints[waypointId].center;
-			getVelocity().setDirection(location, target);
-		} else {
-			escape();
-		}
+		this.target = waypoint;
+		getVelocity().setDirection(location, waypoint);
 	}
 
 	@Override

@@ -8,17 +8,16 @@ public class PurpleEnemy extends Enemy {
 
 	private static final long serialVersionUID = 93877621275472018L;
 
-	public PurpleEnemy(Mission mission, int levelNum) {
+	public PurpleEnemy(int level) {
 		super(
-				mission,
-				levelNum,
-				3 + (levelNum - 1),
+				level,
+				3 + (level - 1),
 				new RGB(
-						50 * levelNum + 10,
+						50 * level + 10,
 						0,
-						50 * levelNum + 10
+						50 * level + 10
 				),
-				80 + 3 * (levelNum - 1)
+				80 + 3 * (level - 1)
 		);
 	}
 

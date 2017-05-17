@@ -105,13 +105,13 @@ public class _900_Benchmark extends Mission {
 	public WaveEnemyConfig[][] loadEnemyWaves() {
 		int lvl = 10000;
 		Enemy[] prototype = new Enemy[]{
-				new RedEnemy(this, lvl),
-				new GreenEnemy(this, lvl),
-				new BlueEnemy(this, lvl),
-				new PurpleEnemy(this, lvl),
-				new YellowEnemy(this, lvl),
-				new WhiteEnemy(this, lvl),
-				new RainbowEnemy(this, lvl),
+				new RedEnemy(lvl),
+				new GreenEnemy(lvl),
+				new BlueEnemy(lvl),
+				new PurpleEnemy(lvl),
+				new YellowEnemy(lvl),
+				new WhiteEnemy(lvl),
+				new RainbowEnemy(lvl),
 		};
 
 		for (Enemy e : prototype) {
