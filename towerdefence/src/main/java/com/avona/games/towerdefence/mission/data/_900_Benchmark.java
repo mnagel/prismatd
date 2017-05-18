@@ -13,38 +13,17 @@ import com.avona.games.towerdefence.wave.waveListeners.WaveListener;
 
 @SuppressWarnings("WeakerAccess")
 @MissionName(value = "Benchmark!")
-public class _900_Benchmark extends Mission {
+public class _900_Benchmark extends Mission implements GameManipulatingMission {
 
 	private static final long serialVersionUID = -3454126790549945539L;
 
-	public _900_Benchmark(final Game game) {
-		super(game);
-
-		waveTracker.waveFullyDeployedListeners.add(new WaveListener() {
-			@Override
-			public void onWave(Wave wave) {
-				Util.log("autostarting next wave");
-				waveTracker.startNextWave();
-			}
-		});
-		waveTracker.waveBegunListeners.add(new WaveListener() {
-			@Override
-			public void onWave(Wave wave) {
-				if (wave.waveNum == 0) {
-					Util.log("building towers");
-					setupTowers();
-				}
-			}
-		});
-	}
-
-	private void setupTowers() {
+	private void setupTowers(Game game) {
 		Tower[] protoype = new Tower[]{
-				new RedTower(game.timedCodeManager, 1),
-				new GreenTower(game.timedCodeManager, 1),
-				new BlueTower(game.timedCodeManager, 1),
-				new PaintRedTower(game.timedCodeManager, 1),
-				new SlowDownTower(game.timedCodeManager, 1),
+				new RedTower(1),
+				new GreenTower(1),
+				new BlueTower(1),
+				new PaintRedTower(1),
+				new SlowDownTower(1),
 		};
 
 		for (int i = 0; i < gridCells.length; i++) {
@@ -95,9 +74,9 @@ public class _900_Benchmark extends Mission {
 	@Override
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
-				new RedTower(game.timedCodeManager, 1),
-				new GreenTower(game.timedCodeManager, 1),
-				new BlueTower(game.timedCodeManager, 1)
+				new RedTower(1),
+				new GreenTower(1),
+				new BlueTower(1)
 		};
 	}
 
@@ -128,5 +107,18 @@ public class _900_Benchmark extends Mission {
 		}
 
 		return wec;
+	}
+
+	@Override
+	public void manipulateGame(final Game game) {
+		setupTowers(game);
+
+		game.waveTracker.waveFullyDeployedListeners.add(new WaveListener() {
+			@Override
+			public void onWave(Wave wave) {
+				Util.log("autostarting next wave");
+				game.waveTracker.startNextWave();
+			}
+		});
 	}
 }

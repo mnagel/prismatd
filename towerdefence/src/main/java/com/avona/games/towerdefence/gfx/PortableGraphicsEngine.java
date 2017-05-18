@@ -309,7 +309,7 @@ public class PortableGraphicsEngine {
 					break;
 
 				case NEXT_WAVE:
-					int wavenr = game.mission.waveTracker.currentWaveNum();
+					int wavenr = game.waveTracker.currentWaveNum();
 					Collection<Enemy> es = game.mission.getEnemyPreview(wavenr + 1);
 					int enemyCount = es.size();
 					int i = 0;
@@ -330,7 +330,7 @@ public class PortableGraphicsEngine {
 							Util.log(waveButtonText);
 							break;
 						case ACTIVE:
-							waveButtonText = String.format(Locale.US,"> Wave %d/%d", + (wavenr + 2), game.mission.getWaveCount());
+							waveButtonText = String.format(Locale.US, "> Wave %d/%d", +(wavenr + 2), game.mission.getWaveCount());
 							if (wavenr + 1 >= game.mission.getWaveCount()) {
 								waveButtonText = "Final Wave!";
 							}

@@ -2,40 +2,33 @@ package com.avona.games.towerdefence.mission;
 
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
-import com.avona.games.towerdefence.engine.Game;
-import com.avona.games.towerdefence.engine.MissionStatus;
 import com.avona.games.towerdefence.tower.Tower;
-import com.avona.games.towerdefence.wave.Wave;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
-import com.avona.games.towerdefence.wave.WaveSender;
-import com.avona.games.towerdefence.wave.WaveTracker;
 
 import java.io.Serializable;
 import java.util.*;
 
-public abstract class Mission implements Serializable, WaveSender {
+public abstract class Mission implements Serializable {
+
 	public final static float WIDTH = 675;
 	public final static float HEIGHT = 480;
 	private static final long serialVersionUID = 1L;
 	public final Tower[] buildableTowers;
-	private final WaveEnemyConfig[][] enemyWaves;
+	public final WaveEnemyConfig[][] enemyWaves;
 	public GridCell[] waypoints;
 	public String missionName;
 	public MissionStatementText[] missionStatementTexts;
-	public WaveTracker waveTracker = new WaveTracker(this);
-
 	public GridCell[][] gridCells2d;
+
 	public GridCell[] gridCells;
-	// TODO: make independent of game
-	protected Game game;
+
 	private int gridCellCountX;
 	private int gridCellCountY;
 
-	public Mission(final Game game) {
+	public Mission() {
 		String l = this.getMissionDefinitionString();
 		this.parseMissionDefinition(l);
 
-		this.game = game;
 		this.missionStatementTexts = getMissionStatementTexts();
 		for (MissionStatementText t : this.missionStatementTexts) {
 			t.y = gridCellCountY - t.y - 1;
@@ -111,23 +104,7 @@ public abstract class Mission implements Serializable, WaveSender {
 		}
 	}
 
-	@Override
-	public Wave sendWave(final int waveNumber) {
-		if (waveNumber >= enemyWaves.length) {
-			return null;
-		}
 
-		return new Wave(waveNumber, game, this, game.timedCodeManager,
-				enemyWaves[waveNumber]);
-	}
-
-	@Override
-	public void onAllWavesCompleted() {
-		game.missionStatus = MissionStatus.WON;
-		game.eventDistributor.onMissionCompleted(this);
-	}
-
-	@Override
 	public int getWaveCount() {
 		return enemyWaves.length;
 	}

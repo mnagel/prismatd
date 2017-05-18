@@ -6,10 +6,7 @@ import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyDeathUpdatesGameStats;
 import com.avona.games.towerdefence.events.EventDistributor;
-import com.avona.games.towerdefence.mission.CellState;
-import com.avona.games.towerdefence.mission.GridCell;
-import com.avona.games.towerdefence.mission.Mission;
-import com.avona.games.towerdefence.mission.MissionList;
+import com.avona.games.towerdefence.mission.*;
 import com.avona.games.towerdefence.mission.data._000_Empty_Mission;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.time.TimeTrack;
@@ -18,6 +15,8 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.transients.Transient;
 import com.avona.games.towerdefence.transients.TransientText;
 import com.avona.games.towerdefence.util.Util;
+import com.avona.games.towerdefence.wave.Wave;
+import com.avona.games.towerdefence.wave.WaveTracker;
 import com.google.common.base.Joiner;
 
 import java.io.Serializable;
@@ -55,6 +54,7 @@ public class Game implements Serializable {
 	 * of that tower.
 	 */
 	public LocationObject selectedObject = null;
+	public WaveTracker waveTracker = new WaveTracker(this);
 	private EnemyDeathGivesMoney enemyDeathGivesMoney = new EnemyDeathGivesMoney(this);
 	private EnemyDeathUpdatesGameStats enemyDeathUpdatesGameStats = new EnemyDeathUpdatesGameStats(this);
 
@@ -63,10 +63,23 @@ public class Game implements Serializable {
 		loadMission(_000_Empty_Mission.class);
 	}
 
+	public Wave sendWave(final int waveNumber) {
+		if (waveNumber >= mission.enemyWaves.length) {
+			return null;
+		}
+
+		return new Wave(this, waveNumber, mission.enemyWaves[waveNumber]);
+	}
+
+	public void onAllWavesCompleted() {
+		missionStatus = MissionStatus.WON;
+		eventDistributor.onMissionCompleted(this.mission);
+	}
+
 	private void loadMission(Class<? extends Mission> klass) {
 		try {
-			Constructor<? extends Mission> ctor = klass.getConstructor(Game.class);
-			mission = ctor.newInstance(this);
+			Constructor<? extends Mission> ctor = klass.getConstructor();
+			mission = ctor.newInstance();
 			missionStatus = MissionStatus.ACTIVE;
 		} catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
 			throw new RuntimeException("died horribly in mission list hackery", e);
@@ -84,7 +97,14 @@ public class Game implements Serializable {
 		selectedBuildTower = null;
 		selectedObject = null;
 
+		waveTracker = new WaveTracker(this);
+
 		eventDistributor.onMissionSwitched(mission);
+
+		if (mission instanceof GameManipulatingMission) {
+			((GameManipulatingMission) mission).manipulateGame(this);
+		}
+
 		unpause();
 	}
 
@@ -134,6 +154,7 @@ public class Game implements Serializable {
 
 	public void addTowerAt(Tower newTower, GridCell where) {
 		newTower.location = new V2(where.center);
+		newTower.registerAtTimedCodeManager(timedCodeManager);
 		money -= newTower.getPrice();
 		addTransient(new TransientText(
 				String.format(Locale.US, "-$%d", newTower.getPrice()),

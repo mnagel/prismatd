@@ -4,7 +4,6 @@ import com.avona.games.towerdefence.enemy.data.BlueEnemy;
 import com.avona.games.towerdefence.enemy.data.GreenEnemy;
 import com.avona.games.towerdefence.enemy.data.PurpleEnemy;
 import com.avona.games.towerdefence.enemy.data.RedEnemy;
-import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.mission.MissionName;
 import com.avona.games.towerdefence.mission.MissionStatementText;
@@ -13,20 +12,12 @@ import com.avona.games.towerdefence.tower.data.BlueTower;
 import com.avona.games.towerdefence.tower.data.GreenTower;
 import com.avona.games.towerdefence.tower.data.RedTower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
-import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 @SuppressWarnings("WeakerAccess")
 @MissionName(value = "About Money")
 public class _040_About_Money extends Mission {
 
 	private static final long serialVersionUID = -2376503319147078452L;
-
-	public _040_About_Money(final Game game) {
-		super(game);
-
-		waveTracker.waveBegunListeners
-				.add(new GrantInterestPerWave(game, 0.10f));
-	}
 
 	@Override
 	public int getStartLives() {
@@ -70,9 +61,9 @@ public class _040_About_Money extends Mission {
 	@Override
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
-				new RedTower(game.timedCodeManager, 1),
-				new GreenTower(game.timedCodeManager, 1),
-				new BlueTower(game.timedCodeManager, 1)
+				new RedTower(1),
+				new GreenTower(1),
+				new BlueTower(1)
 		};
 	}
 

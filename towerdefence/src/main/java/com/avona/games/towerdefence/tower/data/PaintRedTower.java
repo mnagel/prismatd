@@ -5,7 +5,6 @@ import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.PaintballParticle;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.particle.collidorPolicy.NearestEnemyColliderPolicy;
-import com.avona.games.towerdefence.time.TimedCodeManager;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.tower.enemySelection.EnemySelectionPolicy;
 import com.avona.games.towerdefence.tower.enemySelection.NearestEnemyPolicy;
@@ -14,8 +13,8 @@ import com.avona.games.towerdefence.tower.enemySelection.NearestEnemyWithColourP
 public class PaintRedTower extends Tower {
 	private RGB particleMask;
 
-	public PaintRedTower(final TimedCodeManager timedCodeManager, final int level) {
-		super(timedCodeManager, new NearestEnemyColliderPolicy(), level);
+	public PaintRedTower(final int level) {
+		super(new NearestEnemyColliderPolicy(), level);
 		color = new RGB(0, level * 10 + 10, level * 10 + 10);
 		particleMask = new RGB(1.0f, 0, 0);
 	}

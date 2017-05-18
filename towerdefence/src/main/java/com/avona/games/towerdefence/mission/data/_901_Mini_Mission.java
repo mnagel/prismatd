@@ -1,32 +1,16 @@
 package com.avona.games.towerdefence.mission.data;
 
 import com.avona.games.towerdefence.enemy.data.RedEnemy;
-import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.mission.MissionName;
 import com.avona.games.towerdefence.mission.MissionStatementText;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.tower.data.RedTower;
-import com.avona.games.towerdefence.util.Util;
-import com.avona.games.towerdefence.wave.Wave;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
-import com.avona.games.towerdefence.wave.waveListeners.WaveListener;
 
 @SuppressWarnings("WeakerAccess")
 @MissionName(value = "Mini Mission")
 public class _901_Mini_Mission extends Mission {
-
-	public _901_Mini_Mission(final Game game) {
-		super(game);
-
-		waveTracker.waveFullyDeployedListeners.add(new WaveListener() {
-			@Override
-			public void onWave(Wave wave) {
-				Util.log("autostarting next wave");
-				waveTracker.startNextWave();
-			}
-		});
-	}
 
 	@Override
 	public int getStartLives() {
@@ -67,7 +51,7 @@ public class _901_Mini_Mission extends Mission {
 	@Override
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
-				new RedTower(game.timedCodeManager, 1)
+				new RedTower(1)
 		};
 	}
 

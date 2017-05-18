@@ -5,14 +5,13 @@ import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.particle.SlowDownParticle;
 import com.avona.games.towerdefence.particle.collidorPolicy.NearestEnemyColliderPolicy;
-import com.avona.games.towerdefence.time.TimedCodeManager;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.tower.enemySelection.EnemySelectionPolicy;
 import com.avona.games.towerdefence.tower.enemySelection.NearestEnemyPolicy;
 
 public class SlowDownTower extends Tower {
-	public SlowDownTower(final TimedCodeManager timedCodeManager, final int level) {
-		super(timedCodeManager, new NearestEnemyColliderPolicy(), level);
+	public SlowDownTower(final int level) {
+		super(new NearestEnemyColliderPolicy(), level);
 		color = new RGB(1.0f, 1.0f, 1.0f);
 	}
 

@@ -2,7 +2,6 @@ package com.avona.games.towerdefence.mission.data;
 
 import com.avona.games.towerdefence.enemy.data.BlueEnemy;
 import com.avona.games.towerdefence.enemy.data.RedEnemy;
-import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.mission.MissionName;
 import com.avona.games.towerdefence.mission.MissionStatementText;
@@ -10,20 +9,12 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.tower.data.BlueTower;
 import com.avona.games.towerdefence.tower.data.RedTower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
-import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 @SuppressWarnings("WeakerAccess")
 @MissionName(value = "About Colors")
 public class _020_About_Colors extends Mission {
 
 	private static final long serialVersionUID = -2476503319147078452L;
-
-	public _020_About_Colors(final Game game) {
-		super(game);
-
-		waveTracker.waveBegunListeners
-				.add(new GrantInterestPerWave(game, 0.10f));
-	}
 
 	@Override
 	public int getStartLives() {
@@ -67,8 +58,8 @@ public class _020_About_Colors extends Mission {
 	@Override
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
-				new RedTower(game.timedCodeManager, 2),
-				new BlueTower(game.timedCodeManager, 2)
+				new RedTower(2),
+				new BlueTower(2)
 		};
 	}
 

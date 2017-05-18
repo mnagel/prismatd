@@ -6,15 +6,15 @@ import com.avona.games.towerdefence.time.TimedCodeManager;
 public class RechargeTimer extends TimedCode {
 	private static final long serialVersionUID = 1L;
 	public float time;
-	public boolean ready = true;
+	boolean ready = true;
 	private TimedCodeManager timedCodeManager;
 
-	public RechargeTimer(TimedCodeManager timedCodeManager, float time) {
+	RechargeTimer(TimedCodeManager timedCodeManager, float time) {
 		this.timedCodeManager = timedCodeManager;
 		this.time = time;
 	}
 
-	public RechargeTimer(RechargeTimer t) {
+	private RechargeTimer(RechargeTimer t) {
 		this.timedCodeManager = t.timedCodeManager;
 		this.time = t.time;
 	}
@@ -23,7 +23,7 @@ public class RechargeTimer extends TimedCode {
 		return new RechargeTimer(this);
 	}
 
-	public void rearm() {
+	void rearm() {
 		ready = false;
 		timedCodeManager.addCode(time, this);
 	}

@@ -4,9 +4,7 @@ import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyEventListener;
 import com.avona.games.towerdefence.engine.Game;
-import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.time.TimedCode;
-import com.avona.games.towerdefence.time.TimedCodeManager;
 
 public class Wave extends TimedCode implements EnemyEventListener {
 	private static final long serialVersionUID = 1L;
@@ -14,19 +12,15 @@ public class Wave extends TimedCode implements EnemyEventListener {
 	public int waveNum;
 
 	private boolean fullyDeployed = false;
-	private Mission mission;
+	// TODO make independent of Game
 	private Game game;
-	private TimedCodeManager timedCodeManager;
 	private int curEnemy = 0;
 	private WaveEnemyConfig[] enemies;
 	private int activeEnemies = 0;
 
-	public Wave(int waveNum, Game game, Mission mission,
-				TimedCodeManager timedCodeManager, WaveEnemyConfig[] enemies) {
-		this.waveNum = waveNum;
+	public Wave(Game game, int waveNum, WaveEnemyConfig[] enemies) {
 		this.game = game;
-		this.mission = mission;
-		this.timedCodeManager = timedCodeManager;
+		this.waveNum = waveNum;
 		this.enemies = enemies;
 
 		spawnNextEnemy();
@@ -52,8 +46,8 @@ public class Wave extends TimedCode implements EnemyEventListener {
 	}
 
 	private void spawnEnemy() {
-		final V2 location = mission.waypoints[0].center.clone2();
-		final V2 target = mission.waypoints[1].center.clone2();
+		final V2 location = game.mission.waypoints[0].center.clone2();
+		final V2 target = game.mission.waypoints[1].center.clone2();
 		WaveEnemyConfig we = enemies[curEnemy];
 		Enemy e = we.enemy.clone2();
 		e.eventListeners.add(this);
@@ -69,13 +63,13 @@ public class Wave extends TimedCode implements EnemyEventListener {
 
 	private void onWaveFullyDeployed() {
 		fullyDeployed = true;
-		mission.waveTracker.onWaveFullyDeployed(this);
+		game.waveTracker.onWaveFullyDeployed(this);
 		checkEnemiesDone();
 	}
 
 	private void scheduleNextEnemySpawn() {
 		WaveEnemyConfig we = enemies[curEnemy];
-		timedCodeManager.addCode(we.delayAfter, this);
+		game.timedCodeManager.addCode(we.delayAfter, this);
 	}
 
 	private void checkEnemiesDone() {
@@ -86,7 +80,7 @@ public class Wave extends TimedCode implements EnemyEventListener {
 			return;
 		}
 
-		mission.waveTracker.onWaveCompleted(this);
+		game.waveTracker.onWaveCompleted(this);
 	}
 
 	@Override

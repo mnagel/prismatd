@@ -2,7 +2,6 @@ package com.avona.games.towerdefence.mission.data;
 
 import com.avona.games.towerdefence.enemy.data.GreenEnemy;
 import com.avona.games.towerdefence.enemy.data.RedEnemy;
-import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.mission.MissionName;
 import com.avona.games.towerdefence.mission.MissionStatementText;
@@ -10,20 +9,12 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.tower.data.PaintRedTower;
 import com.avona.games.towerdefence.tower.data.RedTower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
-import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 @SuppressWarnings("WeakerAccess")
 @MissionName(value = "Paint it Red")
 public class _050_SpecialTower_PaintRed extends Mission {
 
 	private static final long serialVersionUID = -2376503319147078452L;
-
-	public _050_SpecialTower_PaintRed(final Game game) {
-		super(game);
-
-		waveTracker.waveBegunListeners
-				.add(new GrantInterestPerWave(game, 0.10f));
-	}
 
 	@Override
 	public int getStartLives() {
@@ -66,8 +57,8 @@ public class _050_SpecialTower_PaintRed extends Mission {
 	@Override
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
-				new RedTower(game.timedCodeManager, 1),
-				new PaintRedTower(game.timedCodeManager, 1),
+				new RedTower(1),
+				new PaintRedTower(1),
 		};
 	}
 

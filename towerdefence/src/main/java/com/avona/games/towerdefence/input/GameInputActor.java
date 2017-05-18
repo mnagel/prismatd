@@ -47,7 +47,7 @@ public class GameInputActor extends EmptyInputActor {
 
 	private void pressForwardButton() {
 		if (game.missionStatus == MissionStatus.ACTIVE) {
-			game.mission.waveTracker.startNextWave();
+			game.waveTracker.startNextWave();
 		} else if (game.missionStatus == MissionStatus.WON) {
 			loadMissionInteractive();
 		} else {

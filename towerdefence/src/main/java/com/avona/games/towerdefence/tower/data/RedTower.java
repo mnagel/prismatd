@@ -4,7 +4,6 @@ import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.particle.collidorPolicy.NearestEnemyColliderPolicy;
-import com.avona.games.towerdefence.time.TimedCodeManager;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.tower.enemySelection.EnemySelectionPolicy;
 import com.avona.games.towerdefence.tower.enemySelection.NearestEnemyPolicy;
@@ -14,8 +13,8 @@ public class RedTower extends Tower {
 
 	private static final long serialVersionUID = 3932215952475151291L;
 
-	public RedTower(final TimedCodeManager timedCodeManager, final int level) {
-		super(timedCodeManager, new NearestEnemyColliderPolicy(), level);
+	public RedTower(final int level) {
+		super(new NearestEnemyColliderPolicy(), level);
 		color = new RGB(level * 10 + 10, 0, 0);
 	}
 

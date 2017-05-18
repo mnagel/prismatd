@@ -1,7 +1,6 @@
 package com.avona.games.towerdefence.mission.data;
 
 import com.avona.games.towerdefence.enemy.data.RedEnemy;
-import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.mission.MissionName;
 import com.avona.games.towerdefence.mission.MissionStatementText;
@@ -9,17 +8,10 @@ import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.tower.data.RedTower;
 import com.avona.games.towerdefence.tower.data.SlowDownTower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
-import com.avona.games.towerdefence.wave.waveListeners.GrantInterestPerWave;
 
 @SuppressWarnings("WeakerAccess")
 @MissionName(value = "Slow it down")
 public class _060_SpecialTower_SlowDown extends Mission {
-	public _060_SpecialTower_SlowDown(Game game) {
-		super(game);
-
-		waveTracker.waveBegunListeners
-				.add(new GrantInterestPerWave(game, 0.10f));
-	}
 
 	@Override
 	protected String getMissionDefinitionString() {
@@ -63,8 +55,8 @@ public class _060_SpecialTower_SlowDown extends Mission {
 	@Override
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
-				new RedTower(game.timedCodeManager, 1),
-				new SlowDownTower(game.timedCodeManager, 1),
+				new RedTower(1),
+				new SlowDownTower(1),
 		};
 	}
 

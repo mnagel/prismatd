@@ -1,5 +1,6 @@
 package com.avona.games.towerdefence.wave;
 
+import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.util.Util;
 import com.avona.games.towerdefence.wave.waveListeners.WaveListener;
 
@@ -19,11 +20,12 @@ public class WaveTracker implements Serializable {
 	 * Currently running wave.
 	 */
 	private Wave currentWave;
-	private WaveSender sender;
+	// TODO make independent of Game
+	private Game game;
 	private List<Wave> pendingWaves = new LinkedList<>();
 
-	public WaveTracker(final WaveSender sender) {
-		this.sender = sender;
+	public WaveTracker(Game game) {
+		this.game = game;
 	}
 
 	public int currentWaveNum() {
@@ -38,12 +40,12 @@ public class WaveTracker implements Serializable {
 		return currentWave != null && currentWave.isFullyDeployed();
 	}
 
-	public boolean haveAllWavesBeenDeployed() {
-		return (waveNum + 1) == sender.getWaveCount()
+	private boolean haveAllWavesBeenDeployed() {
+		return (waveNum + 1) == game.mission.getWaveCount()
 				|| (waveNum > -1 && currentWave == null);
 	}
 
-	public boolean hasPendingWaves() {
+	private boolean hasPendingWaves() {
 		return pendingWaves.size() > 0;
 	}
 
@@ -56,7 +58,7 @@ public class WaveTracker implements Serializable {
 		++waveNum;
 
 		// Generate new wave
-		currentWave = sender.sendWave(waveNum);
+		currentWave = game.sendWave(waveNum);
 		if (currentWave != null) {
 			pendingWaves.add(currentWave);
 
@@ -70,7 +72,7 @@ public class WaveTracker implements Serializable {
 		}
 	}
 
-	public void onWaveFullyDeployed(Wave w) {
+	void onWaveFullyDeployed(Wave w) {
 		Util.log("Wave fully deployed");
 
 		for (WaveListener l : waveFullyDeployedListeners) {
@@ -78,7 +80,7 @@ public class WaveTracker implements Serializable {
 		}
 	}
 
-	public void onWaveCompleted(Wave w) {
+	void onWaveCompleted(Wave w) {
 		Util.log("Wave completed");
 		pendingWaves.remove(w);
 
@@ -95,7 +97,7 @@ public class WaveTracker implements Serializable {
 			Util.log("All waves have been deployed");
 			if (!hasPendingWaves()) {
 				Util.log("No more pending waves.");
-				sender.onAllWavesCompleted();
+				game.onAllWavesCompleted();
 			}
 		}
 	}

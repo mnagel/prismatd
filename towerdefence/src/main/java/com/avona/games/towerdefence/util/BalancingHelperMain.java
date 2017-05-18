@@ -27,11 +27,11 @@ public class BalancingHelperMain {
 		System.out.println("Name\tLevel\tPrice\tRange\tDamage\tDamage Combined\tReload Time\tDPS\tSingle Enemy Damage\tDPSP$");
 
 		for (Tower t : new Tower[]{
-				new RedTower(null, 0),
-				new GreenTower(null, 0),
-				new BlueTower(null, 0),
-				new PaintRedTower(null, 0),
-				new SlowDownTower(null, 0)
+				new RedTower(0),
+				new GreenTower(0),
+				new BlueTower(0),
+				new PaintRedTower(0),
+				new SlowDownTower(0)
 		}) {
 			for (int level : new int[]{1, 2, 3}) {
 				t.setLevel(level);
@@ -85,7 +85,7 @@ public class BalancingHelperMain {
 						Locale.US,
 						"%s\t%d\t%d\t%s\t%.1f\t%.1f\t%.1f\t%.1f",
 						e.getClass().getSimpleName(), // TODO getter
-						e.level, // TODO level
+						e.level,
 						e.worth,
 						e.maxLife,
 						e.maxLife.length(),

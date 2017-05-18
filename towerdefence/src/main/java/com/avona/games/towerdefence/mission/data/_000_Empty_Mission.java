@@ -1,6 +1,5 @@
 package com.avona.games.towerdefence.mission.data;
 
-import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.mission.MissionName;
 import com.avona.games.towerdefence.mission.MissionStatementText;
@@ -11,10 +10,6 @@ import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 @SuppressWarnings("WeakerAccess")
 @MissionName(value = "Empty Mission")
 public class _000_Empty_Mission extends Mission {
-
-	public _000_Empty_Mission(final Game game) {
-		super(game);
-	}
 
 	@Override
 	public int getStartLives() {
@@ -56,7 +51,7 @@ public class _000_Empty_Mission extends Mission {
 	@Override
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
-				new RedTower(game.timedCodeManager, 1)
+				new RedTower(1)
 		};
 	}
 

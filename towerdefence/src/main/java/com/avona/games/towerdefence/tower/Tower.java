@@ -14,20 +14,22 @@ import java.util.List;
 public abstract class Tower extends LocationObject {
 	private static final long serialVersionUID = 1L;
 
+	public RGB color; // gfx
+
+	public int level;
+
 	public EnemySelectionPolicy enemySelectionPolicy;
 	// TODO move to particle
-	public ParticleColliderPolicy enemyParticleColliderPolicy;
-	public int level;
-	// The color the tower will be drawn with.
-	public RGB color;
-	protected RechargeTimer timer;
+	protected ParticleColliderPolicy enemyParticleColliderPolicy;
 
-	public Tower(TimedCodeManager timedCodeManager, ParticleColliderPolicy enemyParticleColliderPolicy, int level) {
+	private RechargeTimer timer;
+
+	public Tower(ParticleColliderPolicy enemyParticleColliderPolicy, int level) {
 		super(null, GridCell.size / 2);
 		this.enemySelectionPolicy = getPolicyForLevel(level);
 		this.enemyParticleColliderPolicy = enemyParticleColliderPolicy;
 		this.level = level;
-		timer = new RechargeTimer(timedCodeManager, getReloadTime());
+
 	}
 
 	public Tower(final Tower t) {
@@ -35,14 +37,20 @@ public abstract class Tower extends LocationObject {
 		enemySelectionPolicy = t.enemySelectionPolicy;
 		enemyParticleColliderPolicy = t.enemyParticleColliderPolicy;
 		level = t.level;
-		timer = t.timer.clone2();
+		if (t.timer != null) {
+			timer = t.timer.clone2();
+		}
 		color = t.color;
+	}
+
+	public void registerAtTimedCodeManager(TimedCodeManager tcm) {
+		timer = new RechargeTimer(tcm, getReloadTime());
 	}
 
 	abstract public String getName();
 
 	// cumulative (incl. all upgrades)
-	public int getPrice(int lvl) {
+	private int getPrice(int lvl) {
 		return 10 * lvl * lvl;
 	}
 
@@ -53,7 +61,7 @@ public abstract class Tower extends LocationObject {
 
 	// cumulative (incl. all upgrades)
 	public int getUpgradePrice() {
-		return getPrice(level+1) - getPrice(level);
+		return getPrice(level + 1) - getPrice(level);
 	}
 
 	public float getRange() {
