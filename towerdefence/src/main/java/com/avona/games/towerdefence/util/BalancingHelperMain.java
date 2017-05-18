@@ -2,8 +2,6 @@ package com.avona.games.towerdefence.util;
 
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemy.data.*;
-import com.avona.games.towerdefence.engine.Game;
-import com.avona.games.towerdefence.events.EventDistributor;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.mission.MissionList;
 import com.avona.games.towerdefence.tower.Tower;
@@ -101,9 +99,8 @@ public class BalancingHelperMain {
 
 		for (Class<Mission> mc : MissionList.availableMissions) {
 			try {
-				Constructor<? extends Mission> ctor = mc.getConstructor(Game.class);
-				Game game = new Game(new EventDistributor());
-				Mission mission = ctor.newInstance(game);
+				Constructor<? extends Mission> ctor = mc.getConstructor();
+				Mission mission = ctor.newInstance();
 				rateMission(mission);
 			} catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
 				throw new RuntimeException("died horribly in mission list hackery", e);
@@ -129,9 +126,8 @@ public class BalancingHelperMain {
 
 		for (Class<Mission> mc : MissionList.availableMissions) {
 			try {
-				Constructor<? extends Mission> ctor = mc.getConstructor(Game.class);
-				Game game = new Game(new EventDistributor());
-				Mission mission = ctor.newInstance(game);
+				Constructor<? extends Mission> ctor = mc.getConstructor();
+				Mission mission = ctor.newInstance();
 				rateWaves(mission);
 			} catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
 				throw new RuntimeException("died horribly in mission list hackery", e);
