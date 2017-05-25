@@ -1,4 +1,8 @@
+import org.gradle.internal.os.OperatingSystem
+
 apply plugin: 'java'
+
+def platform = OperatingSystem.current().isWindows() ? 'windows' : 'linux'
 
 dependencies {
 	compile project(':towerdefence')
@@ -9,6 +13,6 @@ dependencies {
 
 	testCompile 'junit:junit:4.12'
 
-	runtime 'org.jogamp.gluegen:gluegen-rt:2.3.1:natives-linux-amd64'
-	runtime 'org.jogamp.jogl:jogl-all:2.3.1:natives-linux-amd64'
+	runtime 'org.jogamp.gluegen:gluegen-rt:2.3.1:natives-'+platform+'-amd64'
+	runtime 'org.jogamp.jogl:jogl-all:2.3.1:natives-'+platform+'-amd64'
 }
