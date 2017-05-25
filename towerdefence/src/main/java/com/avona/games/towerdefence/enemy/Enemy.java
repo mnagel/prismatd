@@ -24,7 +24,7 @@ public abstract class Enemy extends MovingObject {
 
 	public List<EnemyEventListener> eventListeners = new LinkedList<>();
 
-	public Enemy(int level, int worth, RGB maxLife, int speed) {
+	public Enemy(int level, int worth, RGB maxLife, float speed) {
 		super(null, ENEMY_RADIUS);
 		this.level = level;
 		this.worth = worth;
@@ -39,9 +39,9 @@ public abstract class Enemy extends MovingObject {
 		waypointId = other.waypointId;
 		escaped = other.escaped;
 		worth = other.worth;
-		target = other.target;
-		life = other.life;
-		maxLife = other.maxLife;
+		target = other.target == null ? null : other.target.clone2();
+		life = other.life == null ? null : other.life.clone2();
+		maxLife = other.maxLife == null ? null : other.maxLife.clone2();
 	}
 
 	public void setInitialLocation(V2 location, V2 target) {
@@ -104,7 +104,7 @@ public abstract class Enemy extends MovingObject {
 	public String toString() {
 		String s = String.format("%s at %s with %s/%s",
 				this.getClass().getSimpleName(),
-				this.location.toString(2),
+				this.location == null ? "null" : this.location.toString(2),
 				this.life,
 				this.maxLife
 		);

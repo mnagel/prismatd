@@ -182,7 +182,13 @@ public class PortableGraphicsEngine {
 			if (c.state == CellState.WALL) {
 				GeometryHelper.boxColoursAsTriangles(0.1f, 0.1f, 0.2f, 1.0f, va);
 			} else if (c.state == CellState.WAY) {
-				GeometryHelper.boxColoursAsTriangles(0.0f, 0.0f, 0.0f, 1.0f, va);
+				if (c == game.mission.waypoints[0]) {
+					GeometryHelper.boxColoursAsTriangles(0.0f, 0.4f, 0.1f, 1.0f, va);
+				} else if (c == game.mission.waypoints[game.mission.waypoints.length - 1]) {
+					GeometryHelper.boxColoursAsTriangles(0.4f, 0.1f, 0.0f, 1.0f, va);
+				} else {
+					GeometryHelper.boxColoursAsTriangles(0.0f, 0.0f, 0.0f, 1.0f, va);
+				}
 			} else {
 				GeometryHelper.boxColoursAsTriangles(0.2f, 0.2f, 0.2f, 1.0f, va);
 			}
@@ -242,8 +248,6 @@ public class PortableGraphicsEngine {
 
 				case TOWER_INFO:
 					Tower t3 = (Tower) game.selectedObject;
-					V2 location3 = layer.virtualRegion.clone2().mult(0.5f);
-//					renderTower(t3, location3, layer, true);
 					display.drawText(
 							layer,
 							t3.getName(),
@@ -273,6 +277,26 @@ public class PortableGraphicsEngine {
 							String.format(Locale.US, "Range: %.1f", +t3.getRange() / GridCell.size),
 							true,
 							new V2(GridCell.size / 2, GridCell.size * 0.3f),
+							new RGB(1.0f, 1.0f, 1.0f),
+							1.0f
+					);
+					break;
+
+				case TOWER_SELL:
+					Tower t4 = (Tower) game.selectedObject;
+					display.drawText(
+							layer,
+							"Sell Prisma",
+							true,
+							new V2(GridCell.size / 2, GridCell.size * 0.6f),
+							new RGB(1.0f, 1.0f, 1.0f),
+							1.0f
+					);
+					display.drawText(
+							layer,
+							"$" + t4.getSellPrice(),
+							true,
+							new V2(GridCell.size / 2, GridCell.size * 0.4f),
 							new RGB(1.0f, 1.0f, 1.0f),
 							1.0f
 					);

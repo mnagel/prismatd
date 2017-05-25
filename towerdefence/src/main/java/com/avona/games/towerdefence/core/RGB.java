@@ -22,6 +22,20 @@ public final class RGB implements Serializable {
 		B = orig.B;
 	}
 
+	public void add(RGB other) {
+		R += other.R;
+		G += other.G;
+		B += other.B;
+	}
+
+	public RGB added(RGB other) {
+		return new RGB(
+				R + other.R,
+				G + other.G,
+				B + other.B
+		);
+	}
+
 	public RGB clone2() {
 		return new RGB(this);
 	}

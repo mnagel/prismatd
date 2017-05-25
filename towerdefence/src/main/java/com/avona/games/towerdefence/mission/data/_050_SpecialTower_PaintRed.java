@@ -1,13 +1,16 @@
 package com.avona.games.towerdefence.mission.data;
 
 import com.avona.games.towerdefence.enemy.data.GreenEnemy;
+import com.avona.games.towerdefence.enemy.data.RainbowEnemy;
 import com.avona.games.towerdefence.enemy.data.RedEnemy;
+import com.avona.games.towerdefence.enemy.data.YellowEnemy;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.mission.MissionName;
 import com.avona.games.towerdefence.mission.MissionStatementText;
 import com.avona.games.towerdefence.tower.Tower;
 import com.avona.games.towerdefence.tower.data.PaintRedTower;
 import com.avona.games.towerdefence.tower.data.RedTower;
+import com.avona.games.towerdefence.tower.data.SlowDownTower;
 import com.avona.games.towerdefence.wave.WaveEnemyConfig;
 
 @SuppressWarnings("WeakerAccess")
@@ -23,25 +26,25 @@ public class _050_SpecialTower_PaintRed extends Mission {
 
 	@Override
 	public int getStartMoney() {
-		return 1000;
+		return 10 * new RedTower(1).getPrice();
 	}
 
 	@Override
 	protected String getMissionDefinitionString() {
 		String l = "";
 		//////0123456789012345
-		l += "...1............\n"; // 0
-		l += "...x............\n"; // 1
-		l += "...x.4x5........\n"; // 2
-		l += "...x.x.x........\n"; // 3
-		l += "...x.x.x........\n"; // 4
-		l += "...x.x.x........\n"; // 5
-		l += "...x.x.x........\n"; // 6
-		l += "...x.x.x........\n"; // 7
-		l += "...x.x.x........\n"; // 8
-		l += "...2x3.x........\n"; // 9
-		l += ".......x........\n"; // 0
-		l += ".......6........\n"; // 1
+		l += "................\n"; // 0
+		l += "...6xxxxxxxxxx5.\n"; // 1
+		l += "...x...3xxxxxx4.\n"; // 2
+		l += "...x...x........\n"; // 3
+		l += "...x...x........\n"; // 4
+		l += "...x...x........\n"; // 5
+		l += "...x...x........\n"; // 6
+		l += "...x...x........\n"; // 7
+		l += "...x...x........\n"; // 8
+		l += "...x...x........\n"; // 9
+		l += "...x...2xxxxxxx1\n"; // 0
+		l += "...7............\n"; // 1
 
 		return l;
 	}
@@ -59,31 +62,19 @@ public class _050_SpecialTower_PaintRed extends Mission {
 		return new Tower[]{
 				new RedTower(1),
 				new PaintRedTower(1),
+				new SlowDownTower(1),
 		};
 	}
 
 	@Override
 	public WaveEnemyConfig[][] loadEnemyWaves() {
+		int level = 0;
 		return new WaveEnemyConfig[][]{
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-				},
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new GreenEnemy(1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(1), 0.35f),
-				},
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-				},
+				WaveEnemyConfig.create(10, 0.35f, new RedEnemy(++level)),
+				WaveEnemyConfig.create(10, 0.35f, new GreenEnemy(++level)),
+				WaveEnemyConfig.create(10, 0.35f, new YellowEnemy(++level)),
+				WaveEnemyConfig.create(10, 0.35f, new RedEnemy(++level), new GreenEnemy(level), new YellowEnemy(level)),
+				WaveEnemyConfig.create(10, 0.35f, new RainbowEnemy(++level)),
 		};
 	}
 }

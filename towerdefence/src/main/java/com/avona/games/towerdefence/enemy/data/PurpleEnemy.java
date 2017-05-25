@@ -2,7 +2,6 @@ package com.avona.games.towerdefence.enemy.data;
 
 import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.enemy.Enemy;
-import com.avona.games.towerdefence.mission.Mission;
 
 public class PurpleEnemy extends Enemy {
 
@@ -11,13 +10,9 @@ public class PurpleEnemy extends Enemy {
 	public PurpleEnemy(int level) {
 		super(
 				level,
-				3 + (level - 1),
-				new RGB(
-						50 * level + 10,
-						0,
-						50 * level + 10
-				),
-				80 + 3 * (level - 1)
+				40 + level,
+				new RGB(25.0f * (float) Math.pow(1.3, level), 0, 25.0f * (float) Math.pow(1.3, level)),
+				80 + 3 * (float) Math.pow(1.1, level)
 		);
 	}
 

@@ -36,12 +36,12 @@ public class _900_Benchmark extends Mission implements GameManipulatingMission {
 
 	@Override
 	public int getStartLives() {
-		return 10;
+		return 1000;
 	}
 
 	@Override
 	public int getStartMoney() {
-		return 100;
+		return 0;
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class _900_Benchmark extends Mission implements GameManipulatingMission {
 
 	@Override
 	public WaveEnemyConfig[][] loadEnemyWaves() {
-		int lvl = 10000;
+		int lvl = 100;
 		Enemy[] prototype = new Enemy[]{
 				new RedEnemy(lvl),
 				new GreenEnemy(lvl),
@@ -113,11 +113,21 @@ public class _900_Benchmark extends Mission implements GameManipulatingMission {
 	public void manipulateGame(final Game game) {
 		setupTowers(game);
 
-		game.waveTracker.waveFullyDeployedListeners.add(new WaveListener() {
+		game.waveTracker.listeners.add(new WaveListener() {
 			@Override
-			public void onWave(Wave wave) {
+			public void onWaveBegun(Wave wave) {
+
+			}
+
+			@Override
+			public void onWaveFullyDeployed(Wave wave) {
 				Util.log("autostarting next wave");
 				game.waveTracker.startNextWave();
+			}
+
+			@Override
+			public void onWaveKilled(Wave wave) {
+
 			}
 		});
 	}

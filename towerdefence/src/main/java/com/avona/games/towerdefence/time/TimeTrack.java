@@ -26,12 +26,12 @@ public class TimeTrack implements Serializable {
 	}
 
 	/**
-	 * Progress time by specifying new wall clock.
+	 * Progress delay by specifying new wall clock.
 	 * <p>
 	 * You may alternatively also use updateTick(), but don't use both at the
-	 * same time.
+	 * same delay.
 	 *
-	 * @param wallClock New wall clock time.
+	 * @param wallClock New wall clock delay.
 	 * @see TimeTrack#updateTick(float)
 	 */
 	public void update(double wallClock) {

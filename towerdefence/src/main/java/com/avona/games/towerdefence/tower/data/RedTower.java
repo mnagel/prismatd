@@ -15,7 +15,7 @@ public class RedTower extends Tower {
 
 	public RedTower(final int level) {
 		super(new NearestEnemyColliderPolicy(), level);
-		color = new RGB(level * 10 + 10, 0, 0);
+		color = new RGB(1, 0, 0);
 	}
 
 	public RedTower(final RedTower other) {
@@ -40,11 +40,7 @@ public class RedTower extends Tower {
 
 	@Override
 	public RGB getDamage() {
-		return new RGB(
-				10 + 2 * (level - 1),
-				0,
-				0
-		);
+		return new RGB(20 * level, 0, 0);
 	}
 
 	@Override

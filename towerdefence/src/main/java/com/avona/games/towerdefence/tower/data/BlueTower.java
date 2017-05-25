@@ -15,7 +15,7 @@ public class BlueTower extends Tower {
 
 	public BlueTower(int level) {
 		super(new NearestEnemyColliderPolicy(), level);
-		color = new RGB(0, 0, level * 10 + 10);
+		color = new RGB(0, 0, 1);
 	}
 
 	public BlueTower(final BlueTower other) {
@@ -43,13 +43,13 @@ public class BlueTower extends Tower {
 		return new RGB(
 				0,
 				0,
-				10 + 2 * (level - 1)
+				11 * level * level
 		);
 	}
 
 	@Override
 	public float getReloadTime() {
-		return 0.3f;
+		return 0.3f * level;
 	}
 
 	@Override

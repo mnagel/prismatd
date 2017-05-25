@@ -170,6 +170,33 @@ public class GameInputActor extends EmptyInputActor {
 		if (keyCode == 'l') {
 			loadMissionInteractive();
 		}
+		if (keyCode == 's') {
+			if (game.selectedObject instanceof Tower) {
+				final Tower t = (Tower) game.selectedObject;
+				game.sellTower(t);
+			}
+		}
+		if (keyCode >= '1' && keyCode <= '9') {
+			int i = Integer.parseInt(String.valueOf(keyCode));
+			if (i > game.mission.buildableTowers.length) {
+				return;
+			}
+
+			Tower buttoned = game.mission.buildableTowers[i - 1];
+
+			if (game.selectedObject instanceof Tower) {
+				Tower selected = (Tower) game.selectedObject;
+				if (buttoned.getClass() == selected.getClass()) {
+					game.levelUpTower(selected);
+				}
+			} else {
+				if (buttoned != game.selectedBuildTower) {
+					game.selectedBuildTower = buttoned;
+				} else {
+					game.selectedBuildTower = null;
+				}
+			}
+		}
 	}
 
 	private void checkMouseOverTower(V2 location) {
@@ -185,5 +212,10 @@ public class GameInputActor extends EmptyInputActor {
 	@Override
 	public void mouseMovedTo(V2 location) {
 		// checkMouseOverTower(location);
+	}
+
+	@Override
+	public String toString() {
+		return "GameInputActor";
 	}
 }

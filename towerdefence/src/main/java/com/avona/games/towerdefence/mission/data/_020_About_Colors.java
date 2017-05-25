@@ -23,25 +23,26 @@ public class _020_About_Colors extends Mission {
 
 	@Override
 	public int getStartMoney() {
-		return 1000;
+		return 10 * new RedTower(1).getPrice();
 	}
 
 	@Override
 	protected String getMissionDefinitionString() {
 		String l = "";
 		//////0123456789012345
-		l += "...1............\n"; // 0
-		l += "...x............\n"; // 1
-		l += "...x............\n"; // 2
-		l += "...x............\n"; // 3
-		l += "...x............\n"; // 4
-		l += "...x............\n"; // 5
-		l += "...x............\n"; // 6
-		l += "...x............\n"; // 7
-		l += "...x............\n"; // 8
-		l += "...x............\n"; // 9
-		l += "...x............\n"; // 0
-		l += "...2............\n"; // 1
+		l += "..1.6...........\n"; // 0
+		l += "..x.x...........\n"; // 1
+		l += "..x.x...........\n"; // 2
+		l += "..x.x...........\n"; // 3
+		l += "..x.x...........\n"; // 4
+		l += "..x.x...........\n"; // 5
+		l += "..x.x...........\n"; // 6
+		l += "..x.5xxxxxxxx4..\n"; // 7
+		l += "..x..........x..\n"; // 8
+		l += "..2xxxxxxxxxx3..\n"; // 9
+		l += "................\n"; // 0
+		l += "................\n"; // 1
+
 		return l;
 	}
 
@@ -58,32 +59,20 @@ public class _020_About_Colors extends Mission {
 	@Override
 	protected Tower[] loadBuildableTowers() {
 		return new Tower[]{
-				new RedTower(2),
-				new BlueTower(2)
+				new RedTower(1),
+				new BlueTower(1)
 		};
 	}
 
 	@Override
 	public WaveEnemyConfig[][] loadEnemyWaves() {
+		int level = 0;
 		return new WaveEnemyConfig[][]{
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-				},
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
-				},
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
-				}
+				WaveEnemyConfig.create(10, 0.35f, new RedEnemy(++level)),
+				WaveEnemyConfig.create(10, 0.35f, new BlueEnemy(++level)),
+				WaveEnemyConfig.create(10, 0.35f, new RedEnemy(++level), new BlueEnemy(level)),
+				WaveEnemyConfig.create(10, 0.35f, new RedEnemy(++level), new BlueEnemy(level)),
+				WaveEnemyConfig.create(10, 0.35f, new RedEnemy(++level), new BlueEnemy(level)),
 		};
 	}
 }

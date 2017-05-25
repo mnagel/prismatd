@@ -4,9 +4,10 @@ import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyEventListener;
 import com.avona.games.towerdefence.engine.Game;
+import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.time.TimedCode;
 
-public class Wave extends TimedCode implements EnemyEventListener {
+public class Wave implements EnemyEventListener {
 	private static final long serialVersionUID = 1L;
 
 	public int waveNum;
@@ -28,11 +29,6 @@ public class Wave extends TimedCode implements EnemyEventListener {
 
 	boolean isFullyDeployed() {
 		return fullyDeployed;
-	}
-
-	@Override
-	public void execute() {
-		spawnNextEnemy();
 	}
 
 	private void spawnNextEnemy() {
@@ -68,8 +64,20 @@ public class Wave extends TimedCode implements EnemyEventListener {
 	}
 
 	private void scheduleNextEnemySpawn() {
-		WaveEnemyConfig we = enemies[curEnemy];
-		game.timedCodeManager.addCode(we.delayAfter, this);
+		final WaveEnemyConfig we = enemies[curEnemy];
+		game.timedCodeManager.addCode(
+				new TimedCode() {
+					@Override
+					public double getDelay() {
+						return we.delayAfter;
+					}
+
+					@Override
+					public void run() {
+						spawnNextEnemy();
+					}
+				}
+		);
 	}
 
 	private void checkEnemiesDone() {
@@ -84,6 +92,11 @@ public class Wave extends TimedCode implements EnemyEventListener {
 	}
 
 	@Override
+	public void onHurtEvent(Enemy e, Particle cause) {
+		// do nothing
+	}
+
+	@Override
 	public void onDeathEvent(Enemy e) {
 		--activeEnemies;
 		checkEnemiesDone();
@@ -93,5 +106,10 @@ public class Wave extends TimedCode implements EnemyEventListener {
 	public void onEscapeEvent(Enemy e) {
 		--activeEnemies;
 		checkEnemiesDone();
+	}
+
+	@Override
+	public String toString() {
+		return "Wave #" + waveNum;
 	}
 }

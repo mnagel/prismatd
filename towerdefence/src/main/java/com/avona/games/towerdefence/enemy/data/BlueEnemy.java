@@ -2,7 +2,6 @@ package com.avona.games.towerdefence.enemy.data;
 
 import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.enemy.Enemy;
-import com.avona.games.towerdefence.mission.Mission;
 
 public class BlueEnemy extends Enemy {
 	private static final long serialVersionUID = 3102974967310386039L;
@@ -10,13 +9,9 @@ public class BlueEnemy extends Enemy {
 	public BlueEnemy(int level) {
 		super(
 				level,
-				3 + (level - 1),
-				new RGB(
-						0,
-						0,
-						50 * level + 10
-				),
-				80 + 3 * (level - 1)
+				40 + level,
+				new RGB(0, 0, 50.0f * (float) Math.pow(1.3, level)),
+				80 + 3 * (float) Math.pow(1.1, level)
 		);
 	}
 

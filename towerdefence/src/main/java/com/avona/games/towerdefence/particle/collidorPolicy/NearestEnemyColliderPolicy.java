@@ -9,8 +9,7 @@ public class NearestEnemyColliderPolicy implements ParticleColliderPolicy {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void collideParticleWithEnemies(final Particle p,
-										   final List<Enemy> enemies, final float dt) {
+	public void collideParticleWithEnemies(final Particle p, final List<Enemy> enemies, final float dt) {
 		for (Enemy e : enemies) {
 			if (e.isDead()) {
 				continue;

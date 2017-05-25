@@ -19,7 +19,7 @@ public class _901_Mini_Mission extends Mission {
 
 	@Override
 	public int getStartMoney() {
-		return 1000;
+		return 20 * new RedEnemy(1).worth;
 	}
 
 	@Override

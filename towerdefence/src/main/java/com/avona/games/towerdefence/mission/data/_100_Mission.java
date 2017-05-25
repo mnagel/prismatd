@@ -1,7 +1,6 @@
 package com.avona.games.towerdefence.mission.data;
 
-import com.avona.games.towerdefence.enemy.data.GreenEnemy;
-import com.avona.games.towerdefence.enemy.data.PurpleEnemy;
+import com.avona.games.towerdefence.enemy.data.*;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.mission.MissionName;
 import com.avona.games.towerdefence.mission.MissionStatementText;
@@ -24,7 +23,7 @@ public class _100_Mission extends Mission {
 
 	@Override
 	public int getStartMoney() {
-		return 100;
+		return 2 * 20 * new RedEnemy(1).worth;
 	}
 
 	@Override
@@ -66,94 +65,29 @@ public class _100_Mission extends Mission {
 
 	@Override
 	public WaveEnemyConfig[][] loadEnemyWaves() {
+		int level = 0;
 		return new WaveEnemyConfig[][]{
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new GreenEnemy(1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(1),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(1),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(1),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(1),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(1),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(1),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(1),
-								0.35f)},
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new GreenEnemy(2), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(2),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(2), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(2),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(2), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(2),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(2), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(2),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(2), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(2),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(2), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(2),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(2), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(2),
-								0.35f)},
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new GreenEnemy(3), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(3),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(3), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(3),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(3), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(3),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(3), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(3),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(3), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(3),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(3), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(3),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(3), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(3),
-								0.35f)},
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new GreenEnemy(4), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(4),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(4), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(4),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(4), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(4),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(4), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(4),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(4), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(4),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(4), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(4),
-								0.35f),
-						new WaveEnemyConfig(new GreenEnemy(4), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(4),
-								0.35f)}};
+				WaveEnemyConfig.create(20, 0.35f, new RedEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new GreenEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new BlueEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new PurpleEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new RedEnemy(++level), new BlueEnemy(level)),
+				WaveEnemyConfig.create(20, 0.35f, new YellowEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new RedEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new GreenEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new BlueEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new PurpleEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new RedEnemy(++level), new BlueEnemy(level)),
+				WaveEnemyConfig.create(20, 0.35f, new YellowEnemy(++level)),
+				WaveEnemyConfig.create(5, 2.00f, new WhiteEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new RedEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new GreenEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new BlueEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new PurpleEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new RedEnemy(++level), new BlueEnemy(level)),
+				WaveEnemyConfig.create(20, 0.35f, new YellowEnemy(++level)),
+				WaveEnemyConfig.create(20, 0.35f, new RainbowEnemy(++level)),
+
+		};
 	}
 }

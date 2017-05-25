@@ -12,9 +12,7 @@ public class WaveTracker implements Serializable {
 
 	private static final long serialVersionUID = 1069096293847665655L;
 
-	public List<WaveListener> waveFullyDeployedListeners = new LinkedList<>();
-	public List<WaveListener> waveCompletedListeners = new LinkedList<>();
-	public List<WaveListener> waveBegunListeners = new LinkedList<>();
+	public List<WaveListener> listeners = new LinkedList<>();
 	private int waveNum = -1;
 	/**
 	 * Currently running wave.
@@ -52,7 +50,7 @@ public class WaveTracker implements Serializable {
 	public void startNextWave() {
 		if (currentWave != null && !currentWave.isFullyDeployed()) {
 			Util.log("Cannot deploy multiple waves concurrently!");
-			return; // one wave deployment at a time
+			return; // one wave deployment at a delay
 		}
 
 		++waveNum;
@@ -62,9 +60,10 @@ public class WaveTracker implements Serializable {
 		if (currentWave != null) {
 			pendingWaves.add(currentWave);
 
+			Util.log(currentWave + " starting");
 			// trigger events
-			for (WaveListener l : waveBegunListeners) {
-				l.onWave(currentWave);
+			for (WaveListener l : listeners) {
+				l.onWaveBegun(currentWave);
 			}
 		} else {
 			Util.log("No more waves to deploy!");
@@ -73,26 +72,26 @@ public class WaveTracker implements Serializable {
 	}
 
 	void onWaveFullyDeployed(Wave w) {
-		Util.log("Wave fully deployed");
+		Util.log(w + " fully deployed");
 
-		for (WaveListener l : waveFullyDeployedListeners) {
-			l.onWave(w);
+		for (WaveListener l : listeners) {
+			l.onWaveFullyDeployed(w);
 		}
 	}
 
 	void onWaveCompleted(Wave w) {
-		Util.log("Wave completed");
+		Util.log(w + " completed");
 		pendingWaves.remove(w);
 
-		for (WaveListener l : waveCompletedListeners) {
-			l.onWave(w);
+		for (WaveListener l : listeners) {
+			l.onWaveKilled(w);
 		}
 
 		checkAllWavesCompleted();
 	}
 
 	private void checkAllWavesCompleted() {
-		Util.log("Checking completion ...");
+		Util.log("checkAllWavesCompleted...");
 		if (haveAllWavesBeenDeployed()) {
 			Util.log("All waves have been deployed");
 			if (!hasPendingWaves()) {

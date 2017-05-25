@@ -15,7 +15,7 @@ public class PaintRedTower extends Tower {
 
 	public PaintRedTower(final int level) {
 		super(new NearestEnemyColliderPolicy(), level);
-		color = new RGB(0, level * 10 + 10, level * 10 + 10);
+		color = new RGB(0, 1, 1);
 		particleMask = new RGB(1.0f, 0, 0);
 	}
 
@@ -36,8 +36,8 @@ public class PaintRedTower extends Tower {
 	}
 
 	@Override
-	public void setLevel(int level) {
-		this.level = level;
+	public void upgrade() {
+		super.upgrade();
 		this.enemySelectionPolicy = getPolicyForLevel(level);
 	}
 
@@ -50,7 +50,7 @@ public class PaintRedTower extends Tower {
 	public RGB getDamage() {
 		return new RGB(
 				0,
-				10 + 2 * (level - 1),
+				10 * level,
 				0
 		);
 	}

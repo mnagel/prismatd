@@ -82,16 +82,13 @@ public class MenuLayer extends Layer {
 		if (game.missionStatus == MissionStatus.ACTIVE) {
 			if (!(game.selectedObject instanceof Tower)) {
 				for (int i = 0; i < game.mission.buildableTowers.length; i++) {
-					final Tower t = game.mission.buildableTowers[i];
+					final int ii = i;
+					final Tower t = game.mission.buildableTowers[ii];
 
 					addButton(new MenuButton("Build Tower " + i, MenuButtonLook.BUILD_TOWER) {
 						@Override
 						public void mouseBtn1DownAt(V2 location) {
-							if (t != game.selectedBuildTower) {
-								game.selectedBuildTower = t;
-							} else {
-								game.selectedBuildTower = null;
-							}
+							layerHerder.menuLayer.rootInputActor.pressedOtherKey(Character.forDigit(ii + 1, 10));
 						}
 
 						@Override
@@ -102,16 +99,23 @@ public class MenuLayer extends Layer {
 				}
 			} else {
 				final Tower t = (Tower) game.selectedObject;
-				addButton(new MenuButton("Tower Upgrade", MenuButtonLook.TOWER_UPGRADE) {
-					@Override
-					public void mouseBtn1DownAt(V2 location) {
-						if (game.selectedObject instanceof Tower) {
-							game.levelUpTower(t);
+				if (t.canUpgrade()) {
+					addButton(new MenuButton("Tower Upgrade", MenuButtonLook.TOWER_UPGRADE) {
+						@Override
+						public void mouseBtn1DownAt(V2 location) {
+							layerHerder.menuLayer.rootInputActor.pressedOtherKey('+');
 						}
-					}
-				});
+					});
+				}
 
 				addButton(new MenuButton("Tower Info", MenuButtonLook.TOWER_INFO) {
+				});
+
+				addButton(new MenuButton("Sell Tower", MenuButtonLook.TOWER_SELL) {
+					@Override
+					public void mouseBtn1DownAt(V2 location) {
+						layerHerder.menuLayer.rootInputActor.pressedOtherKey('s');
+					}
 				});
 			}
 		}

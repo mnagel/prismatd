@@ -1,7 +1,6 @@
 package com.avona.games.towerdefence.mission.data;
 
 import com.avona.games.towerdefence.enemy.data.BlueEnemy;
-import com.avona.games.towerdefence.enemy.data.GreenEnemy;
 import com.avona.games.towerdefence.enemy.data.PurpleEnemy;
 import com.avona.games.towerdefence.enemy.data.RedEnemy;
 import com.avona.games.towerdefence.mission.Mission;
@@ -25,7 +24,7 @@ public class _030_Mixing_Colors extends Mission {
 
 	@Override
 	public int getStartMoney() {
-		return 1000;
+		return 10 * new RedTower(1).getPrice();
 	}
 
 	@Override
@@ -71,32 +70,13 @@ public class _030_Mixing_Colors extends Mission {
 
 	@Override
 	public WaveEnemyConfig[][] loadEnemyWaves() {
+		int level = 0;
 		return new WaveEnemyConfig[][]{
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-				},
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new PurpleEnemy(1), 0.7f),
-						new WaveEnemyConfig(new PurpleEnemy(1), 0.7f),
-						new WaveEnemyConfig(new PurpleEnemy(1), 0.7f),
-				},
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(1), 0.35f),
-						new WaveEnemyConfig(new BlueEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-				},
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new PurpleEnemy(1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(1), 0.35f),
-						new WaveEnemyConfig(new PurpleEnemy(1), 0.35f),
-						new WaveEnemyConfig(new GreenEnemy(1), 0.35f), // MUHAHA cannot be killed ... take that 100% gamers!
-				},
+				WaveEnemyConfig.create(10, 0.35f, new RedEnemy(++level)),
+				WaveEnemyConfig.create(10, 0.35f, new BlueEnemy(++level)),
+				WaveEnemyConfig.create(10, 0.35f, new RedEnemy(++level), new BlueEnemy(level)),
+				WaveEnemyConfig.create(10, 0.35f, new PurpleEnemy(++level)),
+				WaveEnemyConfig.create(10, 0.35f, new RedEnemy(++level), new BlueEnemy(level), new PurpleEnemy(level)),
 		};
 	}
 }

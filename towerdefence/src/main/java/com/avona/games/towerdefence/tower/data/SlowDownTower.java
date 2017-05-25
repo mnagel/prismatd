@@ -12,7 +12,7 @@ import com.avona.games.towerdefence.tower.enemySelection.NearestEnemyPolicy;
 public class SlowDownTower extends Tower {
 	public SlowDownTower(final int level) {
 		super(new NearestEnemyColliderPolicy(), level);
-		color = new RGB(1.0f, 1.0f, 1.0f);
+		color = new RGB(1, 1, 1);
 	}
 
 	public SlowDownTower(final SlowDownTower other) {

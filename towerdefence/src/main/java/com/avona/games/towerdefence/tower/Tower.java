@@ -6,7 +6,6 @@ import com.avona.games.towerdefence.engine.LocationObject;
 import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.particle.Particle;
 import com.avona.games.towerdefence.particle.collidorPolicy.ParticleColliderPolicy;
-import com.avona.games.towerdefence.time.TimedCodeManager;
 import com.avona.games.towerdefence.tower.enemySelection.EnemySelectionPolicy;
 
 import java.util.List;
@@ -19,17 +18,18 @@ public abstract class Tower extends LocationObject {
 	public int level;
 
 	public EnemySelectionPolicy enemySelectionPolicy;
+	public boolean isReadyToShoot = true;
 	// TODO move to particle
 	protected ParticleColliderPolicy enemyParticleColliderPolicy;
-
-	private RechargeTimer timer;
 
 	public Tower(ParticleColliderPolicy enemyParticleColliderPolicy, int level) {
 		super(null, GridCell.size / 2);
 		this.enemySelectionPolicy = getPolicyForLevel(level);
 		this.enemyParticleColliderPolicy = enemyParticleColliderPolicy;
 		this.level = level;
-
+		if (level < 1) {
+			throw new IllegalArgumentException("Tower Level need to be positive!");
+		}
 	}
 
 	public Tower(final Tower t) {
@@ -37,21 +37,14 @@ public abstract class Tower extends LocationObject {
 		enemySelectionPolicy = t.enemySelectionPolicy;
 		enemyParticleColliderPolicy = t.enemyParticleColliderPolicy;
 		level = t.level;
-		if (t.timer != null) {
-			timer = t.timer.clone2();
-		}
 		color = t.color;
-	}
-
-	public void registerAtTimedCodeManager(TimedCodeManager tcm) {
-		timer = new RechargeTimer(tcm, getReloadTime());
 	}
 
 	abstract public String getName();
 
 	// cumulative (incl. all upgrades)
 	private int getPrice(int lvl) {
-		return 10 * lvl * lvl;
+		return 100 * lvl * lvl;
 	}
 
 	// cumulative (incl. all upgrades)
@@ -64,9 +57,13 @@ public abstract class Tower extends LocationObject {
 		return getPrice(level + 1) - getPrice(level);
 	}
 
+	public int getSellPrice() {
+		return (int) (getPrice() * 0.8f);
+	}
+
 	public float getRange() {
 		float base = 2.5f;
-		float perLevel = 0.5f;
+		float perLevel = 1.0f;
 		return GridCell.size * (base + perLevel * (this.level - 1));
 	}
 
@@ -78,7 +75,15 @@ public abstract class Tower extends LocationObject {
 
 	public abstract Particle makeParticle(Enemy e);
 
-	public void setLevel(int level) {
+	public boolean canUpgrade() {
+		return level < 3;
+	}
+
+	public void upgrade() {
+		setLevel(level + 1);
+	}
+
+	private void setLevel(int level) {
 		this.level = level;
 		this.enemySelectionPolicy = getPolicyForLevel(level);
 	}
@@ -86,12 +91,7 @@ public abstract class Tower extends LocationObject {
 	protected abstract EnemySelectionPolicy getPolicyForLevel(int level);
 
 	public Particle shootTowards(Enemy e) {
-		if (timer.ready) {
-			timer.rearm();
-			return makeParticle(e);
-		} else {
-			return null;
-		}
+		return makeParticle(e);
 	}
 
 	@Override

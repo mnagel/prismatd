@@ -3,6 +3,7 @@ package com.avona.games.towerdefence.particle;
 import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.enemy.Enemy;
+import com.avona.games.towerdefence.enemy.eventListeners.EnemyEventListener;
 import com.avona.games.towerdefence.engine.Collision;
 import com.avona.games.towerdefence.engine.MovingObject;
 import com.avona.games.towerdefence.mission.GridCell;
@@ -52,6 +53,10 @@ public class Particle extends MovingObject {
 
 		e.inflictDamage(this.strength);
 		dead = true;
+
+		for (EnemyEventListener l : e.eventListeners) {
+			l.onHurtEvent(e, this);
+		}
 	}
 
 	public boolean isDead() {

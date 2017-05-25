@@ -21,25 +21,25 @@ public class _010_Hello_World extends Mission {
 
 	@Override
 	public int getStartMoney() {
-		return 1000;
+		return 10 * new RedTower(1).getPrice();
 	}
 
 	@Override
 	protected String getMissionDefinitionString() {
 		String l = "";
 		//////0123456789012345
-		l += "...1............\n"; // 0
-		l += "...x............\n"; // 1
-		l += "...x............\n"; // 2
-		l += "...x............\n"; // 3
-		l += "...x............\n"; // 4
-		l += "...x............\n"; // 5
-		l += "...x............\n"; // 6
-		l += "...x............\n"; // 7
-		l += "...x............\n"; // 8
-		l += "...x............\n"; // 9
-		l += "...x............\n"; // 0
-		l += "...2............\n"; // 1
+		l += ".1..............\n"; // 0
+		l += ".x..............\n"; // 1
+		l += ".x..............\n"; // 2
+		l += ".x..............\n"; // 3
+		l += ".x..............\n"; // 4
+		l += ".x..............\n"; // 5
+		l += ".x..............\n"; // 6
+		l += ".x..............\n"; // 7
+		l += ".x..............\n"; // 8
+		l += ".x..............\n"; // 9
+		l += ".x..............\n"; // 0
+		l += ".2..............\n"; // 1
 
 		return l;
 	}
@@ -64,25 +64,13 @@ public class _010_Hello_World extends Mission {
 
 	@Override
 	public WaveEnemyConfig[][] loadEnemyWaves() {
+		int level = 0;
 		return new WaveEnemyConfig[][]{
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-				},
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-				},
-				new WaveEnemyConfig[]{
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-						new WaveEnemyConfig(new RedEnemy(1), 0.35f),
-				}
+				WaveEnemyConfig.create(3, 0.35f, new RedEnemy(++level)),
+				WaveEnemyConfig.create(6, 0.35f, new RedEnemy(++level)),
+				WaveEnemyConfig.create(9, 0.35f, new RedEnemy(++level)),
+				WaveEnemyConfig.create(12, 0.35f, new RedEnemy(++level)),
+				WaveEnemyConfig.create(15, 0.35f, new RedEnemy(++level)),
 		};
 	}
 }

@@ -14,10 +14,20 @@ public class GrantInterestPerWave implements WaveListener {
 	}
 
 	@Override
-	public void onWave(Wave wave) {
+	public void onWaveBegun(Wave wave) {
 		if (wave.waveNum == 1) {
 			return;
 		}
 		game.money += game.money * interestRate;
+	}
+
+	@Override
+	public void onWaveFullyDeployed(Wave wave) {
+
+	}
+
+	@Override
+	public void onWaveKilled(Wave wave) {
+
 	}
 }

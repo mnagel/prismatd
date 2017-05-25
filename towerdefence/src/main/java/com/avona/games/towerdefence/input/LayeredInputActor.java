@@ -30,18 +30,18 @@ public class LayeredInputActor implements InputActor {
 
 	@Override
 	public void mouseBtn1DownAt(V2 location) {
-		Util.log("got mouse 1 down... looking for layer");
+		// Util.log("got mouse 1 down... looking for layer");
 		final Layer layer = layerHerder.findLayerWithinPoint(location);
 		if (layer == null) {
 			return;
 		}
-		Util.log("proceeding with layer " + layer);
+		// Util.log("proceeding with layer " + layer);
 		location = layer.convertToVirtual(location);
 		final InputActor inputActor = inputLayerMap.get(layer);
 		if (inputActor == null) {
 			return;
 		}
-		Util.log("proceeding with inputactor " + inputActor);
+		Util.log("proceeding with input actor " + inputActor);
 		inputActor.mouseBtn1DownAt(location);
 	}
 
