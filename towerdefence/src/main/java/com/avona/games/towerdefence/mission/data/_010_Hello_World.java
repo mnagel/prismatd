@@ -47,11 +47,11 @@ public class _010_Hello_World extends Mission {
 	@Override
 	protected MissionStatementText[] getMissionStatementTexts() {
 		return new MissionStatementText[]{
-				new MissionStatementText(4, 1, "1. Pixels spawn here!"),
-				new MissionStatementText(4, 10, "2. Pixels escape here!"),
-				new MissionStatementText(4, 4, "3. Stop them by building Prismas here!"),
-				new MissionStatementText(4, 5, "... and here ..."),
-				new MissionStatementText(4, 6, "... and here!"),
+				new MissionStatementText(2, 0, "1. Pixels spawn here!"),
+				new MissionStatementText(2, 11, "2. Pixels escape here!"),
+				new MissionStatementText(3, 4, "3. Stop them by building Prismas here!"),
+				new MissionStatementText(3, 5, "... and here ..."),
+				new MissionStatementText(3, 6, "... and here!"),
 		};
 	}
 
