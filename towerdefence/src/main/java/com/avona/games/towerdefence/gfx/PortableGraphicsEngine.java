@@ -322,12 +322,13 @@ public class PortableGraphicsEngine {
 							new RGB(1.0f, 1.0f, 1.0f),
 							1.0f
 					);
+					RGB lifeColor = game.lives > 3 ? new RGB(1.0f, 1.0f, 1.0f) : new RGB(1.0f, 0.0f, 0.0f);
 					display.drawText(
 							layer,
 							String.format(Locale.US, "%d lives", game.lives),
 							true,
 							new V2(GridCell.size / 2, GridCell.size * 0.75f),
-							new RGB(1.0f, 1.0f, 1.0f),
+							lifeColor,
 							1.0f
 					);
 					break;
