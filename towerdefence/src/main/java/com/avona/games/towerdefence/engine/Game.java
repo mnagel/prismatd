@@ -96,9 +96,9 @@ public class Game implements Serializable {
 			public void onEscapeEvent(Enemy e) {
 				addTransient(
 						new TransientText(
-								"o",
+								Integer.toString(Game.this.lives),
 								0.5f,
-								e.location,
+								mission.getCellAt(e.location).center,
 								e.maxLife,
 								1.0f
 						)
