@@ -5,6 +5,8 @@ package com.avona.games.towerdefence.gfx.text;
 // Licensed under CC0 1.0 Public Domain.
 
 import android.opengl.Matrix;
+import com.avona.games.towerdefence.gfx.GlWrapper;
+import com.avona.games.towerdefence.gfx.PortableDisplay;
 import com.avona.games.towerdefence.gfx.Shader;
 
 /**
@@ -24,10 +26,16 @@ public abstract class DisplayText {
 	protected static final int CHAR_UNKNOWN = (CHAR_CNT - 1); // Index of the unknown character
 	protected static final int FONT_SIZE_MIN = 6; // Minimum font size (pixels)
 	protected static final int FONT_SIZE_MAX = 180; // Maximum font size (pixels)
-	static final int CHAR_BATCH_SIZE = 24; // Number of characters to render per batch, must be the same as the size of u_mvpMatrices in shader
+	protected static final int CHAR_BATCH_SIZE = 24; // Number of characters to render per batch, must be the same as the size of u_mvpMatrices in shader
 	protected final float[] charWidths; // Width of each character (pixels)
 	protected final TextureRegion[] charRgn; // Region of each character (texture coordinates)
-	private final SpriteBatch batch; // Batch renderer
+	protected final int mShaderProgramHandle;
+	protected final int mColorHandle;
+	protected final int mTextureUniformHandle;
+	protected final GlWrapper glWrapper;
+	protected final PortableDisplay display;
+	protected final Shader shader;
+	protected SpriteBatch batch; // Batch renderer
 	protected int fontPadX; // Horizontal font padding (pixels)
 	protected int fontPadY; // Vertical font padding (pixels)
 	protected float fontHeight; // Font height (pixels)
@@ -37,15 +45,18 @@ public abstract class DisplayText {
 	protected float charHeight; // Character height (pixels)
 	protected int cellWidth;
 	protected int cellHeight; // Character cell width / height
+	protected int textureId = -1;
 	private float scaleX;
 	private float scaleY; // Font scale
 	private float spaceX; // Additional spacing (unscaled)
 
-	/**
-	 * @param shader shader used for text rendering
-	 */
-	public DisplayText(Shader shader) {
-		batch = allocateSpriteBatch(CHAR_BATCH_SIZE, shader);
+	public DisplayText(GlWrapper glWrapper, PortableDisplay display, Shader shader) {
+		this.glWrapper = glWrapper;
+		this.display = display;
+		this.shader = shader;
+		this.mShaderProgramHandle = shader.getProgram();
+		this.mColorHandle = shader.getUniformLocation("u_color");
+		this.mTextureUniformHandle = shader.getUniformLocation("u_texture");
 
 		charWidths = new float[CHAR_CNT];
 		charRgn = new TextureRegion[CHAR_CNT];
@@ -66,9 +77,9 @@ public abstract class DisplayText {
 		scaleX = 1.0f;
 		scaleY = 1.0f;
 		spaceX = 0.0f;
-	}
 
-	protected abstract SpriteBatch allocateSpriteBatch(int maxSprites, Shader shader);
+		batch = new SpriteBatch(glWrapper, CHAR_BATCH_SIZE, shader);
+	}
 
 	/**
 	 * Load the specified font file, create a texture for the defined character range, and setup all required values used to render with it.
@@ -133,9 +144,17 @@ public abstract class DisplayText {
 		postDraw();
 	}
 
-	protected abstract void postDraw();
+	private void postDraw() {
+	}
 
-	protected abstract void preDraw(float red, float green, float blue, float alpha);
+	private void preDraw(float red, float green, float blue, float alpha) {
+		glWrapper.glUseProgram(mShaderProgramHandle);
+		float[] color = {red, green, blue, alpha};
+		glWrapper.glUniform4fv(mColorHandle, 1, color, 0);
+		glWrapper.glActiveTexture(glWrapper.GL_TEXTURE0);
+		glWrapper.glBindTexture(glWrapper.GL_TEXTURE_2D, textureId);
+		glWrapper.glUniform1i(mTextureUniformHandle, 0);
+	}
 
 	/**
 	 * Draw text at the specified position
@@ -158,9 +177,11 @@ public abstract class DisplayText {
 		float[] modelMatrix = new float[16];
 		Matrix.setIdentityM(modelMatrix, 0);
 		Matrix.translateM(modelMatrix, 0, x, y, z);
-		Matrix.rotateM(modelMatrix, 0, angleDegZ, 0, 0, 1);
-		Matrix.rotateM(modelMatrix, 0, angleDegX, 1, 0, 0);
-		Matrix.rotateM(modelMatrix, 0, angleDegY, 0, 1, 0);
+
+		// TODO: repair text rotation (Matrix implementation copied from android results in empty matrix after call to Matrix.rotateM)
+//		Matrix.rotateM(modelMatrix, 0, angleDegZ, 0, 0, 1);
+//		Matrix.rotateM(modelMatrix, 0, angleDegX, 1, 0, 0);
+//		Matrix.rotateM(modelMatrix, 0, angleDegY, 0, 1, 0);
 
 		float letterX, letterY;
 		letterX = letterY = 0;

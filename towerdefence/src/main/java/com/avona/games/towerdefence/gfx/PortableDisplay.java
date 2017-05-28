@@ -3,17 +3,26 @@ package com.avona.games.towerdefence.gfx;
 import android.opengl.Matrix;
 import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;
+import com.avona.games.towerdefence.gfx.text.DisplayText;
 import com.avona.games.towerdefence.input.Layer;
 
 public abstract class PortableDisplay {
 	// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
 	protected final static float FONT_SIZE_RATIO_HEIGHT_FACTOR = 0.5f / 12.0f;
+	protected Shader defaultShader;
 	private float[] modelMatrix = new float[16];
 	private float[] viewMatrix = new float[16];
 	private float[] modelViewMatrix = new float[16];
 	private float[] viewProjectionMatrix = new float[16];
 	private float[] projectionMatrix = new float[16];
 	private float[] mvpMatrix = new float[16];
+	private V2 size = new V2();
+	private DisplayText displayText;
+	private DisplayEventListener eventListener;
+
+	public PortableDisplay(DisplayEventListener eventListener) {
+		this.eventListener = eventListener;
+	}
 
 	protected void initializeMatrices(int width, int height) {
 		Matrix.setIdentityM(modelMatrix, 0);
@@ -52,7 +61,9 @@ public abstract class PortableDisplay {
 		return mvpMatrix;
 	}
 
-	public abstract V2 getSize();
+	public V2 getSize() {
+		return size;
+	}
 
 	public abstract Texture allocateTexture();
 
@@ -60,15 +71,72 @@ public abstract class PortableDisplay {
 
 	public abstract void prepareScreen();
 
+	protected void init() {
+		defaultShader = allocateShader("default");
+		defaultShader.loadShaderProgramFromFile("default");
+
+		Shader textShader = allocateShader("text");
+		textShader.loadShaderProgramFromFile("text");
+
+		displayText = allocateDisplayText(textShader);
+
+		eventListener.onNewScreenContext();
+		checkGLError("after init");
+	}
+
+	protected abstract DisplayText allocateDisplayText(Shader textShader);
+
+	private int getFontSize(int width, int height) {
+		float ratio = 800.0f / 480.0f;
+		int ratioHeight = (int) ((float) width / ratio);
+		ratioHeight = Math.min(height, ratioHeight);
+		int fontSize = (int) ((float) ratioHeight * FONT_SIZE_RATIO_HEIGHT_FACTOR + 0.5f);
+		return fontSize;
+	}
+
+	protected void setSize(int width, int height) {
+		size = new V2(width, height);
+		displayText.loadFont("Roboto-Regular.ttf", getFontSize(width, height), 2, 2);
+		initializeMatrices(width, height);
+		eventListener.onReshapeScreen();
+	}
+
+
 	public abstract void drawVertexArray(final VertexArray array);
 
 	public void drawText(final Layer layer, String text, boolean centeredBoth, final V2 location, final RGB color, float alpha) {
 		drawText(layer, text, centeredBoth, centeredBoth, location, color, alpha);
 	}
 
-	public abstract void drawText(final Layer layer, String text, boolean centeredHorizontal, boolean centeredVertical, final V2 location, final RGB color, float alpha);
+	public void drawText(final Layer layer, String text, boolean centeredHorizontal, boolean centeredVertical, final V2 location, final RGB color, float alpha) {
+		V2 loc;
+		if (layer != null) {
+			loc = layer.convertToPhysical(location);
+		} else {
+			loc = location.clone2();
+		}
+		V2 textBounds = null;
+		if (centeredHorizontal || centeredVertical) {
+			textBounds = getTextBounds(text);
+		}
+		if (centeredHorizontal) {
+			loc.x -= textBounds.x / 2;
+		}
+		if (centeredVertical) {
+			loc.y -= textBounds.y / 2;
+		}
 
-	public abstract V2 getTextBounds(final String text);
+		displayText.begin(color.R, color.G, color.B, alpha, getViewProjectionMatrix());
+		displayText.draw(text, loc.x, loc.y);
+		displayText.end();
+		checkGLError("after drawText");
+	}
+
+	public V2 getTextBounds(final String text) {
+		float height = displayText.getHeight();
+		float width = displayText.getLength(text);
+		return new V2(width, height);
+	}
 
 	public abstract void checkGLError(String format, Object... args);
 }
