@@ -142,6 +142,7 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		checkGLError("after onSurfaceCreated");
 	}
 
+	@Override
 	public void prepareScreen() {
 		// Paint background, clearing previous drawings.
 		//GLES20.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
@@ -224,8 +225,8 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		checkGLError("after glDrawArrays");
 
 		if (array.hasTexture) {
-			int texCoordinateAttrib = GLES20.glGetAttribLocation(program, "a_texCoordinate");
-			GLES20.glDisableVertexAttribArray(texCoordinateAttrib);
+			int texCoordinateLoc = GLES20.glGetAttribLocation(program, "a_texCoordinate");
+			GLES20.glDisableVertexAttribArray(texCoordinateLoc);
 		}
 
 		GLES20.glDisableVertexAttribArray(posAttrib);
@@ -234,6 +235,7 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		checkGLError("after drawVertexArray");
 	}
 
+	@Override
 	public Texture allocateTexture() {
 		Texture texture = new AwtTexture(GLES20);
 
@@ -255,6 +257,7 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		return texture;
 	}
 
+	@Override
 	public Shader allocateShader(String name) {
 		return new AwtShader(GLES20, name);
 	}
