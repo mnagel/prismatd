@@ -49,9 +49,15 @@ public class _010_Hello_World extends Mission {
 		return new MissionStatementText[]{
 				new MissionStatementText(2, 0, "1. Pixels spawn here!"),
 				new MissionStatementText(2, 11, "2. Pixels escape here!"),
-				new MissionStatementText(3, 4, "3. Stop them by building Prismas here!"),
+				new MissionStatementText(3, 3, "3. Stop them by building Prismas here!"),
+				new MissionStatementText(3, 4, "... and here ..."),
 				new MissionStatementText(3, 5, "... and here ..."),
 				new MissionStatementText(3, 6, "... and here!"),
+
+				new MissionStatementText(15, 4, ">>>"),
+				new MissionStatementText(10, 5, "Select Prisma to build"),
+				new MissionStatementText(10, 7, "Send Pixels"),
+				new MissionStatementText(15, 8, ">>>"),
 		};
 	}
 
