@@ -7,10 +7,13 @@ import com.avona.games.towerdefence.enemy.Enemy;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyDeathGivesMoney;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyDeathUpdatesGameStats;
 import com.avona.games.towerdefence.enemy.eventListeners.EnemyEventListener;
+import com.avona.games.towerdefence.events.EmptyEventListener;
 import com.avona.games.towerdefence.events.EventDistributor;
 import com.avona.games.towerdefence.mission.*;
 import com.avona.games.towerdefence.mission.data._000_Empty_Mission;
 import com.avona.games.towerdefence.particle.Particle;
+import com.avona.games.towerdefence.score.Highscores;
+import com.avona.games.towerdefence.score.Score;
 import com.avona.games.towerdefence.time.TimeTrack;
 import com.avona.games.towerdefence.time.TimedCode;
 import com.avona.games.towerdefence.time.TimedCodeManager;
@@ -23,9 +26,11 @@ import com.avona.games.towerdefence.wave.WaveTracker;
 import com.avona.games.towerdefence.wave.waveListeners.WaveListener;
 import com.google.common.base.Joiner;
 
+import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @SuppressWarnings("UnnecessaryContinue")
@@ -61,6 +66,19 @@ public class Game implements Serializable {
 	public Game(EventDistributor eventDistributor) {
 		this.eventDistributor = eventDistributor;
 		loadMission(_000_Empty_Mission.class);
+
+		// TODO money for last enemy and highscore calculation are out-of-order
+		this.eventDistributor.listeners.add(new EmptyEventListener() {
+			@Override
+			public void onMissionCompleted(Mission m) {
+				submitHighscore();
+			}
+
+			@Override
+			public void onGameOver(Game g) {
+				submitHighscore();
+			}
+		});
 
 
 		enemyEventListeners.add(new EnemyDeathGivesMoney(this));
@@ -105,6 +123,19 @@ public class Game implements Serializable {
 				);
 			}
 		});
+	}
+
+	private void submitHighscore() {
+		new Highscores(new File(Highscores.BACKING_FILE_NAME)).submit(
+				Game.this.mission.getClass().getSimpleName(),
+				new Score(
+						Game.this.missionStatus == MissionStatus.WON,
+						Game.this.waveTracker.currentWaveNum(),
+						Game.this.lives,
+						Game.this.money,
+						new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(new Date()),
+						"unnamed player"
+				));
 	}
 
 	public Wave sendWave(final int waveNumber) {

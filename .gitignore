@@ -8,6 +8,7 @@ build/
 .zim/
 
 savegame
+*.scores.txt
 
 .idea/misc.xml
 

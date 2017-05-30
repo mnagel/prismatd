@@ -1,6 +1,10 @@
 package com.avona.games.towerdefence.mission;
 
 import com.avona.games.towerdefence.mission.data.*;
+import com.avona.games.towerdefence.score.Highscores;
+
+import java.io.File;
+import java.util.Locale;
 
 @SuppressWarnings("unchecked")
 public final class MissionList {
@@ -23,10 +27,20 @@ public final class MissionList {
 
 	public static String[] getAvailableMissionNames() {
 		Class<Mission>[] missions = availableMissions;
-		String[] res = new String[missions.length];
+		String[] missionNames = new String[missions.length];
 		for (int i = 0; i < missions.length; i++) {
-			res[i] = Integer.toString(i + 1) + ": " + missions[i].getAnnotation(MissionName.class).value();
+			String score = new Highscores(new File(Highscores.BACKING_FILE_NAME)).getHighscore(missions[i].getSimpleName()).getLevelListString();
+			if (score.length() > 0) {
+				score = " --- " + score;
+			}
+			missionNames[i] = String.format(
+					Locale.US,
+					"%d: %s %s",
+					i + 1,
+					missions[i].getAnnotation(MissionName.class).value(),
+					score
+			);
 		}
-		return res;
+		return missionNames;
 	}
 }
