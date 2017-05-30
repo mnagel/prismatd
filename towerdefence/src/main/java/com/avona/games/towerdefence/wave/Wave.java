@@ -27,7 +27,7 @@ public class Wave implements EnemyEventListener {
 		spawnNextEnemy();
 	}
 
-	boolean isFullyDeployed() {
+	public boolean isFullyDeployed() {
 		return fullyDeployed;
 	}
 
@@ -68,7 +68,7 @@ public class Wave implements EnemyEventListener {
 		game.timedCodeManager.addCode(
 				new TimedCode() {
 					@Override
-					public double getDelay() {
+					public double getDelayInS() {
 						return we.delayAfter;
 					}
 

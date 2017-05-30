@@ -147,7 +147,19 @@ public class Game implements Serializable {
 		waveTracker.listeners.add(new WaveListener() {
 			@Override
 			public void onWaveBegun(Wave wave) {
+				if (wave.waveNum == 0) {
+					timedCodeManager.addCode(new TimedCode() {
+						@Override
+						public double getDelayInS() {
+							return 1.0f;
+						}
 
+						@Override
+						public void run() {
+							Game.this.mission.missionStatementTexts = new MissionStatementText[]{};
+						}
+					});
+				}
 			}
 
 			@Override
@@ -363,7 +375,7 @@ public class Game implements Serializable {
 					t.isReadyToShoot = false;
 					timedCodeManager.addCode(new TimedCode() {
 						@Override
-						public double getDelay() {
+						public double getDelayInS() {
 							return tf.getReloadTime();
 						}
 
