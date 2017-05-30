@@ -1,4 +1,4 @@
-package com.avona.games.towerdefence.android.text;
+package com.avona.games.towerdefence.android;
 
 // NOTE: This was copied from https://github.com/d3alek/Texample2/blob/master/Texample2/src/com/android/texample2/TextureHelper.java
 // Revision 8b69e4f6cad45a6de14b9c99d2e4a705457cbcad
@@ -9,35 +9,18 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.opengl.GLES20;
+import com.avona.games.towerdefence.gfx.GlWrapper;
 import com.avona.games.towerdefence.gfx.Shader;
 import com.avona.games.towerdefence.gfx.text.DisplayText;
-import com.avona.games.towerdefence.gfx.text.SpriteBatch;
 import com.avona.games.towerdefence.gfx.text.TextureRegion;
 
 public class AndroidDisplayText extends DisplayText {
 	private final AssetManager assetManager;
-	private final int mShaderProgramHandle;
-	private final int mColorHandle;
-	private final int mTextureUniformHandle;
-	private int textureId = -1;
 
-	/**
-	 * @param shader       shader used for text rendering
-	 * @param assetManager Android asset manager
-	 */
-	public AndroidDisplayText(Shader shader, AssetManager assetManager) {
-		super(shader);
+	public AndroidDisplayText(GlWrapper glWrapper, AndroidDisplay display, Shader shader, AssetManager assetManager) {
+		super(glWrapper, display, shader);
 
 		this.assetManager = assetManager;
-		this.mShaderProgramHandle = shader.getProgram();
-		this.mColorHandle = shader.getUniformLocation("u_color");
-		this.mTextureUniformHandle = shader.getUniformLocation("u_texture");
-	}
-
-	@Override
-	protected SpriteBatch allocateSpriteBatch(int maxSprites, Shader shader) {
-		return new AndroidSpriteBatch(maxSprites, shader);
 	}
 
 	@Override
@@ -123,7 +106,9 @@ public class AndroidDisplayText extends DisplayText {
 		canvas.drawText(s, 0, 1, x, y, paint);
 
 		// save the bitmap in a texture
-		textureId = TextureHelper.loadTexture(bitmap);
+		AndroidTexture texture = (AndroidTexture) display.allocateTexture();
+		texture.loadImage(bitmap);
+		textureId = texture.textureId;
 
 		// setup the array of character texture regions
 		x = 0;
@@ -138,24 +123,5 @@ public class AndroidDisplayText extends DisplayText {
 		}
 
 		return true;
-	}
-
-	@Override
-	protected void postDraw() {
-		GLES20.glDisableVertexAttribArray(mColorHandle);
-	}
-
-	@Override
-	protected void preDraw(float red, float green, float blue, float alpha) {
-		GLES20.glUseProgram(mShaderProgramHandle);
-
-		// TODO: only alpha component works, text is always black #BUG
-		float[] color = {red, green, blue, alpha};
-		GLES20.glUniform4fv(mColorHandle, 1, color, 0);
-		GLES20.glEnableVertexAttribArray(mColorHandle);
-
-		GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
-		GLES20.glUniform1i(mTextureUniformHandle, 0);
 	}
 }

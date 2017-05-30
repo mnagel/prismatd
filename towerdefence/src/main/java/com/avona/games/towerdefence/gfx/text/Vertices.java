@@ -4,6 +4,7 @@ package com.avona.games.towerdefence.gfx.text;
 // Revision 8b69e4f6cad45a6de14b9c99d2e4a705457cbcad
 // Licensed under CC0 1.0 Public Domain.
 
+import com.avona.games.towerdefence.gfx.GlWrapper;
 import com.avona.games.towerdefence.gfx.Shader;
 
 import java.nio.ByteBuffer;
@@ -12,19 +13,20 @@ import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
 // TODO merge with VertexArray
-public abstract class Vertices {
-	protected static final int POSITION_CNT = 2;
-	protected static final int TEXCOORD_CNT = 2;
-	protected static final int MVP_MATRIX_INDEX_CNT = 1;
+public class Vertices {
+	private static final int POSITION_CNT = 2;
+	private static final int TEXCOORD_CNT = 2;
+	private static final int MVP_MATRIX_INDEX_CNT = 1;
 	private static final int INDEX_SIZE = Short.SIZE / 8;
 
-	protected final int texCoordinateHandle;
-	protected final int positionHandle;
-	protected final int mvpMatrixIndexHandle;
-	protected final int vertexSize;
-	protected final IntBuffer vertices;
-	protected final ShortBuffer indices;
+	private final int texCoordinateHandle;
+	private final int positionHandle;
+	private final int mvpMatrixIndexHandle;
+	private final int vertexSize;
+	private final IntBuffer vertices;
+	private final ShortBuffer indices;
 	private final int[] verticesBuffer;
+	private final GlWrapper glWrapper;
 
 	/**
 	 * Create the vertices/indices as specified
@@ -33,7 +35,8 @@ public abstract class Vertices {
 	 * @param maxVertices maximum vertices allowed in buffer
 	 * @param maxIndices  maximum indices allowed in buffer
 	 */
-	public Vertices(Shader shader, int maxVertices, int maxIndices) {
+	public Vertices(GlWrapper glWrapper, Shader shader, int maxVertices, int maxIndices) {
+		this.glWrapper = glWrapper;
 		int vertexStride = POSITION_CNT + TEXCOORD_CNT + MVP_MATRIX_INDEX_CNT;
 		this.vertexSize = vertexStride * 4;
 
@@ -93,5 +96,29 @@ public abstract class Vertices {
 	 * @param offset        offset in vertex / index buffer to start at
 	 * @param numVertices   number of vertices (indices) to draw
 	 */
-	public abstract void draw(int primitiveType, int offset, int numVertices);
+	public void draw(int primitiveType, int offset, int numVertices) {
+		// Perform all required binding/state changes before rendering batches
+		vertices.position(0);
+		glWrapper.glVertexAttribPointer(positionHandle, POSITION_CNT, glWrapper.GL_FLOAT, false, vertexSize, vertices);
+		glWrapper.glEnableVertexAttribArray(positionHandle);
+
+		vertices.position(POSITION_CNT);
+		glWrapper.glVertexAttribPointer(texCoordinateHandle, TEXCOORD_CNT, glWrapper.GL_FLOAT, false, vertexSize, vertices);
+		glWrapper.glEnableVertexAttribArray(texCoordinateHandle);
+
+		vertices.position(POSITION_CNT + TEXCOORD_CNT);
+		glWrapper.glVertexAttribPointer(mvpMatrixIndexHandle, MVP_MATRIX_INDEX_CNT, glWrapper.GL_FLOAT, false, vertexSize, vertices);
+		glWrapper.glEnableVertexAttribArray(mvpMatrixIndexHandle);
+
+		// Draw the currently bound vertices in the vertex/index buffers
+		if (indices != null) {
+			indices.position(offset);
+			glWrapper.glDrawElements(primitiveType, numVertices, glWrapper.GL_UNSIGNED_SHORT, indices);
+		} else {
+			glWrapper.glDrawArrays(primitiveType, offset, numVertices);
+		}
+
+		// Clear binding states when done rendering batches
+		glWrapper.glDisableVertexAttribArray(texCoordinateHandle);
+	}
 }

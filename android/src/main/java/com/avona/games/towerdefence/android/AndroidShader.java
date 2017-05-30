@@ -10,23 +10,12 @@ import java.io.InputStream;
 
 public class AndroidShader extends Shader {
 	private int vertexShader = -1;
-	private ShaderSource vertexSource;
 	private int fragmentShader = -1;
+	private ShaderSource vertexSource;
 	private ShaderSource fragmentSource;
 
 	public AndroidShader(String name) {
 		super(name);
-	}
-
-
-	@Override
-	public ShaderSource getVertexSource() {
-		return vertexSource;
-	}
-
-	@Override
-	public ShaderSource getFragmentSource() {
-		return fragmentSource;
 	}
 
 	private int compileShader(String shaderString, int shaderType) {
@@ -90,6 +79,16 @@ public class AndroidShader extends Shader {
 						fragmentSource.toString();
 
 		return compileShader(fragmentShaderString, GLES20.GL_FRAGMENT_SHADER);
+	}
+
+	@Override
+	public ShaderSource getVertexSource() {
+		return vertexSource;
+	}
+
+	@Override
+	public ShaderSource getFragmentSource() {
+		return fragmentSource;
 	}
 
 	@Override

@@ -3,22 +3,23 @@ package com.avona.games.towerdefence.awt;
 import com.avona.games.towerdefence.gfx.Shader;
 import com.avona.games.towerdefence.gfx.ShaderSource;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
+import com.avona.games.towerdefence.util.FeatureFlags;
 import com.jogamp.opengl.GL2;
 
 import java.io.InputStream;
 import java.util.Locale;
 
 public class AwtShader extends Shader {
-	private final GL2 gl;
+	private final GL2 GLES20;
 	private int vertexShader = -1;
 	private int fragmentShader = -1;
 	private ShaderSource vertexSource;
 	private ShaderSource fragmentSource;
 
-	public AwtShader(final GL2 gl, String name) {
+	public AwtShader(final GL2 GLES20, String name) {
 		super(name);
 
-		this.gl = gl;
+		this.GLES20 = GLES20;
 	}
 
 	private int compileShader(GL2 gl, String shaderString, int shaderType) {
@@ -118,33 +119,42 @@ public class AwtShader extends Shader {
 		return new ShaderSource(s.hasNext() ? s.next() : "");
 	}
 
+	@Override
 	public void loadShaderProgramFromSource(ShaderSource vertexShaderSource, ShaderSource fragmentShaderSource) {
 		unloadShaderProgram();
 
-		program = gl.glCreateProgram();
+		program = GLES20.glCreateProgram();
 
 		if (vertexShaderSource != null) {
-			vertexShader = compileVertexShader(gl, vertexShaderSource);
-			gl.glAttachShader(program, vertexShader);
+			vertexShader = compileVertexShader(GLES20, vertexShaderSource);
+			GLES20.glAttachShader(program, vertexShader);
 		}
 
 		if (fragmentShaderSource != null) {
-			fragmentShader = compileFragmentShader(gl, fragmentShaderSource);
-			gl.glAttachShader(program, fragmentShader);
+			fragmentShader = compileFragmentShader(GLES20, fragmentShaderSource);
+			GLES20.glAttachShader(program, fragmentShader);
 		}
 
-		gl.glLinkProgram(program);
+		GLES20.glBindAttribLocation(program, 0, "a_position");
+		GLES20.glBindAttribLocation(program, 1, "a_color");
+		GLES20.glBindAttribLocation(program, 2, "a_texCoordinate");
+
+		if (name.equals("text")) {
+			GLES20.glBindAttribLocation(program, 3, "a_mvpMatrixIndex");
+		}
+
+		GLES20.glLinkProgram(program);
 
 		int[] linked = new int[1];
-		gl.glGetProgramiv(program, GL2.GL_LINK_STATUS, linked, 0);
+		GLES20.glGetProgramiv(program, GL2.GL_LINK_STATUS, linked, 0);
 
 		if (linked[0] == 0) {
 			int[] logLength = new int[1];
-			gl.glGetProgramiv(program, GL2.GL_INFO_LOG_LENGTH, logLength, 0);
-			gl.glGetShaderiv(program, GL2.GL_INFO_LOG_LENGTH, logLength, 0);
+			GLES20.glGetProgramiv(program, GL2.GL_INFO_LOG_LENGTH, logLength, 0);
+			GLES20.glGetShaderiv(program, GL2.GL_INFO_LOG_LENGTH, logLength, 0);
 
 			byte[] log = new byte[logLength[0]];
-			gl.glGetProgramInfoLog(program, logLength[0], logLength, 0, log, 0);
+			GLES20.glGetProgramInfoLog(program, logLength[0], logLength, 0, log, 0);
 			throw new RuntimeException("Error compiling shader: " + new String(log, 0, logLength[0]));
 		}
 	}
@@ -152,30 +162,37 @@ public class AwtShader extends Shader {
 	@Override
 	public void unloadShaderProgram() {
 		if (vertexShader >= 0) {
-			gl.glDetachShader(program, vertexShader);
-			gl.glDeleteShader(vertexShader);
+			GLES20.glDetachShader(program, vertexShader);
+			GLES20.glDeleteShader(vertexShader);
 			vertexShader = -1;
 		}
 
 		if (fragmentShader >= 0) {
-			gl.glDetachShader(program, fragmentShader);
-			gl.glDeleteShader(fragmentShader);
+			GLES20.glDetachShader(program, fragmentShader);
+			GLES20.glDeleteShader(fragmentShader);
 			fragmentShader = -1;
 		}
 
 		if (program >= 0) {
-			gl.glDeleteProgram(program);
+			GLES20.glDeleteProgram(program);
 			program = -1;
 		}
 	}
 
 	@Override
 	public int getUniformLocation(String name) {
-		return gl.glGetUniformLocation(program, name);
+		int res = GLES20.glGetUniformLocation(program, name);
+		AwtDisplay.checkGLError_static("shader bind", GLES20);
+		if (res == -1 && FeatureFlags.TRACE_ON_GL_ERROR) {
+			if (FeatureFlags.CRASH_ON_GL_ERROR) {
+				throw new RuntimeException("shader bind");
+			}
+		}
+		return res;
 	}
 
 	@Override
 	public int getAttribLocation(String name) {
-		return gl.glGetAttribLocation(program, name);
+		return GLES20.glGetAttribLocation(program, name);
 	}
 }

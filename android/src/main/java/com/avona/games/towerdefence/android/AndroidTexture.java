@@ -45,4 +45,14 @@ public class AndroidTexture extends Texture {
 		bitmap.recycle();
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 	}
+
+	public void loadImage(Bitmap bitmap) {
+		nativeWidth = bitmap.getWidth();
+		nativeHeight = bitmap.getHeight();
+
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
+		GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+		bitmap.recycle();
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+	}
 }

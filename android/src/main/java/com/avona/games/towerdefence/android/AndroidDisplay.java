@@ -4,12 +4,9 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView.Renderer;
-import com.avona.games.towerdefence.android.text.AndroidDisplayText;
-import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.gfx.*;
 import com.avona.games.towerdefence.gfx.text.DisplayText;
-import com.avona.games.towerdefence.input.Layer;
 import com.avona.games.towerdefence.util.FeatureFlags;
 import com.avona.games.towerdefence.util.Util;
 
@@ -21,14 +18,11 @@ import java.util.HashMap;
  * This class provides all basic drawing primitives for the Android platform.
  */
 public class AndroidDisplay extends PortableDisplay implements Renderer {
-	private Shader defaultShader;
-	private DisplayText displayText;
-	private V2 size;
-	private DisplayEventListener eventListener;
 	private AssetManager assetManager;
 
 	public AndroidDisplay(Context context, DisplayEventListener eventListener) {
-		this.eventListener = eventListener;
+		super(eventListener);
+
 		this.assetManager = context.getAssets();
 	}
 
@@ -56,19 +50,9 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 
 	@Override
 	public void onSurfaceChanged(GL10 glUnused, int width, int height) {
-		size = new V2(width, height);
+		GLES20.glViewport(0, 0, width, height);
 
-		GLES20.glViewport(0, 0, (int) size.x, (int) size.y);
-
-		initializeMatrices(width, height);
-
-		float ratio = 800.0f / 480.0f;
-		int ratioHeight = (int) ((float) width / ratio);
-		ratioHeight = Math.min(height, ratioHeight);
-		int fontSize = (int) ((float) ratioHeight * FONT_SIZE_RATIO_HEIGHT_FACTOR + 0.5f);
-		displayText.loadFont("Roboto-Regular.ttf", fontSize, 2, 2);
-
-		eventListener.onReshapeScreen();
+		setSize(width, height);
 	}
 
 	@Override
@@ -81,22 +65,18 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 		GLES20.glEnable(GLES20.GL_BLEND);
 		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
-		defaultShader = allocateShader("default");
-		defaultShader.loadShaderProgramFromFile("default");
-
-		Shader textShader = allocateShader("text");
-		textShader.loadShaderProgramFromFile("text");
-
-		displayText = new AndroidDisplayText(textShader, assetManager);
-
-		eventListener.onNewScreenContext();
-		checkGLError("after onSurfaceCreated");
+		init();
 	}
 
 	public void prepareScreen() {
 		// Paint background, clearing previous drawings.
 		//GLES20.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+	}
+
+	@Override
+	protected DisplayText allocateDisplayText(Shader textShader) {
+		return new AndroidDisplayText(new AndroidGlWrapper(), this, textShader, assetManager);
 	}
 
 	@Override
@@ -212,42 +192,5 @@ public class AndroidDisplay extends PortableDisplay implements Renderer {
 	@Override
 	public Shader allocateShader(String name) {
 		return new AndroidShader(name);
-	}
-
-	@Override
-	public V2 getSize() {
-		return size;
-	}
-
-	@Override
-	public void drawText(final Layer layer, String text, boolean centeredHorizontal, boolean centeredVertical, final V2 location, final RGB color, float alpha) {
-		V2 loc;
-		if (layer != null) {
-			loc = layer.convertToPhysical(location);
-		} else {
-			loc = location.clone2();
-		}
-		V2 textBounds = null;
-		if (centeredHorizontal || centeredVertical) {
-			textBounds = getTextBounds(text);
-		}
-		if (centeredHorizontal) {
-			loc.x -= textBounds.x / 2;
-		}
-		if (centeredVertical) {
-			loc.y -= textBounds.y / 2;
-		}
-
-		displayText.begin(color.R, color.G, color.B, alpha, getViewProjectionMatrix());
-		displayText.draw(text, loc.x, loc.y);
-		displayText.end();
-		checkGLError("after drawText");
-	}
-
-	@Override
-	public V2 getTextBounds(final String text) {
-		float height = displayText.getHeight();
-		float width = displayText.getLength(text);
-		return new V2(width, height);
 	}
 }

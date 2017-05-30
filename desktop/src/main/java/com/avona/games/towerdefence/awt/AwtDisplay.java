@@ -1,19 +1,16 @@
 package com.avona.games.towerdefence.awt;
 
-import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.gfx.*;
-import com.avona.games.towerdefence.input.Layer;
+import com.avona.games.towerdefence.gfx.text.DisplayText;
 import com.avona.games.towerdefence.res.ResourceResolverRegistry;
 import com.avona.games.towerdefence.util.FeatureFlags;
 import com.avona.games.towerdefence.util.Util;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
-import com.jogamp.opengl.util.awt.TextRenderer;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
@@ -31,14 +28,10 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 	// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
 	public Frame frame;
 	public GLCanvas canvas;
-	private Shader defaultShader;
 	private GL2 GLES20;
-	private TextRenderer renderer;
-	private V2 size = new V2();
-	private DisplayEventListener eventListener;
 
 	public AwtDisplay(DisplayEventListener eventListener) {
-		this.eventListener = eventListener;
+		super(eventListener);
 		// CTRL-F courtesy: FONTSIZE FONT_SIZE FONT SIZE
 		setupGlCanvas();
 		setupFrame();
@@ -105,19 +98,9 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-		size = new V2(width, height);
+		GLES20.glViewport(0, 0, width, height);
 
-		GLES20.glViewport(0, 0, (int) size.x, (int) size.y);
-
-		initializeMatrices(width, height);
-
-		float ratio = 800.0f / 480.0f;
-		int ratioHeight = (int) ((float) width / ratio);
-		ratioHeight = Math.min(height, ratioHeight);
-		int fontSize = (int) ((float) ratioHeight * FONT_SIZE_RATIO_HEIGHT_FACTOR + 0.5f);
-		renderer = new TextRenderer(new Font("Deja Vu Sans", Font.PLAIN, fontSize), true, true);
-
-		eventListener.onReshapeScreen();
+		setSize(width, height);
 	}
 
 	@Override
@@ -131,23 +114,26 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		GLES20.glEnable(GLES20.GL_BLEND);
 		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
-		defaultShader = allocateShader("default");
-		defaultShader.loadShaderProgramFromFile("default");
+		init();
 
 		AwtReplShader awtReplShader = new AwtReplShader(GLES20, "repl shader hack");
 		awtReplShader.loadShaderProgramFromFile("default");
 		AwtReplShader.setInstance(awtReplShader);
-
-		eventListener.onNewScreenContext();
-		checkGLError("after onSurfaceCreated");
 	}
 
+	@Override
 	public void prepareScreen() {
 		// Paint background, clearing previous drawings.
 		//GLES20.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 	}
 
+	@Override
+	protected DisplayText allocateDisplayText(Shader textShader) {
+		return new AwtDisplayText(new AwtGlWrapper(GLES20), this, textShader);
+	}
+
+	@Override
 	public void drawVertexArray(final VertexArray array) {
 		int program;
 		if (array.hasShader) {
@@ -224,8 +210,8 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		checkGLError("after glDrawArrays");
 
 		if (array.hasTexture) {
-			int texCoordinateAttrib = GLES20.glGetAttribLocation(program, "a_texCoordinate");
-			GLES20.glDisableVertexAttribArray(texCoordinateAttrib);
+			int texCoordinateLoc = GLES20.glGetAttribLocation(program, "a_texCoordinate");
+			GLES20.glDisableVertexAttribArray(texCoordinateLoc);
 		}
 
 		GLES20.glDisableVertexAttribArray(posAttrib);
@@ -234,6 +220,7 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		checkGLError("after drawVertexArray");
 	}
 
+	@Override
 	public Texture allocateTexture() {
 		Texture texture = new AwtTexture(GLES20);
 
@@ -255,42 +242,8 @@ public class AwtDisplay extends PortableDisplay implements GLEventListener {
 		return texture;
 	}
 
+	@Override
 	public Shader allocateShader(String name) {
 		return new AwtShader(GLES20, name);
-	}
-
-	@Override
-	public V2 getSize() {
-		return size;
-	}
-
-	@Override
-	public void drawText(final Layer layer, String text, boolean centeredHorizontal, boolean centeredVertical, final V2 location, final RGB color, float alpha) {
-		V2 loc;
-		if (layer != null) {
-			loc = layer.convertToPhysical(location);
-		} else {
-			loc = location.clone2();
-		}
-		V2 textBounds = null;
-		if (centeredHorizontal || centeredVertical) {
-			textBounds = getTextBounds(text);
-		}
-		if (centeredHorizontal) {
-			loc.x -= textBounds.x / 2;
-		}
-		if (centeredVertical) {
-			loc.y -= textBounds.y / 2;
-		}
-
-		renderer.beginRendering((int) size.x, (int) size.y);
-		renderer.setColor(color.R, color.G, color.B, alpha);
-		renderer.draw(text, (int) loc.x, (int) loc.y);
-		renderer.endRendering();
-	}
-
-	public V2 getTextBounds(final String text) {
-		Rectangle2D bounds = renderer.getBounds(text);
-		return new V2((float) bounds.getWidth(), (float) bounds.getHeight());
 	}
 }

@@ -5,21 +5,23 @@ package com.avona.games.towerdefence.gfx.text;
 // Licensed under CC0 1.0 Public Domain.
 
 import android.opengl.Matrix;
+import com.avona.games.towerdefence.gfx.GlWrapper;
 import com.avona.games.towerdefence.gfx.Shader;
 
-public abstract class SpriteBatch {
-	protected final static int INDICES_PER_SPRITE = 6;
+public class SpriteBatch {
+	private final static int INDICES_PER_SPRITE = 6;
 	private final static int VERTEX_SIZE = 5; // Vertex Size (in Components) ie. (X,Y,U,V,M), M is MVP matrix index
 	private final static int VERTICES_PER_SPRITE = 4;
 
-	protected final float[] mvpMatrices = new float[DisplayText.CHAR_BATCH_SIZE * 16];
-	protected final float[] vertexBuffer;
-	protected final Vertices vertices;
-	protected final int mvpMatricesHandle;
+	private final float[] mvpMatrices = new float[DisplayText.CHAR_BATCH_SIZE * 16];
 	private final float[] mvpMatrix = new float[16];
 	private final int maxSprites;
-	protected int bufferIndex;
-	protected int numSprites;
+	private final GlWrapper glWrapper;
+	private final float[] vertexBuffer;
+	private final Vertices vertices;
+	private final int mvpMatricesHandle;
+	private int bufferIndex;
+	private int numSprites;
 	private float[] vpMatrix;
 
 	/**
@@ -28,9 +30,11 @@ public abstract class SpriteBatch {
 	 * @param maxSprites maximum allowed sprites per batch
 	 * @param shader     shader used for text rendering
 	 */
-	public SpriteBatch(int maxSprites, Shader shader) {
+	public SpriteBatch(GlWrapper glWrapper, int maxSprites, Shader shader) {
+		this.glWrapper = glWrapper;
+		this.maxSprites = maxSprites;
 		this.vertexBuffer = new float[maxSprites * VERTICES_PER_SPRITE * VERTEX_SIZE];
-		this.vertices = allocateVertices(shader, maxSprites * VERTICES_PER_SPRITE, maxSprites * INDICES_PER_SPRITE);
+		this.vertices = new Vertices(glWrapper, shader, maxSprites * VERTICES_PER_SPRITE, maxSprites * INDICES_PER_SPRITE);
 		short[] indices = new short[maxSprites * INDICES_PER_SPRITE];
 		short j = 0;
 		for (int i = 0; i < indices.length; i += INDICES_PER_SPRITE, j += VERTICES_PER_SPRITE) {
@@ -42,14 +46,11 @@ public abstract class SpriteBatch {
 			indices[i + 5] = j;
 		}
 		this.vertices.setIndices(indices, 0, indices.length);
-		this.maxSprites = maxSprites;
 		this.mvpMatricesHandle = shader.getUniformLocation("u_mvpMatrices");
 
 		this.bufferIndex = 0;
 		this.numSprites = 0;
 	}
-
-	protected abstract Vertices allocateVertices(Shader shader, int maxVertices, int maxIndices);
 
 	void beginBatch(float[] vpMatrix) {
 		numSprites = 0;
@@ -68,7 +69,13 @@ public abstract class SpriteBatch {
 		drawSprites();
 	}
 
-	protected abstract void drawSprites();
+	private void drawSprites() {
+		glWrapper.glUniformMatrix4fv(mvpMatricesHandle, numSprites, false, mvpMatrices, 0);
+		glWrapper.glEnableVertexAttribArray(mvpMatricesHandle);
+
+		vertices.setVertices(vertexBuffer, 0, bufferIndex);
+		vertices.draw(glWrapper.GL_TRIANGLES, 0, numSprites * INDICES_PER_SPRITE);
+	}
 
 	/**
 	 * Batch specified sprite to batch. Adds vertices for sprite to vertex buffer.
