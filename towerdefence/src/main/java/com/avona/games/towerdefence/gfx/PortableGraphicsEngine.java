@@ -339,10 +339,17 @@ public class PortableGraphicsEngine {
 					int enemyCount = es.size();
 					int i = 0;
 					for (Enemy e : es) {
+						float seed = e.seed;
+						e = e.clone2();
+						e.seed = seed;
 						e.location = new V2(
 								GridCell.size / enemyCount * (i + 0.5f),
 								3 * GridCell.size / 5
 						);
+						if (game.waveTracker.currentWave != null && !game.waveTracker.currentWave.isFullyDeployed()) {
+							e.life.subUpto(e.life, 1);
+							e.maxLife = e.life.clone2();
+						}
 						renderEnemy(e, layer);
 						i++;
 					}

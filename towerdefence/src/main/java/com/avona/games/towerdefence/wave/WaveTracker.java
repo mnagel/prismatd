@@ -17,7 +17,7 @@ public class WaveTracker implements Serializable {
 	/**
 	 * Currently running wave.
 	 */
-	private Wave currentWave;
+	public Wave currentWave;
 	// TODO make independent of Game
 	private Game game;
 	private List<Wave> pendingWaves = new LinkedList<>();
