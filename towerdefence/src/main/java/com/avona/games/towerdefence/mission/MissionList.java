@@ -11,10 +11,10 @@ public final class MissionList {
 	public static final Class<Mission>[] availableMissions = new Class[]{
 			_010_Hello_World.class,
 			_020_About_Colors.class,
+			_022_About_Money.class,
 			_025_Tower_Levels.class,
 			_030_Mixing_Colors.class,
 			_031_More_Colors.class,
-			_040_About_Money.class,
 			_050_SpecialTower_PaintRed.class,
 			_100_Mission.class,
 			_911_Red_Mission.class,
