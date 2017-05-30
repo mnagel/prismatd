@@ -218,8 +218,14 @@ public class PortableGraphicsEngine {
 			switch (b.look) {
 				case BUILD_TOWER:
 					V2 location = layer.virtualRegion.clone2().mult(0.5f);
-					Tower t = (Tower) b.getRenderExtra();
-					renderTower(t, location, layer, t == game.selectedBuildTower);
+					Tower t5 = (Tower) b.getRenderExtra();
+					float seed2 = t5.seed;
+					Tower t = t5.clone2();
+					t.seed = seed2;
+					if (game.money < t.getPrice()) {
+						t.color = new RGB(1, 1, 1);
+					}
+					renderTower(t, location, layer, t5 == game.selectedBuildTower);
 					String label = String.format(Locale.US, "$%d", t.getPrice());
 					display.drawText(layer, label, true, location, RGB.WHITE, 1.0f);
 					break;
