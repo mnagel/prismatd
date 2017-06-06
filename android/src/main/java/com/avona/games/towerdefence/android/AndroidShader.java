@@ -158,10 +158,10 @@ public class AndroidShader extends Shader {
 	@Override
 	public int getUniformLocation(String name) {
 		int res = GLES20.glGetUniformLocation(program, name);
-		AndroidDisplay.checkGLError_static("shader bind");
+		AndroidDisplay.checkGLError_static("getUniformLocation:" + this.toString() + ":" + name);
 		if (res == -1 && FeatureFlags.TRACE_ON_GL_ERROR) {
 			if (FeatureFlags.CRASH_ON_GL_ERROR) {
-				throw new RuntimeException("shader bind");
+				throw new RuntimeException("getUniformLocation:" + this.toString() + ":" + name);
 			}
 		}
 		return res;

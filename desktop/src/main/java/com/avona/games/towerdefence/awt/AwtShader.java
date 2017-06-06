@@ -182,10 +182,10 @@ public class AwtShader extends Shader {
 	@Override
 	public int getUniformLocation(String name) {
 		int res = GLES20.glGetUniformLocation(program, name);
-		AwtDisplay.checkGLError_static("shader bind", GLES20);
+		AwtDisplay.checkGLError_static("getUniformLocation:" + this.toString() + ":" + name, GLES20);
 		if (res == -1 && FeatureFlags.TRACE_ON_GL_ERROR) {
 			if (FeatureFlags.CRASH_ON_GL_ERROR) {
-				throw new RuntimeException("shader bind");
+				throw new RuntimeException("getUniformLocation:" + this.toString() + ":" + name);
 			}
 		}
 		return res;

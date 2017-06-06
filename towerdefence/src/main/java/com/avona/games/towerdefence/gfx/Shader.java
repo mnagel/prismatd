@@ -17,6 +17,10 @@ public abstract class Shader {
 		return name;
 	}
 
+	public String toString() {
+		return "Shader:" + getName();
+	}
+
 	abstract public ShaderSource getShaderSource(String filename);
 
 	abstract public void loadShaderProgramFromSource(ShaderSource vertexShaderSource, ShaderSource fragmentShaderSource);
