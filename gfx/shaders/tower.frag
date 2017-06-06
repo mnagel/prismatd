@@ -8,36 +8,56 @@ uniform bool selected;
 varying float modifiedRadius;
 varying vec4 v_color;
 
-// shader gfx config
-const float thickness = 0.275;
-
-
 // math
 const float pi = 3.14159;
 
 void main(void) {
-	// Relative position on object in [0, 1] x [0, 1]
-	vec2 posOnObject = vec2(0.5) + 0.5 * (gl_FragCoord.xy - physicalLocation) / modifiedRadius;
+	// uv in -1..1
+	vec2 uv_1_1 = (gl_FragCoord.xy - physicalLocation) / modifiedRadius;
 
-	// more shader gfx config
-	float tailcount = min(float(level), 3.0);
-	float n = 55.0 * float(tailcount);
-	const float f1 = 5.0;
-	const float f2 = 1.0;
+	float bubbles = 2.0 * level;
+	float bubble_size = 6.0;
+	float bubble_size_change = 0.4;
+	vec3 bubble_color = vec3(v_color);
 
-	// decimate high values, add base offset towards white
-	vec4 color = vec4(f1/n, f1/n, f1/n, 1.0) * v_color + vec4(f2/n, f2/n, f2/n, 1.0);
+	float ring_size = 0.5;
+	float ring_thick = 0.4;
+	float ring_intensity = 1.2;
+	vec3 ring_color = vec3(v_color);
 
-	// http://glslsandbox.com/e#40071.0
-	float intensity = 0.;
-	for (float i = 0.; i < n; i++) {
-		float angle = i/n * 2.0 * pi;
-		if (selected) {
-			angle *= -1.0;
+	vec3 base_glow = vec3(0.2);
+
+	// main output control
+	float intensity = -0.3;
+
+	// BUBBLES
+	// forwards, still, backwards
+	for (float clk = -clock; clk <= clock; clk += clock) {
+		// no still
+		if (clk == 0) continue;
+
+		for (float bubble = 0.0; bubble < bubbles; bubble++) {
+			// angle depends on clock and bubble_id
+			float ang = clk+sin(bubble+clock)*2.0*pi/bubbles;
+			// position of bubble
+			vec2 bubble_position = 0.5 * vec2(sin(ang), cos(ang));
+
+			float dist = length(distance(uv_1_1, bubble_position)) * 6.0;
+			// fluctuation of "dist"
+			dist *= 1 + 0.4 * sin(ang + sin(clock));
+			// look good
+			dist = smoothstep(0.0, 1.0, dist);
+			// invert and accumulate
+			intensity += 1-dist;
 		}
-		vec2 xy = posOnObject + vec2(0.25 * cos(angle) - 0.5, 0.25 * sin(angle) - 0.5);
-		intensity += pow(1000000., (0.77 - length(xy) * 1.9) * (1. + thickness * fract(i/n*tailcount - clock))) / 80000.;
 	}
 
-	gl_FragColor = vec4(clamp(intensity * vec3(color), vec3(0.), vec3(1.)), intensity);
+	// RING
+	float t = smoothstep(ring_size-ring_thick, ring_size, length(uv_1_1)) - smoothstep(ring_size, ring_size+ring_thick, length(uv_1_1));
+
+	// mix bubble/ring color, add some base glow
+	vec3 color = mix(bubble_color, ring_color, t/(intensity+t)) + base_glow ;
+	intensity += ring_intensity * t;
+
+	gl_FragColor = vec4(clamp(intensity * vec3(color), vec3(0.0), vec3(1.0)), intensity);
 }

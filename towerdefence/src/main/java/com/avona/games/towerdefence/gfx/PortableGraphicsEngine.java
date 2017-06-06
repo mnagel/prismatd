@@ -189,8 +189,8 @@ public class PortableGraphicsEngine {
 				} else {
 					GeometryHelper.boxColoursAsTriangles(0.0f, 0.0f, 0.0f, 1.0f, va);
 				}
-			} else {
-				GeometryHelper.boxColoursAsTriangles(0.2f, 0.2f, 0.2f, 1.0f, va);
+			} else { // FREE/TOWER
+				GeometryHelper.boxColoursAsTriangles(0.1f, 0.1f, 0.1f, 1.0f, va);
 			}
 		}
 	}

@@ -21,8 +21,7 @@ public class Particle extends MovingObject {
 	private ParticleColliderPolicy collidorPolicy;
 
 	public Particle(V2 location, Enemy target, ParticleColliderPolicy collidorPolicy, int velocity, RGB strength) {
-		super(location.clone2(), GridCell.size / 8);
-		this.radius = 5;
+		super(location.clone2(), GridCell.size / 5);
 		this.target = target;
 		this.collidorPolicy = collidorPolicy;
 		this.strength = strength;

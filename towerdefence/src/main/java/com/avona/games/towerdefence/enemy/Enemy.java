@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Enemy extends MovingObject {
-	private static final float ENEMY_RADIUS = GridCell.size / 3;
+	private static final float ENEMY_RADIUS = GridCell.size / 2;
 
 	public int level;
 
