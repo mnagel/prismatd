@@ -62,6 +62,65 @@ public final class RGB implements Serializable {
 		return new RGB(R * factor, G * factor, B * factor);
 	}
 
+	public RGB compDived(RGB other) {
+		final float e = 1e-5f;
+
+		float r = R;
+		float g = G;
+		float b = B;
+
+		// can devide : do it
+		if (other.R > e) {
+			r /= other.R;
+		} else {
+			// cannot divide
+
+			// cannot reach
+			if (R > 0) {
+				r = 1/e;
+			} else {
+				// is already reached
+				r = 0;
+			}
+		}
+
+		// can devide : do it
+		if (other.G > e) {
+			g /= other.G;
+		} else {
+			// cannot divide
+
+			// cannot reach
+			if (G > 0) {
+				g = 1/e;
+			} else {
+				// is already reached
+				g = 0;
+			}
+		}
+
+		// can devide : do it
+		if (other.B > e) {
+			b /= other.B;
+		} else {
+			// cannot divide
+
+			// cannot reach
+			if (B > 0) {
+				b = 1/e;
+			} else {
+				// is already reached
+				b = 0;
+			}
+		}
+
+		return new RGB(r, g, b);
+	}
+
+	public float maxComp() {
+		return Math.max(R, (Math.max(G, B)));
+	}
+
 	public RGB normalized() {
 		return scaled(1.0f / length());
 	}

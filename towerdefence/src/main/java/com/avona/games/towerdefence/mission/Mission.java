@@ -121,6 +121,15 @@ public abstract class Mission implements Serializable {
 		return col.values();
 	}
 
+	public Collection<Enemy> getEnemiesForWave(int waveId) {
+		ArrayList<Enemy> res = new ArrayList<>();
+		for (WaveEnemyConfig wec: this.enemyWaves[waveId]) {
+			res.add(wec.enemy);
+		}
+
+		return res;
+	}
+
 	protected abstract String getMissionDefinitionString();
 
 	public abstract WaveEnemyConfig[][] loadEnemyWaves();
