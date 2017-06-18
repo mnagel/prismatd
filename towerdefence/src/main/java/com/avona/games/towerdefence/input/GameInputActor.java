@@ -1,10 +1,12 @@
 package com.avona.games.towerdefence.input;
 
+import com.avona.games.towerdefence.ai.AI;
 import com.avona.games.towerdefence.core.V2;
 import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.engine.MissionStatus;
 import com.avona.games.towerdefence.mission.MissionList;
 import com.avona.games.towerdefence.tower.Tower;
+import com.avona.games.towerdefence.tower.data.RedTower;
 import com.avona.games.towerdefence.util.FeatureFlags;
 import com.avona.games.towerdefence.util.Util;
 
@@ -98,6 +100,9 @@ public class GameInputActor extends EmptyInputActor {
 				final Tower t = (Tower) game.selectedObject;
 				game.levelUpTower(t);
 			}
+		}
+		if (keyCode == 'a') {
+			new AI().buildAtBestPosition(game, new RedTower(1));
 		}
 		if (keyCode == 'b') {
 			LinkedHashMap<String, Runnable> options = new LinkedHashMap<>();
