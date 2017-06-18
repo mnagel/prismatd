@@ -25,7 +25,7 @@ public class BalancingHelper {
 
 		RGB dps = new RGB(0, 0, 0);
 		for (Tower t : fleet) {
-			RGB local = t.getDamage().scaled(1.0f / t.getReloadTime());
+			RGB local = t.getDps();
 			Util.log("debug: local: " + local);
 			dps.add(local);
 		}

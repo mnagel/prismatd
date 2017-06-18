@@ -1,24 +1,23 @@
 package com.avona.games.towerdefence.ai;
 
 
+import com.avona.games.towerdefence.core.RGB;
 import com.avona.games.towerdefence.engine.Game;
 import com.avona.games.towerdefence.mission.CellState;
 import com.avona.games.towerdefence.mission.GridCell;
 import com.avona.games.towerdefence.mission.Mission;
 import com.avona.games.towerdefence.tower.Tower;
+import com.avona.games.towerdefence.util.Tuple;
 
 public class AI {
-	public float rateCellForTower(Mission m, GridCell c, Tower t) {
-		if (c.state != CellState.FREE) {
-			return -1;
-		}
+	public RGB dpsBasedScoring(Mission m, GridCell c, Tower t) {
+		RGB res = new RGB(0, 0, 0);
 
-		float res = 0;
-		for (GridCell o: m.gridCells) {
+		for (GridCell o : m.gridCells) {
 			if (o.state == CellState.WAY) {
 				float dist = c.center.dist(o.center);
 				if (dist < t.getRange()) {
-					res += 1;
+					res.add(t.getDps());
 				}
 			}
 		}
@@ -26,29 +25,31 @@ public class AI {
 		return res;
 	}
 
-	public GridCell findOptimalPosition(Mission m, Tower t) {
-		GridCell best = null;
-		float bestRat = -1;
+	public Tuple<Tower, GridCell> findOptimalPosition(Mission m, Tower... ts) {
+		Tuple<Tower, GridCell> best = null;
+		RGB bestRat = new RGB(0, 0, 0);
 
-		for (GridCell c: m.gridCells) {
-			if (c.state != CellState.FREE) {
-				continue;
-			}
+		for (Tower t : ts) {
+			for (GridCell c : m.gridCells) {
+				if (c.state != CellState.FREE) {
+					continue;
+				}
 
-			float rat = rateCellForTower(m, c, t);
-			if (rat > bestRat) {
-				bestRat = rat;
-				best = c;
+				RGB rat = dpsBasedScoring(m, c, t);
+				if (rat.length() > bestRat.length()) {
+					bestRat = rat;
+					best = new Tuple<>(t, c);
+				}
 			}
 		}
 
 		return best;
 	}
 
-	public void buildAtBestPosition(Game g, Tower t) {
-		GridCell bestGridCell = findOptimalPosition(g.mission, t);
-		if (bestGridCell != null) {
-			g.addTowerAt(t, bestGridCell);
+	public void buildAtBestPosition(Game g) {
+		Tuple<Tower, GridCell> best = findOptimalPosition(g.mission, g.mission.buildableTowers);
+		if (best != null) {
+			g.addTowerAt(best.a.clone2(), best.b);
 		}
 	}
 

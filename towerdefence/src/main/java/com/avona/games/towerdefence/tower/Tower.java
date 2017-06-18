@@ -73,6 +73,10 @@ public abstract class Tower extends LocationObject {
 
 	public abstract float getReloadTime();
 
+	public RGB getDps() {
+		return  getDamage().scaled(1.0f / getReloadTime());
+	}
+
 	public abstract Particle makeParticle(Enemy e);
 
 	public boolean canUpgrade() {
